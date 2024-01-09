@@ -2,4 +2,4 @@
 
 ## Frontend Repository
 
-안녕하세요, SSDA Frontend Repository입니다. 그렇습니다.
+안녕하세요, SSDA Frontend Repository입니다. 그렇습니다. 반갑습니다.
