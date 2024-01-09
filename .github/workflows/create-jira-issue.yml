@@ -30,11 +30,12 @@ jobs:
       run: echo "Jira Issue DIAR-38/${{ steps.create.outputs.issue }} was created"
 
     - name: Checkout code
-      uses: actions/checkout@v2
+      uses: actions/checkout@v4
+      with:
+        ref: develop
 
     - name: Create branch with Ticket number
       run: |
-        git checkout develop
         git checkout -b ${{ steps.create.outputs.issue }}
         git push origin ${{ steps.create.outputs.issue }}
 
