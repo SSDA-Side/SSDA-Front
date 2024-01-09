@@ -34,3 +34,10 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         branch: ${{ steps.create.outputs.issue }}
+
+    - name: Update issue title
+      uses: actions-cool/issues-helper@v3
+      with:
+        actions: 'update-issue'
+        token: ${{ secrets.GITHUB_TOKEN }}
+        title: '${{ steps.create.outputs.issue }} ${{ github.event.issue.title }}'
