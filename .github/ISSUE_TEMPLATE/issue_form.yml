@@ -1,8 +1,8 @@
 name: Issue Form
-description: Issue Form
-labels: Issue Form
+description: Issue form for SSDA-front
+labels: [order]
 
-title: ""
+title: "SSDA"
 
 body:
   - type: input
@@ -12,25 +12,24 @@ body:
     validations:
       required: true
 
-  - type: input
-    id: Content
+  - type: textarea
+    id: Details
     attributes:
-      label: 상세 내용
+      label: 상세 내용 (Details)
     validations:
       required: true
 
   - type: checkboxes
-    id: CheckList
     attributes:
       label: 체크리스트 (Tasks)
       options:
-        - label: Red
-        - label: Green
-        - label: Blue
+        - label: task1
+        - label: task2
+          required: false
 
-  - type: link
+  - type: input
     id: Link
     attributes:
       label: 참조 (References)
     validations:
-      required: true
+      required: false
