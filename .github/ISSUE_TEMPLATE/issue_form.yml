@@ -1,3 +1,9 @@
+name: Issue Form
+description: Issue Form
+labels: Issue Form
+
+title: ""
+
 body:
   - type: input
     id: Description
