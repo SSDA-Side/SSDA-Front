@@ -1,0 +1,30 @@
+body:
+  - type: input
+    id: Description
+    attributes:
+      label: 이슈 내용 (Description)
+    validations:
+      required: true
+
+  - type: input
+    id: Content
+    attributes:
+      label: 상세 내용
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: CheckList
+    attributes:
+      label: 체크리스트 (Tasks)
+      options:
+        - label: Red
+        - label: Green
+        - label: Blue
+
+  - type: link
+    id: Link
+    attributes:
+      label: 참조 (References)
+    validations:
+      required: true
