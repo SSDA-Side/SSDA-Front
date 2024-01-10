@@ -35,7 +35,11 @@ jobs:
       uses: peter-evans/jira2md@v1
       id: md2jira
       with:
-        input-text: ${{ github.event.issue.body }}
+        input-text: |
+          ### Github Issue Link
+          - ${{ github.event.issue.html_url }}
+          
+          ${{ github.event.issue.body }}
         mode: md2jira
     
     - name: Create Issue 
