@@ -1,0 +1,12 @@
+.container {
+  display: flex;
+  flex-direction: column;
+}
+
+.header {
+}
+
+.body {
+  flex: 1;
+  min-height: 0;
+}
