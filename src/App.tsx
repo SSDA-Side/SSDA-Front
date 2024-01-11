@@ -1,8 +1,19 @@
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { RouterProvider, createBrowserRouter } from 'react-router-dom';
+import { RecoilRoot } from 'recoil';
+
+import { routes } from '@Routes/index';
+
+const queryClient = new QueryClient();
+const router = createBrowserRouter(routes);
+
 function App() {
   return (
-    <div style={{ display: 'grid', placeContent: 'center', width: '100dvw', height: '100dvh' }}>
-      <h1>This is SSDA Initial Test Page</h1>
-    </div>
+    <QueryClientProvider client={queryClient}>
+      <RecoilRoot>
+        <RouterProvider router={router} />
+      </RecoilRoot>
+    </QueryClientProvider>
   );
 }
 
