@@ -1,1 +1,0 @@
-export { SettingCloudPage } from './SettingCloudPage';

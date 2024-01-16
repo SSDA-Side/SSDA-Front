@@ -1,0 +1,1 @@
+export { SettingCloudPage } from './settingCloudPage';

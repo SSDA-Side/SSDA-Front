@@ -1,1 +1,0 @@
-export { SettingProfilePage } from './SettingProfilePage';

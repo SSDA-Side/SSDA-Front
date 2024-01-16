@@ -1,1 +1,0 @@
-export { DiaryEditPage } from './DiaryEditPage';
