@@ -1,6 +1,6 @@
 .full-container {
   width: 390px;
-  height: 249px;
+  height: auto;
   position: fixed;
   bottom: 0;
   border-top-right-radius: 5px;
@@ -16,7 +16,6 @@
 
 .full-container .content {
   width: 100%;
-  height: 130px;
 }
 
 .full-container .footer {
@@ -36,6 +35,4 @@
   font-weight: 600;
   cursor: pointer;
   border: none;
-}
-.full-container .footer button:hover {
 }
