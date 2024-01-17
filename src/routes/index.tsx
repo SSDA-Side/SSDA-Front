@@ -1,20 +1,20 @@
-import { RootLayout } from '@Layouts/RootLayout';
+import { RootLayout } from '@layouts/rootLayout';
 
-import { DiaryEditPage } from '@Pages/DiaryEditPage';
-import { DiaryPage } from '@Pages/DiaryPage';
-import { DiaryWritePage } from '@Pages/DiaryWritePage';
-import { ErrorPage } from '@Pages/ErrorPage';
-import { LoginPage } from '@Pages/LoginPage';
-import { LogoutPage } from '@Pages/LogoutPage';
-import { MyBoardPage } from '@Pages/MyBoardPage';
-import { NotFoundPage } from '@Pages/NotFoundPage';
-import { NotificationPage } from '@Pages/NotificationPage';
-import { OnBoardingPage } from '@Pages/OnBoardingPage';
-import { SettingCloudPage } from '@Pages/SettingCloudPage';
-import { SettingFeedbackPage } from '@Pages/SettingFeedbackPage';
-import { SettingFontPage } from '@Pages/SettingFontPage';
-import { SettingPage } from '@Pages/SettingPage';
-import { SettingProfilePage } from '@Pages/SettingProfilePage';
+import { DiaryEditPage } from '@pages/diaryEditPage';
+import { DiaryPage } from '@pages/diaryPage';
+import { DiaryWritePage } from '@pages/diaryWritePage';
+import { ErrorPage } from '@pages/errorPage';
+import { LoginPage } from '@pages/loginPage';
+import { LogoutPage } from '@pages/logoutPage';
+import { MyBoardPage } from '@pages/myBoardPage';
+import { NotFoundPage } from '@pages/notFoundPage';
+import { NotificationPage } from '@pages/notificationPage';
+import { OnBoardingPage } from '@pages/onBoardingPage';
+import { SettingCloudPage } from '@pages/settingCloudPage';
+import { SettingFeedbackPage } from '@pages/settingFeedbackPage';
+import { SettingFontPage } from '@pages/settingFontPage';
+import { SettingPage } from '@pages/settingPage';
+import { SettingProfilePage } from '@pages/settingProfilePage';
 
 import type { RouteObject } from 'react-router-dom';
 
