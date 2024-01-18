@@ -1,0 +1,1 @@
+export { SettingFontPage } from './SettingFontPage';

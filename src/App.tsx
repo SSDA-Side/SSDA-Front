@@ -2,7 +2,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import { RecoilRoot } from 'recoil';
 
-import { routes } from '@routes/index';
+import { routes } from '@Routes/index';
 
 const queryClient = new QueryClient();
 const router = createBrowserRouter(routes);
