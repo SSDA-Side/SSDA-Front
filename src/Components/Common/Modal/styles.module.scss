@@ -1,0 +1,43 @@
+.full-container {
+  width: 357px;
+  height: auto;
+  border-radius: 5px;
+  background-color: #fff;
+  border: 1px solid #d9d9d9;
+  margin: auto;
+}
+
+.full-container .header {
+  width: 100%;
+  height: 38px;
+  margin-top: 11px;
+  position: relative;
+}
+
+.full-container .header h3 {
+  font-size: 18px;
+  font-weight: 600;
+  text-align: center;
+}
+
+.full-container .header button {
+  background-color: transparent;
+  border: none;
+  position: absolute;
+  top: 0;
+  right: 11px;
+  font-size: 15px;
+  cursor: pointer;
+}
+
+.full-container .content {
+  width: 100%;
+}
+
+.full-container .footer {
+  width: 100%;
+  height: 70px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
