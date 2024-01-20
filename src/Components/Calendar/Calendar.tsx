@@ -65,7 +65,7 @@ export const Calendar = () => {
             key={i}
             className={styles.prevDate}
             onClick={() => {
-              onClickDay(day.getDate());
+              onClickDay(1);
               prevMonth();
             }}
           >
@@ -79,7 +79,7 @@ export const Calendar = () => {
             key={i}
             className={styles.nextDate}
             onClick={() => {
-              onClickDay(day.getDate());
+              onClickDay(1);
               nextMonth();
             }}
           >
