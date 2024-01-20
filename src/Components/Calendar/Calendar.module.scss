@@ -1,0 +1,53 @@
+.calendar {
+  width: 390px;
+  height: 336px;
+  .nav {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 40px;
+    span {
+      margin: 0 10px;
+    }
+    button {
+      background-color: #fff;
+      border: none;
+      color: #000;
+      cursor: pointer;
+      font-size: 1.5rem;
+    }
+  }
+  table {
+    width: 100%;
+    // height: 296px;
+    padding: 0 34px;
+    thead th {
+      font-size: 16px;
+      color: rgb(176, 176, 176);
+      font-weight: 400;
+    }
+    tbody {
+      text-align: center;
+      cursor: pointer;
+      tr {
+        .prev-date,
+        .next-date {
+          color: rgb(176, 176, 176);
+          width: 43.71px;
+          height: 43.71px;
+        }
+        .selected-date {
+          color: #fff;
+          background-color: #ff8066;
+          border-radius: 50%;
+          width: 43.71px;
+          height: 43.71px;
+        }
+        .date {
+          width: 43.71px;
+          height: 43.71px;
+        }
+      }
+    }
+  }
+}
