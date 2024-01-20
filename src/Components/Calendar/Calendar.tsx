@@ -65,7 +65,7 @@ export const Calendar = () => {
             key={i}
             className={styles.prevDate}
             onClick={() => {
-              onClickDay(1);
+              onClickDay(day.getDate());
               prevMonth();
             }}
           >
@@ -79,7 +79,7 @@ export const Calendar = () => {
             key={i}
             className={styles.nextDate}
             onClick={() => {
-              onClickDay(1);
+              onClickDay(day.getDate());
               nextMonth();
             }}
           >
@@ -121,11 +121,25 @@ export const Calendar = () => {
   return (
     <div className={styles.calendar}>
       <div className={styles.nav}>
-        <button onClick={prevMonth}>&lt;</button>
+        <button
+          onClick={() => {
+            onClickDay(1);
+            prevMonth();
+          }}
+        >
+          &lt;
+        </button>
         <span>
           {currentMonth.getFullYear()}년 {currentMonth.getMonth() + 1}월 {selectedDay}일
         </span>
-        <button onClick={nextMonth}>&gt;</button>
+        <button
+          onClick={() => {
+            onClickDay(1);
+            nextMonth();
+          }}
+        >
+          &gt;
+        </button>
       </div>
       <table>
         <thead>
