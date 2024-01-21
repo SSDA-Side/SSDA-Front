@@ -21,17 +21,23 @@ import { diaryImages } from '@Assets/DiaryImages';
 import type { Board } from '@Type/index';
 import type { MouseEvent } from 'react';
 import { BoardFieldModal } from '@Components/BoardFieldModal';
+import { ContextMenuModal } from '@Components/ContextMenuModal';
+import { MemberViewModal } from '@Components/MemberViewModal';
 
 type BoardItmeProp = Board;
 export const BoardItem = (boardProps: BoardItmeProp) => {
   const [isContextMenuOpened, setIsContextMenuOpened] = useState(false);
   const [isEditOpened, setIsEditOpened] = useState(false);
+  const [isMemberOpened, setIsMemberOpened] = useState(false);
 
   const openContextMenu = () => setIsContextMenuOpened(true);
   const closeContextMenu = () => setIsContextMenuOpened(false);
 
   const openEditModal = () => setIsEditOpened(true);
   const closeEditModal = () => setIsEditOpened(false);
+
+  const openMemberModal = () => setIsMemberOpened(true);
+  const closeMemberModal = () => setIsMemberOpened(false);
 
   const handleBoardClick = () => {
     // TODO
@@ -85,6 +91,7 @@ export const BoardItem = (boardProps: BoardItmeProp) => {
 
       case 'users': {
         closeContextMenu();
+        openMemberModal();
         break;
       }
 
@@ -109,6 +116,13 @@ export const BoardItem = (boardProps: BoardItmeProp) => {
         <TestModal.Overlay />
         <TestModal.Content>
           <BoardFieldModal title="일기장 편집" defaultBoard={boardProps} onClose={closeEditModal} />
+        </TestModal.Content>
+      </TestModal>
+
+      <TestModal open={isMemberOpened} onClose={closeMemberModal}>
+        <TestModal.Overlay />
+        <TestModal.Content>
+          <MemberViewModal boardId={boardProps.id} onClose={closeMemberModal} />
         </TestModal.Content>
       </TestModal>
     </>

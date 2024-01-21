@@ -19,3 +19,10 @@ export type Board = {
   diaryCount: number;
   peopleCount: number;
 };
+
+export type BoardMember = {
+  id: number;
+  profileUrl: string;
+  name: string;
+  signedDate: Date | number;
+};
