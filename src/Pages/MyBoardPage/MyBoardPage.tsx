@@ -6,6 +6,7 @@ import styles from './MyBoardPage.module.scss';
 import { IconButton } from '@Components/Common/Button';
 import { PageHeader } from '@Components/Common/PageHeader';
 import { Typography } from '@Components/Common/Typography';
+import { AddBoardItemButton, BoardItem } from '@Components/BoardItem';
 
 export const MyBoardPage = () => {
   return <PageLayout header={<Head />} body={<Body />} />;
@@ -34,6 +35,7 @@ const Body = () => {
   return (
     <main className={styles.contaienr}>
       <HeroSection />
+      <BoardListSection />
     </main>
   );
 };
@@ -55,6 +57,36 @@ const HeroSection = () => {
       <Typography as="body2" className={styles.description}>
         지금까지 {sharedPeopleCount}명과 {sharedDiaryCount}개의 일기를 공유했어요
       </Typography>
+    </section>
+  );
+};
+
+const BoardListSection = () => {
+  const boardList = [
+    {
+      id: 0,
+      title: '안녕',
+      appearanceId: 0,
+      imageId: 1,
+      diaryCount: 0,
+      peopleCount: 1,
+    },
+    {
+      id: 1,
+      title: '일기',
+      appearanceId: 1,
+      imageId: 2,
+      diaryCount: 12,
+      peopleCount: 3,
+    },
+  ];
+
+  const boardListElements = boardList.map((board) => <BoardItem key={`board-${board.id}`} {...board} />);
+
+  return (
+    <section className={styles.boardListSection}>
+      {boardListElements}
+      <AddBoardItemButton />
     </section>
   );
 };
