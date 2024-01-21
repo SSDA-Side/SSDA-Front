@@ -11,11 +11,14 @@ import { Typography } from '@Components/Common/Typography';
 /** Icon */
 import { SVGIcon } from '@Icons/SVGIcon';
 
-/** Util */
-import cn from 'classnames';
+/** Hook */
+import { useBoardMemberList } from '@Hooks/NetworkHooks';
 
 /** Type */
 import type { BoardMember } from '@Type/index';
+
+/** Util */
+import cn from 'classnames';
 
 type MemberViewModalProp = { boardId: number; onClose: () => void };
 export const MemberViewModal = (props: MemberViewModalProp) => {
@@ -39,32 +42,18 @@ const Head = ({ onClose }: HeadProp) => {
 
 type BodyProp = { boardId: number };
 const Body = ({ boardId }: BodyProp) => {
-  const memberList = [
-    {
-      id: 0,
-      name: '이세은',
-      profileUrl: './profile/1.jpg',
-      signedDate: 1705638921035,
-    },
-    {
-      id: 1,
-      name: '김수영',
-      profileUrl: '',
-      signedDate: 1705638921035,
-    },
-    {
-      id: 2,
-      name: '박성호',
-      profileUrl: '',
-      signedDate: 1705638921035,
-    },
-    {
-      id: 3,
-      name: '안예진',
-      profileUrl: './profile/1.jpg',
-      signedDate: 1705638921035,
-    },
-  ];
+  const { data: memberList, isPending, isSuccess, isError } = useBoardMemberList({ boardId });
+
+  // TODO: 상태에 따른 UI 분리하기, suspense, fallback, successed
+
+  // isSuccess is just for type-guard
+  if (isPending || !isSuccess) {
+    return '불러오는 중입니다 ...';
+  }
+
+  if (isError) {
+    return '멤버 목록을 불러오는데 실패했어요';
+  }
 
   const memberListElement = memberList.map((member) => <MemberItem key={member.id} {...member} />);
 
