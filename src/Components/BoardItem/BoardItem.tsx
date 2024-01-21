@@ -1,9 +1,15 @@
+/** React */
+import { useState } from 'react';
+
 /** Style */
 import styles from './BoardItem.module.scss';
 
 /** Component */
 import { EditButton } from '@Components/Common/Button';
 import { Typography } from '@Components/Common/Typography';
+
+/** Component (TEST) */
+import { TestModal } from '@Pages/MyBoardPage/TestModal';
 
 /** Icon */
 import { SVGIcon } from '@Icons/SVGIcon';
@@ -14,6 +20,7 @@ import { diaryImages } from '@Assets/DiaryImages';
 /** Type */
 import type { Board } from '@Type/index';
 import type { MouseEvent } from 'react';
+import { BoardFieldModal } from '@Components/BoardFieldModal';
 
 type BoardItmeProp = Board;
 export const BoardItem = (boardProps: BoardItmeProp) => {
@@ -62,13 +69,14 @@ const BoardPresenter = ({ imageId, diaryCount, peopleCount, onBoardClick, onEdit
 };
 
 export const AddBoardItemButton = () => {
-  const handleClick = () => {
-    // TODO
-  };
+  const [isAddModalOpened, setIsAddModalOpened] = useState(false);
+
+  const openAddModal = () => setIsAddModalOpened(true);
+  const closeAddModal = () => setIsAddModalOpened(false);
 
   return (
     <>
-      <div role="button" className={styles.itemContainer} tabIndex={0} onClick={handleClick}>
+      <div role="button" className={styles.itemContainer} tabIndex={0} onClick={openAddModal}>
         <div className={styles.imageContainer}>
           <div className={styles.itemAdd}>
             {/* TODO: 추가 아이콘으로 바꾸기 */}
@@ -82,6 +90,13 @@ export const AddBoardItemButton = () => {
           </div>
         </div>
       </div>
+
+      <TestModal open={isAddModalOpened} onClose={closeAddModal}>
+        <TestModal.Overlay />
+        <TestModal.Content>
+          <BoardFieldModal title="일기장 추가" onClose={closeAddModal} />
+        </TestModal.Content>
+      </TestModal>
     </>
   );
 };
