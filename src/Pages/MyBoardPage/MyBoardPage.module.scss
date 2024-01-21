@@ -4,3 +4,21 @@
   padding: var(--page-padding-y) var(--page-padding-x);
   width: 100%;
 }
+
+.hero-section {
+  display: flex;
+  gap: var(--spacing-2);
+  flex-direction: column;
+  margin-bottom: var(--spacing-11);
+}
+
+.board-list-section {
+  display: grid;
+  gap: var(--spacing-2);
+  grid-template-columns: 1fr 1fr;
+  row-gap: var(--spacing-11);
+}
+
+.description {
+  color: var(--text-description);
+}
