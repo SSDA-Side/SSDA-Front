@@ -24,17 +24,25 @@ import { BoardFieldModal } from '@Components/BoardFieldModal';
 
 type BoardItmeProp = Board;
 export const BoardItem = (boardProps: BoardItmeProp) => {
-  const handleBoardClick = () => {
-    // TODO
-  };
+  const [isEditOpened, setIsEditOpened] = useState(false);
 
-  const handleEditClick = () => {
+  const openEditModal = () => setIsEditOpened(true);
+  const closeEditModal = () => setIsEditOpened(false);
+
+  const handleBoardClick = () => {
     // TODO
   };
 
   return (
     <>
-      <BoardPresenter {...boardProps} onBoardClick={handleBoardClick} onEditClick={handleEditClick} />
+      <BoardPresenter {...boardProps} onBoardClick={handleBoardClick} onEditClick={openEditModal} />
+
+      <TestModal open={isEditOpened} onClose={closeEditModal}>
+        <TestModal.Overlay />
+        <TestModal.Content>
+          <BoardFieldModal title="일기장 편집" defaultBoard={boardProps} onClose={closeEditModal} />
+        </TestModal.Content>
+      </TestModal>
     </>
   );
 };
