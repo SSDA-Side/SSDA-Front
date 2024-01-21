@@ -1,0 +1,38 @@
+.full-container {
+  width: 390px;
+  height: auto;
+  position: fixed;
+  bottom: 0;
+  border-top-right-radius: 5px;
+  border-top-left-radius: 5px;
+  background-color: #fff;
+  border: 1px solid #d9d9d9;
+}
+
+.full-container .header {
+  width: 100%;
+  height: 49px;
+}
+
+.full-container .content {
+  width: 100%;
+}
+
+.full-container .footer {
+  width: 100%;
+  height: 70px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.full-container .footer button {
+  width: 335px;
+  height: 39px;
+  background: #d9d9d9;
+  border-radius: 5px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  border: none;
+}
