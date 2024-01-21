@@ -10,3 +10,12 @@ export type IconName =
   | 'more'
   | 'users'
   | 'send';
+
+export type Board = {
+  id: number;
+  title: string;
+  appearanceId: number;
+  imageId: number;
+  diaryCount: number;
+  peopleCount: number;
+};
