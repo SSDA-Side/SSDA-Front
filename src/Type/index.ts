@@ -11,6 +11,12 @@ export type IconName =
   | 'users'
   | 'send';
 
+export type HeroData = {
+  username: string;
+  sharedPeopleCount: number;
+  sharedDiaryCount: number;
+};
+
 export type Board = {
   id: number;
   title: string;
