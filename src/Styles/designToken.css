@@ -1,0 +1,102 @@
+:root {
+  /* Color Primitive */
+  --orange600: #ff8066;
+
+  --black: #000;
+  --gray50: #fafafa;
+  --gray100: #f5f5f5;
+  --gray200: #eee;
+  --gray300: #dfe0e0;
+  --gray400: #bebdbd;
+  --gray500: #9e9e9e;
+  --gray600: #747575;
+  --gray700: #606160;
+  --gray800: #424142;
+  --gray900: #212121;
+  --white: #fff;
+
+  /* Spacing Primitive */
+  --spacing-1: 0.25rem;
+  --spacing-2: 0.5rem;
+  --spacing-3: 0.75rem;
+  --spacing-4: 1rem;
+  --spacing-5: 1.25rem;
+  --spacing-6: 1.5rem;
+  --spacing-7: 1.75rem;
+  --spacing-8: 2rem;
+  --spacing-9: 2.25rem;
+  --spacing-10: 2.5rem;
+  --spacing-11: 3rem;
+  --spacing-12: 3.5rem;
+  --spacing-16: 4rem;
+  --spacing-24: 6rem;
+  --spacing-32: 8rem;
+
+  /* Radius Primitive */
+  --radii-1: 0.25rem;
+  --radii-2: 0.5rem;
+  --radii-3: 0.75rem;
+  --radii-4: 1rem;
+  --radii-5: 1.25rem;
+  --radii-6: 1.5rem;
+
+  /* Size Primitive */
+  --size-1: 0.25rem;
+  --size-2: 0.5rem;
+  --size-3: 0.75rem;
+  --size-4: 1rem;
+  --size-5: 1.25rem;
+  --size-6: 1.5rem;
+  --size-7: 1.75rem;
+  --size-8: 2rem;
+  --size-9: 2.25rem;
+  --size-10: 2.5rem;
+  --size-11: 3rem;
+  --size-12: 3.5rem;
+  --size-16: 4rem;
+  --size-24: 6rem;
+  --size-32: 8rem;
+
+  /* Color Sementic */
+  --primary: var(--orange600);
+  --on-primary: var(--white);
+
+  /* Radii Sementic */
+  --radii-sm: var(--radii-2);
+  --radii-lg: var(--radii-6);
+  --radii-diary: var(--radii-1);
+
+  /* Size Sementic */
+  --size-sm: var(--size-6);
+  --size-md: var(--size-8);
+  --size-lg: var(--size-10);
+  --size-xl: var(--size-12);
+
+  /* Padding Sementic */
+  --page-padding-x: var(--spacing-5);
+  --page-padding-y: var(--spacing-6);
+  --button-padding: var(--spacing-4);
+
+  /* Component Sementic */
+  --text-default: var(--gray900);
+  --text-description: var(--gray700);
+  --text-on-primary: var(--white);
+
+  --button-bg-primary: var(--primary);
+
+  --header-bg-default: var(--white);
+  --header-padding-y: var(--spacing-3);
+  --header-padding-x: var(--spacing-4);
+  --header-gap: var(--spacing-4);
+
+  --avatar-border-radii: var(--radii-sm);
+  --avatar-size-default: var(--size-xl);
+  --avatar-bg-default: var(--gray200);
+  --avatar-icon-color: var(--gray500);
+  --avatar-icon-size: var(--size-sm);
+
+  --overlay-bg: rgba(0, 0, 0, 0.7);
+
+  /* Global Style*/
+  color: var(--text-color-default);
+}
