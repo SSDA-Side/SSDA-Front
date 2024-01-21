@@ -32,7 +32,7 @@
       "@Routes/*": ["src/Routes/*"],
       "@Store/*": ["src/Store/*"],
       "@Styles/*": ["src/Styles/*"],
-      "@Types/*": ["src/Types/*"],
+      "@Type/*": ["src/Type/*"],
       "@Utils/*": ["src/Utils/*"],
       "@/*": ["src/*"]
     }
