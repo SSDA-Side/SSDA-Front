@@ -1,0 +1,17 @@
+.default {
+  display: grid;
+  overflow: hidden;
+  min-width: var(--avatar-size-default);
+  max-width: var(--avatar-size-default);
+  background: var(--avatar-bg-default);
+  background-size: cover;
+  color: var(--avatar-icon-color);
+  border-radius: var(--avatar-border-radii);
+  aspect-ratio: 1 / 1;
+  place-content: center;
+}
+
+.icon-size-default {
+  width: var(--avatar-icon-size);
+  height: var(--avatar-icon-size);
+}
