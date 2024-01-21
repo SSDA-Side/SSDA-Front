@@ -1,0 +1,37 @@
+.container {
+  position: fixed;
+  width: 100dvw;
+  height: 100dvh;
+  inset: 0;
+}
+
+.overlay {
+  position: fixed;
+  background: rgba(0, 0, 0, 0.6);
+  inset: 0;
+}
+
+.content {
+  box-shadow: 0 0 12px rgba(0, 0, 0, 0.6);
+  overflow: hidden;
+
+  position: fixed;
+  top: 50%;
+  left: 50%;
+
+  width: 100%;
+  max-width: calc(var(--app-container-width) - (2 * var(--page-padding-x)));
+  max-height: 85dvh;
+  background: var(--white);
+  border-radius: var(--radii-sm);
+  transform: translate(-50%, -50%);
+}
+
+.context-menu {
+  top: auto;
+  bottom: 0;
+
+  max-width: var(--app-container-width);
+  transform: translateX(-50%);
+  border-radius: var(--radii-sm) var(--radii-sm) 0 0;
+}
