@@ -1,0 +1,59 @@
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+  <defs>
+    <symbol id="menu" fill="none" viewBox="0 0 32 32">
+      <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16h24M4 8h24M4 24h24"/>
+    </symbol>
+    <symbol id="right" fill="none" viewBox="0 0 32 32">
+      <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m12 24 8-8-8-8"/>
+    </symbol>
+    <symbol id="left" fill="none" viewBox="0 0 32 32">
+      <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m20 24-8-8 8-8"/>
+    </symbol>
+    <symbol id="close" fill="none" viewBox="0 0 32 32">
+      <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M24 8 8 24M8 8l16 16"/>
+    </symbol>
+    <symbol id="edit" fill="none" viewBox="0 0 32 32">
+      <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.667 5.333H5.333A2.667 2.667 0 0 0 2.667 8v18.667a2.667 2.667 0 0 0 2.666 2.666H24a2.667 2.667 0 0 0 2.667-2.666v-9.334"/>
+      <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M24.667 3.333a2.829 2.829 0 0 1 4 4L16 20l-5.333 1.333L12 16 24.667 3.333Z"/>
+    </symbol>
+    <symbol id="user" fill="none" viewBox="0 0 32 32">
+      <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M26.667 28v-2.667A5.333 5.333 0 0 0 21.333 20H10.667a5.333 5.333 0 0 0-5.334 5.333V28M16 14.667A5.333 5.333 0 1 0 16 4a5.333 5.333 0 0 0 0 10.667Z"/>
+    </symbol>
+    <symbol id="header/bell" fill="none" viewBox="0 0 32 32">
+      <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M23.766 11.11c0-1.91-.772-3.741-2.148-5.092a7.403 7.403 0 0 0-5.185-2.109c-1.945 0-3.81.759-5.186 2.11a7.134 7.134 0 0 0-2.148 5.09c0 8.4-3.666 10.8-3.666 10.8h22s-3.667-2.4-3.667-10.8Zm-5.333 15.8c-.254.304-.619.556-1.058.732a3.915 3.915 0 0 1-1.442.267 3.915 3.915 0 0 1-1.443-.267c-.438-.176-.803-.428-1.057-.733"/>
+    </symbol>
+    <symbol id="header/bell2" fill="none" viewBox="0 0 32 32">
+      <g clip-path="url(#a)">
+        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M23.766 11.11c0-1.91-.772-3.741-2.148-5.092a7.403 7.403 0 0 0-5.185-2.109c-1.945 0-3.81.759-5.186 2.11a7.134 7.134 0 0 0-2.148 5.09c0 8.4-3.666 10.8-3.666 10.8h22s-3.667-2.4-3.667-10.8Zm-5.333 15.8c-.254.304-.619.556-1.058.732a3.915 3.915 0 0 1-1.442.267 3.915 3.915 0 0 1-1.443-.267c-.438-.176-.803-.428-1.057-.733"/>
+        <circle cx="27.933" cy="2.409" r="2.5" fill="#FF8066"/>
+      </g>
+      <defs>
+        <clipPath id="a">
+          <path fill="#fff" d="M0 0h32v32H0z"/>
+        </clipPath>
+      </defs>
+    </symbol>
+    <symbol id="more" fill="none" viewBox="0 0 32 32">
+      <path fill="currentColor" d="M16 17.333a1.333 1.333 0 1 0 0-2.666 1.333 1.333 0 0 0 0 2.666ZM16 8a1.333 1.333 0 1 0 0-2.667A1.333 1.333 0 0 0 16 8Zm0 18.667A1.333 1.333 0 1 0 16 24a1.333 1.333 0 0 0 0 2.667Z"/>
+    </symbol>
+    <symbol id="users" fill="none" viewBox="0 0 32 32">
+      <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M22.667 28v-2.667A5.333 5.333 0 0 0 17.333 20H6.667a5.333 5.333 0 0 0-5.334 5.333V28M12 14.667A5.333 5.333 0 1 0 12 4a5.333 5.333 0 0 0 0 10.667ZM30.667 28v-2.667a5.333 5.333 0 0 0-4-5.16m-5.334-16a5.334 5.334 0 0 1 0 10.334"/>
+    </symbol>
+    <symbol id="send" fill="none" viewBox="0 0 32 32">
+      <g clip-path="url(#a)">
+        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M33.705 18.385H16.853m16.852 0-20.682 9.958 3.83-9.958-3.83-9.959 20.682 9.959Z"/>
+      </g>
+      <defs>
+        <clipPath id="a">
+          <path fill="#fff" d="M18.384 0 36.77 18.385 18.384 36.77 0 18.385z"/>
+        </clipPath>
+      </defs>
+    </symbol>
+    <symbol id="exit" fill="none" viewBox="0 0 24 24">
+      <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4m7 14 5-5-5-5m5 5H9"/>
+    </symbol>
+    <symbol id="trash" fill="none" viewBox="0 0 24 24">
+      <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 6h18m-2 0v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2m-6 5v6m4-6v6"/>
+    </symbol>
+  </defs>
+</svg>
