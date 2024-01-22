@@ -1,0 +1,28 @@
+.menu-list {
+  display: flex;
+  flex-direction: column;
+  padding: var(--page-padding-y) var(--page-padding-x);
+}
+
+.menu-item {
+  display: flex;
+  gap: var(--spacing-4);
+  align-items: center;
+  justify-content: center;
+  flex-direction: row;
+
+  list-style: none;
+
+  cursor: pointer;
+
+  padding-block: var(--spacing-4);
+
+  p {
+    flex: 1;
+  }
+}
+
+.menu-icon-size {
+  width: var(--size-sm);
+  height: var(--size-sm);
+}

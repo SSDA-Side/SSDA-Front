@@ -1,0 +1,37 @@
+.diary-image-list {
+  padding: 2px;
+  overflow-x: scroll;
+  white-space: nowrap;
+  overscroll-behavior: contain;
+
+  &::-webkit-scrollbar {
+    width: 16px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background-color: transparent;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    border: 4px solid transparent;
+    background: #606060;
+    background-clip: content-box;
+    border-radius: 8px;
+  }
+}
+
+.diary-image {
+  display: inline-block;
+  width: 5.3125rem;
+  background-size: cover;
+  list-style: none;
+  aspect-ratio: 3 / 4;
+
+  & + & {
+    margin-left: var(--spacing-3);
+  }
+}
+
+.selected {
+  outline: 2px solid var(--black);
+}

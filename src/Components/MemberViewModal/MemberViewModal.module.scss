@@ -1,0 +1,60 @@
+.body-container {
+  padding: var(--page-padding-y) var(--page-padding-x);
+}
+
+.member-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: var(--spacing-4);
+  padding: var(--spacing-2) 0;
+}
+
+.description-section {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 100%;
+  gap: var(--spacing-1);
+}
+
+.date {
+  color: var(--gray600);
+}
+
+.add-button-icon {
+  display: grid;
+  overflow: hidden;
+  min-width: var(--avatar-size-default);
+  max-width: var(--avatar-size-default);
+  background: var(--avatar-bg-default);
+  background-size: cover;
+  color: var(--avatar-icon-color);
+  border-radius: var(--avatar-border-radii);
+  aspect-ratio: 1 / 1;
+  place-content: center;
+}
+
+.icon-default {
+  width: var(--avatar-icon-size);
+  height: var(--avatar-icon-size);
+}
+
+.resign-button {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: var(--spacing-2);
+  padding-block: var(--spacing-4);
+}
+
+.greyed {
+  color: var(--gray600);
+}
+
+.small-icon {
+  width: var(--size-4);
+  height: var(--size-4);
+}

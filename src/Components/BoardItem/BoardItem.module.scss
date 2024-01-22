@@ -1,0 +1,45 @@
+.item-container {
+  width: 100%;
+}
+
+.image-container {
+  overflow: hidden;
+  position: relative;
+  width: 100%;
+  background-size: cover;
+  aspect-ratio: 3 / 4;
+  border-radius: 0 var(--radii-diary) 0 0;
+}
+
+.item-add {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  position: relative;
+  width: 100%;
+  height: 100%;
+  background: var(--gray100);
+  color: var(--gray600);
+}
+
+.item-add-description {
+  padding-bottom: var(--spacing-7);
+  position: absolute;
+  bottom: 0;
+  text-align: center;
+}
+
+.description-container {
+  display: flex;
+  justify-content: space-between;
+  flex-direction: row;
+  padding: var(--spacing-1);
+  color: var(--text-description);
+}
+
+.edit-button-wrapper {
+  position: absolute;
+  right: var(--spacing-2);
+  bottom: var(--spacing-2);
+}

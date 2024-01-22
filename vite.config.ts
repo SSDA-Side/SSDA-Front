@@ -7,6 +7,7 @@ export default defineConfig({
   resolve: {
     alias: [
       { find: '@APIs', replacement: '/src/APIs' },
+      { find: '@Assets', replacement: '/src/Assets' },
       { find: '@Components', replacement: '/src/Components' },
       { find: '@Hooks', replacement: '/src/Hooks' },
       { find: '@Icons', replacement: '/src/Icons' },
@@ -15,7 +16,7 @@ export default defineConfig({
       { find: '@Routes', replacement: '/src/Routes' },
       { find: '@Store', replacement: '/src/Store' },
       { find: '@Styles', replacement: '/src/Styles' },
-      { find: '@Types', replacement: '/src/Types' },
+      { find: '@Type', replacement: '/src/Type' },
       { find: '@Utils', replacement: '/src/Utils' },
       { find: '@', replacement: '/src' },
     ],

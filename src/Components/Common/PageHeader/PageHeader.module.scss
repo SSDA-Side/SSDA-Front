@@ -1,0 +1,25 @@
+.container {
+  display: flex;
+  flex-direction: row;
+  position: relative;
+
+  padding: var(--header-padding-y) var(--header-padding-x);
+  width: 100%;
+}
+
+.group {
+  display: flex;
+  flex-direction: row;
+  gap: var(--header-gap);
+}
+
+.right {
+  margin-left: auto;
+}
+
+.center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translateX(-50%) translateY(-50%);
+}
