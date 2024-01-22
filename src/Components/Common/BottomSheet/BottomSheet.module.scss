@@ -3,36 +3,32 @@
   height: auto;
   position: fixed;
   bottom: 0;
-  border-top-right-radius: 5px;
-  border-top-left-radius: 5px;
+  border-top-right-radius: var(--radii-2);
+  border-top-left-radius: var(--radii-2);
   background-color: #fff;
-  border: 1px solid #d9d9d9;
-}
-
-.full-container .header {
-  width: 100%;
-  height: 49px;
-}
-
-.full-container .content {
-  width: 100%;
-}
-
-.full-container .footer {
-  width: 100%;
-  height: 70px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.full-container .footer button {
-  width: 335px;
-  height: 39px;
-  background: #d9d9d9;
-  border-radius: 5px;
-  font-size: 16px;
-  font-weight: 600;
-  cursor: pointer;
-  border: none;
+  border: 1px solid var(--gray400);
+  .header {
+    width: 100%;
+    height: 56px;
+    margin-top: 25px;
+    text-align: center;
+    span {
+      font-size: var(--size-5);
+      font-weight: 600;
+      text-align: center;
+    }
+    button {
+      background-color: transparent;
+      border: none;
+      position: absolute;
+      top: 23px;
+      right: 12px;
+      font-size: 15px;
+      cursor: pointer;
+    }
+  }
+  .content {
+    width: 100%;
+    height: auto;
+  }
 }

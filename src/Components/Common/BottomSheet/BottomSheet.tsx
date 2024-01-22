@@ -1,20 +1,23 @@
 import React from 'react';
 import styles from './BottomSheet.module.scss';
+import { SVGIcon } from '@Icons/SVGIcon';
 
 type BottonSheetProps = {
   setClose: React.Dispatch<React.SetStateAction<boolean>>;
   content: React.ReactNode;
-  header: React.ReactNode;
+  title: string;
 };
 
-export const BottomSheet = ({ setClose, content, header }: BottonSheetProps) => {
+export const BottomSheet = ({ setClose, content, title }: BottonSheetProps) => {
   return (
     <div className={styles.fullContainer}>
-      <div className={styles.header}>{header}</div>
-      <div className={styles.content}>{content}</div>
-      <div className={styles.footer}>
-        <button onClick={() => setClose(false)}>닫기</button>
+      <div className={styles.header}>
+        <span>{title}</span>
+        <button onClick={() => setClose(false)}>
+          <SVGIcon name="close" />
+        </button>
       </div>
+      <div className={styles.content}>{content}</div>
     </div>
   );
 };
