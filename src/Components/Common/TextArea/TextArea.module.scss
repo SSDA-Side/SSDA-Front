@@ -1,2 +1,12 @@
 .full-container {
+  .text-area {
+    width: 350px;
+    height: 186px;
+    padding: 20px;
+    font-weight: 400;
+    font-size: var(--size-4);
+    &::placeholder {
+      color: var(--gray500);
+    }
+  }
 }
