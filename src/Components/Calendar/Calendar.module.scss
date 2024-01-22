@@ -7,6 +7,7 @@
     align-items: center;
     height: 40px;
     span {
+      font-size: var(--size-4);
       margin: 0 10px;
     }
     button {
@@ -15,6 +16,11 @@
       color: #000;
       cursor: pointer;
       font-size: 1.5rem;
+      svg {
+        width: 1.5rem;
+        height: 1.5rem;
+        transform: translate(0, 5px);
+      }
     }
   }
   table {

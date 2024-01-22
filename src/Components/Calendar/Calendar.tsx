@@ -1,5 +1,8 @@
 import styles from './Calendar.module.scss';
 import { useState } from 'react';
+import { Modal } from '@Components/Common/Modal';
+import { SelectDateBox } from '@Components/SelectDateBox';
+import { SVGIcon } from '@Icons/SVGIcon';
 
 const daysOfWeek = ['일', '월', '화', '수', '목', '금', '토'];
 const today = new Date();
@@ -7,6 +10,7 @@ const today = new Date();
 export const Calendar = () => {
   const [selectedDay, setSelectedDay] = useState<number>(today.getDate());
   const [currentMonth, setCurrentMonth] = useState<Date>(today);
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
   // 클릭한 날짜를 선택하고, 선택한 날짜를 저장하는 함수
   const onClickDay = (day: number) => {
@@ -120,6 +124,20 @@ export const Calendar = () => {
 
   return (
     <div className={styles.calendar}>
+      {isModalOpen && (
+        <Modal
+          setClose={setIsModalOpen}
+          title="캘린더 날짜 선택"
+          content={
+            <SelectDateBox
+              setCurrentMonth={setCurrentMonth}
+              setIsModalOpen={setIsModalOpen}
+              onClickDay={onClickDay}
+              currentMonth={currentMonth}
+            />
+          }
+        />
+      )}
       <div className={styles.nav}>
         <button
           onClick={() => {
@@ -127,18 +145,20 @@ export const Calendar = () => {
             prevMonth();
           }}
         >
-          &lt;
+          <SVGIcon name="left" size={22} />
         </button>
-        <span>
-          {currentMonth.getFullYear()}년 {currentMonth.getMonth() + 1}월 {selectedDay}일
-        </span>
+        <button onClick={() => setIsModalOpen(true)}>
+          <span>
+            {currentMonth.getFullYear()}년 {currentMonth.getMonth() + 1}월 {selectedDay}일
+          </span>
+        </button>
         <button
           onClick={() => {
             onClickDay(1);
             nextMonth();
           }}
         >
-          &gt;
+          <SVGIcon name="right" size={22} />
         </button>
       </div>
       <table>
