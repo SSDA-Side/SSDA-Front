@@ -1,4 +1,4 @@
-import styles from './styles.module.scss';
+import styles from './Modal.module.scss';
 
 type ModalProps = {
   setClose: React.Dispatch<React.SetStateAction<boolean>>;

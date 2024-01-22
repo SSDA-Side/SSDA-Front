@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from './styles.module.scss';
+import styles from './BottomSheet.module.scss';
 
 type BottonSheetProps = {
   setClose: React.Dispatch<React.SetStateAction<boolean>>;
