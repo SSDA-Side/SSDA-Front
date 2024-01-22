@@ -1,11 +1,11 @@
 import React from 'react';
 import styles from './styles.module.scss';
 
-interface BottonSheetProps {
+type BottonSheetProps = {
   setClose: React.Dispatch<React.SetStateAction<boolean>>;
   content: React.ReactNode;
   header: React.ReactNode;
-}
+};
 
 export const BottomSheet = ({ setClose, content, header }: BottonSheetProps) => {
   return (

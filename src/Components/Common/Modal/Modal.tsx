@@ -1,11 +1,11 @@
 import styles from './styles.module.scss';
 
-interface ModalProps {
+type ModalProps = {
   setClose: React.Dispatch<React.SetStateAction<boolean>>;
   content: React.ReactNode;
   title: string;
   footer: React.ReactNode;
-}
+};
 
 export const Modal = ({ setClose, content, title, footer }: ModalProps) => {
   return (
