@@ -4,7 +4,7 @@ type TextAreaProps = {
   placeHolder: string;
 };
 
-export const TextArea = ({ placeHolder }) => {
+export const TextArea = ({ placeHolder }: TextAreaProps) => {
   return (
     <div className={styles.fullContainer}>
       <textarea className={styles.textArea} placeholder={placeHolder} />
