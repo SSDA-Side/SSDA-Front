@@ -1,11 +1,9 @@
-// import { axios } from './axios';
-
 import { axios } from './Axios';
 import { Board, HeroData } from '@Type/index';
 import { BoardMember } from '@Type/index';
 
 // export const createPost = async (post: Post) => {
-//   const res = await axios().post<Post>('/posts', post);
+//   const res = await axios.post<Post>('/posts', post);
 //   console.log(res.data);
 //   return res.data;
 // };
@@ -17,7 +15,7 @@ const DELAY_TIME = 1200;
  * API가 연결되면 해당 함수는 불필요
  * */
 const fetchJSON = async <T>(path: string) => {
-  const response = await axios().get<T>(path);
+  const response = await axios.get<T>(path);
 
   return new Promise<T>((resolve) => {
     setTimeout(() => {
