@@ -11,6 +11,9 @@ import { SVGIcon } from '@Icons/SVGIcon';
 import type { IconName } from '@Type/index';
 import type { ButtonHTMLAttributes, PropsWithChildren } from 'react';
 
+/** Util */
+import cn from 'classnames';
+
 type ButtonAs = 'default' | 'CTA' | 'iconButton' | 'editButton';
 
 type ButtonProp = PropsWithChildren<
@@ -20,11 +23,11 @@ type ButtonProp = PropsWithChildren<
   } & ButtonHTMLAttributes<HTMLButtonElement>
 >;
 
-const Button = ({ as, icon, color, children, ...rest }: ButtonProp) => {
+const Button = ({ as, icon, color, className, children, ...rest }: ButtonProp) => {
   switch (as) {
     case 'CTA': {
       return (
-        <button className={styles.ctaButton} {...rest}>
+        <button className={cn(styles.ctaButton, className)} {...rest}>
           <Typography as="button">{children}</Typography>
         </button>
       );
@@ -36,7 +39,7 @@ const Button = ({ as, icon, color, children, ...rest }: ButtonProp) => {
       }
 
       return (
-        <button className={styles.iconButton} {...rest}>
+        <button className={cn(styles.iconButton, className)} {...rest}>
           <SVGIcon name={icon} color={color} />
         </button>
       );
@@ -44,14 +47,18 @@ const Button = ({ as, icon, color, children, ...rest }: ButtonProp) => {
 
     case 'editButton': {
       return (
-        <button className={styles.editButton} {...rest}>
+        <button className={cn(styles.editButton, className)} {...rest}>
           <SVGIcon name="edit" size={16} />
         </button>
       );
     }
 
     default: {
-      return <button {...rest}>{children}</button>;
+      return (
+        <button className={className} {...rest}>
+          {children}
+        </button>
+      );
     }
   }
 };
