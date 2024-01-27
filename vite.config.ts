@@ -26,4 +26,7 @@ export default defineConfig({
       localsConvention: 'camelCase',
     },
   },
+  server: {
+    port: 3000,
+  },
 });
