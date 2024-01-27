@@ -1,7 +1,7 @@
 import Axios, { type CreateAxiosDefaults, AxiosError } from 'axios';
 
 const axiosConfig: CreateAxiosDefaults = {
-  baseURL: '',
+  baseURL: 'http://118.67.143.25:8080',
   headers: {
     'Content-Type': 'application/json',
     'Access-Control-Allow-Origin': '*', // CORS 문제 해결
@@ -10,7 +10,7 @@ const axiosConfig: CreateAxiosDefaults = {
   timeout: 2500,
 };
 
-export const axios = Axios.create(axiosConfig);
+const axios = Axios.create(axiosConfig);
 
 axios.interceptors.request.use(
   // 요청이 성공했을 때 실행될 함수
@@ -23,3 +23,5 @@ axios.interceptors.request.use(
     return Promise.reject(error);
   },
 );
+
+export { axios };
