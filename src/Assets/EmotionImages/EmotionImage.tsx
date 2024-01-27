@@ -2,7 +2,7 @@ import sprite from './sprites.png';
 
 type EmotionType = 'angry' | 'happy' | 'eating' | 'sad' | 'excited' | 'fell_in_love' | 'sleeping' | 'normal' | 'bored';
 
-const emotionTypes: EmotionType[] = [
+export const emotionTypes: EmotionType[] = [
   'angry',
   'happy',
   'eating',
@@ -21,6 +21,7 @@ const convertTypeToIndex = (type: EmotionType): number => emotionTypes.findIndex
 
 type EmotionSize = 'lg' | 'sm';
 type EmotionImage = { type?: EmotionType; index?: number; size?: EmotionSize };
+
 export const EmotionImage = ({ type, index, size = 'lg' }: EmotionImage) => {
   if (type === undefined && index === undefined) {
     throw new Error('EmotionImage의 type prop 또는 index prop을 설정해야 합니다.');
