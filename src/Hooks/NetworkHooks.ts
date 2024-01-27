@@ -1,5 +1,5 @@
-import { getBoardList, getBoardMemberList, getHeroData } from '@APIs/index';
-import { useQuery } from '@tanstack/react-query';
+import { createDiary, getBoardList, getBoardMemberList, getHeroData } from '@APIs/index';
+import { useMutation, useQuery } from '@tanstack/react-query';
 
 export const useHeroData = () => {
   return useQuery({
@@ -19,5 +19,12 @@ export const useBoardMemberList = ({ boardId }: { boardId: number }) => {
   return useQuery({
     queryKey: ['myboard', 'memberList'],
     queryFn: () => getBoardMemberList({ boardId }),
+  });
+};
+
+export const useCreateDiary = () => {
+  return useMutation({
+    mutationKey: ['createDiary'],
+    mutationFn: createDiary,
   });
 };
