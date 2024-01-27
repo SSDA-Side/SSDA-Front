@@ -66,5 +66,8 @@
       <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 26.833c5.983 0 10.833-4.85 10.833-10.833 0-5.983-4.85-10.833-10.833-10.833-5.983 0-10.833 4.85-10.833 10.833 0 5.983 4.85 10.833 10.833 10.833Z"/>
       <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 9.5V16l4.333 2.167"/>
     </symbol>
+    <symbol id="check"  fill="none" viewBox="0 0 32 32">
+      <path d="M26.6666 8L12 22.6667L5.33331 16" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    </symbol>
   </defs>
 </svg>
