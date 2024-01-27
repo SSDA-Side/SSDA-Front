@@ -19,7 +19,7 @@ export const BottomSheet = () => {
           <EmotionImage key={emotion} type={emotion} />
         </button>
       )),
-    [],
+    [selectEmotion],
   );
 
   return (
