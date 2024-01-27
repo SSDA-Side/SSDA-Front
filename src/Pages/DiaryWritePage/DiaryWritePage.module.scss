@@ -1,8 +1,17 @@
+.form-container {
+  height: 100%;
+}
+
 .container {
   display: flex;
   flex-direction: column;
   gap: var(--spacing-6);
   padding: var(--page-padding-y) var(--page-padding-x);
+  height: 100%;
+}
+
+.disabled-controller {
+  border: none;
   height: 100%;
 }
 
@@ -19,6 +28,15 @@
 
 .primary {
   color: var(--primary);
+}
+
+.diary-title-box {
+  border: none;
+  outline: none;
+  width: 100%;
+  font-size: 1.4375rem;
+  line-height: 1.625rem;
+  font-weight: 700;
 }
 
 .write-container {
@@ -69,6 +87,7 @@
   aspect-ratio: 1/1;
   border-radius: var(--radii-sm);
   background-color: var(--gray300);
+  background-size: cover;
 }
 
 .footer {
