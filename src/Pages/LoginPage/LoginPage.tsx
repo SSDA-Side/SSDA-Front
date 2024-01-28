@@ -1,9 +1,9 @@
-import { SocialLoginKakao } from '@Components/SocialLogin';
+import { SocialLogin } from '@Components/SocialLogin';
 
 export const LoginPage = () => {
   return (
     <div>
-      <SocialLoginKakao />
+      <SocialLogin />
     </div>
   );
 };

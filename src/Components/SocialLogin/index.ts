@@ -1,1 +1,1 @@
-export { SocialLoginKakao } from './SocialLogin';
+export { SocialLogin } from './SocialLogin';
