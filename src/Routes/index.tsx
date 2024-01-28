@@ -1,5 +1,4 @@
 import { RootLayout } from '@Layouts/RootLayout';
-
 import { DiaryEditPage } from '@Pages/DiaryEditPage';
 import { DiaryPage } from '@Pages/DiaryPage';
 import { DiaryWritePage } from '@Pages/DiaryWritePage';
@@ -29,6 +28,10 @@ export const routes = [
         children: [
           {
             path: 'login',
+            element: <LoginPage />,
+          },
+          {
+            path: 'oauth/callback/kakao',
             element: <LoginPage />,
           },
           {
