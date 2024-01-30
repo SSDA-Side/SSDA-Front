@@ -9,7 +9,9 @@ export type IconName =
   | 'header/bell'
   | 'more'
   | 'users'
-  | 'send';
+  | 'send'
+  | 'empty-circle'
+  | 'fill-circle';
 
 export type HeroData = {
   username: string;
