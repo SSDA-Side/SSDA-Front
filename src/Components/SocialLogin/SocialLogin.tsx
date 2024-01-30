@@ -1,50 +1,66 @@
 // import { useEffect } from 'react';
 import { useEffect, useState } from 'react';
 import styles from './SocialLogin.module.scss';
-import { kakaoLogin } from '@APIs/index';
+import { KakaoLoginResponse, kakaoLogin } from '@APIs/index';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { AxiosError } from 'axios';
+import { useMutation } from '@tanstack/react-query';
+import kakaoLogo from '@Assets/LoginImages/kakao_logo.svg';
 
 // TODO
-// 소셜 로그인
-// refresh 토근과 access 토큰을 발급
-// 마이페이지로 이동 protected route
+// - [X] 소셜 로그인
+// refresh 토큰과 access 토큰 (cookie)
+// protected route
+// header에 권한 추가 (axios)
+
+const REST_API_KEY = import.meta.env.VITE_KAKAO_REST_API_KEY;
+const REDIRECT_URI = import.meta.env.VITE_KAKAO_REDIRECT_URI;
 
 const SocialKakao = () => {
-  const REST_API_KEY = import.meta.env.VITE_KAKAO_REST_API_KEY;
-  const REDIRECT_URI = import.meta.env.VITE_KAKAO_REDIRECT_URI;
   const kakaoLoginUrl = `https://kauth.kakao.com/oauth/authorize?client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI}&response_type=code`;
   const handleLogin = () => {
     window.location.href = kakaoLoginUrl;
   };
 
-  const [authorizationCode, setAuthorizationCode] = useState<string | null>('');
+  const [authorizationCode, setAuthorizationCode] = useState<string>('');
+
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  const { mutate } = useMutation<KakaoLoginResponse, AxiosError, string>({
+    mutationFn: kakaoLogin,
+    onSuccess: () => {
+      navigate('/onboarding');
+    },
+    onError: (error) => {
+      console.log('error', error);
+    },
+  });
 
   useEffect(() => {
-    console.log('set');
-    setAuthorizationCode(() => new URL(window.location.href).searchParams.get('code'));
-  }, []);
+    if (location.pathname === '/login') return;
+    const code = new URL(window.location.href).searchParams.get('code');
+    if (code) {
+      setAuthorizationCode(code);
+    }
+  }, [location.pathname]);
 
   useEffect(() => {
     if (authorizationCode) {
-      console.log('authorizationCode', authorizationCode);
-      kakaoLogin(authorizationCode);
+      mutate(authorizationCode);
     }
-  }, [authorizationCode]);
+  }, [authorizationCode, mutate]);
 
   return (
     <>
       <button className={styles.kakaoLoginButton} onClick={handleLogin}>
-        카카오 로그인
+        <img src={kakaoLogo} alt="kakaoLogo" />
+        카카오로 시작하기
       </button>
     </>
   );
 };
 
 export const SocialLogin = () => {
-  return (
-    <div className={styles.container}>
-      <br />
-      <br />
-      <SocialKakao />
-    </div>
-  );
+  return <SocialKakao />;
 };

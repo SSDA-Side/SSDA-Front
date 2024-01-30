@@ -1,14 +1,12 @@
-.container {
-  .kakao-login-button {
-    width: 360px;
-    height: 54px;
-    background-color: #fee500;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    cursor: pointer;
-    border-radius: var(--radii-6);
-  }
+.kakao-login-button {
+  width: 360px;
+  height: 54px;
+  background-color: #fee500;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  border-radius: var(--radii-6);
   img {
     transform: translateX(-90px);
   }
