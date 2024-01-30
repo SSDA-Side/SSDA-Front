@@ -1,11 +1,24 @@
 import { axios } from './Axios';
 import { Board, HeroData } from '@Type/index';
 import { BoardMember } from '@Type/index';
+import { setCookie } from '@Utils/Cookies';
+
+export type KakaoLoginResponse = {
+  accessToken: string;
+  refreshToken: string;
+  expiresIn: number; // 1800
+  grantType: 'Bearer';
+};
 
 export const kakaoLogin = async (authorizationCode: string) => {
-  const res = await axios.post('/api/auth/kakao', { authorizationCode });
-  console.log(res.data);
-  return res.data;
+  try {
+    const res = await axios.post('/api/auth/kakao', { authorizationCode });
+    console.log(res.data.accessToken);
+    setCookie('access-token', res.data.accessToken);
+    return res.data;
+  } catch (err) {
+    console.log(err);
+  }
 };
 
 const DELAY_TIME = 1200;
