@@ -10,10 +10,11 @@ import { setCookie } from '@Utils/Cookies';
 
 // TODO
 // - [X] 소셜 로그인
-// refresh 토큰과 access 토큰 (cookie)
-// protected route
-// header에 권한 추가 (axios)
-// 만약에 로그인이 되어 있는 상태이면 로그인 페이지로 이동하지 않고, 메인 페이지로 이동
+// - [ ] refresh 토큰과 access 토큰 - https://s0ojin.tistory.com/44
+// - [X] access token 만료시간 설정
+// - [X] protected route
+// - [x] header에 권한 추가 (axios)
+// - [X] 만약에 로그인이 되어 있는 상태이면 로그인 페이지로 이동하지 않고, 메인 페이지로 이동
 
 const REST_API_KEY = import.meta.env.VITE_KAKAO_REST_API_KEY;
 const REDIRECT_URI = import.meta.env.VITE_KAKAO_REDIRECT_URI;
@@ -32,7 +33,11 @@ const SocialKakao = () => {
   const { mutate } = useMutation<KakaoLoginResponse, AxiosError, string>({
     mutationFn: kakaoLogin,
     onSuccess: (data) => {
-      setCookie('accessToken', data['accessToken'], { path: '/' });
+      const expirationTime = new Date();
+      expirationTime.setSeconds(expirationTime.getSeconds() + data.expiresIn);
+
+      setCookie('accessToken', data['accessToken'], { path: '/', expires: expirationTime });
+      localStorage.setItem('refreshToken', data['refreshToken']);
       navigate('/myboard');
     },
     onError: (error) => {
