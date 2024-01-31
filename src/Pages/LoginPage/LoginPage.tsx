@@ -1,9 +1,10 @@
 import { SocialLogin } from '@Components/SocialLogin';
 import { BubbleImage, LoginImage } from '@Assets/LoginImages';
 import styles from './LoginPage.module.scss';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { SVGIcon } from '@Icons/SVGIcon';
-import { Typography } from '@Components/Common/Typography';
+import { getCookie } from '@Utils/Cookies';
+import { useNavigate } from 'react-router-dom';
 
 const Carousel = () => {
   const [currnet, setCurrent] = useState<number>(0);
@@ -25,7 +26,7 @@ const Carousel = () => {
       </div>
       <div className={styles.carouselButton}>
         {[0, 1, 2].map((index) => (
-          <button onClick={() => setCurrent(index)}>
+          <button onClick={() => setCurrent(index)} key={`name- ${index}`}>
             <SVGIcon name={index === currnet ? 'fill-circle' : 'empty-circle'} size={8} />
           </button>
         ))}
@@ -39,6 +40,14 @@ const Carousel = () => {
 };
 
 export const LoginPage = () => {
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (getCookie('accessToken')) {
+      navigate('/myboard');
+    }
+  }, [navigate]);
+
   return (
     <div className={styles.container}>
       <Carousel />
