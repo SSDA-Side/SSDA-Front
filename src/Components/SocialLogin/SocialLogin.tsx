@@ -8,14 +8,6 @@ import { useMutation } from '@tanstack/react-query';
 import kakaoLogo from '@Assets/LoginImages/kakao_logo.svg';
 import { setCookie } from '@Utils/Cookies';
 
-// TODO
-// - [X] 소셜 로그인
-// - [ ] refresh 토큰과 access 토큰 - https://s0ojin.tistory.com/44
-// - [X] access token 만료시간 설정
-// - [X] protected route
-// - [x] header에 권한 추가 (axios)
-// - [X] 만약에 로그인이 되어 있는 상태이면 로그인 페이지로 이동하지 않고, 메인 페이지로 이동
-
 const REST_API_KEY = import.meta.env.VITE_KAKAO_REST_API_KEY;
 const REDIRECT_URI = import.meta.env.VITE_KAKAO_REDIRECT_URI;
 

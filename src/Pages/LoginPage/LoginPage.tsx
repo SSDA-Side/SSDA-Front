@@ -1,8 +1,10 @@
 import { SocialLogin } from '@Components/SocialLogin';
 import { BubbleImage, LoginImage } from '@Assets/LoginImages';
 import styles from './LoginPage.module.scss';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { SVGIcon } from '@Icons/SVGIcon';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { getCookie, setCookie } from '@Utils/Cookies';
 
 const Carousel = () => {
   const [currnet, setCurrent] = useState<number>(0);
@@ -38,8 +40,13 @@ const Carousel = () => {
 };
 
 export const LoginPage = () => {
-  // TODO : 로그인이 되어 있는 상태이면 로그인 페이지로 이동하지 않고, 메인 페이지로 이동
-  // useEffect 사용 시 충돌이 일어남
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  useEffect(() => {
+    if (location.pathname === '/oauth/callback/kakao') return;
+    if (getCookie('accessToken')) navigate('/myboard');
+  }, [navigate, location.pathname]);
   return (
     <div className={styles.container}>
       <Carousel />
