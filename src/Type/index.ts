@@ -34,3 +34,10 @@ export type BoardMember = {
   name: string;
   signedDate: Date | number;
 };
+
+export type KakaoLoginResponse = {
+  accessToken: string;
+  refreshToken: string;
+  expiresIn: number; // 1800
+  grantType: 'Bearer';
+};

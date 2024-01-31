@@ -4,7 +4,7 @@ import styles from './LoginPage.module.scss';
 import { useEffect, useState } from 'react';
 import { SVGIcon } from '@Icons/SVGIcon';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { getCookie, setCookie } from '@Utils/Cookies';
+import { getCookie } from '@Utils/Cookies';
 
 const Carousel = () => {
   const [currnet, setCurrent] = useState<number>(0);

@@ -1,16 +1,9 @@
 import { axios } from './Axios';
-import { Board, HeroData } from '@Type/index';
+import { Board, HeroData, KakaoLoginResponse } from '@Type/index';
 import { BoardMember } from '@Type/index';
 
-export type KakaoLoginResponse = {
-  accessToken: string;
-  refreshToken: string;
-  expiresIn: number; // 1800
-  grantType: 'Bearer';
-};
-
 export const kakaoLogin = async (authorizationCode: string) => {
-  const res = await axios.post('/api/auth/kakao', { authorizationCode });
+  const res = await axios.post<KakaoLoginResponse>('/api/auth/kakao', { authorizationCode });
   return res.data;
 };
 

@@ -1,12 +1,13 @@
 // import { useEffect } from 'react';
 import { useEffect, useState } from 'react';
 import styles from './SocialLogin.module.scss';
-import { KakaoLoginResponse, kakaoLogin } from '@APIs/index';
+import { kakaoLogin } from '@APIs/index';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { AxiosError } from 'axios';
 import { useMutation } from '@tanstack/react-query';
 import kakaoLogo from '@Assets/LoginImages/kakao_logo.svg';
 import { setCookie } from '@Utils/Cookies';
+import { KakaoLoginResponse } from '@Type/index';
 
 const REST_API_KEY = import.meta.env.VITE_KAKAO_REST_API_KEY;
 const REDIRECT_URI = import.meta.env.VITE_KAKAO_REDIRECT_URI;
@@ -22,7 +23,7 @@ const SocialKakao = () => {
   const location = useLocation();
   const navigate = useNavigate();
 
-  const { mutate } = useMutation<KakaoLoginResponse, AxiosError, string>({
+  const { mutate: KakaoLoginMutation } = useMutation<KakaoLoginResponse, AxiosError, string>({
     mutationFn: kakaoLogin,
     onSuccess: (data) => {
       const expirationTime = new Date();
@@ -47,9 +48,9 @@ const SocialKakao = () => {
 
   useEffect(() => {
     if (authorizationCode) {
-      mutate(authorizationCode);
+      KakaoLoginMutation(authorizationCode);
     }
-  }, [authorizationCode, mutate]);
+  }, [authorizationCode, KakaoLoginMutation]);
 
   return (
     <>
