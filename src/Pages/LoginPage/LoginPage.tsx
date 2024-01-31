@@ -1,10 +1,8 @@
 import { SocialLogin } from '@Components/SocialLogin';
 import { BubbleImage, LoginImage } from '@Assets/LoginImages';
 import styles from './LoginPage.module.scss';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { SVGIcon } from '@Icons/SVGIcon';
-import { getCookie } from '@Utils/Cookies';
-import { useNavigate } from 'react-router-dom';
 
 const Carousel = () => {
   const [currnet, setCurrent] = useState<number>(0);
@@ -40,14 +38,8 @@ const Carousel = () => {
 };
 
 export const LoginPage = () => {
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    if (getCookie('accessToken')) {
-      navigate('/myboard');
-    }
-  }, [navigate]);
-
+  // TODO : 로그인이 되어 있는 상태이면 로그인 페이지로 이동하지 않고, 메인 페이지로 이동
+  // useEffect 사용 시 충돌이 일어남
   return (
     <div className={styles.container}>
       <Carousel />
