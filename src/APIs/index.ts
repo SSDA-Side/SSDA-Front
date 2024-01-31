@@ -1,7 +1,6 @@
 import { axios } from './Axios';
 import { Board, HeroData } from '@Type/index';
 import { BoardMember } from '@Type/index';
-import { setCookie } from '@Utils/Cookies';
 
 export type KakaoLoginResponse = {
   accessToken: string;
@@ -11,14 +10,8 @@ export type KakaoLoginResponse = {
 };
 
 export const kakaoLogin = async (authorizationCode: string) => {
-  try {
-    const res = await axios.post('/api/auth/kakao', { authorizationCode });
-    console.log(res.data.accessToken);
-    setCookie('access-token', res.data.accessToken);
-    return res.data;
-  } catch (err) {
-    console.log(err);
-  }
+  const res = await axios.post('/api/auth/kakao', { authorizationCode });
+  return res.data;
 };
 
 const DELAY_TIME = 1200;
