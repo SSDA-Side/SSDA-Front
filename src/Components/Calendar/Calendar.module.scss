@@ -6,16 +6,14 @@
     align-items: center;
     height: var(--size-6);
     margin: var(--size-5) var(--size-5) var(--size-3) var(--size-5);
-    padding: 0 var(--size-4);
+    padding: 0 var(--size-3);
     span {
       font-size: 18px;
-      margin: 0 10px;
-      font-weight: lighter;
+      font-weight: 200;
     }
     button {
       background-color: transparent;
       border: none;
-      color: #000;
       cursor: pointer;
       font-size: var(--size-6);
       svg {
@@ -28,7 +26,6 @@
   table {
     width: 100%;
     padding: 0 var(--size-5);
-    border: 2px solid #000;
     thead {
       height: var(--size-13);
       th {
@@ -52,13 +49,11 @@
           width: var(--size-10);
           p {
             border-radius: 50%;
-            background-color: #ff8066;
+            background-color: var(--orange600);
             height: var(--size-10);
             text-align: center;
             line-height: var(--size-10);
           }
-        }
-        .date {
         }
       }
     }
