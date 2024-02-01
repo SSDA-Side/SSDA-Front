@@ -73,7 +73,7 @@ export const Calendar = () => {
               prevMonth();
             }}
           >
-            {day.getDate()}
+            <p>{day.getDate()}</p>
           </td>
         );
       }
@@ -87,7 +87,7 @@ export const Calendar = () => {
               nextMonth();
             }}
           >
-            {day.getDate()}
+            <p>{day.getDate()}</p>
           </td>
         );
       }
@@ -97,7 +97,7 @@ export const Calendar = () => {
           onClick={() => onClickDay(day.getDate())}
           className={day.getDate() === selectedDay ? styles.selectedDate : styles.date}
         >
-          {day.getDate()}
+          <p>{day.getDate()}</p>
         </td>
       );
     });
@@ -145,11 +145,12 @@ export const Calendar = () => {
             prevMonth();
           }}
         >
-          <SVGIcon name="left" size={22} />
+          <SVGIcon name="left" />
         </button>
         <button onClick={() => setIsModalOpen(true)}>
           <span>
-            {currentMonth.getFullYear()}년 {currentMonth.getMonth() + 1}월 {selectedDay}일
+            {currentMonth.getFullYear()}년 {currentMonth.getMonth() > 8 ? null : '0'}
+            {currentMonth.getMonth() + 1}월
           </span>
         </button>
         <button
@@ -158,20 +159,20 @@ export const Calendar = () => {
             nextMonth();
           }}
         >
-          <SVGIcon name="right" size={22} />
+          <SVGIcon name="right" />
         </button>
       </div>
       <table>
         <thead>
           <tr>
             {daysOfWeek.map((day, i) => (
-              <th key={i}>{day}</th>
+              <th key={`week-${i}`}>{day}</th>
             ))}
           </tr>
         </thead>
         <tbody>
           {calendarWeeks.map((row: JSX.Element[], i: number) => (
-            <tr key={i}>{row}</tr>
+            <tr key={`day-${i}`}>{row}</tr>
           ))}
         </tbody>
       </table>
