@@ -1,12 +1,22 @@
-.full-container {
-  .text-area {
-    width: 350px;
-    height: 186px;
-    padding: 20px;
+.container {
+  width: 100%;
+  padding: 0 var(--size-5);
+  textarea {
+    width: calc(100% - var(--size-10));
     font-weight: 400;
+    padding: var(--size-5);
     font-size: var(--size-4);
+    box-sizing: content-box;
+    border: 1px solid var(--gray400);
+    resize: none;
     &::placeholder {
-      color: var(--gray500);
+      color: var(--gray400);
+    }
+    &:focus {
+      outline: none;
+    }
+    &:focus-visible {
+      outline: 1px solid transparent;
     }
   }
 }
