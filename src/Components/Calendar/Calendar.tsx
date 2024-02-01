@@ -3,9 +3,18 @@ import { useState } from 'react';
 import { Modal } from '@Components/Common/Modal';
 import { SelectDateBox } from '@Components/SelectDateBox';
 import { SVGIcon } from '@Icons/SVGIcon';
+import cn from 'classnames';
 
 const daysOfWeek = ['일', '월', '화', '수', '목', '금', '토'];
 const today = new Date();
+
+type PresenterProps = {
+  isPrevMonth: boolean;
+  isNextMonth: boolean;
+  isSelectedDay: boolean;
+  itemDay: number;
+  onClick: () => void;
+};
 
 export const Calendar = () => {
   const [selectedDay, setSelectedDay] = useState<number>(today.getDate());
@@ -13,7 +22,7 @@ export const Calendar = () => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
   // 클릭한 날짜를 선택하고, 선택한 날짜를 저장하는 함수
-  const onClickDay = (day: number) => {
+  const handleClickDay = (day: number) => {
     setSelectedDay(day);
   };
 
@@ -61,45 +70,39 @@ export const Calendar = () => {
   };
 
   // 달력에 표시할 날짜를 태그로 만드는 함수
+  const TdPresenter = ({ isPrevMonth, isNextMonth, isSelectedDay, itemDay, onClick }: PresenterProps) => {
+    return (
+      <td
+        className={cn({
+          [styles.prevDate]: isPrevMonth,
+          [styles.nextDate]: isNextMonth,
+          [styles.selectedDate]: !isPrevMonth && !isNextMonth && isSelectedDay,
+        })}
+        onClick={onClick}
+      >
+        <p>{itemDay}</p>
+      </td>
+    );
+  };
+
   const buildCalendarTags = (calendarDays: Date[]) => {
     return calendarDays.map((day: Date, i: number) => {
-      if (day.getMonth() < currentMonth.getMonth()) {
-        return (
-          <td
-            key={i}
-            className={styles.prevDate}
-            onClick={() => {
-              onClickDay(day.getDate());
-              prevMonth();
-            }}
-          >
-            <p>{day.getDate()}</p>
-          </td>
-        );
-      }
-      if (day.getMonth() > currentMonth.getMonth()) {
-        return (
-          <td
-            key={i}
-            className={styles.nextDate}
-            onClick={() => {
-              onClickDay(day.getDate());
-              nextMonth();
-            }}
-          >
-            <p>{day.getDate()}</p>
-          </td>
-        );
-      }
-      return (
-        <td
-          key={i}
-          onClick={() => onClickDay(day.getDate())}
-          className={day.getDate() === selectedDay ? styles.selectedDate : styles.date}
-        >
-          <p>{day.getDate()}</p>
-        </td>
-      );
+      const itemDay = day.getDate();
+      const isPrevMonth = day.getMonth() < currentMonth.getMonth();
+      const isNextMonth = day.getMonth() > currentMonth.getMonth();
+      const isSelectedDay = day.getDate() === selectedDay;
+      console.log(itemDay, isSelectedDay);
+
+      const tdProps = { isPrevMonth, isNextMonth, isSelectedDay, itemDay };
+
+      const handleClick = () => {
+        handleClickDay(day.getDate());
+
+        isPrevMonth && prevMonth();
+        isNextMonth && nextMonth();
+      };
+
+      return <TdPresenter key={`day-${i}`} {...tdProps} onClick={handleClick} />;
     });
   };
 
@@ -132,7 +135,7 @@ export const Calendar = () => {
             <SelectDateBox
               setCurrentMonth={setCurrentMonth}
               setIsModalOpen={setIsModalOpen}
-              onClickDay={onClickDay}
+              onClickDay={handleClickDay}
               currentMonth={currentMonth}
             />
           }
@@ -141,7 +144,7 @@ export const Calendar = () => {
       <div className={styles.nav}>
         <button
           onClick={() => {
-            onClickDay(1);
+            handleClickDay(1);
             prevMonth();
           }}
         >
@@ -155,7 +158,7 @@ export const Calendar = () => {
         </button>
         <button
           onClick={() => {
-            onClickDay(1);
+            handleClickDay(1);
             nextMonth();
           }}
         >
