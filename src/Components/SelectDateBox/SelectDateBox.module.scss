@@ -1,4 +1,4 @@
-.full-container {
+.container {
   text-align: center;
   width: 100%;
   color: var(--gray800);
@@ -25,12 +25,5 @@
         // TODO: option 태그 스타일링
       }
     }
-  }
-  .button-container {
-    width: 307px;
-    padding-bottom: 44px;
-    margin: 0 auto;
-    justify-content: center;
-    align-items: center;
   }
 }

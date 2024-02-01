@@ -1,22 +1,84 @@
 import { SVGIcon } from '@Icons/SVGIcon';
 import styles from './Modal.module.scss';
+import { useState } from 'react';
+import { createPortal } from 'react-dom';
+import cn from 'classnames';
+import { Typography } from '../Typography';
+import { CTAButton } from '../Button';
+import { ButtonAs } from '../Button/Button';
 
 type ModalProps = {
-  setClose: React.Dispatch<React.SetStateAction<boolean>>;
-  content: React.ReactNode;
-  title: string;
+  children: React.ReactNode; // 해당 요소 클릭 시 모달 띄우기
+  title: string; // 모달의 제목
+  className: string; // 모달을 띄울 위치
+  content?: React.ReactNode; // 모달의 컨텐츠에 들어갈 컴포넌트
+  button?: {
+    // 모달의 버튼
+    onClick?: () => void;
+    buttonName: string;
+    buttonType: ButtonAs;
+  };
 };
 
-export const Modal = ({ setClose, content, title }: ModalProps) => {
+export const Modal = ({ children, title, className, content, button }: ModalProps) => {
+  const [showModal, setShowModal] = useState(false);
+
+  const handleOverlayClick = () => {
+    setShowModal(false);
+  };
+
   return (
-    <div className={styles.fullContainer}>
+    <>
+      <button
+        onClick={() => {
+          setShowModal(true);
+        }}
+      >
+        {children}
+      </button>
+      {showModal &&
+        createPortal(
+          <ModalContent onClose={() => setShowModal(false)} title={title} content={content} button={button} />,
+          document.querySelector(className) as Element,
+        )}
+      {showModal && <div className={styles.overlay} onClick={handleOverlayClick}></div>}
+    </>
+  );
+};
+
+type ModalContentProps = {
+  onClose: () => void;
+  className?: string;
+  title: string;
+  content?: React.ReactNode;
+  button?: {
+    onClick?: () => void;
+    buttonName: string;
+    buttonType: ButtonAs;
+  };
+};
+
+const ModalContent = ({ onClose, title, content, className, button }: ModalContentProps) => {
+  return (
+    <div className={cn(styles.container, className)}>
       <div className={styles.header}>
-        <h3>{title}</h3>
-        <button onClick={() => setClose(false)}>
+        <Typography as="h2">{title}</Typography>
+        <button onClick={onClose}>
           <SVGIcon name="close" />
         </button>
       </div>
       <div className={styles.content}>{content}</div>
+      <div className={styles.footer}>
+        {button?.buttonType === 'CTA' && (
+          <CTAButton
+            children={button.buttonName}
+            onClick={() => {
+              button.onClick && button.onClick();
+              onClose();
+            }}
+          />
+        )}
+      </div>
     </div>
   );
 };

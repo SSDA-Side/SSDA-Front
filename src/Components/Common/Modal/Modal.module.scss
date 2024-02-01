@@ -1,29 +1,31 @@
-.full-container {
+.container {
   width: 343px;
+  transform: translate(-50%, -50%);
+  top: 50%;
+  left: 50%;
   height: auto;
   border-radius: var(--radii-2);
   background-color: var(--white);
-  margin: auto;
-  display: block;
   position: fixed;
   z-index: 9;
   border: var(--gray400) 1px solid;
   .header {
     width: 100%;
-    height: 58px;
-    padding-top: 29px;
-    position: relative;
-    h3 {
+    height: var(--size-12);
+    margin: var(--size-7) 0 var(--size-5) 0;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    h2 {
       font-size: var(--size-5);
       font-weight: 600;
-      text-align: center;
     }
     button {
       background-color: transparent;
       border: none;
       position: absolute;
-      top: 23px;
-      right: 12px;
+      top: var(--size-10);
+      right: var(--size-3);
       font-size: 15px;
       cursor: pointer;
     }
@@ -33,4 +35,27 @@
     margin: 0 auto;
     height: auto;
   }
+  .footer {
+    width: 307px;
+    margin: 0 var(--size-4) var(--size-10) var(--size-4);
+    justify-content: center;
+    align-items: center;
+  }
+}
+
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  margin: auto;
+  width: 100%;
+  height: 100%;
+  background-color: var(--black);
+  opacity: 0.5;
+  z-index: 8;
+  display: block;
+  cursor: pointer;
+  overflow: hidden;
 }

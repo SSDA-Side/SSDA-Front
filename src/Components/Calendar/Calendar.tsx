@@ -1,9 +1,9 @@
 import styles from './Calendar.module.scss';
 import { useState } from 'react';
-import { Modal } from '@Components/Common/Modal';
 import { SelectDateBox } from '@Components/SelectDateBox';
 import { SVGIcon } from '@Icons/SVGIcon';
 import cn from 'classnames';
+import { Modal } from '@Components/Common/Modal/Modal';
 
 const daysOfWeek = ['일', '월', '화', '수', '목', '금', '토'];
 const today = new Date();
@@ -19,7 +19,7 @@ type PresenterProps = {
 export const Calendar = () => {
   const [selectedDay, setSelectedDay] = useState<number>(today.getDate());
   const [currentMonth, setCurrentMonth] = useState<Date>(today);
-  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const [selectDate, setSelectDate] = useState<Date>(new Date());
 
   // 클릭한 날짜를 선택하고, 선택한 날짜를 저장하는 함수
   const handleClickDay = (day: number) => {
@@ -91,7 +91,6 @@ export const Calendar = () => {
       const isPrevMonth = day.getMonth() < currentMonth.getMonth();
       const isNextMonth = day.getMonth() > currentMonth.getMonth();
       const isSelectedDay = day.getDate() === selectedDay;
-      console.log(itemDay, isSelectedDay);
 
       const tdProps = { isPrevMonth, isNextMonth, isSelectedDay, itemDay };
 
@@ -126,21 +125,7 @@ export const Calendar = () => {
   const calendarWeeks = buildCalendarWeek(calendarTags);
 
   return (
-    <div className={styles.calendar}>
-      {isModalOpen && (
-        <Modal
-          setClose={setIsModalOpen}
-          title="캘린더 날짜 선택"
-          content={
-            <SelectDateBox
-              setCurrentMonth={setCurrentMonth}
-              setIsModalOpen={setIsModalOpen}
-              onClickDay={handleClickDay}
-              currentMonth={currentMonth}
-            />
-          }
-        />
-      )}
+    <div className={cn(styles.calendar, 'calendar-modal')}>
       <div className={styles.nav}>
         <button
           onClick={() => {
@@ -150,12 +135,24 @@ export const Calendar = () => {
         >
           <SVGIcon name="left" />
         </button>
-        <button onClick={() => setIsModalOpen(true)}>
+        <Modal
+          title="캘린더 날짜 선택"
+          className={'.calendar-modal'}
+          button={{
+            buttonName: '완료',
+            buttonType: 'CTA',
+            onClick: () => {
+              handleClickDay(1);
+              setCurrentMonth(selectDate);
+            },
+          }}
+          content={<SelectDateBox currentMonth={currentMonth} setSelectDate={setSelectDate} />}
+        >
           <span>
             {currentMonth.getFullYear()}년 {currentMonth.getMonth() > 8 ? null : '0'}
             {currentMonth.getMonth() + 1}월
           </span>
-        </button>
+        </Modal>
         <button
           onClick={() => {
             handleClickDay(1);
