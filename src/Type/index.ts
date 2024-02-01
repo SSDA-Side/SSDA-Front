@@ -1,17 +1,24 @@
 export type IconName =
   | 'menu'
-  | 'exit'
   | 'right'
   | 'left'
   | 'close'
   | 'edit'
   | 'user'
-  | 'header/bell'
-  | 'more'
   | 'users'
   | 'send'
   | 'empty-circle'
-  | 'fill-circle';
+  | 'fill-circle'
+  | 'bell'
+  | 'bell_new'
+  | 'more'
+  | 'send'
+  | 'exit'
+  | 'trash'
+  | 'image'
+  | 'sunny'
+  | 'clock'
+  | 'check';
 
 export type HeroData = {
   username: string;

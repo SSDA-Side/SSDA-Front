@@ -10,6 +10,11 @@
   &:hover {
     cursor: pointer;
   }
+
+  &:disabled {
+    --button-disabled: var(--gray500);
+    color: var(--button-disabled);
+  }
 }
 
 .cta-button {

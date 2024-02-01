@@ -22,13 +22,10 @@
       <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.667 5.333H5.333A2.667 2.667 0 0 0 2.667 8v18.667a2.667 2.667 0 0 0 2.666 2.666H24a2.667 2.667 0 0 0 2.667-2.666v-9.334"/>
       <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M24.667 3.333a2.829 2.829 0 0 1 4 4L16 20l-5.333 1.333L12 16 24.667 3.333Z"/>
     </symbol>
-    <symbol id="user" fill="none" viewBox="0 0 32 32">
-      <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M26.667 28v-2.667A5.333 5.333 0 0 0 21.333 20H10.667a5.333 5.333 0 0 0-5.334 5.333V28M16 14.667A5.333 5.333 0 1 0 16 4a5.333 5.333 0 0 0 0 10.667Z"/>
-    </symbol>
-    <symbol id="header/bell" fill="none" viewBox="0 0 32 32">
+    <symbol id="bell" fill="none" viewBox="0 0 32 32">
       <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M23.766 11.11c0-1.91-.772-3.741-2.148-5.092a7.403 7.403 0 0 0-5.185-2.109c-1.945 0-3.81.759-5.186 2.11a7.134 7.134 0 0 0-2.148 5.09c0 8.4-3.666 10.8-3.666 10.8h22s-3.667-2.4-3.667-10.8Zm-5.333 15.8c-.254.304-.619.556-1.058.732a3.915 3.915 0 0 1-1.442.267 3.915 3.915 0 0 1-1.443-.267c-.438-.176-.803-.428-1.057-.733"/>
     </symbol>
-    <symbol id="header/bell2" fill="none" viewBox="0 0 32 32">
+    <symbol id="bell_new" fill="none" viewBox="0 0 32 32">
       <g clip-path="url(#a)">
         <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M23.766 11.11c0-1.91-.772-3.741-2.148-5.092a7.403 7.403 0 0 0-5.185-2.109c-1.945 0-3.81.759-5.186 2.11a7.134 7.134 0 0 0-2.148 5.09c0 8.4-3.666 10.8-3.666 10.8h22s-3.667-2.4-3.667-10.8Zm-5.333 15.8c-.254.304-.619.556-1.058.732a3.915 3.915 0 0 1-1.442.267 3.915 3.915 0 0 1-1.443-.267c-.438-.176-.803-.428-1.057-.733"/>
         <circle cx="27.933" cy="2.409" r="2.5" fill="#FF8066"/>
@@ -39,11 +36,14 @@
         </clipPath>
       </defs>
     </symbol>
-    <symbol id="more" fill="none" viewBox="0 0 32 32">
-      <path fill="currentColor" d="M16 17.333a1.333 1.333 0 1 0 0-2.666 1.333 1.333 0 0 0 0 2.666ZM16 8a1.333 1.333 0 1 0 0-2.667A1.333 1.333 0 0 0 16 8Zm0 18.667A1.333 1.333 0 1 0 16 24a1.333 1.333 0 0 0 0 2.667Z"/>
+    <symbol id="user" fill="none" viewBox="0 0 32 32">
+      <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M26.667 28v-2.667A5.333 5.333 0 0 0 21.333 20H10.667a5.333 5.333 0 0 0-5.334 5.333V28M16 14.667A5.333 5.333 0 1 0 16 4a5.333 5.333 0 0 0 0 10.667Z"/>
     </symbol>
     <symbol id="users" fill="none" viewBox="0 0 32 32">
       <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M22.667 28v-2.667A5.333 5.333 0 0 0 17.333 20H6.667a5.333 5.333 0 0 0-5.334 5.333V28M12 14.667A5.333 5.333 0 1 0 12 4a5.333 5.333 0 0 0 0 10.667ZM30.667 28v-2.667a5.333 5.333 0 0 0-4-5.16m-5.334-16a5.334 5.334 0 0 1 0 10.334"/>
+    </symbol>
+    <symbol id="more" fill="none" viewBox="0 0 32 32">
+      <path fill="currentColor" d="M16 17.333a1.333 1.333 0 1 0 0-2.666 1.333 1.333 0 0 0 0 2.666ZM16 8a1.333 1.333 0 1 0 0-2.667A1.333 1.333 0 0 0 16 8Zm0 18.667A1.333 1.333 0 1 0 16 24a1.333 1.333 0 0 0 0 2.667Z"/>
     </symbol>
     <symbol id="send" fill="none" viewBox="0 0 32 32">
       <g clip-path="url(#a)">
@@ -60,6 +60,20 @@
     </symbol>
     <symbol id="trash" fill="none" viewBox="0 0 24 24">
       <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 6h18m-2 0v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2m-6 5v6m4-6v6"/>
+    </symbol>
+    <symbol id="image"  fill="none" viewBox="0 0 32 32">
+      <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M23.778 6H8.222A2.222 2.222 0 0 0 6 8.222v15.556C6 25.005 6.995 26 8.222 26h15.556A2.222 2.222 0 0 0 26 23.778V8.222A2.222 2.222 0 0 0 23.778 6Z"/>
+      <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m26 19.334-5.555-5.556L8.223 26m3.887-12.222a1.667 1.667 0 1 0 0-3.334 1.667 1.667 0 0 0 0 3.334Z"/>
+    </symbol>
+    <symbol id="sunny"  fill="none" viewBox="0 0 32 32">
+      <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 21.417a5.417 5.417 0 1 0 0-10.834 5.417 5.417 0 0 0 0 10.834Zm0-17.334V6.25m0 19.5v2.167M7.572 7.572 9.11 9.11m13.78 13.78 1.539 1.538M4.084 16H6.25m19.5 0h2.166M7.572 24.428 9.11 22.89M22.89 9.11l1.539-1.538"/>
+    </symbol>
+    <symbol id="clock"  fill="none" viewBox="0 0 32 32">
+      <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 26.833c5.983 0 10.833-4.85 10.833-10.833 0-5.983-4.85-10.833-10.833-10.833-5.983 0-10.833 4.85-10.833 10.833 0 5.983 4.85 10.833 10.833 10.833Z"/>
+      <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 9.5V16l4.333 2.167"/>
+    </symbol>
+    <symbol id="check"  fill="none" viewBox="0 0 32 32">
+      <path d="M26.6666 8L12 22.6667L5.33331 16" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
     </symbol>
   </defs>
 </svg>
