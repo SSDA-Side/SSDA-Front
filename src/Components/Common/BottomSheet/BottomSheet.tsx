@@ -1,18 +1,19 @@
 import React from 'react';
 import styles from './BottomSheet.module.scss';
 import { SVGIcon } from '@Icons/SVGIcon';
+import { Typography } from '../Typography';
 
-type BottonSheetProps = {
+type BottomSheetProps = {
   setClose: React.Dispatch<React.SetStateAction<boolean>>;
   content: React.ReactNode;
   title: string;
 };
 
-export const BottomSheet = ({ setClose, content, title }: BottonSheetProps) => {
+export const BottomSheet = ({ setClose, content, title }: BottomSheetProps) => {
   return (
     <div className={styles.fullContainer}>
       <div className={styles.header}>
-        <span>{title}</span>
+        <Typography as="h2">{title}</Typography>
         <button onClick={() => setClose(false)}>
           <SVGIcon name="close" />
         </button>

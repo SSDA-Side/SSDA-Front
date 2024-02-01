@@ -9,20 +9,21 @@
   border: 1px solid var(--gray400);
   .header {
     width: 100%;
-    height: 56px;
-    margin-top: 25px;
-    text-align: center;
-    span {
+    height: var(--size-12);
+    margin: var(--size-6) 0 var(--size-5) 0;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    h2 {
       font-size: var(--size-5);
       font-weight: 600;
-      text-align: center;
     }
     button {
       background-color: transparent;
       border: none;
       position: absolute;
-      top: 23px;
-      right: 12px;
+      top: var(--size-10);
+      right: var(--size-10);
       font-size: 15px;
       cursor: pointer;
     }
