@@ -1,7 +1,8 @@
-import Axios, { type CreateAxiosDefaults, AxiosError } from 'axios';
+import { getCookie } from '@Utils/Cookies';
+import Axios, { type CreateAxiosDefaults } from 'axios';
 
 const axiosConfig: CreateAxiosDefaults = {
-  baseURL: '',
+  baseURL: import.meta.env.VITE_API_URL,
   headers: {
     'Content-Type': 'application/json',
     'Access-Control-Allow-Origin': '*', // CORS 문제 해결
@@ -10,16 +11,20 @@ const axiosConfig: CreateAxiosDefaults = {
   timeout: 2500,
 };
 
-export const axios = Axios.create(axiosConfig);
+const axios = Axios.create(axiosConfig);
 
 axios.interceptors.request.use(
-  // 요청이 성공했을 때 실행될 함수
-  (config) => {
-    return config;
+  (request) => {
+    const token = getCookie('accessToken');
+    if (token) {
+      request.headers['Authorization'] = `Bearer ${token}`;
+    }
+
+    return request;
   },
-  // 요청이 실패했을 때 실행될 함수
-  (error: AxiosError) => {
-    console.log('axios request error', error);
+  (error) => {
     return Promise.reject(error);
   },
 );
+
+export { axios };

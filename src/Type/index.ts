@@ -6,6 +6,9 @@ export type IconName =
   | 'edit'
   | 'user'
   | 'users'
+  | 'send'
+  | 'empty-circle'
+  | 'fill-circle'
   | 'bell'
   | 'bell_new'
   | 'more'
@@ -37,4 +40,11 @@ export type BoardMember = {
   profileUrl: string;
   name: string;
   signedDate: Date | number;
+};
+
+export type KakaoLoginResponse = {
+  accessToken: string;
+  refreshToken: string;
+  expiresIn: number; // 1800
+  grantType: 'Bearer';
 };

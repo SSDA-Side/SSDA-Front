@@ -1,12 +1,11 @@
 import { axios } from './Axios';
-import { Board, HeroData } from '@Type/index';
+import { Board, HeroData, KakaoLoginResponse } from '@Type/index';
 import { BoardMember } from '@Type/index';
 
-// export const createPost = async (post: Post) => {
-//   const res = await axios.post<Post>('/posts', post);
-//   console.log(res.data);
-//   return res.data;
-// };
+export const kakaoLogin = async (authorizationCode: string) => {
+  const res = await axios.post<KakaoLoginResponse>('/api/auth/kakao', { authorizationCode });
+  return res.data;
+};
 
 const DELAY_TIME = 1200;
 

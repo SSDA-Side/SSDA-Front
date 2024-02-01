@@ -26,4 +26,13 @@ export default defineConfig({
       localsConvention: 'camelCase',
     },
   },
+  server: {
+    port: 3000,
+    proxy: {
+      '/api': {
+        target: 'http://118.67.143.25:8080',
+        changeOrigin: true,
+      },
+    },
+  },
 });
