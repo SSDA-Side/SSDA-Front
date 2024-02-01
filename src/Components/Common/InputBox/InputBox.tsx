@@ -1,14 +1,15 @@
-import { useState } from 'react';
+import { Children, useState } from 'react';
 import styles from './InputBox.module.scss';
+import cn from 'classnames';
 
 type InputBoxProps = {
-  placeHolder: string;
-};
+  className?: string;
+} & React.InputHTMLAttributes<HTMLInputElement>;
 
-export const InputBox = ({ placeHolder }: InputBoxProps) => {
+export const InputBox = ({ className, children, ...rest }: InputBoxProps) => {
   const [inputCount, setInputCount] = useState<number>(0);
 
-  const onInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const hadnleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInputCount(() => e.target.value.length);
   };
 
@@ -16,14 +17,17 @@ export const InputBox = ({ placeHolder }: InputBoxProps) => {
     <div className={styles.fullContainer}>
       <input
         type="text"
-        className={styles.inputBox}
-        placeholder={placeHolder}
+        className={cn(styles.inputBox, className)}
         maxLength={10}
-        onChange={onInputChange}
+        onChange={hadnleInputChange}
+        {...rest}
       />
       <p>
-        <span>{inputCount}</span>
-        <span>/10</span>
+        {children && (
+          <span>
+            {inputCount}/{children}
+          </span>
+        )}
       </p>
     </div>
   );
