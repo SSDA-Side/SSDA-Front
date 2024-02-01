@@ -1,11 +1,9 @@
-// import { axios } from './axios';
-
 import { axios } from './Axios';
 import { Board, HeroData } from '@Type/index';
 import { BoardMember } from '@Type/index';
 
 // export const createPost = async (post: Post) => {
-//   const res = await axios().post<Post>('/posts', post);
+//   const res = await axios.post<Post>('/posts', post);
 //   console.log(res.data);
 //   return res.data;
 // };
@@ -17,7 +15,7 @@ const DELAY_TIME = 1200;
  * API가 연결되면 해당 함수는 불필요
  * */
 const fetchJSON = async <T>(path: string) => {
-  const response = await axios().get<T>(path);
+  const response = await axios.get<T>(path);
 
   return new Promise<T>((resolve) => {
     setTimeout(() => {
@@ -26,7 +24,53 @@ const fetchJSON = async <T>(path: string) => {
   });
 };
 
+const fakePost = async (path: string) => {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      resolve(new Response(null, { status: 200 }));
+    }, DELAY_TIME);
+  });
+};
+
 export const getHeroData = () => fetchJSON<HeroData>('/board_hero_response.json');
 export const getBoardList = () => fetchJSON<Board[]>('/board_list_response.json');
 export const getBoardMemberList = ({ boardId }: { boardId: number }) =>
   fetchJSON<BoardMember[]>('/member_list_response.json');
+
+export const createDiary = ({
+  boardId,
+  diaryTitle,
+  contents,
+  stickerId,
+  diaryImgs,
+}: {
+  boardId: number;
+  diaryTitle: string;
+  contents: string;
+  stickerId: number;
+  diaryImgs: FileList;
+}) => fakePost('/api/diary');
+// export const createDiary = ({
+//   boardId,
+//   diaryTitle,
+//   contents,
+//   stickerId,
+//   diaryImgs,
+// }: {
+//   boardId: number;
+//   diaryTitle: string;
+//   contents: string;
+//   stickerId: number;
+//   diaryImgs: FileList;
+// }) => {
+//   return axios.postForm(
+//     'http://118.67.143.25:8080/api/diary',
+//     { boardId, diaryTitle, contents, stickerId, diaryImgs },
+//     {
+//       headers: {
+//         'Content-Type': 'multipart/form-data',
+//         Authorization: 'Bearer BoakzEncfqqFsgxpTS4Ubyqw6OGjjRNChuDbKJZL9PrXgbn1bOBFLwIbGoEKKiVOAAABjUlp1XSi-KZYUq23DA',
+//       },
+//     },
+//   );
+// };

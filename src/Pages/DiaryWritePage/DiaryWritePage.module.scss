@@ -1,0 +1,95 @@
+.form-container {
+  height: 100%;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-6);
+  padding: var(--page-padding-y) var(--page-padding-x);
+  height: 100%;
+}
+
+.disabled-controller {
+  border: none;
+  height: 100%;
+}
+
+.emotion-section {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+
+.greyed {
+  color: var(--gray300);
+}
+
+.primary {
+  color: var(--primary);
+}
+
+.diary-title-box {
+  border: none;
+  outline: none;
+  width: 100%;
+  font-size: 1.4375rem;
+  line-height: 1.625rem;
+  font-weight: 700;
+}
+
+.write-container {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-2);
+  height: 100%;
+}
+
+.write-wrapper {
+  flex: 1;
+}
+
+.write-text-box {
+  border: none;
+  outline: none;
+  width: 100%;
+  height: 100%;
+  font-size: var(--size-5);
+  line-height: var(--size-10);
+  resize: none;
+
+  &::-webkit-scrollbar {
+    width: 16px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background-color: transparent;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    border: 4px solid transparent;
+    background: #606060;
+    background-clip: content-box;
+    border-radius: 8px;
+  }
+}
+
+.image-list {
+  display: flex;
+  flex-direction: row;
+  gap: var(--spacing-2);
+}
+
+.image-placeholder {
+  width: 100%;
+  max-width: var(--size-32);
+  aspect-ratio: 1/1;
+  border-radius: var(--radii-sm);
+  background-color: var(--gray300);
+  background-size: cover;
+}
+
+.footer {
+  box-shadow: 0 0 4px rgba(0, 0, 0, 0.2);
+}
