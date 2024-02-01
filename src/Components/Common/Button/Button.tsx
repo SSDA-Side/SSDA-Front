@@ -14,7 +14,7 @@ import type { ButtonHTMLAttributes, PropsWithChildren } from 'react';
 /** Util */
 import cn from 'classnames';
 
-type ButtonAs = 'default' | 'CTA' | 'iconButton' | 'editButton';
+export type ButtonAs = 'default' | 'CTA' | 'iconButton' | 'editButton';
 
 type ButtonProp = PropsWithChildren<
   {
