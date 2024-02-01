@@ -1,6 +1,5 @@
 .full-container {
   display: flex;
-  position: relative;
   .input-box {
     width: 343px;
     height: 48px;
@@ -12,6 +11,9 @@
     }
     &:focus {
       outline: none;
+    }
+    &:focus-visible {
+      outline: 2px solid transparent;
     }
   }
   p {
