@@ -1,4 +1,4 @@
-import { Children, useState } from 'react';
+import { useState } from 'react';
 import styles from './InputBox.module.scss';
 import cn from 'classnames';
 
