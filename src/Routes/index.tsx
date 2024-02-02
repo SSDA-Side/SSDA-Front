@@ -50,15 +50,15 @@ export const routes = [
             element: <MyboardLayout />,
             children: [
               {
-                path: 'myboard/:boardId/calendar',
+                path: 'myboard/calendar/:boardId',
                 element: <DiaryCalendarPage />,
               },
               {
-                path: 'myboard/:boardId/new',
+                path: 'myboard/new/:boardId',
                 element: <DiaryNewPage />,
               },
               {
-                path: 'myboard/:boardId/all',
+                path: 'myboard/all/:boardId',
                 element: <DiaryAllPage />,
               },
             ],
