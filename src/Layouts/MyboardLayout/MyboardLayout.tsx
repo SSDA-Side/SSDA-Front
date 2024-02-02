@@ -20,9 +20,8 @@ const tabList = [
 
 export const MyboardLayout = () => {
   const navigate = useNavigate();
-  const boardId = '1';
   const location = useLocation();
-
+  const boardId = location.pathname.split('/')[3];
   return (
     <div className={styles.container}>
       <div className={styles.tabBar}>
