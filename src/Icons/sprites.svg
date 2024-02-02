@@ -3,6 +3,12 @@
     <symbol id="menu" fill="none" viewBox="0 0 32 32">
       <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16h24M4 8h24M4 24h24"/>
     </symbol>
+    <symbol fill="none" viewBox="0 0 8 8" id="fill-circle"  xmlns="http://www.w3.org/2000/svg">
+      <circle cx="4" cy="4" r="4" fill="#fff"/>
+    </symbol>
+    <symbol fill="none" viewBox="0 0 8 8" id="empty-circle" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="4" cy="4" r="4" fill="#fff" fill-opacity=".3"/>
+    </symbol>
     <symbol id="right" fill="none" viewBox="0 0 32 32">
       <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m12 24 8-8-8-8"/>
     </symbol>

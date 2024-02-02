@@ -20,6 +20,7 @@ import { SettingPage } from '@Pages/SettingPage';
 import { SettingProfilePage } from '@Pages/SettingProfilePage';
 
 import type { RouteObject } from 'react-router-dom';
+import { ProtectedRouter } from './ProtectedRouter';
 
 export const routes = [
   {
@@ -32,6 +33,10 @@ export const routes = [
         children: [
           {
             path: 'login',
+            element: <LoginPage />,
+          },
+          {
+            path: 'oauth/callback/kakao',
             element: <LoginPage />,
           },
           {
@@ -98,6 +103,51 @@ export const routes = [
           {
             path: '*',
             element: <NotFoundPage />,
+          },
+          {
+            element: <ProtectedRouter />,
+            children: [
+              {
+                path: 'onboarding',
+                element: <OnBoardingPage />,
+              },
+              {
+                path: 'myboard',
+                element: <MyBoardPage />,
+              },
+              {
+                path: 'myboard/:boardId/edit',
+                element: <DiaryEditPage />,
+              },
+              {
+                path: 'myboard/:boardId/write',
+                element: <DiaryWritePage />,
+              },
+              {
+                path: 'notification',
+                element: <NotificationPage />,
+              },
+              {
+                path: 'setting',
+                element: <SettingPage />,
+              },
+              {
+                path: 'setting/profile',
+                element: <SettingProfilePage />,
+              },
+              {
+                path: 'setting/font',
+                element: <SettingFontPage />,
+              },
+              {
+                path: 'setting/cloud',
+                element: <SettingCloudPage />,
+              },
+              {
+                path: 'setting/feedback',
+                element: <SettingFeedbackPage />,
+              },
+            ],
           },
         ],
       },

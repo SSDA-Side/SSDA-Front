@@ -42,5 +42,13 @@
   "send": {
     "width": 37,
     "height": 37
+  },
+  "empty-circle": {
+    "width": 2,
+    "height": 2
+  },
+  "fill-circle": {
+    "width": 2,
+    "height": 2
   }
 }
