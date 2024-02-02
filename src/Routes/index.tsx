@@ -1,7 +1,10 @@
+import { MyboardLayout } from '@Layouts/MyboardLayout';
 import { RootLayout } from '@Layouts/RootLayout';
+import { DiaryAllPage } from '@Pages/DiaryAllPage';
+import { DiaryCalendarPage } from '@Pages/DiaryCalendarPage';
 
 import { DiaryEditPage } from '@Pages/DiaryEditPage';
-import { DiaryPage } from '@Pages/DiaryPage';
+import { DiaryNewPage } from '@Pages/DiaryNewPage';
 import { DiaryWritePage } from '@Pages/DiaryWritePage';
 import { ErrorPage } from '@Pages/ErrorPage';
 import { LoginPage } from '@Pages/LoginPage';
@@ -44,8 +47,21 @@ export const routes = [
             element: <MyBoardPage />,
           },
           {
-            path: 'myboard/:boardId',
-            element: <DiaryPage />,
+            element: <MyboardLayout />,
+            children: [
+              {
+                path: 'myboard/:boardId/calendar',
+                element: <DiaryCalendarPage />,
+              },
+              {
+                path: 'myboard/:boardId/new',
+                element: <DiaryNewPage />,
+              },
+              {
+                path: 'myboard/:boardId/all',
+                element: <DiaryAllPage />,
+              },
+            ],
           },
           {
             path: 'myboard/:boardId/edit',
@@ -54,14 +70,6 @@ export const routes = [
           {
             path: 'myboard/:boardId/write',
             element: <DiaryWritePage />,
-          },
-          {
-            path: 'myboard/:boardId/:diaryId/comment',
-            element: <DiaryPage />,
-          },
-          {
-            path: 'myboard/:boardId/:diaryId/gallery',
-            element: <DiaryPage />,
           },
           {
             path: 'notification',
