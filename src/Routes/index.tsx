@@ -44,63 +44,6 @@ export const routes = [
             element: <LogoutPage />,
           },
           {
-            path: 'onboarding',
-            element: <OnBoardingPage />,
-          },
-          {
-            path: 'myboard',
-            element: <MyBoardPage />,
-          },
-          {
-            element: <MyboardLayout />,
-            children: [
-              {
-                path: 'myboard/calendar/:boardId',
-                element: <DiaryCalendarPage />,
-              },
-              {
-                path: 'myboard/new/:boardId',
-                element: <DiaryNewPage />,
-              },
-              {
-                path: 'myboard/all/:boardId',
-                element: <DiaryAllPage />,
-              },
-            ],
-          },
-          {
-            path: 'myboard/:boardId/edit',
-            element: <DiaryEditPage />,
-          },
-          {
-            path: 'myboard/:boardId/write',
-            element: <DiaryWritePage />,
-          },
-          {
-            path: 'notification',
-            element: <NotificationPage />,
-          },
-          {
-            path: 'setting',
-            element: <SettingPage />,
-          },
-          {
-            path: 'setting/profile',
-            element: <SettingProfilePage />,
-          },
-          {
-            path: 'setting/font',
-            element: <SettingFontPage />,
-          },
-          {
-            path: 'setting/cloud',
-            element: <SettingCloudPage />,
-          },
-          {
-            path: 'setting/feedback',
-            element: <SettingFeedbackPage />,
-          },
-          {
             path: '*',
             element: <NotFoundPage />,
           },
@@ -110,6 +53,23 @@ export const routes = [
               {
                 path: 'onboarding',
                 element: <OnBoardingPage />,
+              },
+              {
+                element: <MyboardLayout />,
+                children: [
+                  {
+                    path: 'myboard/calendar/:boardId',
+                    element: <DiaryCalendarPage />,
+                  },
+                  {
+                    path: 'myboard/new/:boardId',
+                    element: <DiaryNewPage />,
+                  },
+                  {
+                    path: 'myboard/all/:boardId',
+                    element: <DiaryAllPage />,
+                  },
+                ],
               },
               {
                 path: 'myboard',
