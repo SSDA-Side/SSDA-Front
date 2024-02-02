@@ -18,7 +18,9 @@ export type IconName =
   | 'image'
   | 'sunny'
   | 'clock'
-  | 'check';
+  | 'check'
+  | 'comment'
+  | 'love';
 
 export type HeroData = {
   username: string;
