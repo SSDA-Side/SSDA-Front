@@ -1,5 +1,7 @@
-import { createDiary, getBoardList, getBoardMemberList, getHeroData, getMonth } from '@APIs/index';
+import { createDiary, getBoardList, getBoardMemberList, getHeroData, getMonth, kakaoLogin } from '@APIs/index';
+import { setCookie } from '@Utils/Cookies';
 import { useMutation, useQuery } from '@tanstack/react-query';
+import { useNavigate } from 'react-router-dom';
 
 export const useHeroData = () => {
   return useQuery({
@@ -35,6 +37,24 @@ export const useGetMonth = (boardId: number, date: string) => {
     mutationFn: () => getMonth(boardId, date),
     onSuccess: (data) => {
       return data.dataList;
+    },
+  });
+};
+
+export const useKaKaoLogin = (authorizationCode: string) => {
+  const navigate = useNavigate();
+
+  return useMutation({
+    mutationKey: ['kakao', 'login'],
+    mutationFn: () => kakaoLogin(authorizationCode),
+    onSuccess: (data) => {
+      // const expirationTime = new Date();
+      // expirationTime.setSeconds(expirationTime.getSeconds() + data.expiresIn);
+
+      // setCookie('accessToken', data['accessToken'], { path: '/', expires: expirationTime });
+      setCookie('accessToken', data['accessToken'], { path: '/' });
+      localStorage.setItem('refreshToken', data['refreshToken']);
+      navigate('/myboard');
     },
   });
 };
