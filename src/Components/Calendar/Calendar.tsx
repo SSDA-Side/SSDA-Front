@@ -1,9 +1,11 @@
 import styles from './Calendar.module.scss';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { SelectDateBox } from '@Components/SelectDateBox';
 import { SVGIcon } from '@Icons/SVGIcon';
 import cn from 'classnames';
 import { Modal } from '@Components/Common/Modal/Modal';
+import { useLocation } from 'react-router-dom';
+import { useGetMonth } from '@Hooks/NetworkHooks';
 
 const daysOfWeek = ['일', '월', '화', '수', '목', '금', '토'];
 const today = new Date();
@@ -17,46 +19,40 @@ type PresenterProps = {
 };
 
 export const Calendar = () => {
-  const [selectedDay, setSelectedDay] = useState<number>(today.getDate());
-  const [currentMonth, setCurrentMonth] = useState<Date>(today);
+  // const [selectedDay, setSelectedDay] = useState<number>(today.getDate());
+  const [currentDate, setCurrentDate] = useState<Date>(today);
   const [selectDate, setSelectDate] = useState<Date>(new Date());
 
-  // 클릭한 날짜를 선택하고, 선택한 날짜를 저장하는 함수
-  const handleClickDay = (day: number) => {
-    setSelectedDay(day);
-  };
+  const location = useLocation();
+  const boardId = location.pathname.split('/')[3];
+
+  useEffect(() => {
+    console.log(currentDate);
+  }, [currentDate]);
+
+  // const { data, error, isLoading, isError } = useGetMonth(boardId, );
 
   // 달 이동하기
-  const chageMonth = (month: number) => {
-    setCurrentMonth(new Date(currentMonth.getFullYear(), month, currentMonth.getDate()));
-  };
-
-  // 이전 달로 이동하는 함수
-  const prevMonth = () => {
-    chageMonth(currentMonth.getMonth() - 1);
-  };
-
-  // 다음 달로 이동하는 함수
-  const nextMonth = () => {
-    chageMonth(currentMonth.getMonth() + 1);
+  const chageMonth = (date: Date) => {
+    setCurrentDate(date);
   };
 
   // 달력에 표시할 날짜를 만드는 함수
   const buildCalendarDays = () => {
-    const prevDateNum = new Date(currentMonth.getFullYear(), currentMonth.getMonth(), 1).getDay();
-    const curDateNum = new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1, 0).getDate();
-    const prevMonthEndDate = new Date(currentMonth.getFullYear(), currentMonth.getMonth(), 0);
-    const nextMonthStartDate = new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1, 1);
+    const prevDateNum = new Date(currentDate.getFullYear(), currentDate.getMonth(), 1).getDay();
+    const curDateNum = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 0).getDate();
+    const prevMonthEndDate = new Date(currentDate.getFullYear(), currentDate.getMonth(), 0);
+    const nextMonthStartDate = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 1);
 
     const days: Date[] = [];
 
     days.push(
       ...Array.from({ length: prevDateNum }, (_, i) => {
-        return new Date(currentMonth.getFullYear(), currentMonth.getMonth() - 1, prevMonthEndDate.getDate() - i);
+        return new Date(currentDate.getFullYear(), currentDate.getMonth() - 1, prevMonthEndDate.getDate() - i);
       }).reverse(),
       ...Array.from(
         { length: curDateNum },
-        (_, i) => new Date(currentMonth.getFullYear(), currentMonth.getMonth(), i + 1),
+        (_, i) => new Date(currentDate.getFullYear(), currentDate.getMonth(), i + 1),
       ),
     );
     days.push(
@@ -88,20 +84,26 @@ export const Calendar = () => {
   const buildCalendarTags = (calendarDays: Date[]) => {
     return calendarDays.map((day: Date, i: number) => {
       const itemDay = day.getDate();
-      const isPrevMonth = day.getMonth() < currentMonth.getMonth();
-      const isNextMonth = day.getMonth() > currentMonth.getMonth();
-      const isSelectedDay = day.getDate() === selectedDay;
+      const isPrevMonth = day.getMonth() < currentDate.getMonth();
+      const isNextMonth = day.getMonth() > currentDate.getMonth();
+      const isSelectedDay = day.getDate() === currentDate.getDate();
 
       const tdProps = { isPrevMonth, isNextMonth, isSelectedDay, itemDay };
 
-      const handleClick = () => {
-        handleClickDay(day.getDate());
-
-        isPrevMonth && prevMonth();
-        isNextMonth && nextMonth();
+      const handleClick = (day: Date) => {
+        isPrevMonth && chageMonth(new Date(currentDate.getFullYear(), currentDate.getMonth() - 1, day.getDate()));
+        isNextMonth && chageMonth(new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, day.getDate()));
       };
 
-      return <TdPresenter key={`day-${i}`} {...tdProps} onClick={handleClick} />;
+      return (
+        <TdPresenter
+          key={`day-${i}`}
+          {...tdProps}
+          onClick={() => {
+            handleClick(day);
+          }}
+        />
+      );
     });
   };
 
@@ -129,8 +131,8 @@ export const Calendar = () => {
       <div className={styles.nav}>
         <button
           onClick={() => {
-            handleClickDay(1);
-            prevMonth();
+            setCurrentDate(new Date(currentDate.getFullYear(), currentDate.getMonth() - 1, 1));
+            chageMonth(new Date(currentDate.getFullYear(), currentDate.getMonth() - 1, 1));
           }}
         >
           <SVGIcon name="left" />
@@ -142,21 +144,20 @@ export const Calendar = () => {
             buttonName: '완료',
             buttonType: 'CTA',
             onClick: () => {
-              handleClickDay(1);
-              setCurrentMonth(selectDate);
+              setCurrentDate(selectDate);
             },
           }}
-          content={<SelectDateBox currentMonth={currentMonth} setSelectDate={setSelectDate} />}
+          content={<SelectDateBox currentMonth={currentDate} setSelectDate={setSelectDate} />}
         >
           <span>
-            {currentMonth.getFullYear()}년 {currentMonth.getMonth() > 8 ? null : '0'}
-            {currentMonth.getMonth() + 1}월
+            {currentDate.getFullYear()}년 {currentDate.getMonth() > 8 ? null : '0'}
+            {currentDate.getMonth() + 1}월
           </span>
         </Modal>
         <button
           onClick={() => {
-            handleClickDay(1);
-            nextMonth();
+            setCurrentDate(new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 1));
+            chageMonth(new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 1));
           }}
         >
           <SVGIcon name="right" />
