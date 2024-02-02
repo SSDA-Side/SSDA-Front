@@ -11,9 +11,9 @@ import { KakaoLoginResponse } from '@Type/index';
 
 const REST_API_KEY = import.meta.env.VITE_KAKAO_REST_API_KEY;
 const REDIRECT_URI = import.meta.env.VITE_KAKAO_REDIRECT_URI;
+const kakaoLoginUrl = `https://kauth.kakao.com/oauth/authorize?client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI}&response_type=code`;
 
 const SocialKakao = () => {
-  const kakaoLoginUrl = `https://kauth.kakao.com/oauth/authorize?client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI}&response_type=code`;
   const handleLogin = () => {
     window.location.href = kakaoLoginUrl;
   };
@@ -26,10 +26,11 @@ const SocialKakao = () => {
   const { mutate: KakaoLoginMutation } = useMutation<KakaoLoginResponse, AxiosError, string>({
     mutationFn: kakaoLogin,
     onSuccess: (data) => {
-      const expirationTime = new Date();
-      expirationTime.setSeconds(expirationTime.getSeconds() + data.expiresIn);
+      // const expirationTime = new Date();
+      // expirationTime.setSeconds(expirationTime.getSeconds() + data.expiresIn);
 
-      setCookie('accessToken', data['accessToken'], { path: '/', expires: expirationTime });
+      // setCookie('accessToken', data['accessToken'], { path: '/', expires: expirationTime });
+      setCookie('accessToken', data['accessToken'], { path: '/' });
       localStorage.setItem('refreshToken', data['refreshToken']);
       navigate('/myboard');
     },
