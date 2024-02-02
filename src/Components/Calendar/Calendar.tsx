@@ -15,26 +15,39 @@ type PresenterProps = {
   isNextMonth: boolean;
   isSelectedDay: boolean;
   itemDay: number;
+  isDiaryDay: boolean;
   onClick: () => void;
 };
 
 export const Calendar = () => {
-  // const [selectedDay, setSelectedDay] = useState<number>(today.getDate());
   const [currentDate, setCurrentDate] = useState<Date>(today);
   const [selectDate, setSelectDate] = useState<Date>(new Date());
 
+  // 현재 달의 일기가 있는 날짜를 가져오기
   const location = useLocation();
   const boardId = location.pathname.split('/')[3];
+  const formatDate = (num: number) => (num > 9 ? num : `0${num}`);
+  const currentDateStr = `${currentDate.getFullYear()}-${formatDate(currentDate.getMonth() + 1)}-${formatDate(
+    currentDate.getDate(),
+  )}`;
+  const { mutate: getMonthMutation, isSuccess, data: dateList } = useGetMonth(Number(boardId), currentDateStr);
+  const [monthData, setMonthData] = useState<number[]>([]);
 
   useEffect(() => {
-    console.log(currentDate);
-  }, [currentDate]);
+    getMonthMutation();
+  }, []);
 
-  // const { data, error, isLoading, isError } = useGetMonth(boardId, );
+  useEffect(() => {
+    if (isSuccess && dateList.dateList.length > 0) {
+      setMonthData(() => dateList.dateList.map((date: string) => Number(date.split('-')[2])));
+    }
+  }, [isSuccess]);
 
   // 달 이동하기
-  const chageMonth = (date: Date) => {
+  const changeMonth = (date: Date) => {
     setCurrentDate(date);
+    setMonthData([]);
+    getMonthMutation();
   };
 
   // 달력에 표시할 날짜를 만드는 함수
@@ -66,17 +79,19 @@ export const Calendar = () => {
   };
 
   // 달력에 표시할 날짜를 태그로 만드는 함수
-  const TdPresenter = ({ isPrevMonth, isNextMonth, isSelectedDay, itemDay, onClick }: PresenterProps) => {
+  const TdPresenter = ({ isPrevMonth, isNextMonth, isSelectedDay, itemDay, isDiaryDay, onClick }: PresenterProps) => {
     return (
       <td
         className={cn({
           [styles.prevDate]: isPrevMonth,
           [styles.nextDate]: isNextMonth,
           [styles.selectedDate]: !isPrevMonth && !isNextMonth && isSelectedDay,
+          [styles.date]: true,
         })}
         onClick={onClick}
       >
         <p>{itemDay}</p>
+        {isDiaryDay && !isNextMonth && !isPrevMonth ? <div className={styles.diaryDot}></div> : null}
       </td>
     );
   };
@@ -87,12 +102,15 @@ export const Calendar = () => {
       const isPrevMonth = day.getMonth() < currentDate.getMonth();
       const isNextMonth = day.getMonth() > currentDate.getMonth();
       const isSelectedDay = day.getDate() === currentDate.getDate();
+      const isDiaryDay = monthData.includes(itemDay);
 
-      const tdProps = { isPrevMonth, isNextMonth, isSelectedDay, itemDay };
+      const tdProps = { isPrevMonth, isNextMonth, isSelectedDay, itemDay, isDiaryDay };
 
       const handleClick = (day: Date) => {
-        isPrevMonth && chageMonth(new Date(currentDate.getFullYear(), currentDate.getMonth() - 1, day.getDate()));
-        isNextMonth && chageMonth(new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, day.getDate()));
+        setCurrentDate(day);
+
+        isPrevMonth && changeMonth(new Date(currentDate.getFullYear(), currentDate.getMonth() - 1, day.getDate()));
+        isNextMonth && changeMonth(new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, day.getDate()));
       };
 
       return (
@@ -132,7 +150,7 @@ export const Calendar = () => {
         <button
           onClick={() => {
             setCurrentDate(new Date(currentDate.getFullYear(), currentDate.getMonth() - 1, 1));
-            chageMonth(new Date(currentDate.getFullYear(), currentDate.getMonth() - 1, 1));
+            changeMonth(new Date(currentDate.getFullYear(), currentDate.getMonth() - 1, 1));
           }}
         >
           <SVGIcon name="left" />
@@ -144,7 +162,7 @@ export const Calendar = () => {
             buttonName: '완료',
             buttonType: 'CTA',
             onClick: () => {
-              setCurrentDate(selectDate);
+              changeMonth(selectDate);
             },
           }}
           content={<SelectDateBox currentMonth={currentDate} setSelectDate={setSelectDate} />}
@@ -157,7 +175,7 @@ export const Calendar = () => {
         <button
           onClick={() => {
             setCurrentDate(new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 1));
-            chageMonth(new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 1));
+            changeMonth(new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 1));
           }}
         >
           <SVGIcon name="right" />
