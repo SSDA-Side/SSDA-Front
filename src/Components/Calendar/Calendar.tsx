@@ -6,6 +6,8 @@ import cn from 'classnames';
 import { Modal } from '@Components/Common/Modal/Modal';
 import { useLocation } from 'react-router-dom';
 import { useGetMonth } from '@Hooks/NetworkHooks';
+import { useSetRecoilState } from 'recoil';
+import { selectedDateStore } from '@Store/index';
 
 const daysOfWeek = ['일', '월', '화', '수', '목', '금', '토'];
 const today = new Date();
@@ -21,7 +23,16 @@ type PresenterProps = {
 
 export const Calendar = () => {
   const [currentDate, setCurrentDate] = useState<Date>(today);
-  const [selectDate, setSelectDate] = useState<Date>(new Date());
+  const [selectDate, setSelectDate] = useState<Date>(new Date()); // 모달에서 선택한 날짜를 저장
+
+  // 선택한 날짜를 recoil에 저장
+  const setDate = useSetRecoilState(selectedDateStore);
+
+  useEffect(() => {
+    setDate({
+      date: currentDate,
+    });
+  }, [currentDate]);
 
   // 현재 달의 일기가 있는 날짜를 가져오기
   const location = useLocation();
@@ -168,8 +179,7 @@ export const Calendar = () => {
           content={<SelectDateBox currentMonth={currentDate} setSelectDate={setSelectDate} />}
         >
           <span>
-            {currentDate.getFullYear()}년 {currentDate.getMonth() > 8 ? null : '0'}
-            {currentDate.getMonth() + 1}월
+            {currentDate.getFullYear()}년 {formatDate(currentDate.getMonth() + 1)}월
           </span>
         </Modal>
         <button
