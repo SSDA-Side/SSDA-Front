@@ -7,6 +7,11 @@ export const kakaoLogin = async (authorizationCode: string) => {
   return res.data;
 };
 
+export const getMonth = async (boardId: number, date: string) => {
+  const res = await axios.get(`/api/mode/month?boardId=${boardId}&date=${date}`);
+  return res.data;
+};
+
 const DELAY_TIME = 1200;
 
 /**

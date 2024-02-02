@@ -1,4 +1,4 @@
-import { createDiary, getBoardList, getBoardMemberList, getHeroData } from '@APIs/index';
+import { createDiary, getBoardList, getBoardMemberList, getHeroData, getMonth } from '@APIs/index';
 import { useMutation, useQuery } from '@tanstack/react-query';
 
 export const useHeroData = () => {
@@ -26,5 +26,15 @@ export const useCreateDiary = () => {
   return useMutation({
     mutationKey: ['createDiary'],
     mutationFn: createDiary,
+  });
+};
+
+export const useGetMonth = (boardId: number, date: string) => {
+  return useMutation({
+    mutationKey: ['myboard', 'month'],
+    mutationFn: () => getMonth(boardId, date),
+    onSuccess: (data) => {
+      return data.dataList;
+    },
   });
 };
