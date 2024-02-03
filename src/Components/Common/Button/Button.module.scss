@@ -23,6 +23,12 @@
   border-radius: var(--radii-sm);
   background: var(--button-bg-primary);
   color: var(--text-on-primary);
+
+  &:disabled {
+    --button-disabled: var(--gray400);
+    background-color: var(--button-disabled);
+    color: var(--white);
+  }
 }
 
 .icon-button {
