@@ -19,6 +19,23 @@
   row-gap: var(--spacing-11);
 }
 
+.board-item-skeleton {
+  width: 100%;
+  aspect-ratio: 3 / 4;
+  border-radius: 0 var(--radii-2) 0 0;
+  animation: 0.7s ease-in-out 0.5s infinite alternate shinning;
+}
+
+@keyframes shinning {
+  from {
+    background-color: var(--gray300);
+  }
+
+  to {
+    background-color: var(--gray500);
+  }
+}
+
 .description {
   color: var(--text-description);
 }
