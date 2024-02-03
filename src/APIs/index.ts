@@ -1,75 +1,63 @@
 import { axios } from './Axios';
-import { Board, HeroData, KakaoLoginResponse } from '@Type/index';
-import { BoardMember } from '@Type/index';
+
+/** Model */
+import type { Board, Member } from '@Type/Model';
+
+/** Request */
+import type {
+  CreateBoardeRequest,
+  DeleteBoardRequest,
+  GetMemberListRequest,
+  ResignBoardRequest,
+  UpdateBoardRequest,
+} from '@Type/Request';
+
+/** Response */
+import type { HeroData } from '@Type/Response';
+
+import type { KakaoLoginResponse } from '@Type/index';
 
 export const kakaoLogin = async (authorizationCode: string) => {
   const res = await axios.post<KakaoLoginResponse>('/api/auth/kakao', { authorizationCode });
   return res.data;
 };
 
-const DELAY_TIME = 1200;
-
-/**
- * 인위적인 네트워크 딜레이를 위한 임시 함수
- * API가 연결되면 해당 함수는 불필요
- * */
-const fetchJSON = async <T>(path: string) => {
-  const response = await axios.get<T>(path);
-
-  return new Promise<T>((resolve) => {
-    setTimeout(() => {
-      resolve(response.data as T);
-    }, DELAY_TIME);
-  });
+export const getHeroData = async () => {
+  const res = await axios.get<HeroData>('/api/boards/hero');
+  return res.data;
 };
 
-const fakePost = async (path: string) => {
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      resolve(new Response(null, { status: 200 }));
-    }, DELAY_TIME);
-  });
+export const getBoardList = async () => {
+  const res = await axios.get<Board[]>('/api/boards');
+  return res.data;
 };
 
-export const getHeroData = () => fetchJSON<HeroData>('/board_hero_response.json');
-export const getBoardList = () => fetchJSON<Board[]>('/board_list_response.json');
-export const getBoardMemberList = ({ boardId }: { boardId: number }) =>
-  fetchJSON<BoardMember[]>('/member_list_response.json');
+export const createBoard = async (boardRequestForm: CreateBoardeRequest) => {
+  const res = await axios.post('/api/boards', boardRequestForm);
+  return res.status;
+};
 
-export const createDiary = ({
-  boardId,
-  diaryTitle,
-  contents,
-  stickerId,
-  diaryImgs,
-}: {
-  boardId: number;
-  diaryTitle: string;
-  contents: string;
-  stickerId: number;
-  diaryImgs: FileList;
-}) => fakePost('/api/diary');
-// export const createDiary = ({
-//   boardId,
-//   diaryTitle,
-//   contents,
-//   stickerId,
-//   diaryImgs,
-// }: {
-//   boardId: number;
-//   diaryTitle: string;
-//   contents: string;
-//   stickerId: number;
-//   diaryImgs: FileList;
-// }) => {
-//   return axios.postForm(
-//     'http://118.67.143.25:8080/api/diary',
-//     { boardId, diaryTitle, contents, stickerId, diaryImgs },
-//     {
-//       headers: {
-//         'Content-Type': 'multipart/form-data',
-//         Authorization: 'Bearer BoakzEncfqqFsgxpTS4Ubyqw6OGjjRNChuDbKJZL9PrXgbn1bOBFLwIbGoEKKiVOAAABjUlp1XSi-KZYUq23DA',
-//       },
-//     },
-//   );
-// };
+export const updateBoard = async ({ id, ...boardReuestForm }: UpdateBoardRequest) => {
+  const res = await axios.put(`/api/boards/${id}`, boardReuestForm);
+  return res.status;
+};
+
+export const deleteBoard = async ({ id }: DeleteBoardRequest) => {
+  const res = await axios.delete(`/api/boards/${id}`);
+  return res.status;
+};
+
+export const resignBoard = async ({ id }: ResignBoardRequest) => {
+  const res = await axios.post(`/api/boards/${id}`);
+  return res.status;
+};
+
+export const getMemberList = async ({ id }: GetMemberListRequest) => {
+  const res = await axios.get<Member[]>(`/api/boards/${id}/member`);
+  return res.data;
+};
+
+export const createDiary = async ({ id: boardId }) => {
+  const res = await axios.post(`/api/diary`);
+  return res.status;
+};
