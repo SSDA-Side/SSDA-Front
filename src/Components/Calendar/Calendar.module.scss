@@ -1,0 +1,61 @@
+.calendar {
+  width: 100%;
+  .nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: var(--size-6);
+    margin: var(--size-5) var(--size-5) var(--size-3) var(--size-5);
+    padding: 0 var(--size-3);
+    span {
+      font-size: 18px;
+      font-weight: 200;
+    }
+    button {
+      background-color: transparent;
+      border: none;
+      cursor: pointer;
+      font-size: var(--size-6);
+      svg {
+        width: var(--size-6);
+        height: var(--size-6);
+        vertical-align: bottom;
+      }
+    }
+  }
+  table {
+    width: 100%;
+    padding: 0 var(--size-5);
+    thead {
+      height: var(--size-13);
+      th {
+        font-size: var(--size-4);
+        font-weight: 300;
+      }
+    }
+    tbody {
+      text-align: center;
+      cursor: pointer;
+      font-weight: 300;
+      tr {
+        height: var(--size-13);
+        .prev-date,
+        .next-date {
+          color: rgb(176, 176, 176);
+        }
+        .selected-date {
+          color: #fff;
+          font-weight: 600;
+          width: var(--size-10);
+          p {
+            border-radius: 50%;
+            background-color: var(--orange600);
+            height: var(--size-10);
+            text-align: center;
+            line-height: var(--size-10);
+          }
+        }
+      }
+    }
+  }
+}
