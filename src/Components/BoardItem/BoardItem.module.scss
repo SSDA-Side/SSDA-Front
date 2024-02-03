@@ -2,6 +2,17 @@
   width: 100%;
 }
 
+.presenter-container {
+  width: 100%;
+  position: relative;
+}
+
+.edit-button-wrapper {
+  position: absolute;
+  right: var(--spacing-2);
+  bottom: var(--spacing-2);
+}
+
 .image-container {
   overflow: hidden;
   position: relative;
@@ -38,8 +49,6 @@
   color: var(--text-description);
 }
 
-.edit-button-wrapper {
-  position: absolute;
-  right: var(--spacing-2);
-  bottom: var(--spacing-2);
+.disabled-container {
+  width: 100%;
 }

@@ -1,0 +1,80 @@
+.board-preview {
+  width: 100%;
+  aspect-ratio: 1 / 1.38;
+  border-top-right-radius: var(--radii-sm);
+
+  background-color: var(--gray300);
+  background-size: cover;
+
+  position: relative;
+}
+
+.board-detail-box-layout {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+
+  width: 100%;
+  transform: translate((-50%, -50%));
+
+  display: grid;
+  place-items: center;
+}
+
+.board-detail-box {
+  width: 57%;
+  aspect-ratio: 3 / 4;
+  background-color: var(--gray900);
+
+  position: relative;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0.875em 0;
+
+  // Box의 기본 폰트 크기는 12px로 지정(제일 큰 폰트 사이즈인 제목 기준)
+  font-size: 0.75rem;
+
+  h6 {
+    font-size: 1em;
+    color: var(--white);
+    text-align: center;
+
+    margin-bottom: 0.25em;
+  }
+
+  .delimiter {
+    width: 100%;
+    max-width: 80%;
+    height: 0.0625em;
+
+    background-color: var(--gray500);
+  }
+
+  .box-bottom {
+    position: absolute;
+    bottom: 0.875em;
+    color: var(--gray500);
+
+    p {
+      text-align: center;
+    }
+  }
+}
+
+.board-simple-box {
+  width: 100%;
+  background: linear-gradient(transparent, black);
+
+  position: absolute;
+  bottom: 0;
+  color: white;
+
+  padding: 0.5em 0.5em;
+
+  h6 {
+    font-size: 1em;
+    font-weight: 300;
+  }
+}

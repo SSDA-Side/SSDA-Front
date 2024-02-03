@@ -1,8 +1,9 @@
 /** Style 및 Layout */
-import styles from './MemberViewModal.module.scss';
 import { PageLayout } from '@Layouts/PageLayout';
+import styles from './MemberViewModal.module.scss';
 
 /** Component */
+import { AsyncBoundary } from '@Components/Common/AsyncBoundary';
 import { Avatar } from '@Components/Common/Avatar';
 import { IconButton } from '@Components/Common/Button';
 import { PageHeader } from '@Components/Common/PageHeader';
@@ -12,15 +13,16 @@ import { Typography } from '@Components/Common/Typography';
 import { SVGIcon } from '@Icons/SVGIcon';
 
 /** Hook */
-import { useBoardMemberList } from '@Hooks/NetworkHooks';
+import { useGetMemberList } from '@Hooks/NetworkHooks';
 
 /** Type */
-import type { BoardMember } from '@Type/index';
+import { FallbackProps } from 'react-error-boundary';
 
 /** Util */
 import cn from 'classnames';
+import { Board, Member } from '@Type/Model';
 
-type MemberViewModalProp = { boardId: number; onClose: () => void };
+type MemberViewModalProp = { onClose: () => void } & Pick<Board, 'id'>;
 export const MemberViewModal = (props: MemberViewModalProp) => {
   return <PageLayout header={<Head {...props} />} body={<Body {...props} />} footer={<Foot {...props} />} />;
 };
@@ -40,43 +42,60 @@ const Head = ({ onClose }: HeadProp) => {
   );
 };
 
-type BodyProp = { boardId: number };
-const Body = ({ boardId }: BodyProp) => {
-  const { data: memberList, isPending, isSuccess, isError } = useBoardMemberList({ boardId });
+type BodyProp = Pick<Board, 'id'>;
+const Body = (boardProps: BodyProp) => {
+  return (
+    <div className={styles.bodyContainer}>
+      <AsyncBoundary ErrorFallback={MemberListErrorUI} SuspenseFallback={<MemberListLoadingUI />}>
+        <MemberList {...boardProps} />
+      </AsyncBoundary>
+    </div>
+  );
+};
 
-  // TODO: 상태에 따른 UI 분리하기, suspense, fallback, successed
+type MemberListProp = Pick<Board, 'id'>;
+const MemberList = ({ id }: MemberListProp) => {
+  const { data: memberList, isSuccess } = useGetMemberList({ id });
 
-  // isSuccess is just for type-guard
-  if (isPending || !isSuccess) {
-    return '불러오는 중입니다 ...';
-  }
-
-  if (isError) {
-    return '멤버 목록을 불러오는데 실패했어요';
+  if (!isSuccess) {
+    return;
   }
 
   const memberListElement = memberList.map((member) => <MemberItem key={member.id} {...member} />);
 
   return (
-    <div className={styles.bodyContainer}>
+    <>
       <Typography as="body2" className={styles.greyed}>
         총 {memberList.length}명
       </Typography>
-
       <AddNewMemberButton />
       {memberListElement}
+    </>
+  );
+};
+
+const MemberListErrorUI = ({ error, resetErrorBoundary }: FallbackProps) => {
+  return (
+    <div>
+      불러오는데 에러가 났넹~
+      <p>{error.message}</p>
+      <button onClick={() => resetErrorBoundary()}>다시 시도</button>
     </div>
   );
 };
 
-type MemberItemProp = BoardMember;
-const MemberItem = ({ id, name, profileUrl, signedDate }: MemberItemProp) => {
+const MemberListLoadingUI = () => {
+  return <div>로딩중~</div>;
+};
+
+type MemberItemProp = Member;
+const MemberItem = ({ nickname, profileUrl, signedDate }: MemberItemProp) => {
   return (
     <div role="button" className={styles.memberContainer} tabIndex={0}>
       <Avatar profileUrl={profileUrl} />
       <div className={styles.descriptionSection}>
         {/* TODO: 수님께 여기에 해당하는 타이포 없다고 말씀 드리기 */}
-        <Typography as="body2">{name}</Typography>
+        <Typography as="body2">{nickname}</Typography>
         <Typography as="body3" className={styles.date}>
           참여일 {new Date(signedDate).toLocaleDateString()}
         </Typography>
