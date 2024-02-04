@@ -27,6 +27,8 @@ export const DiaryCalendarPage = () => {
     getTodayDiaryMutation();
   }, [dateStr]);
 
+  isSuccess && console.log('todayData', todayData[0]);
+
   return (
     <div className={styles.container}>
       <Calendar />
@@ -36,13 +38,13 @@ export const DiaryCalendarPage = () => {
         </h1>
 
         {isError && <div>일기 목록을 불러오는데 실패했습니다</div>}
-        {!isError && <p>총 {todayData?.length}개의 일기가 있습니다.</p>}
+        {isSuccess && <p>총 {todayData?.length}개의 일기가 있습니다.</p>}
         {/* TODO: API 정상적으로 연결되면 주석 해제 */}
-        {/* {todayData?.length === 0 ? (
+        {todayData?.length === 0 ? (
           <div>일기를 작성해주세요.</div>
         ) : (
-          todayData.map((diary) => <DiaryItem key={diary.id} diary={diary} />)
-        )} */}
+          todayData?.map((diary) => <DiaryItem key={diary.id} diary={diary} />)
+        )}
       </div>
     </div>
   );

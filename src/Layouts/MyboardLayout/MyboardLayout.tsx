@@ -38,7 +38,7 @@ export const MyboardLayout = () => {
             className={cn({ [styles.active]: location.pathname.includes(tab.path) })}
           >
             {tab.name}
-            {isNewDiary.newExist && tab.path === 'new' && <div className={styles.newDiary} />}
+            {isNewDiary?.newExist && tab.path === 'new' && <div className={styles.newDiary} />}
           </button>
         ))}
       </div>
