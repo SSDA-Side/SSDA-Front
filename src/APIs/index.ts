@@ -22,6 +22,11 @@ export const isNewDiary = async (boardId: number) => {
   return res.data;
 };
 
+export const getAllDiary = async (boardId: number, pageSize = 10, lastViewId: number) => {
+  const res = await axios.get(`/api/mode?boardId=${boardId}&pageSize=${pageSize}&lastViewId=${lastViewId}`);
+  return res.data;
+};
+
 const DELAY_TIME = 1200;
 
 /**

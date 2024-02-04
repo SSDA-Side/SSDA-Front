@@ -1,5 +1,6 @@
 import {
   createDiary,
+  getAllDiary,
   getBoardList,
   getBoardMemberList,
   getHeroData,
@@ -37,6 +38,13 @@ export const useCreateDiary = () => {
   return useMutation({
     mutationKey: ['createDiary'],
     mutationFn: createDiary,
+  });
+};
+
+export const useGetAllDiary = (boardId: number, pageSize: number, lastViewId: number) => {
+  return useQuery({
+    queryKey: ['myboard', 'diary'],
+    queryFn: () => getAllDiary(boardId, pageSize, lastViewId),
   });
 };
 
