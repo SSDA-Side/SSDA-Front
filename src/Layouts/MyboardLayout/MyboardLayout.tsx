@@ -24,7 +24,7 @@ export const MyboardLayout = () => {
   const location = useLocation();
   const boardId = location.pathname.split('/')[3];
 
-  const { data: isNewDiary, isError } = useIsNewDiary(Number(boardId));
+  const { data: isNewDiary, isError, isSuccess } = useIsNewDiary(Number(boardId));
 
   isError && console.error('isNewDiaryData error', isError);
 
@@ -38,7 +38,7 @@ export const MyboardLayout = () => {
             className={cn({ [styles.active]: location.pathname.includes(tab.path) })}
           >
             {tab.name}
-            {isNewDiary && tab.path === 'new' && <div className={styles.newDiary} />}
+            {isNewDiary.newExist && tab.path === 'new' && <div className={styles.newDiary} />}
           </button>
         ))}
       </div>
