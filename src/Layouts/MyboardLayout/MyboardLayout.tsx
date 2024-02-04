@@ -2,6 +2,7 @@
 import { Outlet, useLocation, useNavigate } from 'react-router-dom';
 import styles from './MyboardLayout.module.scss';
 import cn from 'classnames';
+import { useIsNewDiary } from '@Hooks/NetworkHooks';
 
 const tabList = [
   {
@@ -22,6 +23,11 @@ export const MyboardLayout = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const boardId = location.pathname.split('/')[3];
+
+  const { data: isNewDiary, isError } = useIsNewDiary(Number(boardId));
+
+  isError && console.error('isNewDiaryData error', isError);
+
   return (
     <div className={styles.container}>
       <div className={styles.tabBar}>
@@ -32,6 +38,7 @@ export const MyboardLayout = () => {
             className={cn({ [styles.active]: location.pathname.includes(tab.path) })}
           >
             {tab.name}
+            {isNewDiary && tab.path === 'new' && <div className={styles.newDiary} />}
           </button>
         ))}
       </div>

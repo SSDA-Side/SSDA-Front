@@ -12,6 +12,16 @@ export const getMonth = async (boardId: number, date: string) => {
   return res.data;
 };
 
+export const getTodayDiary = async (boardId: number, date: string) => {
+  const res = await axios.get(`/api/mode/day?boardId=${boardId}&date=${date}`);
+  return res.data;
+};
+
+export const isNewDiary = async (boardId: number) => {
+  const res = await axios.get(`/api/mode/exist?boardId=${boardId}`);
+  return res.data;
+};
+
 const DELAY_TIME = 1200;
 
 /**
