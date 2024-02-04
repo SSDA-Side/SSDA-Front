@@ -5,6 +5,7 @@ import {
   getBoardMemberList,
   getHeroData,
   getMonth,
+  getNewDiary,
   getTodayDiary,
   isNewDiary,
   kakaoLogin,
@@ -52,6 +53,13 @@ export const useIsNewDiary = (boardId: number) => {
   return useQuery({
     queryKey: ['myboard', 'isNewDiary'],
     queryFn: () => isNewDiary(boardId),
+  });
+};
+
+export const useGetNewDiary = (boardId: number) => {
+  return useQuery({
+    queryKey: ['myboard', 'newDiary'],
+    queryFn: () => getNewDiary(boardId),
   });
 };
 
