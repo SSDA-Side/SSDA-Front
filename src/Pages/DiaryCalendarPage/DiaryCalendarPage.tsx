@@ -6,6 +6,7 @@ import { useGetTodayDiary } from '@Hooks/NetworkHooks';
 import { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import { DiaryItem } from '@Components/DiaryItem';
+import { formatDate } from '@Utils/FormatDate';
 
 export const DiaryCalendarPage = () => {
   const selectedDate = useRecoilState(selectedDateStore);
@@ -13,7 +14,6 @@ export const DiaryCalendarPage = () => {
 
   const location = useLocation();
   const boardId = location.pathname.split('/')[3];
-  const formatDate = (num: number) => (num > 9 ? num : `0${num}`);
   const dateStr = `${date.getFullYear()}-${formatDate(date.getMonth() + 1)}-${formatDate(date.getDate())}`;
 
   const {

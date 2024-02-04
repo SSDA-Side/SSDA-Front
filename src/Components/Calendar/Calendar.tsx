@@ -8,6 +8,7 @@ import { useLocation } from 'react-router-dom';
 import { useGetMonth } from '@Hooks/NetworkHooks';
 import { useSetRecoilState } from 'recoil';
 import { selectedDateStore } from '@Store/index';
+import { formatDate } from '@Utils/FormatDate';
 
 const daysOfWeek = ['일', '월', '화', '수', '목', '금', '토'];
 const today = new Date();
@@ -37,7 +38,6 @@ export const Calendar = () => {
   // 현재 달의 일기가 있는 날짜를 가져오기
   const location = useLocation();
   const boardId = location.pathname.split('/')[3];
-  const formatDate = (num: number) => (num > 9 ? num : `0${num}`);
   const currentDateStr = `${currentDate.getFullYear()}-${formatDate(currentDate.getMonth() + 1)}-${formatDate(
     currentDate.getDate(),
   )}`;
