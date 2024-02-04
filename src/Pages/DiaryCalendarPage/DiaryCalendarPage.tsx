@@ -27,8 +27,6 @@ export const DiaryCalendarPage = () => {
     getTodayDiaryMutation();
   }, [dateStr]);
 
-  isSuccess && console.log('todayData', todayData, todayData?.length);
-
   return (
     <div className={styles.container}>
       <Calendar />
