@@ -7,54 +7,6 @@ import { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import { DiaryItem } from '@Components/DiaryItem';
 
-export const diaryList = [
-  {
-    id: '30',
-    member: {
-      id: '1',
-      nickname: '이세은',
-    },
-    boardId: '2',
-    emotionId: '5',
-    thumbnailUrl: 'http://k.kakaocdn.net/dn/baBXJ9/btsBioRV2JX/D5PkxboyB3GlyezTE9hja0/img_640x640.jpg',
-    likeCount: '99',
-    commentCount: '12',
-    selectedDate: '2024-01-13T00:00:00',
-    timeStamp: '3분전',
-    title: '쿠킹 클래스 첫번째 수업 - 쌀국수 만들기',
-  },
-  {
-    id: '22',
-    member: {
-      id: '1',
-      nickname: '권동휘',
-    },
-    boardId: '2',
-    emotionId: '5',
-    thumbnailUrl: '',
-    likeCount: '99',
-    commentCount: '12',
-    selectedDate: '2024-01-13T00:00:00',
-    timeStamp: '3분전',
-    title: '오늘의 일기',
-  },
-  {
-    id: '12',
-    member: {
-      id: '1',
-      nickname: '김범준',
-    },
-    boardId: '2',
-    emotionId: '5',
-    thumbnailUrl: 'http://k.kakaocdn.net/dn/baBXJ9/btsBioRV2JX/D5PkxboyB3GlyezTE9hja0/img_640x640.jpg',
-    likeCount: '99',
-    commentCount: '12',
-    selectedDate: '2024-01-13T00:00:00',
-    timeStamp: '3분전',
-    title: '오늘의 일기',
-  },
-];
-
 export const DiaryCalendarPage = () => {
   const selectedDate = useRecoilState(selectedDateStore);
   const { date } = selectedDate[0];
