@@ -97,7 +97,7 @@ export const Calendar = () => {
           [styles.prevDate]: isPrevMonth,
           [styles.nextDate]: isNextMonth,
           [styles.selectedDate]: !isPrevMonth && !isNextMonth && isSelectedDay,
-          [styles.date]: true,
+          [styles.date]: !isSelectedDay,
         })}
         onClick={onClick}
       >
