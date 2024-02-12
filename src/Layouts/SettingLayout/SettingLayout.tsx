@@ -1,7 +1,28 @@
-import { useLocation } from 'react-router-dom';
+import { Outlet, useLocation, useNavigate } from 'react-router-dom';
 import styles from './SettingLayout.module.scss';
+import { SVGIcon } from '@Icons/SVGIcon';
 
-const settingList = [
+export const settingList = [
+  {
+    path: '/setting/profile',
+    name: '프로필 수정',
+  },
+  {
+    path: '/setting/font',
+    name: '폰트 설정',
+  },
+  {
+    path: '/setting/cloud',
+    name: '백업/복구',
+  },
+  {
+    path: '/setting/feedback',
+    name: '의견 보내기',
+  },
+  {
+    path: '',
+    name: '로그아웃',
+  },
   {
     name: '설정',
     path: '/setting',
@@ -10,7 +31,27 @@ const settingList = [
 
 export const SettingLayout = () => {
   const location = useLocation();
-  console.log(location);
+  const navigate = useNavigate();
 
-  return <div className={styles.container}></div>;
+  const onBeforePage = () => {
+    navigate(-1);
+  };
+
+  return (
+    <>
+      <div className={styles.container}>
+        <button onClick={onBeforePage}>
+          <SVGIcon name="left" />
+        </button>
+        {settingList.map((settingItem) => {
+          if (settingItem.path === location.pathname) {
+            return settingItem.name;
+          }
+        })}
+      </div>
+      <div className={styles.contents}>
+        <Outlet />
+      </div>
+    </>
+  );
 };
