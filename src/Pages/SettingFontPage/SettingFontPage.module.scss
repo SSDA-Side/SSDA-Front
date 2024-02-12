@@ -1,0 +1,39 @@
+.container {
+  .radio-content {
+    .radio-list {
+      display: block;
+      width: 100%;
+      height: var(--size-14);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: var(--size-4);
+      border-bottom: 1px solid var(--gray100);
+    }
+    .mini {
+      font-family: 'Mini_handwriting';
+    }
+    .Jeju {
+      font-family: 'Jeju Myeongjo';
+    }
+    .NanumSquare {
+      font-family: 'NanumSquare';
+    }
+  }
+  .preview-content {
+    textarea {
+      &::placeholder {
+        color: var(--black);
+      }
+    }
+    .mini {
+      font-family: 'Mini_handwriting';
+    }
+    .Jeju {
+      font-family: 'Jeju Myeongjo';
+    }
+    .NanumSquare {
+      font-family: 'NanumSquare';
+    }
+  }
+}
