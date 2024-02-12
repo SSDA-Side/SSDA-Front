@@ -36,7 +36,7 @@
     tbody {
       text-align: center;
       cursor: pointer;
-      font-weight: 300;
+      font-weight: 200;
       tr {
         height: var(--size-13);
         .prev-date,
@@ -46,13 +46,25 @@
         .selected-date {
           color: #fff;
           font-weight: 600;
-          width: var(--size-10);
           p {
+            font-weight: 200;
             border-radius: 50%;
             background-color: var(--orange600);
             height: var(--size-10);
             text-align: center;
             line-height: var(--size-10);
+          }
+        }
+        .date {
+          width: var(--size-9);
+          div {
+            position: relative;
+            top: var(--size-1);
+            left: var(--size-4);
+            width: var(--size-1);
+            height: var(--size-1);
+            border-radius: 50%;
+            background-color: var(--orange600);
           }
         }
       }

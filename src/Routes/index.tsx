@@ -1,6 +1,10 @@
+import { MyboardLayout } from '@Layouts/MyboardLayout';
 import { RootLayout } from '@Layouts/RootLayout';
+import { DiaryAllPage } from '@Pages/DiaryAllPage';
+import { DiaryCalendarPage } from '@Pages/DiaryCalendarPage';
+
 import { DiaryEditPage } from '@Pages/DiaryEditPage';
-import { DiaryPage } from '@Pages/DiaryPage';
+import { DiaryNewPage } from '@Pages/DiaryNewPage';
 import { DiaryWritePage } from '@Pages/DiaryWritePage';
 import { ErrorPage } from '@Pages/ErrorPage';
 import { LoginPage } from '@Pages/LoginPage';
@@ -52,12 +56,25 @@ export const routes = [
                 element: <OnBoardingPage />,
               },
               {
-                path: 'myboard',
-                element: <MyBoardPage />,
+                element: <MyboardLayout />,
+                children: [
+                  {
+                    path: 'myboard/calendar/:boardId',
+                    element: <DiaryCalendarPage />,
+                  },
+                  {
+                    path: 'myboard/new/:boardId',
+                    element: <DiaryNewPage />,
+                  },
+                  {
+                    path: 'myboard/all/:boardId',
+                    element: <DiaryAllPage />,
+                  },
+                ],
               },
               {
-                path: 'myboard/:boardId',
-                element: <DiaryPage />,
+                path: 'myboard',
+                element: <MyBoardPage />,
               },
               {
                 path: 'myboard/:boardId/edit',
@@ -66,14 +83,6 @@ export const routes = [
               {
                 path: 'myboard/:boardId/write',
                 element: <DiaryWritePage />,
-              },
-              {
-                path: 'myboard/:boardId/:diaryId/comment',
-                element: <DiaryPage />,
-              },
-              {
-                path: 'myboard/:boardId/:diaryId/gallery',
-                element: <DiaryPage />,
               },
               {
                 path: 'notification',

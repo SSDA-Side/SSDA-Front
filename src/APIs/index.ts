@@ -27,6 +27,47 @@ export const getHeroData = async () => {
   return res.data;
 };
 
+export const getMonth = async (boardId: number, date: string) => {
+  const res = await axios.get(`/api/mode/month?boardId=${boardId}&date=${date}`);
+  return res.data;
+};
+
+export const getTodayDiary = async (boardId: number, date: string) => {
+  const res = await axios.get(`/api/mode/day?boardId=${boardId}&date=${date}`);
+  return res.data;
+};
+
+export const isNewDiary = async (boardId: number) => {
+  const res = await axios.get(`/api/mode/exist?boardId=${boardId}`);
+  return res.data;
+};
+
+export const getAllDiary = async (boardId: number, pageSize = 10, lastViewId: number) => {
+  const res = await axios.get(`/api/mode?boardId=${boardId}&pageSize=${pageSize}&lastViewId=${lastViewId}`);
+  return res.data;
+};
+
+export const getNewDiary = async (boardId: number) => {
+  const res = await axios.get(`/api/mode/new?boardId=${boardId}`);
+  return res.data;
+};
+
+const DELAY_TIME = 1200;
+
+/**
+ * 인위적인 네트워크 딜레이를 위한 임시 함수
+ * API가 연결되면 해당 함수는 불필요
+ * */
+const fetchJSON = async <T>(path: string) => {
+  const response = await axios.get<T>(path);
+
+  return new Promise<T>((resolve) => {
+    setTimeout(() => {
+      resolve(response.data as T);
+    }, DELAY_TIME);
+  });
+};
+
 export const getBoardList = async () => {
   const res = await axios.get<Board[]>('/api/boards');
   return res.data;
