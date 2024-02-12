@@ -22,6 +22,7 @@ import { SettingProfilePage } from '@Pages/SettingProfilePage';
 import type { RouteObject } from 'react-router-dom';
 import { ProtectedRouter } from './ProtectedRouter';
 import { SettingLayout } from '@Layouts/SettingLayout';
+import { DiaryListPage } from '@Pages/DiaryListPage';
 
 export const routes = [
   {
@@ -83,6 +84,10 @@ export const routes = [
               {
                 path: 'myboard/:boardId/write',
                 element: <DiaryWritePage />,
+              },
+              {
+                path: 'myboard/:boardId/:diaryId',
+                element: <DiaryListPage />,
               },
               {
                 path: 'notification',
