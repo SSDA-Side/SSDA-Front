@@ -6,8 +6,13 @@ import { useNavigate } from 'react-router-dom';
 export const SettingPage = () => {
   const navigate = useNavigate();
 
+  const handleLogout = () => {
+    console.log('logout');
+    alert('ss');
+  };
+
   const onPageMove = (page: string) => {
-    navigate(page);
+    page === '' ? handleLogout() : navigate(page);
   };
 
   return (
