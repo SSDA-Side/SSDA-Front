@@ -17,6 +17,7 @@ import { SettingProfilePage } from '@Pages/SettingProfilePage';
 
 import type { RouteObject } from 'react-router-dom';
 import { ProtectedRouter } from './ProtectedRouter';
+import { SettingLayout } from '@Layouts/SettingLayout';
 
 export const routes = [
   {
@@ -79,24 +80,29 @@ export const routes = [
                 element: <NotificationPage />,
               },
               {
-                path: 'setting',
-                element: <SettingPage />,
-              },
-              {
-                path: 'setting/profile',
-                element: <SettingProfilePage />,
-              },
-              {
-                path: 'setting/font',
-                element: <SettingFontPage />,
-              },
-              {
-                path: 'setting/cloud',
-                element: <SettingCloudPage />,
-              },
-              {
-                path: 'setting/feedback',
-                element: <SettingFeedbackPage />,
+                element: <SettingLayout />,
+                children: [
+                  {
+                    path: 'setting',
+                    element: <SettingPage />,
+                  },
+                  {
+                    path: 'setting/profile',
+                    element: <SettingProfilePage />,
+                  },
+                  {
+                    path: 'setting/font',
+                    element: <SettingFontPage />,
+                  },
+                  {
+                    path: 'setting/cloud',
+                    element: <SettingCloudPage />,
+                  },
+                  {
+                    path: 'setting/feedback',
+                    element: <SettingFeedbackPage />,
+                  },
+                ],
               },
             ],
           },
