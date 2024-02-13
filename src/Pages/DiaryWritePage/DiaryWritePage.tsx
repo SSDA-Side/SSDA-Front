@@ -1,28 +1,31 @@
 /** React */
-import { useEffect, useMemo, useRef } from 'react';
+import { useLayoutEffect, useMemo, useRef, useState } from 'react';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 
 /** Styles 및 Layout */
-import styles from './DiaryWritePage.module.scss';
 import { PageLayout } from '@Layouts/PageLayout';
+import styles from './DiaryWritePage.module.scss';
 
 /** Component */
 import { EmotionImage } from '@Assets/EmotionImages';
 import { IconButton } from '@Components/Common/Button';
 import { PageHeader } from '@Components/Common/PageHeader';
 import { Typography } from '@Components/Common/Typography';
-import { BottomSheet } from './BottomSheet';
 
 /** Hook */
-import { useConfirm } from '@Hooks/useConfirm';
 import { useCreateDiary } from '@Hooks/NetworkHooks';
-import { useBottomSheet } from './BottomSheet/useBottomSheet';
 
 /** Context */
 import { FormDataContextProvider, useFormData, useFormDataState } from './FormDataContext';
 
 /** Type */
+import { EmotionSelect } from '@Components/EmotionSelect';
+import { SelectEmotionSheet } from '@Components/Sheets/SelectEmotionSheet/SelectEmotionSheet';
+import { useModal } from '@Hooks/useModal';
+import { useSheet } from '@Hooks/useSheet';
 import type { ChangeEvent, FormEvent, KeyboardEvent } from 'react';
+
+import cn from 'classnames';
 
 export const DiaryWritePage = () => {
   return (
@@ -30,24 +33,22 @@ export const DiaryWritePage = () => {
       <FormDataContextProvider>
         <WriteForm />
       </FormDataContextProvider>
-
-      <BottomSheet />
     </>
   );
 };
 
 const WriteForm = () => {
   const [location, urlParams] = [useLocation(), useParams()];
-
   const { mutate, isPending } = useCreateDiary();
 
+  const [isFirstStep, setIsFirstStep] = useState(true);
+
   const submitData = useFormDataState();
-  const { updateBoardId, updateDiaryDate, updateEmotionId } = useFormData();
+  const { updateBoardId, updateDiaryDate } = useFormData();
 
-  const { openBottomSheet } = useBottomSheet();
+  const { openAlert } = useModal();
 
-  useEffect(() => {
-    // 경로 체크
+  useLayoutEffect(() => {
     const { boardId: savedBoardId } = submitData;
     const { boardId: currentBoardId } = urlParams;
 
@@ -61,44 +62,18 @@ const WriteForm = () => {
 
     updateBoardId(currentBoardId);
 
-    /**
-     * 실제로 존재하는 일기장인지 체크가 필요할까?
-     * -> MY 일기장에서 바로 넘어온 녀석이면 할 필요 없음
-     * -> URL를 직접 조작해서 다른 일기장에 쓸 수도 있나? ㅋㅋ
-     * -> 이건 서버측에서 처리해주는 걸로. TODO: 백엔드에 작성 권한 확인 요청하기
-     */
-
-    // 작성 날짜 체크
     const searchParams = new URLSearchParams(location.search);
     const diaryDate = searchParams.get('date') || getTodayDateString();
 
     updateDiaryDate(diaryDate);
-
-    // 기분 선택
-    openBottomSheet({ onSelect: updateEmotionId });
   }, []);
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    // TODO: Validation
-    const { diaryTitle, contents } = submitData;
-
-    const isEmptyTitle = diaryTitle === '';
-    const isEmptyContent = contents === '';
-
-    if (isEmptyTitle) {
-      return alert('일기 제목을 입력해주세요!');
-    }
-
-    if (isEmptyContent) {
-      return alert('일기 내용을 입력해주세요!');
-    }
-
-    // TODO: API 연결 -> 서버쪽 로그인이 다 되고 나서 ... 시도하기
     mutate(submitData, {
       onSuccess() {
-        alert('일기 작성 완료');
+        openAlert({ contents: '일기 작성 완료' });
       },
     });
   };
@@ -106,24 +81,32 @@ const WriteForm = () => {
   return (
     <form className={styles.formContainer} onSubmit={handleSubmit}>
       <fieldset className={styles.disabledController} disabled={isPending}>
-        <PageLayout header={<Head />} body={<Body />} footer={<Foot />} />
+        <PageLayout
+          header={<Head disabled={isFirstStep} />}
+          body={<Body firstStep={isFirstStep} onFirstStepCom={() => setIsFirstStep(false)} />}
+          footer={<Foot dateHidden={isFirstStep} />}
+        />
       </fieldset>
     </form>
   );
 };
 
-// type HeadProp = { onBackClick: () => void };
-const Head = () => {
+const Head = ({ disabled }: { disabled: boolean }) => {
   const navigate = useNavigate();
 
   const formData = useFormDataState();
   const { boardId, diaryTitle, contents, diaryImgs } = formData;
 
-  const { showConfirm } = useConfirm();
+  const isEmptyTitle = diaryTitle.trim() === '';
+  const isEmptyContent = contents.trim() === '';
+
+  const isDisabled = disabled || isEmptyTitle || isEmptyContent;
+
+  const { openConfirm } = useModal();
 
   const handleBackClick = () => {
-    const hasTitle = diaryTitle !== '';
-    const hasContent = contents !== '';
+    const hasTitle = diaryTitle.trim() !== '';
+    const hasContent = contents.trim() !== '';
     const haveSomeImages = diaryImgs !== null;
     const haveUnsavedChanges = hasTitle || hasContent || haveSomeImages;
 
@@ -136,11 +119,10 @@ const Head = () => {
 
   const handleUnsavedChanges = () => {
     const handleYes = () => navigate(`/myboard/${boardId}`, { replace: true });
-    const handleNo = () => console.log('No Clicked');
 
-    showConfirm('작성 중인 내용을\n저장하지 않고 나가시겠습니까?', {
+    openConfirm({
+      contents: '작성 중인 내용을\n저장하지 않고 나가시겠습니까?',
       onYes: handleYes,
-      onNo: handleNo,
     });
   };
 
@@ -155,18 +137,17 @@ const Head = () => {
       </PageHeader.Center>
 
       <PageHeader.Right>
-        <IconButton type="submit" icon="check" />
+        <IconButton type="submit" icon="check" disabled={isDisabled} />
       </PageHeader.Right>
     </PageHeader>
   );
 };
 
-// TODO: 어진님 공통 컴포넌트로 교체하기
-const Body = () => {
-  const { diaryImgs: selectedFiles, stickerId } = useFormDataState();
+const Body = ({ firstStep, onFirstStepCom }) => {
+  const { diaryImgs: selectedFiles, stickerId, diaryDate } = useFormDataState();
   const { updateContents, updateEmotionId, updateTitle } = useFormData();
 
-  const { openBottomSheet } = useBottomSheet();
+  const { openBottomSheet } = useSheet();
 
   const imageElements = useMemo(
     () => (selectedFiles ? createPreviewImageElements(selectedFiles) : null),
@@ -187,10 +168,24 @@ const Body = () => {
     }
   };
 
+  const handleEmotionClick = () => {
+    openBottomSheet({
+      title: diaryDate,
+      children: SelectEmotionSheet,
+      onSelect(emotionId) {
+        updateEmotionId(emotionId as string);
+      },
+    });
+  };
+
+  if (firstStep) {
+    return <SelectEmotionStep onSelect={() => onFirstStepCom(false)} />;
+  }
+
   return (
     <main className={styles.container}>
       <section className={styles.emotionSection}>
-        <button type="button" onClick={() => openBottomSheet({ onSelect: updateEmotionId })}>
+        <button type="button" onClick={handleEmotionClick}>
           <EmotionImage index={Number(stickerId)} />
         </button>
       </section>
@@ -225,7 +220,25 @@ const Body = () => {
   );
 };
 
-const Foot = () => {
+const SelectEmotionStep = ({ onSelect }: { onSelect: () => void }) => {
+  const { diaryDate } = useFormDataState();
+  const { updateEmotionId } = useFormData();
+
+  const handleEmotionSelect = (emotionId: string) => {
+    updateEmotionId(emotionId);
+    onSelect();
+  };
+
+  return (
+    <main className={cn(styles.container, styles.center)}>
+      <Typography as="body1">{diaryDate}</Typography>
+      <Typography as="body2">오늘 하루는 어떠셨나요?</Typography>
+      <EmotionSelect onSelect={handleEmotionSelect} />
+    </main>
+  );
+};
+
+const Foot = ({ dateHidden }: { dateHidden: boolean }) => {
   const { diaryDate } = useFormDataState();
   const { updateImages } = useFormData();
 
@@ -260,14 +273,18 @@ const Foot = () => {
   return (
     <section className={styles.footer}>
       <PageHeader>
-        <PageHeader.Left>
-          <Typography as="body1">{diaryDate}</Typography>
-        </PageHeader.Left>
+        <PageHeader.Left>{!dateHidden && <Typography as="body1">{diaryDate}</Typography>}</PageHeader.Left>
 
         <PageHeader.Right>
-          <IconButton type="button" icon="image" className={styles.primary} onClick={() => fileRef.current?.click()} />
-          <IconButton type="button" icon="sunny" className={styles.greyed} />
-          <IconButton type="button" icon="clock" className={styles.greyed} />
+          <fieldset className={styles.addOnWrapper} disabled={dateHidden}>
+            <IconButton
+              type="button"
+              icon="image"
+              className={styles.primary}
+              onClick={() => fileRef.current?.click()}
+            />
+            <IconButton type="button" icon="clock" className={styles.greyed} />
+          </fieldset>
         </PageHeader.Right>
       </PageHeader>
 
