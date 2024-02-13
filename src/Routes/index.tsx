@@ -17,6 +17,8 @@ import { SettingProfilePage } from '@Pages/SettingProfilePage';
 
 import type { RouteObject } from 'react-router-dom';
 import { ProtectedRouter } from './ProtectedRouter';
+import { SharePage } from '@Pages/SharePage';
+import { BoardSignUpPage } from '@Pages/BoardSignUpPage';
 
 export const routes = [
   {
@@ -38,6 +40,14 @@ export const routes = [
           {
             path: 'logout',
             element: <LogoutPage />,
+          },
+          {
+            path: 'share',
+            element: <SharePage />,
+          },
+          {
+            path: 'signup_board',
+            element: <BoardSignUpPage />,
           },
           {
             path: '*',
