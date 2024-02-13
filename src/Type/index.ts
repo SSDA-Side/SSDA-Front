@@ -20,7 +20,9 @@ export type IconName =
   | 'clock'
   | 'check'
   | 'setting'
-  | 'error';
+  | 'error'
+  | 'kakaotalk'
+  | 'link';
 
 export type KakaoLoginResponse = {
   accessToken: string;
