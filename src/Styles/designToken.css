@@ -1,6 +1,7 @@
 :root {
   /* Color Primitive */
   --orange600: #ff8066;
+  --red500: #fc3939;
 
   --black: #000;
   --gray50: #fafafa;
@@ -62,6 +63,7 @@
   /* Color Sementic */
   --primary: var(--orange600);
   --on-primary: var(--white);
+  --negative: var(--red500);
 
   /* Radii Sementic */
   --radii-sm: var(--radii-2);
