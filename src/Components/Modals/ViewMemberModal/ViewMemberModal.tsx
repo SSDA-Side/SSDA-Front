@@ -5,11 +5,13 @@ import { useGetMemberList } from '@Hooks/NetworkHooks';
 import { useModal } from '@Hooks/useModal';
 import { SVGIcon } from '@Icons/SVGIcon';
 import { PageLayout } from '@Layouts/PageLayout';
-import { ComponentPayload, ViewMemberProps } from '@Store/ModalStore';
+import { ComponentPayload, CreateShareLinkModalProps, ViewMemberProps } from '@Store/ModalStore';
 import { Member } from '@Type/Model';
 import cn from 'classnames';
 import { FallbackProps } from 'react-error-boundary';
 import styles from './ViewMemberModal.module.scss';
+import { MouseEvent } from 'react';
+import { InviteMemberModal } from '../InviteMemberModal';
 
 export const ViewMemberModal = ({ modalId }: { modalId: string }) => {
   const { getModal } = useModal();
@@ -18,20 +20,26 @@ export const ViewMemberModal = ({ modalId }: { modalId: string }) => {
   const { props } = payload as ComponentPayload<ViewMemberProps>;
   const { boardId } = props!;
 
-  return <PageLayout header={<></>} body={<Body boardId={boardId} />} footer={<Foot modalId={modalId} />} />;
+  return (
+    <PageLayout
+      header={<></>}
+      body={<Body boardId={boardId} modalId={modalId} />}
+      footer={<Foot modalId={modalId} />}
+    />
+  );
 };
 
-const Body = ({ boardId }: { boardId: number }) => {
+const Body = ({ boardId, modalId }: { boardId: number; modalId: string }) => {
   return (
     <div className={styles.bodyContainer}>
       <AsyncBoundary ErrorFallback={MemberListErrorUI} SuspenseFallback={<MemberListLoadingUI />}>
-        <MemberList boardId={boardId} />
+        <MemberList boardId={boardId} modalId={modalId} />
       </AsyncBoundary>
     </div>
   );
 };
 
-const MemberList = ({ boardId }: { boardId: number }) => {
+const MemberList = ({ boardId, modalId }: { boardId: number; modalId: string }) => {
   const { data: memberList, isSuccess } = useGetMemberList({ id: boardId });
 
   if (!isSuccess) {
@@ -45,7 +53,7 @@ const MemberList = ({ boardId }: { boardId: number }) => {
       <Typography as="body2" className={styles.greyed}>
         총 {memberList.length}명
       </Typography>
-      <AddNewMemberButton />
+      <AddNewMemberButton modalId={modalId} boardId={boardId} />
       {memberListElement}
     </>
   );
@@ -81,9 +89,22 @@ const MemberItem = ({ nickname, profileUrl, signedDate }: MemberItemProp) => {
   );
 };
 
-const AddNewMemberButton = () => {
+const AddNewMemberButton = ({ boardId, modalId }: { boardId; modalId: string }) => {
+  const { openComponentModal, closeModal } = useModal();
+
+  const handleClick = (e: MouseEvent<HTMLDivElement>) => {
+    closeModal(modalId);
+    openComponentModal<CreateShareLinkModalProps>({
+      title: '초대하기',
+      children: InviteMemberModal,
+      props: {
+        boardId,
+      },
+    });
+  };
+
   return (
-    <div role="button" className={styles.memberContainer} tabIndex={0}>
+    <div role="button" className={styles.memberContainer} tabIndex={0} onClick={handleClick}>
       <div className={styles.addButtonIcon}>
         {/* TODO: Plus 아이콘 교체하기 */}
         <div style={{ rotate: '45deg' }}>
