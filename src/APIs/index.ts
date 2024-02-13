@@ -43,7 +43,7 @@ export const isNewDiary = async (boardId: number) => {
 };
 
 export const getAllDiary = async (boardId: number, pageSize = 10, lastViewId: number) => {
-  const res = await axios.get(`/api/mode?boardId=${boardId}&pageSize=${pageSize}&lastViewId=${lastViewId}`);
+  const res = await axios.get(`/api/mode/all?boardId=${boardId}&pageSize=${pageSize}&lastViewId=${lastViewId}`);
   return res.data;
 };
 
@@ -53,6 +53,11 @@ export const getNewDiary = async (boardId: number) => {
 };
 
 const DELAY_TIME = 1200;
+
+export const getDiaryDetail = async (memberId: number, boardId: number, date: Date) => {
+  const res = await axios.get(`/api/diary?memberId=${memberId}&boardId=${boardId}&date=${date}`);
+  return res.data;
+};
 
 /**
  * 인위적인 네트워크 딜레이를 위한 임시 함수
