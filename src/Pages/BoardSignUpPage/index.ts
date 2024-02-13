@@ -1,0 +1,1 @@
+export { BoardSignUpPage } from './BoardSignUpPage';
