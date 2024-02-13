@@ -8,3 +8,11 @@ export type HeroData = {
 export type CreateShareLinkResponse = {
   link: string;
 };
+
+export type GetShareLinkMetadataResponse = {
+  memberId: number;
+  username: string;
+  profileUrl: string;
+  boardId: number;
+  title: string;
+};

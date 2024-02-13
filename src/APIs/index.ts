@@ -13,7 +13,7 @@ import type {
 } from '@Type/Request';
 
 /** Response */
-import type { CreateShareLinkResponse, HeroData } from '@Type/Response';
+import type { CreateShareLinkResponse, GetShareLinkMetadataResponse, HeroData } from '@Type/Response';
 
 import type { KakaoLoginResponse } from '@Type/index';
 
@@ -23,6 +23,7 @@ import kakaoLoginResponse from '@/TestResponse/kakao_login_response.json';
 import boardResponse from '@/TestResponse/board_list_response.json';
 import memberResponse from '@/TestResponse/member_list_response.json';
 import createShareLinkResponseJSON from '@/TestResponse/create_share_link_response.json';
+import shareMetadataResponse from '@/TestResponse/get_share_link_response.json';
 
 type JSONResponseType = { [k in string]: unknown };
 const JSONResponses: JSONResponseType = {
@@ -31,6 +32,7 @@ const JSONResponses: JSONResponseType = {
   '/api/boards': boardResponse,
   '/api/boards/member': memberResponse,
   '/api/boards/share': createShareLinkResponseJSON,
+  '/api/boards/share/get': shareMetadataResponse,
 };
 
 const TEST_MODE = true;
@@ -159,5 +161,14 @@ export const createShareLink = async ({ boardId }) => {
   }
 
   const res = await axios.post<CreateShareLinkResponse>(`/api/board/${boardId}/share`);
+  return res.data;
+};
+
+export const getShareLinkMetadata = async ({ hashKey }) => {
+  if (TEST_MODE) {
+    return fakeGet(`/api/boards/share/get`, { wouldReject: false }) as Promise<GetShareLinkMetadataResponse>;
+  }
+
+  const res = await axios.post<GetShareLinkMetadataResponse>(`/api/share/${hashKey}`);
   return res.data;
 };

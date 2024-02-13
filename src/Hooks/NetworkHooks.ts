@@ -8,6 +8,7 @@ import {
   getBoardList,
   getHeroData,
   getMemberList,
+  getShareLinkMetadata,
   updateBoard,
 } from '@APIs/index';
 
@@ -81,5 +82,12 @@ export const useCreateShareLink = () => {
   return useMutation({
     mutationKey: ['createShareLink'],
     mutationFn: createShareLink,
+  });
+};
+
+export const useGetShareLinkMetadata = () => {
+  return useMutation({
+    mutationKey: ['getShareLinkMetadata'],
+    mutationFn: getShareLinkMetadata,
   });
 };
