@@ -4,7 +4,7 @@ import styles from './MyBoardPage.module.scss';
 
 /** Component */
 import { AddBoardItemButton, BoardItem } from '@Components/BoardItem';
-import { IconButton } from '@Components/Common/Button';
+import { CTAButton, IconButton } from '@Components/Common/Button';
 import { PageHeader } from '@Components/Common/PageHeader';
 import { Typography } from '@Components/Common/Typography';
 
@@ -17,6 +17,7 @@ import type { FallbackProps } from 'react-error-boundary';
 
 /** Util */
 import { getDescription } from '@Utils/index';
+import { SVGIcon } from '@Icons/SVGIcon';
 
 export const MyBoardPage = () => {
   return <PageLayout header={<Head />} body={<Body />} />;
@@ -43,11 +44,8 @@ const Head = () => {
 const Body = () => {
   return (
     <main className={styles.contaienr}>
-      <AsyncBoundary ErrorFallback={HeroErrorUI} SuspenseFallback={<HeroLoadingUI />}>
+      <AsyncBoundary ErrorFallback={PageErrorUI} SuspenseFallback={<PageLoadingUI />}>
         <HeroSection />
-      </AsyncBoundary>
-
-      <AsyncBoundary ErrorFallback={BoardListErrorUI} SuspenseFallback={<BoardListLoadingUI />}>
         <BoardListSection />
       </AsyncBoundary>
     </main>
@@ -73,24 +71,45 @@ const HeroSection = () => {
   );
 };
 
-const HeroErrorUI = ({ error, resetErrorBoundary }: FallbackProps) => (
-  <section className={styles.heroSection}>
-    <Typography as="h1">정보를 불러오는데 실패했어요😇</Typography>
-    <Typography as="body1">유저의 정보와 일기장 정보를 가져오는 데 실패했어요</Typography>
-    <Typography as="body1">{error.message}</Typography>
+const PageErrorUI = ({ error, resetErrorBoundary }: FallbackProps) => (
+  <section className={styles.errorContainer}>
+    <div className={styles.group}>
+      <div className={styles.red}>
+        <SVGIcon name="error" />
+      </div>
 
-    <button onClick={() => resetErrorBoundary()}>다시 시도하기</button>
+      <div className={styles.red}>
+        <Typography as="body2">통신 실패</Typography>
+      </div>
+    </div>
+
+    <div className={styles.delimitor} />
+
+    <div className={styles.group}>
+      <Typography as="body2">오류가 발생했어요.</Typography>
+      <Typography as="body2">아래의 버튼을 통해 다시 시도해보세요.</Typography>
+    </div>
+
+    <CTAButton onClick={() => resetErrorBoundary()}>다시 가져오기</CTAButton>
   </section>
 );
 
-const HeroLoadingUI = () => {
+const PageLoadingUI = () => {
   return (
-    <section className={styles.heroSection}>
-      <Typography as="h1">{`-님,\n소중한 일상을 공유해보세요`}</Typography>
-      <Typography as="body2" className={styles.description}>
-        일기 정보를 불러오는 중입니다...
-      </Typography>
-    </section>
+    <>
+      <section className={styles.heroSection}>
+        <div className={styles.heroSkeleton} style={{ width: '30%', height: '2.5rem' }} />
+        <div className={styles.heroSkeleton} style={{ width: '100%', height: '2.5rem' }} />
+        <div className={styles.heroSkeleton} style={{ width: '70%', height: '1rem' }} />
+      </section>
+
+      <section className={styles.boardListSection}>
+        <div className={styles.boardItemSkeleton} />
+        <div className={styles.boardItemSkeleton} />
+        <div className={styles.boardItemSkeleton} />
+        <div className={styles.boardItemSkeleton} />
+      </section>
+    </>
   );
 };
 
@@ -110,22 +129,3 @@ const BoardListSection = () => {
     </section>
   );
 };
-
-const BoardListLoadingUI = () => {
-  return (
-    <section className={styles.boardListSection}>
-      <div className={styles.boardItemSkeleton} />
-      <div className={styles.boardItemSkeleton} />
-      <div className={styles.boardItemSkeleton} />
-      <div className={styles.boardItemSkeleton} />
-    </section>
-  );
-};
-
-const BoardListErrorUI = ({ error, resetErrorBoundary }: FallbackProps) => (
-  <div>
-    <p>Ooppsss... 일기장 목록을 불러오는데 오류가 났어요</p>
-    <p>{error.message}</p>
-    <button onClick={() => resetErrorBoundary()}>다시 시도</button>
-  </div>
-);
