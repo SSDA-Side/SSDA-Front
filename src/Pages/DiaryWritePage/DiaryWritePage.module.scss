@@ -82,12 +82,37 @@
 }
 
 .image-placeholder {
-  width: 100%;
-  max-width: var(--size-32);
+  width: 7rem;
   aspect-ratio: 1/1;
   border-radius: var(--radii-sm);
   background-color: var(--gray300);
   background-size: cover;
+
+  position: relative;
+
+  display: grid;
+  place-content: center;
+}
+
+.rotated {
+  rotate: 45deg;
+  color: var(--gray600);
+}
+
+.delete-mark {
+  position: absolute;
+  top: 0;
+  right: 0;
+
+  transform: translate(25%, -25%);
+
+  display: flex;
+
+  width: fit-content;
+  aspect-ratio: 1 /1;
+  background-color: rgb(255, 0, 0);
+  border-radius: 9999px;
+  color: var(--white);
 }
 
 .footer {
