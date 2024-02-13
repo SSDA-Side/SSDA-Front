@@ -2,14 +2,12 @@
 import { useState } from 'react';
 
 /** Style 및 Layout */
-import { PageLayout } from '@Layouts/PageLayout';
-import styles from './BoardFieldModal.module.scss';
+import styles from './BoardMetaForm.module.scss';
 
 /** Component */
 import { AppearanceRadio } from '@Components/AppearanceRadio';
 import { BoardPresenter } from '@Components/BoardPresenter';
-import { CTAButton, IconButton } from '@Components/Common/Button';
-import { PageHeader } from '@Components/Common/PageHeader';
+import { CTAButton } from '@Components/Common/Button';
 import { Typography } from '@Components/Common/Typography';
 import { DiaryImageList } from '@Components/DiaryImageList';
 
@@ -26,35 +24,13 @@ const initialBoardForm = {
   appearanceType: 0,
 } as BoardFormData;
 
-type BoardFieldModalProp = {
-  title: string;
+type BoardMetaFormProp = {
+  isDisabled?: boolean;
   defaultBoard?: BoardFormData;
-  disabled?: boolean;
-  onClose: () => void;
   onSubmit?: (formData: BoardFormData) => void;
 };
 
-export const BoardFieldModal = (props: BoardFieldModalProp) => {
-  return <PageLayout header={<Head {...props} />} body={<Body {...props} />} />;
-};
-
-type HeadProp = { disabled?: boolean; title: string; onClose: () => void };
-const Head = ({ disabled = false, title, onClose }: HeadProp) => {
-  return (
-    <PageHeader>
-      <PageHeader.Center>
-        <Typography as="h2">{title}</Typography>
-      </PageHeader.Center>
-
-      <PageHeader.Right>
-        <IconButton icon="close" onClick={onClose} disabled={disabled} />
-      </PageHeader.Right>
-    </PageHeader>
-  );
-};
-
-type BodyProp = { disabled?: boolean; defaultBoard?: BoardFormData; onSubmit?: (formData: BoardFormData) => void };
-const Body = ({ disabled = false, defaultBoard, onSubmit }: BodyProp) => {
+export const BoardMetaForm = ({ isDisabled = false, defaultBoard, onSubmit }: BoardMetaFormProp) => {
   const [formData, setFormData] = useState<BoardFormData>(defaultBoard || initialBoardForm);
 
   const { title, imageNumber, appearanceType } = formData;
@@ -70,7 +46,7 @@ const Body = ({ disabled = false, defaultBoard, onSubmit }: BodyProp) => {
   };
 
   return (
-    <fieldset className={styles.disabledControll} disabled={disabled}>
+    <fieldset className={styles.disabledControll} disabled={isDisabled}>
       <div className={styles.formContaienr}>
         <div className={styles.group}>
           <div className={styles.inputBox}>
@@ -108,7 +84,7 @@ const Body = ({ disabled = false, defaultBoard, onSubmit }: BodyProp) => {
 
         <CTAButton onClick={() => handleSubmit(formData)} disabled={formData.title.length === 0}>
           {/* TODO: 제출 시 스피너로 교체 */}
-          {disabled ? '제출중...' : CTAText}
+          {isDisabled ? '제출중...' : CTAText}
         </CTAButton>
       </div>
     </fieldset>

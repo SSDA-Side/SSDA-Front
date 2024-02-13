@@ -7,7 +7,7 @@ import { diaryImages } from '@Assets/DiaryImages';
 /** Type */
 import { Board } from '@Type/Model';
 
-type BoardPresenterProp = Omit<Board, 'diaryCount' | 'memberCount'>;
+type BoardPresenterProp = Pick<Board, 'imageNumber' | 'title' | 'appearanceType'> & { regDate: Date };
 export const BoardPresenter = (boardProps: BoardPresenterProp) => {
   const SIMPLE_TYPE = 0;
   const DETAIL_TYPE = 1;

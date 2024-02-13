@@ -1,61 +1,38 @@
-/** Style 및 Layout */
-import { PageLayout } from '@Layouts/PageLayout';
-import styles from './MemberViewModal.module.scss';
-
-/** Component */
 import { AsyncBoundary } from '@Components/Common/AsyncBoundary';
 import { Avatar } from '@Components/Common/Avatar';
-import { IconButton } from '@Components/Common/Button';
-import { PageHeader } from '@Components/Common/PageHeader';
 import { Typography } from '@Components/Common/Typography';
-
-/** Icon */
-import { SVGIcon } from '@Icons/SVGIcon';
-
-/** Hook */
 import { useGetMemberList } from '@Hooks/NetworkHooks';
-
-/** Type */
-import { FallbackProps } from 'react-error-boundary';
-
-/** Util */
+import { useModal } from '@Hooks/useModal';
+import { SVGIcon } from '@Icons/SVGIcon';
+import { PageLayout } from '@Layouts/PageLayout';
+import { ComponentPayload, ViewMemberProps } from '@Store/ModalStore';
+import { Member } from '@Type/Model';
 import cn from 'classnames';
-import { Board, Member } from '@Type/Model';
+import { FallbackProps } from 'react-error-boundary';
+import styles from './ViewMemberModal.module.scss';
 
-type MemberViewModalProp = { onClose: () => void } & Pick<Board, 'id'>;
-export const MemberViewModal = (props: MemberViewModalProp) => {
-  return <PageLayout header={<Head {...props} />} body={<Body {...props} />} footer={<Foot {...props} />} />;
+export const ViewMemberModal = ({ modalId }: { modalId: string }) => {
+  const { getModal } = useModal();
+
+  const { payload } = getModal(modalId);
+  const { props } = payload as ComponentPayload<ViewMemberProps>;
+  const { boardId } = props!;
+
+  return <PageLayout header={<></>} body={<Body boardId={boardId} />} footer={<Foot modalId={modalId} />} />;
 };
 
-type HeadProp = { onClose: () => void };
-const Head = ({ onClose }: HeadProp) => {
-  return (
-    <PageHeader>
-      <PageHeader.Center>
-        <Typography as="h2">멤버 보기</Typography>
-      </PageHeader.Center>
-
-      <PageHeader.Right>
-        <IconButton icon="close" onClick={onClose} />
-      </PageHeader.Right>
-    </PageHeader>
-  );
-};
-
-type BodyProp = Pick<Board, 'id'>;
-const Body = (boardProps: BodyProp) => {
+const Body = ({ boardId }: { boardId: number }) => {
   return (
     <div className={styles.bodyContainer}>
       <AsyncBoundary ErrorFallback={MemberListErrorUI} SuspenseFallback={<MemberListLoadingUI />}>
-        <MemberList {...boardProps} />
+        <MemberList boardId={boardId} />
       </AsyncBoundary>
     </div>
   );
 };
 
-type MemberListProp = Pick<Board, 'id'>;
-const MemberList = ({ id }: MemberListProp) => {
-  const { data: memberList, isSuccess } = useGetMemberList({ id });
+const MemberList = ({ boardId }: { boardId: number }) => {
+  const { data: memberList, isSuccess } = useGetMemberList({ id: boardId });
 
   if (!isSuccess) {
     return;
@@ -119,14 +96,16 @@ const AddNewMemberButton = () => {
   );
 };
 
-type FootProp = { onClose: () => void };
-const Foot = ({ onClose }: FootProp) => {
-  // TODO: 전역 상태 Reducer Action 호출
+const Foot = ({ modalId }: { modalId: string }) => {
+  const { openConfirm, closeModal } = useModal();
 
   const handleClick = () => {
-    const wouldResign = confirm(`일기장을 나가면, 더 이상 이 일기장을 볼 수 없어요.\n정말 일기장을 나가실건가요?`);
-    console.log({ wouldResign });
-    onClose();
+    openConfirm({
+      contents: `일기장을 나가면 더 이상 이 일기장을 볼 수 없어요.\n정말 일기장을 나가실건가요?`,
+      onYes() {
+        closeModal(modalId);
+      },
+    });
   };
 
   return (
