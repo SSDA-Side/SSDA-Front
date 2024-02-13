@@ -13,7 +13,7 @@ import type {
 } from '@Type/Request';
 
 /** Response */
-import type { HeroData } from '@Type/Response';
+import type { CreateShareLinkResponse, HeroData } from '@Type/Response';
 
 import type { KakaoLoginResponse } from '@Type/index';
 
@@ -22,6 +22,7 @@ import heroResponse from '@/TestResponse/board_hero_response.json';
 import kakaoLoginResponse from '@/TestResponse/kakao_login_response.json';
 import boardResponse from '@/TestResponse/board_list_response.json';
 import memberResponse from '@/TestResponse/member_list_response.json';
+import createShareLinkResponseJSON from '@/TestResponse/create_share_link_response.json';
 
 type JSONResponseType = { [k in string]: unknown };
 const JSONResponses: JSONResponseType = {
@@ -29,6 +30,7 @@ const JSONResponses: JSONResponseType = {
   '/api/boards/hero': heroResponse,
   '/api/boards': boardResponse,
   '/api/boards/member': memberResponse,
+  '/api/boards/share': createShareLinkResponseJSON,
 };
 
 const TEST_MODE = true;
@@ -149,4 +151,13 @@ export const createDiary = async ({ id: boardId }) => {
 
   const res = await axios.post(`/api/diary`);
   return res.status;
+};
+
+export const createShareLink = async ({ boardId }) => {
+  if (TEST_MODE) {
+    return fakeGet(`/api/boards/share`, { wouldReject: false }) as Promise<CreateShareLinkResponse>;
+  }
+
+  const res = await axios.post<CreateShareLinkResponse>(`/api/board/${boardId}/share`);
+  return res.data;
 };

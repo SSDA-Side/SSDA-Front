@@ -26,13 +26,17 @@ export type ModalType = 'Component' | 'Alert' | 'Confirm';
 
 export type ModalPayloadType = ComponentPayload | AlertPayload | ConfirmPayload;
 
-export type ComponentPayloadProps = BoardProps | ViewMemberProps;
+export type ComponentPayloadProps = BoardProps | ViewMemberProps | CreateShareLinkModalProps;
 
 export type BoardProps = {
   defaultBoard: BoardFormData;
 };
 
 export type ViewMemberProps = {
+  boardId: number;
+};
+
+export type CreateShareLinkModalProps = {
   boardId: number;
 };
 

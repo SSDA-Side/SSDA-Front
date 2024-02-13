@@ -3,6 +3,7 @@ import { useMutation, useQueryClient, useSuspenseQuery } from '@tanstack/react-q
 import {
   createBoard,
   createDiary,
+  createShareLink,
   deleteBoard,
   getBoardList,
   getHeroData,
@@ -73,5 +74,12 @@ export const useCreateDiary = () => {
   return useMutation({
     mutationKey: ['createDiary'],
     mutationFn: createDiary,
+  });
+};
+
+export const useCreateShareLink = () => {
+  return useMutation({
+    mutationKey: ['createShareLink'],
+    mutationFn: createShareLink,
   });
 };
