@@ -1,4 +1,5 @@
 import sprite from './sprites.png';
+import spriteBackground from './sprites_background.png';
 
 type EmotionType = 'angry' | 'happy' | 'eating' | 'sad' | 'excited' | 'fell_in_love' | 'sleeping' | 'normal' | 'bored';
 
@@ -37,6 +38,27 @@ export const EmotionImage = ({ type, index, size = 'lg' }: EmotionImage) => {
         width: itemSize,
         height: itemSize,
         background: `url('${sprite}') -${imagePositionX}px -0`,
+        backgroundSize: 'cover',
+      }}
+    />
+  );
+};
+
+export const EmotionBackgroundImage = ({ type, index, size = 'lg' }: EmotionImage) => {
+  if (type === undefined && index === undefined) {
+    throw new Error('EmotionImage의 type prop 또는 index prop을 설정해야 합니다.');
+  }
+
+  const itemSize = size === 'lg' ? 98 : 54;
+  const imageIndex = type ? convertTypeToIndex(type) : index || 0;
+  const imagePositionX = SPRITE_IMAGE_WIDTH * imageIndex;
+
+  return (
+    <div
+      style={{
+        width: itemSize,
+        height: itemSize,
+        background: `url('${spriteBackground}') -${imagePositionX}px -0`,
         backgroundSize: 'cover',
       }}
     />
