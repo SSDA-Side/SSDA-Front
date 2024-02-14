@@ -1,4 +1,4 @@
-import type { Board, Member } from './Model';
+import type { Board, Member, Notification } from './Model';
 
 export type HeroData = {
   hasSharedBoard: boolean;
@@ -15,4 +15,10 @@ export type GetShareLinkMetadataResponse = {
   profileUrl: string;
   boardId: number;
   title: string;
+};
+
+export type GetNotificationResponse = {
+  hasNextPage: boolean;
+  isLastPage: boolean;
+  pages: Notification[];
 };
