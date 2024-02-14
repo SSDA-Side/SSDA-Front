@@ -11,3 +11,9 @@ export const getDescription = ({ hasSharedBoard, memberCount, diaryCount }: GetD
 
   return !hasSharedBoard ? NO_SHARED_TEXT : hasWrittenDiary ? HAS_WRITTEN_TEXT : HAS_NO_WRITTEN_TEXT;
 };
+
+export const getFormattedDate = (date: Date) =>
+  `${new Intl.DateTimeFormat('ko-KR', { dateStyle: 'medium' }).format(date)} ∙ ${new Intl.DateTimeFormat('ko-KR', {
+    timeStyle: 'short',
+    hour12: false,
+  }).format(date)}`;
