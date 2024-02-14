@@ -42,7 +42,7 @@
 
 .hero-skeleton {
   border-radius: var(--radii-1);
-  animation: 0.7s ease-in-out 0.5s infinite alternate shinning;
+  animation: 1s shining alternate-reverse infinite ease-in-out;
 }
 
 .board-list-section {
@@ -56,16 +56,16 @@
   width: 100%;
   aspect-ratio: 3 / 4;
   border-radius: 0 var(--radii-2) 0 0;
-  animation: 0.7s ease-in-out 0.5s infinite alternate shinning;
+  animation: 1s shining alternate-reverse infinite ease-in-out;
 }
 
-@keyframes shinning {
+@keyframes shining {
   from {
-    background-color: var(--gray300);
+    background-color: var(--gray100);
   }
 
   to {
-    background-color: var(--gray500);
+    background-color: var(--gray200);
   }
 }
 

@@ -18,12 +18,15 @@ import type { FallbackProps } from 'react-error-boundary';
 /** Util */
 import { getDescription } from '@Utils/index';
 import { SVGIcon } from '@Icons/SVGIcon';
+import { useNavigate } from 'react-router-dom';
 
 export const MyBoardPage = () => {
   return <PageLayout header={<Head />} body={<Body />} />;
 };
 
 const Head = () => {
+  const navigate = useNavigate();
+
   return (
     <PageHeader>
       <PageHeader.Left>
@@ -35,7 +38,7 @@ const Head = () => {
       </PageHeader.Center>
 
       <PageHeader.Right>
-        <IconButton icon="bell" />
+        <IconButton icon="bell" onClick={() => navigate('/notification')} />
       </PageHeader.Right>
     </PageHeader>
   );
