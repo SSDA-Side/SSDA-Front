@@ -1,7 +1,7 @@
 import { axios } from './Axios';
 
 /** Model */
-import type { Board, Member } from '@Type/Model';
+import type { Board, Member, Notification } from '@Type/Model';
 
 /** Request */
 import type {
@@ -13,7 +13,12 @@ import type {
 } from '@Type/Request';
 
 /** Response */
-import type { CreateShareLinkResponse, GetShareLinkMetadataResponse, HeroData } from '@Type/Response';
+import type {
+  CreateShareLinkResponse,
+  GetNotificationResponse,
+  GetShareLinkMetadataResponse,
+  HeroData,
+} from '@Type/Response';
 
 import type { KakaoLoginResponse } from '@Type/index';
 
@@ -24,6 +29,7 @@ import boardResponse from '@/TestResponse/board_list_response.json';
 import memberResponse from '@/TestResponse/member_list_response.json';
 import createShareLinkResponseJSON from '@/TestResponse/create_share_link_response.json';
 import shareMetadataResponse from '@/TestResponse/get_share_link_response.json';
+import notificationResponse from '@/TestResponse/notification_response.json';
 
 type JSONResponseType = { [k in string]: unknown };
 const JSONResponses: JSONResponseType = {
@@ -33,6 +39,7 @@ const JSONResponses: JSONResponseType = {
   '/api/boards/member': memberResponse,
   '/api/boards/share': createShareLinkResponseJSON,
   '/api/boards/share/get': shareMetadataResponse,
+  '/api/notification': notificationResponse,
 };
 
 const TEST_MODE = true;
@@ -170,5 +177,32 @@ export const getShareLinkMetadata = async ({ hashKey }) => {
   }
 
   const res = await axios.post<GetShareLinkMetadataResponse>(`/api/share/${hashKey}`);
+  return res.data;
+};
+
+export const getNotifications = async ({ pageSize, lastViewId }: { pageSize: number; lastViewId: number }) => {
+  if (TEST_MODE) {
+    const notifications = (await fakeGet(`/api/notification`, { wouldReject: false })) as Notification[];
+
+    const isInitialFetching = +lastViewId === 0;
+    const startIndex = isInitialFetching ? 0 : notifications.findIndex((noti) => noti.id === +lastViewId) + 1;
+
+    const notis = notifications.slice(startIndex, startIndex + pageSize);
+
+    return notis;
+
+    // 이 아래건 react query에서 처리해주는 듯?
+    // const hasNextPage = startIndex + pageSize < notifications.length;
+    // const isLastPage = !hasNextPage;
+    // const isLastPage = notis.length < pageSize || !hasNextPage; // hasNextPage가 true인데 notis가 pageSize보다 낮을 리가
+
+    // return {
+    //   hasNextPage,
+    //   isLastPage,
+    //   pages: notis,
+    // } as GetNotificationResponse;
+  }
+
+  const res = await axios.post<Notification[]>(`/api/notification?pageSize=${pageSize}&lastViewId=${lastViewId}`);
   return res.data;
 };

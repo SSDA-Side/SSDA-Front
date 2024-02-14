@@ -1,4 +1,4 @@
-import { useMutation, useQueryClient, useSuspenseQuery } from '@tanstack/react-query';
+import { useMutation, useQueryClient, useSuspenseInfiniteQuery, useSuspenseQuery } from '@tanstack/react-query';
 
 import {
   createBoard,
@@ -8,6 +8,7 @@ import {
   getBoardList,
   getHeroData,
   getMemberList,
+  getNotifications,
   getShareLinkMetadata,
   updateBoard,
 } from '@APIs/index';
@@ -89,5 +90,17 @@ export const useGetShareLinkMetadata = () => {
   return useMutation({
     mutationKey: ['getShareLinkMetadata'],
     mutationFn: getShareLinkMetadata,
+  });
+};
+
+export const useGetNotifications = () => {
+  return useSuspenseInfiniteQuery({
+    queryKey: ['getInfiniteNotification'],
+    queryFn: ({ pageParam }) => getNotifications({ pageSize: 10, lastViewId: pageParam }),
+    getNextPageParam: (lastPage) => {
+      const isLastPage = lastPage.length < 10;
+      return isLastPage ? undefined : lastPage[lastPage.length - 1].id;
+    },
+    initialPageParam: 0,
   });
 };
