@@ -1,9 +1,11 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import styles from './DiaryListPage.module.scss';
 import cn from 'classnames';
-import { useGetDiaryDetail } from '@Hooks/NetworkHooks';
+import { useCreateComment, useGetComment, useGetDiaryDetail } from '@Hooks/NetworkHooks';
 import { useLocation } from 'react-router-dom';
 import { EmotionBackgroundImage } from '@Assets/EmotionImages';
+import { SVGIcon } from '@Icons/SVGIcon';
+import { InputBox } from '@Components/Common/InputBox';
 
 const memberList = ['나과학', '이종석', '이종석이다', '하이하이', 'say'];
 
@@ -40,19 +42,17 @@ const DiaryListContent = () => {
 
   const { data: diaryDetail, isError, isSuccess } = useGetDiaryDetail(Number(memberId), Number(boardId), date);
 
-  console.log(diaryDetail);
-
   if (isError) {
     return <div>에러가 발생했습니다.</div>;
   }
 
   if (isSuccess) {
     return (
-      <>
+      <div className={styles.scrollContainer}>
         <div className={styles.content}>
           <h2>{diaryDetail?.title}</h2>
           <div className={styles.etc}>
-            <span>{diaryDetail?.selectDate.split('T')[0]}</span>
+            <span>{diaryDetail?.selectDate}</span>
             <span>∙ 좋아요 {diaryDetail?.likeCount}개</span>
             <span>∙ 댓글 {diaryDetail?.commentCount}개</span>
           </div>
@@ -83,11 +83,59 @@ const DiaryListContent = () => {
           </div>
         </div>
         <DiaryListComment diaryId={diaryDetail?.id} />
-      </>
+      </div>
     );
   }
 };
 
 const DiaryListComment = ({ diaryId }: { diaryId: number }) => {
-  return <div className={styles.comment}>댓글</div>;
+  const [lastViewId, setLastViewId] = useState<number>(0);
+  const [comment, setComment] = useState<string>('');
+
+  const { mutate: commentMutation, data: commentData } = useGetComment(diaryId, lastViewId);
+  const { mutate: createCommentMutation, isSuccess: isCreateCommentSuccess } = useCreateComment(diaryId, comment);
+
+  useEffect(() => {
+    setComment('');
+    commentMutation();
+  }, [isCreateCommentSuccess]);
+
+  return (
+    <div className={styles.comment}>
+      <div className={styles.commentHeader}>
+        <p>{commentData?.length}개의 댓글</p>
+      </div>
+      {commentData?.map((comment) => (
+        <div key={comment.id} className={styles.commentBox}>
+          <img src={comment.profilUrl} alt="프로필 이미지" />
+          <div className={styles.body}>
+            <div>
+              <span>{comment.nickname}</span>
+              <p>{comment.contents}</p>
+            </div>
+            <div className={styles.etc}>
+              <span>{comment.regDate}</span>
+              <span>&nbsp;&nbsp;</span>
+              <button>답글 달기</button>
+            </div>
+          </div>
+        </div>
+      ))}
+      <div className={styles.writeComment}>
+        {/* TODO: 좋아요 상태에 따라 버튼 변경 */}
+        <button>{false ? <SVGIcon name="empty-love" /> : <SVGIcon name="love" />}</button>
+        <input
+          type="text"
+          className={styles.addComment}
+          maxLength={30}
+          placeholder="댓글 쓰기..."
+          value={comment}
+          onChange={(event) => {
+            setComment(event.target.value);
+          }}
+        />
+        <button onClick={() => createCommentMutation()}>등록</button>
+      </div>
+    </div>
+  );
 };

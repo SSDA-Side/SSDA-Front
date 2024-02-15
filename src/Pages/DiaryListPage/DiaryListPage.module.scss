@@ -1,9 +1,10 @@
 .container {
-  width: calc(100% - var(--size-10));
-  height: 100%;
+  width: 100%;
+  height: 100vh;
   margin: 0 auto;
   .member-tab-container {
-    width: 100%;
+    width: calc(100% - var(--size-5) * 2);
+    margin: 0 auto;
     white-space: nowrap;
     overflow-x: auto;
     .member-tab {
@@ -32,50 +33,130 @@
       }
     }
   }
-  .content {
-    h2 {
-      font-weight: 500;
-      font-size: 23px;
-      margin-top: var(--size-6);
-    }
-    .etc {
-      span {
-        color: var(--gray500);
-        font-weight: 400;
-        font-size: 12px;
+  .scroll-container {
+    overflow-y: auto;
+    white-space: nowrap;
+    height: calc(100% - 4.25rem);
+    .content {
+      width: calc(100% - var(--size-5) * 2);
+      margin: 0 auto;
+      h2 {
+        font-weight: 500;
+        font-size: 23px;
+        margin-top: var(--size-6);
       }
-      margin-bottom: var(--size-6);
-    }
-    .img-box-container {
-      width: 100%;
-      white-space: nowrap;
-      overflow-x: auto;
-      .img-box {
+      .etc {
+        span {
+          color: var(--gray500);
+          font-weight: 400;
+          font-size: 12px;
+        }
+        margin-bottom: var(--size-6);
+      }
+      .img-box-container {
         width: 100%;
-        height: 17.5rem;
-        border: 1px solid var(--gray300);
-        img {
+        white-space: nowrap;
+        overflow-x: auto;
+        .img-box {
           width: 100%;
-          height: 100%;
-          object-fit: cover;
+          height: 17.5rem;
+          border: 1px solid var(--gray300);
+          img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+          }
         }
       }
+      .icons {
+        position: relative;
+        top: -300px;
+        left: -5px;
+      }
+      .contents {
+        color: var(--gray700);
+        font-size: var(--size-5);
+        font-weight: 300;
+        margin-top: -1.5rem;
+      }
+      .button {
+        color: var(--gray500);
+        font-size: 0.7rem;
+        margin: var(--size-2) 0;
+      }
     }
-    .icons {
-      position: relative;
-      top: -300px;
-      left: -5px;
-    }
-    .contents {
-      color: var(--gray700);
-      font-size: var(--size-5);
-      font-weight: 300;
-      margin-top: -1.5rem;
-    }
-    .button {
-      color: var(--gray500);
-      font-size: 0.7rem;
-      margin: var(--size-2) 0;
+    .comment {
+      .commentHeader {
+        font-size: var(--size-3);
+        color: var(--gray500);
+        margin-top: var(--size-11);
+        padding-bottom: var(--size-4);
+        border-bottom: 1px solid var(--gray300);
+        p {
+          margin-left: var(--size-5);
+        }
+      }
+      // TODO: SCSS 클래스명 통일하기
+      .comment-box {
+        margin: var(--size-6) 0 var(--size-6) var(--size-5);
+        display: flex;
+        img {
+          width: var(--size-10);
+          height: var(--size-10);
+          border-radius: 50%;
+          object-fit: cover;
+        }
+        .body {
+          div {
+            margin-left: 1.125rem;
+            color: var(--gray1000);
+            span {
+            }
+            p {
+              margin-top: var(--size-2);
+            }
+          }
+          .etc {
+            margin-top: var(--size-2);
+            color: var(--gray500);
+            font-size: 0.875rem;
+          }
+        }
+      }
+      .write-comment {
+        padding: 0 var(--size-5);
+        border-top: 1px solid var(--gray300);
+        z-index: 9;
+        background-color: var(--white);
+        height: 4rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-decoration-line: none;
+        .add-comment {
+          width: 80%;
+          display: inline;
+          border: none;
+          padding: var(--size-3) var(--size-5);
+          font-size: var(--size-4);
+          &::placeholder {
+            color: var(--gray500);
+          }
+          &:focus {
+            outline: none;
+          }
+          &:focus-visible {
+            outline: 1px solid transparent;
+          }
+        }
+        button {
+          width: 40px;
+          color: var(--gray500);
+          &:hover {
+            color: var(--orange600);
+          }
+        }
+      }
     }
   }
 }
