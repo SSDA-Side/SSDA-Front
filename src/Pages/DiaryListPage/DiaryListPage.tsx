@@ -119,7 +119,7 @@ const DiaryListContent = ({ memberId, boardId, date }: { memberId: number; board
               <button> 삭제하기</button>
             </div>
           </div>
-          <DiaryListComment diaryId={boardId} />
+          <DiaryListComment diaryId={boardId} commentCount={diaryDetail.commentCount} />
         </>
       )}
     </div>
@@ -166,7 +166,7 @@ type lastViewId = {
   reply: number;
 };
 
-const DiaryListComment = ({ diaryId }: { diaryId: number }) => {
+const DiaryListComment = ({ diaryId, commentCount }: { diaryId: number; commentCount: number }) => {
   const [lastViewId] = useState<lastViewId>({
     comment: 0,
     reply: 0,
@@ -198,7 +198,7 @@ const DiaryListComment = ({ diaryId }: { diaryId: number }) => {
   return (
     <div className={styles.comment}>
       <div className={styles.commentHeader}>
-        <p>{commentData?.length}개의 댓글</p>
+        <p>{commentCount}개의 댓글</p>
       </div>
       {commentData?.map((comment) => (
         <div className={styles.commentArea} key={`comment-${comment.id}`}>
