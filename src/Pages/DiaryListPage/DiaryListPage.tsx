@@ -1,11 +1,10 @@
 import { useEffect, useState } from 'react';
 import styles from './DiaryListPage.module.scss';
 import cn from 'classnames';
-import { useCreateComment, useGetComment, useGetDiaryDetail } from '@Hooks/NetworkHooks';
+import { useCreateComment, useCreateReply, useGetComment, useGetDiaryDetail } from '@Hooks/NetworkHooks';
 import { useLocation } from 'react-router-dom';
 import { EmotionBackgroundImage } from '@Assets/EmotionImages';
 import { SVGIcon } from '@Icons/SVGIcon';
-import { InputBox } from '@Components/Common/InputBox';
 
 const memberList = ['나과학', '이종석', '이종석이다', '하이하이', 'say'];
 
@@ -19,16 +18,18 @@ export const DiaryListPage = () => {
   return (
     <div className={styles.container}>
       <div className={styles.memberTabContainer}>
-        <div className={styles.memberTab}>
-          {memberList.map((member) => (
-            <button
-              key={member}
-              className={cn(styles.member, { [styles.active]: member === selectMember })}
-              onClick={() => onClickMember(member)}
-            >
-              {member}
-            </button>
-          ))}
+        <div>
+          <div className={styles.memberTab}>
+            {memberList.map((member) => (
+              <button
+                key={member}
+                className={cn(styles.member, { [styles.active]: member === selectMember })}
+                onClick={() => onClickMember(member)}
+              >
+                {member}
+              </button>
+            ))}
+          </div>
         </div>
       </div>
       <DiaryListContent />
@@ -88,17 +89,35 @@ const DiaryListContent = () => {
   }
 };
 
+type comment = {
+  status: 'comment' | 'reply';
+  data: string;
+  commentId: number;
+  userNickname?: string;
+};
+
 const DiaryListComment = ({ diaryId }: { diaryId: number }) => {
   const [lastViewId, setLastViewId] = useState<number>(0);
-  const [comment, setComment] = useState<string>('');
+  const [comment, setComment] = useState<comment>({
+    status: 'comment',
+    commentId: 0,
+    data: '',
+  });
 
-  const { mutate: commentMutation, data: commentData } = useGetComment(diaryId, lastViewId);
-  const { mutate: createCommentMutation, isSuccess: isCreateCommentSuccess } = useCreateComment(diaryId, comment);
+  const { mutate: getCommentMutation, data: commentData } = useGetComment(diaryId, lastViewId);
+  const { mutate: createCommentMutation, isSuccess: isCreateCommentSuccess } = useCreateComment(diaryId, comment.data);
+  const { mutate: createReplyMutation } = useCreateReply(diaryId, comment?.commentId, comment.data);
 
   useEffect(() => {
-    setComment('');
-    commentMutation();
+    setComment({ status: 'comment', commentId: 0, data: '' });
+    getCommentMutation();
   }, [isCreateCommentSuccess]);
+
+  // TODO: 스크롤 이벤트 추가
+  // useEffect(() => {
+  //   if (commentData === undefined) return;
+  //   commentData?.length > 9 && setLastViewId(commentData[commentData.length - 1]?.id);
+  // }, [isGetCommentSuccess]);
 
   return (
     <div className={styles.comment}>
@@ -116,25 +135,45 @@ const DiaryListComment = ({ diaryId }: { diaryId: number }) => {
             <div className={styles.etc}>
               <span>{comment.regDate}</span>
               <span>&nbsp;&nbsp;</span>
-              <button>답글 달기</button>
+              <button
+                onClick={() => {
+                  setComment({ status: 'reply', commentId: comment.id, data: '', userNickname: comment?.nickname });
+                }}
+              >
+                답글 달기
+              </button>
             </div>
           </div>
         </div>
       ))}
       <div className={styles.writeComment}>
         {/* TODO: 좋아요 상태에 따라 버튼 변경 */}
-        <button>{false ? <SVGIcon name="empty-love" /> : <SVGIcon name="love" />}</button>
-        <input
-          type="text"
-          className={styles.addComment}
-          maxLength={30}
-          placeholder="댓글 쓰기..."
-          value={comment}
-          onChange={(event) => {
-            setComment(event.target.value);
-          }}
-        />
-        <button onClick={() => createCommentMutation()}>등록</button>
+        {comment.status === 'reply' && (
+          <div className={styles.replyView}>
+            <span>{comment?.userNickname}에게 답글 작성 중</span>
+            <button
+              onClick={() => {
+                setComment({ status: 'comment', commentId: 0, data: '' });
+              }}
+            >
+              <SVGIcon name="close" size={12} />
+            </button>
+          </div>
+        )}
+        <div className={styles.commentView}>
+          <button>{false ? <SVGIcon name="empty-love" /> : <SVGIcon name="love" />}</button>
+          <input
+            type="text"
+            className={styles.addComment}
+            maxLength={30}
+            placeholder="댓글 쓰기..."
+            value={comment.data}
+            onChange={(event) => {
+              setComment((prev) => ({ ...prev, data: event.target.value }));
+            }}
+          />
+          <button onClick={() => createCommentMutation()}>등록</button>
+        </div>
       </div>
     </div>
   );

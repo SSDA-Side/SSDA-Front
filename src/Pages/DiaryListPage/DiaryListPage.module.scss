@@ -64,7 +64,6 @@
   }
   .scroll-container {
     overflow-y: auto;
-    white-space: nowrap;
     height: calc(100% - 4.25rem);
     .content {
       width: calc(100% - var(--size-5) * 2);
@@ -103,10 +102,11 @@
         left: -5px;
       }
       .contents {
+        width: 100%;
         color: var(--gray700);
         font-size: var(--size-5);
         font-weight: 300;
-        margin-top: -1.5rem;
+        margin: -1.5rem 0 0 var(--size-1);
       }
       .button {
         color: var(--gray500);
@@ -135,37 +135,51 @@
         position: fixed;
         bottom: 0;
         // TODO: 너비 수정
-        width: 24rem;
-        padding: 0 var(--size-5);
-        border-top: 1px solid var(--gray300);
         z-index: 9;
         background-color: var(--white);
-        height: 4rem;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        text-decoration-line: none;
-        .add-comment {
-          width: 80%;
-          display: inline;
-          border: none;
-          padding: var(--size-3) var(--size-5);
-          font-size: var(--size-4);
-          &::placeholder {
-            color: var(--gray500);
-          }
-          &:focus {
-            outline: none;
-          }
-          &:focus-visible {
-            outline: 1px solid transparent;
+        width: 24.3rem;
+        .reply-view {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          padding: var(--size-1) var(--size-6);
+          background: var(--gray400);
+          color: var(--white);
+          font-size: var(--size-3);
+          button svg {
+            vertical-align: bottom;
           }
         }
-        button {
-          width: 40px;
-          color: var(--gray500);
-          &:hover {
-            color: var(--orange600);
+        .comment-view {
+          padding: 0 var(--size-5);
+          height: 4rem;
+          border-top: 1px solid var(--gray300);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          text-decoration-line: none;
+          .add-comment {
+            width: 80%;
+            display: inline;
+            border: none;
+            padding: var(--size-3) var(--size-5);
+            font-size: var(--size-4);
+            &::placeholder {
+              color: var(--gray500);
+            }
+            &:focus {
+              outline: none;
+            }
+            &:focus-visible {
+              outline: 1px solid transparent;
+            }
+          }
+          button {
+            width: 40px;
+            color: var(--gray500);
+            &:hover {
+              color: var(--orange600);
+            }
           }
         }
       }
