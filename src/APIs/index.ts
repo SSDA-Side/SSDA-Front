@@ -40,7 +40,7 @@ export const getTodayDiary = async (boardId: number, date: string) => {
 };
 
 export const isNewDiary = async (boardId: number) => {
-  const res = await axios.get<todayDiaryData[]>(`/api/mode/exist?boardId=${boardId}`);
+  const res = await axios.get(`/api/mode/exist?boardId=${boardId}`);
   return res.data;
 };
 
@@ -52,7 +52,7 @@ export const getAllDiary = async (boardId: number, pageSize = 10, lastViewId: nu
 };
 
 export const getNewDiary = async (boardId: number) => {
-  const res = await axios.get(`/api/mode/new?boardId=${boardId}`);
+  const res = await axios.get<todayDiaryData[]>(`/api/mode/new?boardId=${boardId}`);
   return res.data;
 };
 
