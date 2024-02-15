@@ -21,6 +21,7 @@ type member = {
 
 export const DiaryListPage = () => {
   const [memberList, setMemberList] = useState<member[]>([]);
+  const selectedMember = memberList.find((member) => member.isSelect)?.memberId;
 
   const onClickMember = (member: string) => {
     setMemberList((prev) =>
@@ -71,12 +72,8 @@ export const DiaryListPage = () => {
           </div>
         </div>
       </div>
-      {memberList.length > 0 && (
-        <DiaryListContent
-          memberId={memberList.find((member) => member.isSelect)?.memberId}
-          boardId={Number(boardId)}
-          date={date}
-        />
+      {memberList.length > 0 && selectedMember !== undefined && (
+        <DiaryListContent memberId={selectedMember} boardId={Number(boardId)} date={date} />
       )}
     </div>
   );
