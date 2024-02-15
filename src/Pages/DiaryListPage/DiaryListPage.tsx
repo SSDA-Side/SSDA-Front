@@ -1,19 +1,58 @@
 import { useEffect, useState } from 'react';
 import styles from './DiaryListPage.module.scss';
 import cn from 'classnames';
-import { useCreateComment, useCreateReply, useGetComment, useGetDiaryDetail, useGetReply } from '@Hooks/NetworkHooks';
+import {
+  useCreateComment,
+  useCreateReply,
+  useGetComment,
+  useGetDiaryDetail,
+  useGetReply,
+  useGetTodayDiary,
+} from '@Hooks/NetworkHooks';
 import { useLocation } from 'react-router-dom';
 import { EmotionBackgroundImage } from '@Assets/EmotionImages';
 import { SVGIcon } from '@Icons/SVGIcon';
 
-const memberList = ['나과학', '이종석', '이종석이다', '하이하이', 'say'];
+type member = {
+  memberId: number;
+  memberNickname: string;
+  isSelect: boolean;
+};
 
 export const DiaryListPage = () => {
-  const [selectMember, setSelectMember] = useState<string>(memberList[0]);
+  const [memberList, setMemberList] = useState<member[]>([]);
 
   const onClickMember = (member: string) => {
-    setSelectMember(member);
+    setMemberList((prev) =>
+      prev.map((item) => {
+        if (item.memberNickname === member) {
+          return { ...item, isSelect: true };
+        } else {
+          return { ...item, isSelect: false };
+        }
+      }),
+    );
   };
+
+  const location = useLocation();
+  const [boardId, date] = location.pathname.split('/').slice(2, 4);
+
+  const { mutate: getTodayDiaryMutation, isSuccess, data: todayData } = useGetTodayDiary(Number(boardId), date);
+
+  useEffect(() => {
+    getTodayDiaryMutation();
+  }, []);
+
+  useEffect(() => {
+    if (todayData === undefined) return;
+    setMemberList(
+      todayData?.map((member, index) => ({
+        memberId: member.memberId,
+        memberNickname: member.nickname,
+        isSelect: index === 0 ? true : false,
+      })),
+    );
+  }, [isSuccess]);
 
   return (
     <div className={styles.container}>
@@ -22,83 +61,66 @@ export const DiaryListPage = () => {
           <div className={styles.memberTab}>
             {memberList.map((member) => (
               <button
-                key={member}
-                className={cn(styles.member, { [styles.active]: member === selectMember })}
-                onClick={() => onClickMember(member)}
+                key={`member-${member.memberId}`}
+                className={cn(styles.member, { [styles.active]: member.isSelect })}
+                onClick={() => onClickMember(member.memberNickname)}
               >
-                {member}
+                {member.memberNickname}
               </button>
             ))}
           </div>
         </div>
       </div>
-      <DiaryListContent />
+      <DiaryListContent memberId={2} boardId={Number(boardId)} date={date} />
     </div>
   );
 };
 
-const DiaryListContent = () => {
-  const location = useLocation();
-  const [memberId, boardId, date] = location.pathname.split('/').slice(2, 5);
+const DiaryListContent = ({ memberId, boardId, date }: { memberId: number; boardId: number; date: string }) => {
+  const {
+    data: diaryDetail,
+    isError: isDiaryDetailError,
+    isSuccess: isDiaryDetailSuccess,
+  } = useGetDiaryDetail(memberId, boardId, date);
 
-  const { data: diaryDetail, isError, isSuccess } = useGetDiaryDetail(Number(memberId), Number(boardId), date);
-
-  if (isError) {
-    return <div>에러가 발생했습니다.</div>;
-  }
-
-  if (isSuccess) {
-    return (
-      <div className={styles.scrollContainer}>
-        <div className={styles.content}>
-          <h2>{diaryDetail?.title}</h2>
-          <div className={styles.etc}>
-            <span>{diaryDetail?.selectDate}</span>
-            <span>∙ 좋아요 {diaryDetail?.likeCount}개</span>
-            <span>∙ 댓글 {diaryDetail?.commentCount}개</span>
-          </div>
-          <div className={styles.imgBoxContainer}>
-            <div className={styles.imgBox}>
-              {/* {diaryDetail?.images.map((image) => {
-            if (image.imgUrl === null) return null;
-            return <img key={image.id} src={image.imgUrl} alt="이미지" />;
-          })} */}
-              {/* TODO: 스크롤 대신 이미지 슬라이드로 변경 */}
-              <img src="https://www.freecodecamp.org/news/content/images/size/w1000/2021/08/imgTag.png" alt="이미지" />
-              <img
-                src="https://m.luvum.co.kr/file_data/moongkler1/2022/06/12/033e077e0b5a79a368118c38292a3b92.jpeg"
-                alt="이미지"
-              />
+  return (
+    <div className={styles.scrollContainer}>
+      {isDiaryDetailError && <div>일기를 불러오는 중 에러가 발생했습니다.</div>}
+      {isDiaryDetailSuccess && (
+        <>
+          <div className={styles.content}>
+            <h2>{diaryDetail?.title}</h2>
+            <div className={styles.etc}>
+              <span>{diaryDetail?.selectDate}</span>
+              <span>∙ 좋아요 {diaryDetail?.likeCount}개</span>
+              <span>∙ 댓글 {diaryDetail?.commentCount}개</span>
+            </div>
+            <div className={styles.imgBoxContainer}>
+              <div className={styles.imgBox}>
+                {/* TODO: 스크롤 대신 이미지 슬라이드로 변경 */}
+                {diaryDetail?.images.map((image) => {
+                  if (image.imgUrl === null) return null;
+                  return <img key={image.id} src={image.imgUrl} alt="이미지" />;
+                })}
+              </div>
+            </div>
+            <div className={styles.icons}>
+              {/* TODO: sprite 이미지 함수 다시 생성 */}
+              <EmotionBackgroundImage index={diaryDetail.emotionId} size="sm" />
+            </div>
+            <div className={styles.contents}>{diaryDetail?.contents}</div>
+            <div className={styles.button}>
+              {/* TODO : 버튼 기능 클릭 시 수정 및 삭제 이벤트 추가 */}
+              <button>수정하기 </button>
+              <span> ∙ </span>
+              <button> 삭제하기</button>
             </div>
           </div>
-          <div className={styles.icons}>
-            {/* TODO: sprite 이미지 함수 다시 생성 */}
-            <EmotionBackgroundImage index={diaryDetail?.emotionId} size="sm" />
-          </div>
-          <div className={styles.contents}>{diaryDetail?.contents}</div>
-          <div className={styles.button}>
-            {/* TODO : 버튼 기능 클릭 시 수정 및 삭제 이벤트 추가 */}
-            <button>수정하기 </button>
-            <span> ∙ </span>
-            <button> 삭제하기</button>
-          </div>
-        </div>
-        <DiaryListComment diaryId={diaryDetail?.id} />
-      </div>
-    );
-  }
-};
-
-type comment = {
-  status: 'comment' | 'reply';
-  data: string;
-  commentId: number;
-  userNickname?: string;
-};
-
-type lastViewId = {
-  comment: number;
-  reply: number;
+          <DiaryListComment diaryId={boardId} />
+        </>
+      )}
+    </div>
+  );
 };
 
 const DiaryListReply = ({ commentId, lastViewId }: { commentId: number; lastViewId: number }) => {
@@ -127,6 +149,18 @@ const DiaryListReply = ({ commentId, lastViewId }: { commentId: number; lastView
       ))}
     </>
   );
+};
+
+type comment = {
+  status: 'comment' | 'reply';
+  data: string;
+  commentId: number;
+  userNickname?: string;
+};
+
+type lastViewId = {
+  comment: number;
+  reply: number;
 };
 
 const DiaryListComment = ({ diaryId }: { diaryId: number }) => {
