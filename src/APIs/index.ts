@@ -45,7 +45,9 @@ export const isNewDiary = async (boardId: number) => {
 };
 
 export const getAllDiary = async (boardId: number, pageSize = 10, lastViewId: number) => {
-  const res = await axios.get(`/api/mode/all?boardId=${boardId}&pageSize=${pageSize}&lastViewId=${lastViewId}`);
+  const res = await axios.get<todayDiaryData[]>(
+    `/api/mode/all?boardId=${boardId}&pageSize=${pageSize}&lastViewId=${lastViewId}`,
+  );
   return res.data;
 };
 
