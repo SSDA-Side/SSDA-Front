@@ -48,6 +48,8 @@ export type todayDiaryData = {
   title: string;
   likeCount: number;
   commentCount: number;
-  selectedDate: string;
+  regDate?: string;
+  selectedDate?: string;
+  selectDate?: string;
   timeStamp: string;
 };
