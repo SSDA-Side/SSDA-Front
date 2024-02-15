@@ -13,7 +13,7 @@ import type {
 } from '@Type/Request';
 
 /** Response */
-import { CommentData, type DiaryDetailData, type HeroData } from '@Type/Response';
+import { CommentData, replyData, type DiaryDetailData, type HeroData } from '@Type/Response';
 
 import type { KakaoLoginResponse } from '@Type/index';
 
@@ -96,7 +96,7 @@ export const createComment = async (diaryId: number, contents: string) => {
   return res.status;
 };
 export const getReply = async (commentId: number, lastViewId: number) => {
-  const res = await axios.get(`/api/comment/${commentId}/reply?lastViewId=${lastViewId}`);
+  const res = await axios.get<replyData>(`/api/comment/${commentId}/reply?lastViewId=${lastViewId}`);
   return res.data;
 };
 

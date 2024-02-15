@@ -35,3 +35,5 @@ export type CommentData = {
   owned: boolean;
   deletedMark: boolean;
 }[];
+
+export type replyData = CommentData;
