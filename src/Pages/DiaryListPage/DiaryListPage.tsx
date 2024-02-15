@@ -106,12 +106,15 @@ const DiaryListComment = ({ diaryId }: { diaryId: number }) => {
 
   const { mutate: getCommentMutation, data: commentData } = useGetComment(diaryId, lastViewId);
   const { mutate: createCommentMutation, isSuccess: isCreateCommentSuccess } = useCreateComment(diaryId, comment.data);
-  const { mutate: createReplyMutation } = useCreateReply(diaryId, comment?.commentId, comment.data);
+  const { mutate: createReplyMutation, isSuccess: isCreateReplySuccess } = useCreateReply(
+    comment?.commentId,
+    comment.data,
+  );
 
   useEffect(() => {
     setComment({ status: 'comment', commentId: 0, data: '' });
     getCommentMutation();
-  }, [isCreateCommentSuccess]);
+  }, [isCreateCommentSuccess, isCreateReplySuccess]);
 
   // TODO: 스크롤 이벤트 추가
   // useEffect(() => {
@@ -172,7 +175,17 @@ const DiaryListComment = ({ diaryId }: { diaryId: number }) => {
               setComment((prev) => ({ ...prev, data: event.target.value }));
             }}
           />
-          <button onClick={() => createCommentMutation()}>등록</button>
+          <button
+            onClick={() => {
+              if (comment.status === 'comment') {
+                createCommentMutation();
+              } else {
+                createReplyMutation();
+              }
+            }}
+          >
+            등록
+          </button>
         </div>
       </div>
     </div>
