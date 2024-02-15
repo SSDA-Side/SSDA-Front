@@ -21,7 +21,17 @@ export type DiaryDetailData = {
   title: string;
 };
 
-type DiaryDetailImage = {
+export type DiaryDetailImage = {
   id: number;
   imgUrl: string;
 };
+
+export type CommentData = {
+  id: number;
+  nickname: string;
+  profilUrl: string;
+  contents: string;
+  regDate: string;
+  owned: boolean;
+  deletedMark: boolean;
+}[];
