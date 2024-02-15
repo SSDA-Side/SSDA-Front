@@ -95,6 +95,15 @@ export const createComment = async (diaryId: number, contents: string) => {
   const res = await axios.post(`/api/diary/${diaryId}/comment`, { contents });
   return res.status;
 };
+export const getReply = async (commentId: number, lastViewId: number) => {
+  const res = await axios.get(`/api/comment/${commentId}/reply?lastViewId=${lastViewId}`);
+  return res.data;
+};
+
+export const createReply = async (commentId: number, contents: string) => {
+  const res = await axios.post(`/api/comment/${commentId}/reply`, { contents });
+  return res.status;
+};
 
 /**
  * 인위적인 네트워크 딜레이를 위한 임시 함수

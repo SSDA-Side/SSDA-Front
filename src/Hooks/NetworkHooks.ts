@@ -2,6 +2,7 @@ import {
   createBoard,
   createComment,
   createDiary,
+  createReply,
   deleteBoard,
   getAllDiary,
   getBoardList,
@@ -11,6 +12,7 @@ import {
   getMemberList,
   getMonth,
   getNewDiary,
+  getReply,
   getTodayDiary,
   isNewDiary,
   kakaoLogin,
@@ -85,6 +87,23 @@ export const useCreateComment = (diaryId: number, contents: string) => {
   return useMutation({
     mutationKey: ['createComment'],
     mutationFn: () => createComment(diaryId, contents),
+  });
+};
+
+export const useGetReply = (commentId: number, lastViewId: number) => {
+  return useMutation({
+    mutationKey: ['getReply'],
+    mutationFn: () => getReply(commentId, lastViewId),
+    onSuccess: (data) => {
+      return data;
+    },
+  });
+};
+
+export const useCreateReply = (commentId: number, contents: string) => {
+  return useMutation({
+    mutationKey: ['createReply'],
+    mutationFn: () => createReply(commentId, contents),
   });
 };
 
