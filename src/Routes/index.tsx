@@ -86,7 +86,7 @@ export const routes = [
                 element: <DiaryWritePage />,
               },
               {
-                path: 'myboard/:memberId/:boardId/:date',
+                path: 'myboard/:boardId/:date',
                 element: <DiaryListPage />,
               },
               {
