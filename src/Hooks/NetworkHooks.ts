@@ -1,9 +1,12 @@
 import {
   createBoard,
+  createComment,
   createDiary,
   deleteBoard,
   getAllDiary,
   getBoardList,
+  getComment,
+  getDiaryDetail,
   getHeroData,
   getMemberList,
   getMonth,
@@ -68,6 +71,23 @@ export const useDeleteBoard = () => {
   });
 };
 
+export const useGetComment = (diaryId: number, lastViewId: number) => {
+  return useMutation({
+    mutationKey: ['getComment'],
+    mutationFn: () => getComment(diaryId, 10, lastViewId),
+    onSuccess: (data) => {
+      return data;
+    },
+  });
+};
+
+export const useCreateComment = (diaryId: number, contents: string) => {
+  return useMutation({
+    mutationKey: ['createComment'],
+    mutationFn: () => createComment(diaryId, contents),
+  });
+};
+
 export const useGetMemberList = ({ id }: GetMemberListRequest) => {
   return useSuspenseQuery({
     queryKey: ['myboard', 'memberList'],
@@ -110,6 +130,13 @@ export const useGetTodayDiary = (boardId: number, date: string) => {
     onSuccess: (data) => {
       return data;
     },
+  });
+};
+
+export const useGetDiaryDetail = (memberId: number, boardId: number, date: string) => {
+  return useQuery({
+    queryKey: ['myboard', 'diaryDetail'],
+    queryFn: () => getDiaryDetail(memberId, boardId, date),
   });
 };
 
