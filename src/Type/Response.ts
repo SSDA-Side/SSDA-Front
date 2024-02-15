@@ -44,10 +44,10 @@ export type todayDiaryData = {
   nickname: string;
   boardId: number;
   emotionId: number;
-  thumbnailUrl?: string;
+  thumbnailUrl: string;
   title: string;
   likeCount: number;
   commentCount: number;
-  selectDate: string;
+  selectedDate: string;
   timeStamp: string;
 };

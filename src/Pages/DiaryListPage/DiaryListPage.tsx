@@ -71,7 +71,13 @@ export const DiaryListPage = () => {
           </div>
         </div>
       </div>
-      <DiaryListContent memberId={2} boardId={Number(boardId)} date={date} />
+      {memberList.length > 0 && (
+        <DiaryListContent
+          memberId={memberList.find((member) => member.isSelect)?.memberId}
+          boardId={Number(boardId)}
+          date={date}
+        />
+      )}
     </div>
   );
 };
