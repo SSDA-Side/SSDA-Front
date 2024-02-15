@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import styles from './DiaryListPage.module.scss';
 import cn from 'classnames';
-import { useCreateComment, useCreateReply, useGetComment, useGetDiaryDetail } from '@Hooks/NetworkHooks';
+import { useCreateComment, useCreateReply, useGetComment, useGetDiaryDetail, useGetReply } from '@Hooks/NetworkHooks';
 import { useLocation } from 'react-router-dom';
 import { EmotionBackgroundImage } from '@Assets/EmotionImages';
 import { SVGIcon } from '@Icons/SVGIcon';
@@ -96,15 +96,51 @@ type comment = {
   userNickname?: string;
 };
 
+type lastViewId = {
+  comment: number;
+  reply: number;
+};
+
+const DiaryListReply = ({ commentId, lastViewId }: { commentId: number; lastViewId: number }) => {
+  const { mutate: getReplyMutation, data: replyData } = useGetReply(commentId, lastViewId);
+
+  useEffect(() => {
+    getReplyMutation();
+  }, []);
+
+  return (
+    <>
+      {replyData?.map((reply) => (
+        <div className={styles.replyBox} key={`key-${reply.id}`}>
+          <img src={reply.profilUrl} alt="프로필 이미지" />
+          <div className={styles.body}>
+            <div>
+              <span>{reply.nickname}</span>
+              <p>{reply.contents}</p>
+            </div>
+            <div className={styles.etc}>
+              <span>{reply.regDate}</span>
+              <span>&nbsp;&nbsp;</span>
+            </div>
+          </div>
+        </div>
+      ))}
+    </>
+  );
+};
+
 const DiaryListComment = ({ diaryId }: { diaryId: number }) => {
-  const [lastViewId, setLastViewId] = useState<number>(0);
+  const [lastViewId] = useState<lastViewId>({
+    comment: 0,
+    reply: 0,
+  });
   const [comment, setComment] = useState<comment>({
     status: 'comment',
     commentId: 0,
     data: '',
   });
 
-  const { mutate: getCommentMutation, data: commentData } = useGetComment(diaryId, lastViewId);
+  const { mutate: getCommentMutation, data: commentData } = useGetComment(diaryId, lastViewId.comment);
   const { mutate: createCommentMutation, isSuccess: isCreateCommentSuccess } = useCreateComment(diaryId, comment.data);
   const { mutate: createReplyMutation, isSuccess: isCreateReplySuccess } = useCreateReply(
     comment?.commentId,
@@ -128,25 +164,28 @@ const DiaryListComment = ({ diaryId }: { diaryId: number }) => {
         <p>{commentData?.length}개의 댓글</p>
       </div>
       {commentData?.map((comment) => (
-        <div key={comment.id} className={styles.commentBox}>
-          <img src={comment.profilUrl} alt="프로필 이미지" />
-          <div className={styles.body}>
-            <div>
-              <span>{comment.nickname}</span>
-              <p>{comment.contents}</p>
-            </div>
-            <div className={styles.etc}>
-              <span>{comment.regDate}</span>
-              <span>&nbsp;&nbsp;</span>
-              <button
-                onClick={() => {
-                  setComment({ status: 'reply', commentId: comment.id, data: '', userNickname: comment?.nickname });
-                }}
-              >
-                답글 달기
-              </button>
+        <div className={styles.commentArea} key={`comment-${comment.id}`}>
+          <div className={styles.commentBox}>
+            <img src={comment.profilUrl} alt="프로필 이미지" />
+            <div className={styles.body}>
+              <div>
+                <span>{comment.nickname}</span>
+                <p>{comment.contents}</p>
+              </div>
+              <div className={styles.etc}>
+                <span>{comment.regDate}</span>
+                <span>&nbsp;&nbsp;</span>
+                <button
+                  onClick={() => {
+                    setComment({ status: 'reply', commentId: comment.id, data: '', userNickname: comment?.nickname });
+                  }}
+                >
+                  답글 달기
+                </button>
+              </div>
             </div>
           </div>
+          <DiaryListReply commentId={comment.id} lastViewId={lastViewId.reply} />
         </div>
       ))}
       <div className={styles.writeComment}>

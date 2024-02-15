@@ -127,9 +127,15 @@
         }
       }
       // TODO: SCSS 클래스명 통일하기
-      .comment-box {
-        margin: var(--size-6) 0 var(--size-6) var(--size-5);
-        @include comment-reply-box();
+      .comment-area {
+        .comment-box {
+          margin: var(--size-6) 0 var(--size-6) var(--size-5);
+          @include comment-reply-box();
+        }
+        .reply-box {
+          margin: var(--size-6) 0 var(--size-6) 4.5rem;
+          @include comment-reply-box();
+        }
       }
       .write-comment {
         position: fixed;
