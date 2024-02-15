@@ -3,13 +3,17 @@ import styles from './DiaryItem.module.scss';
 import { EmotionImage } from '@Assets/EmotionImages';
 import { SVGIcon } from '@Icons/SVGIcon';
 import { todayDiaryData } from '@Type/Response';
+import { useNavigate } from 'react-router-dom';
 
 export const DiaryItem = ({ diary }: { diary: todayDiaryData }) => {
+  const navigate = useNavigate();
+  const selectDay = diary.selectedDate.split('T')[0];
+
   return (
     <button
       className={styles.container}
       onClick={() => {
-        console.log(diary.id, diary.memberId);
+        navigate(`/myboard/${diary.id}/${selectDay}`);
       }}
     >
       <div className={styles.header}>
