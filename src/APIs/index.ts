@@ -13,10 +13,11 @@ import type {
 } from '@Type/Request';
 
 /** Response */
-import type { HeroData } from '@Type/Response';
+import { CommentData, type DiaryDetailData, type HeroData } from '@Type/Response';
 
 import type { KakaoLoginResponse } from '@Type/index';
 
+// login
 export const kakaoLogin = async (authorizationCode: string) => {
   const res = await axios.post<KakaoLoginResponse>('/api/auth/kakao', { authorizationCode });
   return res.data;
@@ -27,6 +28,7 @@ export const getHeroData = async () => {
   return res.data;
 };
 
+// diary
 export const getMonth = async (boardId: number, date: string) => {
   const res = await axios.get(`/api/mode/month?boardId=${boardId}&date=${date}`);
   return res.data;
@@ -54,9 +56,44 @@ export const getNewDiary = async (boardId: number) => {
 
 const DELAY_TIME = 1200;
 
-export const getDiaryDetail = async (memberId: number, boardId: number, date: Date) => {
-  const res = await axios.get(`/api/diary?memberId=${memberId}&boardId=${boardId}&date=${date}`);
+// 일기 상세
+export const getDiaryDetail = async (memberId: number, boardId: number, date: string) => {
+  const res = await axios.get<DiaryDetailData>(`/api/diary?memberId=${memberId}&boardId=${boardId}&date=${date}`);
   return res.data;
+};
+
+// ㅣike
+export const getLikes = async (diaryId: number) => {
+  const res = await axios.get(`/api/diary/${diaryId}/likes`);
+  return res.data;
+};
+
+export const updateLikes = async (diaryId: number) => {
+  const res = await axios.put(`/api/diary/${diaryId}/likes`);
+  return res.status;
+};
+
+// comment
+export const getComment = async (diaryId: number, pageSize = 10, lastViewId: number) => {
+  const res = await axios.get<CommentData>(
+    `/api/diary/${diaryId}/comment?pageSize=${pageSize}&lastViewId=${lastViewId}`,
+  );
+  return res.data;
+};
+
+export const updateComment = async (diaryId: number, commentId: number) => {
+  const res = await axios.put(`/api/diary/${diaryId}/comment/${commentId}`);
+  return res.status;
+};
+
+export const deleteComment = async (diaryId: number, commentId: number) => {
+  const res = await axios.delete(`/api/diary/${diaryId}/comment/${commentId}`);
+  return res.status;
+};
+
+export const createComment = async (diaryId: number, contents: string) => {
+  const res = await axios.post(`/api/diary/${diaryId}/comment`, { contents });
+  return res.status;
 };
 
 /**
