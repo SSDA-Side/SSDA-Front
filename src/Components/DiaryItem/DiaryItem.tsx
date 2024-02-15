@@ -2,22 +2,9 @@ import React from 'react';
 import styles from './DiaryItem.module.scss';
 import { EmotionImage } from '@Assets/EmotionImages';
 import { SVGIcon } from '@Icons/SVGIcon';
+import { todayDiaryData } from '@Type/Response';
 
-export type DiaryItemProps = {
-  boardId: string;
-  commentCount: string;
-  emotionId: string;
-  id: string;
-  likeCount: string;
-  memberId: string;
-  nickname: string;
-  selectedDate: string;
-  thumbnailUrl: string;
-  timeStamp: string;
-  title: string;
-};
-
-export const DiaryItem = ({ diary }: DiaryItemProps) => {
+export const DiaryItem = ({ diary }: { diary: todayDiaryData }) => {
   return (
     <button
       className={styles.container}
