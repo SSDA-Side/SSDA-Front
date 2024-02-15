@@ -9,12 +9,19 @@
     <symbol fill="none" viewBox="0 0 8 8" id="empty-circle" xmlns="http://www.w3.org/2000/svg">
       <circle cx="4" cy="4" r="4" fill="#fff" fill-opacity=".3"/>
     </symbol>
+    <symbol fill="none" viewBox="0 0 36 30" id="empty-love" xmlns="http://www.w3.org/2000/svg">
+<path d="M32.546 2.652a9.05 9.05 0 0 0-12.802 0L18 4.396l-1.745-1.744A9.052 9.052 0 0 0 3.454 15.454l1.744 1.744L18 30 30.8 17.198l1.745-1.744a9.05 9.05 0 0 0 0-12.802Z" fill="#EEE"/>
+<symbol fill="none" viewBox="0 0 35 30" id="love" xmlns="http://www.w3.org/2000/svg">
+<path d="M31.743 2.652a9.05 9.05 0 0 0-12.801 0l-1.745 1.744-1.744-1.744A9.052 9.052 0 1 0 2.651 15.454l1.745 1.744L17.197 30 30 17.198l1.744-1.744a9.049 9.049 0 0 0 0-12.802Z" fill="#FF8066"/>
+</symbol>
+</symbol>
     <symbol id="right" fill="none" viewBox="0 0 32 32">
       <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m12 24 8-8-8-8"/>
     </symbol>
     <symbol id="left" fill="none" viewBox="0 0 32 32">
       <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m20 24-8-8 8-8"/>
     </symbol>
+    
     <symbol id="close" fill="none" viewBox="0 0 32 32">
       <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M24 8 8 24M8 8l16 16"/>
     </symbol>

@@ -58,5 +58,9 @@
   "love": {
     "width": 32,
     "height": 32
+  },
+  "empty-love": {
+    "width": 32,
+    "height": 32
   }
 }
