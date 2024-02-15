@@ -10,7 +10,6 @@ import {
   useGetTodayDiary,
 } from '@Hooks/NetworkHooks';
 import { useLocation } from 'react-router-dom';
-import { EmotionBackgroundImage } from '@Assets/EmotionImages';
 import { SVGIcon } from '@Icons/SVGIcon';
 
 type member = {
@@ -83,45 +82,42 @@ const DiaryListContent = ({ memberId, boardId, date }: { memberId: number; board
   const {
     data: diaryDetail,
     isError: isDiaryDetailError,
+    // isLoading: isDiaryDetailLoading,
     isSuccess: isDiaryDetailSuccess,
   } = useGetDiaryDetail(memberId, boardId, date);
 
   return (
     <div className={styles.scrollContainer}>
       {isDiaryDetailError && <div>일기를 불러오는 중 에러가 발생했습니다.</div>}
-      {isDiaryDetailSuccess && (
-        <>
-          <div className={styles.content}>
-            <h2>{diaryDetail?.title}</h2>
-            <div className={styles.etc}>
-              <span>{diaryDetail?.selectDate}</span>
-              <span>∙ 좋아요 {diaryDetail?.likeCount}개</span>
-              <span>∙ 댓글 {diaryDetail?.commentCount}개</span>
-            </div>
-            <div className={styles.imgBoxContainer}>
-              <div className={styles.imgBox}>
-                {/* TODO: 스크롤 대신 이미지 슬라이드로 변경 */}
-                {diaryDetail?.images.map((image) => {
-                  if (image.imgUrl === null) return null;
-                  return <img key={image.id} src={image.imgUrl} alt="이미지" />;
-                })}
-              </div>
-            </div>
-            <div className={styles.icons}>
-              {/* TODO: sprite 이미지 함수 다시 생성 */}
-              <EmotionBackgroundImage index={diaryDetail.emotionId} size="sm" />
-            </div>
-            <div className={styles.contents}>{diaryDetail?.contents}</div>
-            <div className={styles.button}>
-              {/* TODO : 버튼 기능 클릭 시 수정 및 삭제 이벤트 추가 */}
-              <button>수정하기 </button>
-              <span> ∙ </span>
-              <button> 삭제하기</button>
-            </div>
+      <div className={styles.content}>
+        <h2>{diaryDetail?.title}</h2>
+        <div className={styles.etc}>
+          <span>{diaryDetail?.selectDate}</span>
+          <span>∙ 좋아요 {diaryDetail?.likeCount}개</span>
+          <span>∙ 댓글 {diaryDetail?.commentCount}개</span>
+        </div>
+        <div className={styles.imgBoxContainer}>
+          <div className={styles.imgBox}>
+            {/* TODO: 스크롤 대신 이미지 슬라이드로 변경 */}
+            {diaryDetail?.images.map((image) => {
+              if (image.imgUrl === null) return null;
+              return <img key={image.id} src={image.imgUrl} alt="이미지" />;
+            })}
           </div>
-          <DiaryListComment diaryId={boardId} commentCount={diaryDetail.commentCount} />
-        </>
-      )}
+        </div>
+        <div className={styles.icons}>
+          {/* TODO: sprite 이미지 함수 다시 생성 */}
+          {/* <EmotionBackgroundImage index={diaryDetail.emotionId} size="sm" /> */}
+        </div>
+        <div className={styles.contents}>{diaryDetail?.contents}</div>
+        <div className={styles.button}>
+          {/* TODO : 버튼 기능 클릭 시 수정 및 삭제 이벤트 추가 */}
+          <button>수정하기 </button>
+          <span> ∙ </span>
+          <button> 삭제하기</button>
+        </div>
+      </div>
+      {isDiaryDetailSuccess && <DiaryListComment diaryId={diaryDetail.id} commentCount={diaryDetail.commentCount} />}
     </div>
   );
 };
@@ -183,6 +179,10 @@ const DiaryListComment = ({ diaryId, commentCount }: { diaryId: number; commentC
     comment?.commentId,
     comment.data,
   );
+
+  useEffect(() => {
+    getCommentMutation();
+  }, [diaryId]);
 
   useEffect(() => {
     setComment({ status: 'comment', commentId: 0, data: '' });
