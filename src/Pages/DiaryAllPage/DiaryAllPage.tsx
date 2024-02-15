@@ -2,6 +2,7 @@ import { useGetAllDiary } from '@Hooks/NetworkHooks';
 import styles from './DiaryAllPage.module.scss';
 import { useLocation } from 'react-router-dom';
 import { useState } from 'react';
+import { DiaryItem } from '@Components/DiaryItem';
 
 export const DiaryAllPage = () => {
   const location = useLocation();
@@ -20,12 +21,11 @@ export const DiaryAllPage = () => {
       </div>
       <div className={styles.content}>
         {isError && <div>일기 목록을 불러오는데 실패했습니다</div>}
-        {/* TODO: API 정상적으로 연결되면 주석 해제 */}
-        {/* {AllDiaryData?.length === 0 ? (
-          <div>작성한 일기가 없습니다.</div>
+        {AllDiaryData?.length === 0 ? (
+          <div>일기를 작성해주세요.</div>
         ) : (
-          AllDiaryData.map((diary) => <DiaryItem key={diary.id} diary={diary} />)
-        )} */}
+          AllDiaryData?.map((diary) => <DiaryItem key={diary.id} diary={diary} />)
+        )}
       </div>
     </div>
   );
