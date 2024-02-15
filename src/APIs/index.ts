@@ -13,7 +13,7 @@ import type {
 } from '@Type/Request';
 
 /** Response */
-import { CommentData, replyData, type DiaryDetailData, type HeroData } from '@Type/Response';
+import { CommentData, replyData, type DiaryDetailData, type HeroData, todayDiaryData } from '@Type/Response';
 
 import type { KakaoLoginResponse } from '@Type/index';
 
@@ -35,7 +35,7 @@ export const getMonth = async (boardId: number, date: string) => {
 };
 
 export const getTodayDiary = async (boardId: number, date: string) => {
-  const res = await axios.get(`/api/mode/day?boardId=${boardId}&date=${date}`);
+  const res = await axios.get<todayDiaryData[]>(`/api/mode/day?boardId=${boardId}&date=${date}`);
   return res.data;
 };
 

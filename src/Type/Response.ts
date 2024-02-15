@@ -37,3 +37,17 @@ export type CommentData = {
 }[];
 
 export type replyData = CommentData;
+
+export type todayDiaryData = {
+  id: number;
+  memberId: number;
+  nickname: string;
+  boardId: number;
+  emotionId: number;
+  thumbnailUrl?: string;
+  title: string;
+  likeCount: number;
+  commentCount: number;
+  selectDate: string;
+  timeStamp: string;
+};
