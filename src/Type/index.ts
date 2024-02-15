@@ -21,7 +21,8 @@ export type IconName =
   | 'check'
   | 'setting'
   | 'comment'
-  | 'love';
+  | 'love'
+  | 'empty-love';
 
 export type HeroData = {
   username: string;
