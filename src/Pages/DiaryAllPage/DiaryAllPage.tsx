@@ -7,7 +7,8 @@ import { DiaryItem } from '@Components/DiaryItem';
 export const DiaryAllPage = () => {
   const location = useLocation();
   const boardId = location.pathname.split('/')[3];
-  const [lastViewId, setLastViewId] = useState<number>(0);
+  // TODO: 스크롤
+  const [lastViewId] = useState<number>(0);
 
   const { data: AllDiaryData, isError, isSuccess } = useGetAllDiary(Number(boardId), 10, lastViewId);
 
