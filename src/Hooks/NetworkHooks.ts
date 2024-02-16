@@ -14,6 +14,7 @@ import {
   getNewDiary,
   getReply,
   getTodayDiary,
+  getUser,
   isNewDiary,
   kakaoLogin,
   updateBoard,
@@ -182,5 +183,12 @@ export const useKaKaoLogin = (authorizationCode: string) => {
       localStorage.setItem('refreshToken', data['refreshToken']);
       navigate('/myboard');
     },
+  });
+};
+
+export const useGetUser = () => {
+  return useQuery({
+    queryKey: ['myboard', 'member'],
+    queryFn: getUser,
   });
 };

@@ -13,9 +13,10 @@ import type {
 } from '@Type/Request';
 
 /** Response */
-import { CommentData, replyData, type DiaryDetailData, type HeroData, todayDiaryData } from '@Type/Response';
+import { CommentData, replyData, type DiaryDetailData, type HeroData, todayDiaryData, userData } from '@Type/Response';
 
 import type { KakaoLoginResponse } from '@Type/index';
+import { getCookie } from '@Utils/Cookies';
 
 // login
 export const kakaoLogin = async (authorizationCode: string) => {
@@ -154,4 +155,12 @@ export const getMemberList = async ({ id }: GetMemberListRequest) => {
 export const createDiary = async ({ id: boardId }) => {
   const res = await axios.post(`/api/diary`);
   return res.status;
+};
+
+// setting
+export const getUser = async () => {
+  // 쿠키 가져오기
+  const token = getCookie('accessToken');
+  const res = await axios.get<userData>(`/api/members/${token}`);
+  return res.data;
 };
