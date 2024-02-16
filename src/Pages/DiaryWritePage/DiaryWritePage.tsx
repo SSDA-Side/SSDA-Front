@@ -23,6 +23,7 @@ import { FormDataContextProvider, useFormData, useFormDataState } from './FormDa
 
 /** Type */
 import type { ChangeEvent, FormEvent, KeyboardEvent } from 'react';
+import { SVGIcon } from '@Icons/SVGIcon';
 
 export const DiaryWritePage = () => {
   return (
@@ -164,14 +165,11 @@ const Head = () => {
 // TODO: 어진님 공통 컴포넌트로 교체하기
 const Body = () => {
   const { diaryImgs: selectedFiles, stickerId } = useFormDataState();
-  const { updateContents, updateEmotionId, updateTitle } = useFormData();
+  const { updateContents, updateEmotionId, updateTitle, deleteImage } = useFormData();
 
   const { openBottomSheet } = useBottomSheet();
 
-  const imageElements = useMemo(
-    () => (selectedFiles ? createPreviewImageElements(selectedFiles) : null),
-    [selectedFiles],
-  );
+  const showAddImageButton = (selectedFiles?.length || 0) !== 0 && (selectedFiles?.length || 0) < 3;
 
   const handleTitleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
     const isEnterKey = e.key === 'Enter';
@@ -219,14 +217,20 @@ const Body = () => {
           />
         </div>
 
-        <div className={styles.imageList}>{imageElements}</div>
+        <div className={styles.imageList}>
+          {selectedFiles &&
+            Array.from(selectedFiles).map((file, index) => (
+              <PreviewImage key={index} file={file} onDelete={(file) => deleteImage(file)} />
+            ))}
+          {showAddImageButton && <AddImageButton />}
+        </div>
       </section>
     </main>
   );
 };
 
 const Foot = () => {
-  const { diaryDate } = useFormDataState();
+  const { diaryDate, diaryImgs } = useFormDataState();
   const { updateImages } = useFormData();
 
   const fileRef = useRef<HTMLInputElement>(null);
@@ -248,9 +252,12 @@ const Foot = () => {
     }
 
     const maxImageCount = 3;
-    const isOverMaxCount = selectedFiles.length > maxImageCount;
+    const isSelectdImgCountOverMax = selectedFiles.length > maxImageCount;
+    const isAllAddedImgCountOverMax = selectedFiles.length + (diaryImgs?.length || 0) > maxImageCount;
 
-    if (isOverMaxCount) {
+    const isOverflow = isSelectdImgCountOverMax || isAllAddedImgCountOverMax;
+
+    if (isOverflow) {
       return alert('최대 3개의 이미지만 선택할 수 있어요😭');
     }
 
@@ -276,20 +283,34 @@ const Foot = () => {
   );
 };
 
-type PreviewImageProp = { file: File };
-const PreviewImage = ({ file }: PreviewImageProp) => {
+const AddImageButton = () => {
+  return (
+    <div
+      className={styles.imagePlaceholder}
+      onClick={() => (document.querySelector('#images') as HTMLInputElement).click()}
+    >
+      <div className={styles.rotated}>
+        <SVGIcon name="close" />
+      </div>
+    </div>
+  );
+};
+
+type PreviewImageProp = { file: File; onDelete: (targetFile: File) => void };
+const PreviewImage = ({ file, onDelete }: PreviewImageProp) => {
   return (
     <div
       className={styles.imagePlaceholder}
       style={{
         backgroundImage: `url('${URL.createObjectURL(file)}')`,
       }}
-    />
+    >
+      <button className={styles.deleteMark} type="button" onClick={() => onDelete(file)}>
+        <SVGIcon name="close" size={24} />
+      </button>
+    </div>
   );
 };
-
-const createPreviewImageElements = (selectedFiles: FileList) =>
-  Array.from(selectedFiles).map((file, index) => <PreviewImage key={index} file={file} />);
 
 const getTodayDateString = () =>
   new Intl.DateTimeFormat('fr-CA', { year: 'numeric', month: '2-digit', day: '2-digit' }).format(Date.now());
