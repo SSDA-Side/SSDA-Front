@@ -21,6 +21,7 @@ export type IconName =
   | 'check'
   | 'setting'
   | 'comment'
+  | 'camera'
   | 'love'
   | 'empty-love';
 

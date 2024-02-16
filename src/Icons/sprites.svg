@@ -14,6 +14,10 @@
 <symbol fill="none" viewBox="0 0 35 30" id="love" xmlns="http://www.w3.org/2000/svg">
 <path d="M31.743 2.652a9.05 9.05 0 0 0-12.801 0l-1.745 1.744-1.744-1.744A9.052 9.052 0 1 0 2.651 15.454l1.745 1.744L17.197 30 30 17.198l1.744-1.744a9.049 9.049 0 0 0 0-12.802Z" fill="#FF8066"/>
 </symbol>
+<symbol fill="none" viewBox="0 0 15 13" id="camera" xmlns="http://www.w3.org/2000/svg">
+<path fill-rule="evenodd" clip-rule="evenodd" d="M5.084.223A.5.5 0 0 1 5.5 0h3.75a.5.5 0 0 1 .416.223l1.102 1.652H13a1.75 1.75 0 0 1 1.75 1.75V10.5A1.75 1.75 0 0 1 13 12.25H1.75A1.75 1.75 0 0 1 0 10.5V3.625a1.75 1.75 0 0 1 1.75-1.75h2.232L5.084.223ZM5.768 1 4.666 2.652a.5.5 0 0 1-.416.223h-2.5a.75.75 0 0 0-.75.75V10.5a.75.75 0 0 0 .75.75H13a.75.75 0 0 0 .75-.75V3.625a.75.75 0 0 0-.75-.75h-2.5a.5.5 0 0 1-.416-.223L8.982 1H5.768Z" fill="#fff"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M7.375 4.75a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm-3 2a3 3 0 1 1 6 0 3 3 0 0 1-6 0Z" fill="#fff"/>
+</symbol>
 </symbol>
     <symbol id="right" fill="none" viewBox="0 0 32 32">
       <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m12 24 8-8-8-8"/>
