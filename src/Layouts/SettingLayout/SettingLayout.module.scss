@@ -6,8 +6,8 @@
   align-items: center;
   font-weight: 600;
   button {
-    position: absolute;
-    left: var(--size-5);
+    position: relative;
+    left: -8rem;
     display: flex;
     justify-content: center;
     align-items: center;
