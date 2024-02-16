@@ -53,3 +53,22 @@ export type todayDiaryData = {
   selectDate?: string;
   timeStamp: string;
 };
+
+export type userData = {
+  id: number;
+  email?: string;
+  nickname: string;
+  gender?: string;
+  age_range?: string;
+  profile_image_url: string;
+  birthday?: string;
+  font: string;
+  enabled: boolean;
+  accountNonLocked?: boolean;
+  oauthProvider?: string;
+  accountNonExpired?: boolean;
+  credentialsNonExpired?: boolean;
+  authorities?: string[];
+  username: string;
+  password?: null;
+};
