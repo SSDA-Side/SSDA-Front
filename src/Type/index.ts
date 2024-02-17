@@ -22,6 +22,9 @@ export type IconName =
   | 'setting'
   | 'comment'
   | 'camera'
+  | 'writepen'
+  | 'openbook'
+  | 'calendar'
   | 'love'
   | 'empty-love';
 
