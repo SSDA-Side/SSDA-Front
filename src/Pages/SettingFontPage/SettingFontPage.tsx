@@ -29,9 +29,9 @@ export const SettingFontPage = () => {
             <input type="radio" name="font" value={font} checked={selectedFont === font} onChange={handleChange} />
           </label>
         ))}
-      </div>{' '}
+      </div>
       <div className={styles.previewContent}>
-        <span>미리보기</span>
+        <p>미리보기</p>
         <TextArea
           className={cn(styles.radioList, {
             [styles.Pretendard]: selectedFont === '프리텐다드',
@@ -43,7 +43,9 @@ export const SettingFontPage = () => {
           readOnly
         ></TextArea>
       </div>
-      <CTAButton>저장</CTAButton>
+      <div className={styles.buttonBox}>
+        <CTAButton onClick={() => {}}>저장</CTAButton>
+      </div>{' '}
     </div>
   );
 };

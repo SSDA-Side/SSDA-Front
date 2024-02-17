@@ -1,14 +1,16 @@
 .container {
+  width: calc(100% - var(--size-10));
+  margin: 0 var(--size-5);
   .radio-content {
     .radio-list {
       display: block;
-      width: 100%;
       height: var(--size-14);
       display: flex;
       align-items: center;
       justify-content: space-between;
       padding: var(--size-4);
       border-bottom: 1px solid var(--gray100);
+      font-size: var(--size-5);
     }
     .mini {
       font-family: 'Mini_handwriting';
@@ -21,7 +23,15 @@
     }
   }
   .preview-content {
+    width: 100%;
+    p {
+      font-weight: 400;
+      font-size: var(--size-4);
+      margin: var(--size-12) 0 var(--size-2) var(--size-5);
+    }
     textarea {
+      height: 7rem;
+      border: 1px solid var(--gray200);
       &::placeholder {
         color: var(--black);
       }
@@ -34,6 +44,16 @@
     }
     .NanumSquare {
       font-family: 'NanumSquare';
+    }
+  }
+  .button-box {
+    position: relative;
+    top: 6rem;
+    width: 100%;
+    display: flex;
+    button {
+      width: 80%;
+      margin: 0 auto;
     }
   }
 }
