@@ -43,11 +43,13 @@ export const SettingLayout = () => {
         <button onClick={onBeforePage}>
           <SVGIcon name="left" />
         </button>
-        {settingList.map((settingItem) => {
-          if (settingItem.path === location.pathname) {
-            return settingItem.name;
-          }
-        })}
+        <div>
+          {settingList.map((settingItem) => {
+            if (settingItem.path === location.pathname) {
+              return settingItem.name;
+            }
+          })}
+        </div>
       </div>
       <div className={styles.contents}>
         <Outlet />
