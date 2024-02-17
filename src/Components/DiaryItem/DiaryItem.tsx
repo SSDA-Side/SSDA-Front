@@ -1,4 +1,3 @@
-import React from 'react';
 import styles from './DiaryItem.module.scss';
 import { EmotionImage } from '@Assets/EmotionImages';
 import { SVGIcon } from '@Icons/SVGIcon';
@@ -30,9 +29,9 @@ export const DiaryItem = ({ diary }: { diary: todayDiaryData }) => {
             <span>{diary.timeStamp}</span>
           </h3>
           <div className={styles.count}>
-            <SVGIcon name="love" size={20} />
+            <SVGIcon name="empty-heart" size={16} />
             {diary.likeCount}
-            <SVGIcon name="comment" size={20} />
+            <SVGIcon name="comment" size={16} />
             {diary.commentCount}
           </div>
         </div>
