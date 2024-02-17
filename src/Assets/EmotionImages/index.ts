@@ -1,1 +1,1 @@
-export { EmotionImage, EmotionBackgroundImage } from './EmotionImage';
+export { EmotionImage } from './EmotionImage';
