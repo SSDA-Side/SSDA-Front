@@ -106,7 +106,11 @@ export const Calendar = () => {
         onClick={onClick}
       >
         <p>{itemDay}</p>
-        {isDiaryDay && !isNextMonth && !isPrevMonth ? <div className={styles.diaryDot}></div> : null}
+        {isDiaryDay && !isNextMonth && !isPrevMonth ? (
+          <div className={styles.diaryDot}></div>
+        ) : (
+          <div className={styles.notDot}></div>
+        )}
       </td>
     );
   };

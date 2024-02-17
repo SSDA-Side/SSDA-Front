@@ -53,20 +53,27 @@
             background-color: var(--orange600);
             height: 2.425rem;
             text-align: center;
-            line-height: 2.425rem;
+            line-height: 2.5rem;
           }
         }
         .date {
           width: var(--size-9);
-          div {
-            position: relative;
-            top: var(--size-1);
-            left: var(--size-4);
-            width: var(--size-1);
-            height: var(--size-1);
-            border-radius: 50%;
-            background-color: var(--orange600);
-          }
+        }
+        .diary-dot {
+          position: relative;
+          top: var(--size-1);
+          left: var(--size-4);
+          width: var(--size-1);
+          height: var(--size-1);
+          border-radius: 50%;
+          background-color: var(--orange600);
+        }
+        .not-dot {
+          position: relative;
+          top: var(--size-1);
+          left: var(--size-4);
+          width: var(--size-1);
+          height: var(--size-1);
         }
       }
     }
