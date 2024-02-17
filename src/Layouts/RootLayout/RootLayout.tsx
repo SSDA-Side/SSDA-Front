@@ -8,7 +8,6 @@ import cn from 'classnames';
 
 export const RootLayout = () => {
   const fontData = useRecoilState(fontStateStore);
-  console.log(fontData[0].fontType);
   return (
     <div
       className={cn(styles.fullContainer, {

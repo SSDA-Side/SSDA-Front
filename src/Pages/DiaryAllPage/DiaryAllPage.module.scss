@@ -9,18 +9,26 @@
     padding: 0 var(--size-5);
     margin-top: var(--size-5);
     h1 {
-      font-weight: 400;
-      font-size: var(--size-6);
+      font-weight: 600;
+      font-size: 23px;
+      margin-bottom: 6px;
     }
     p {
-      font-weight: 300;
-      color: var(--gray700);
-      font-size: var(--size-4);
-      margin-bottom: var(--size-5);
+      color: var(--gray600);
+      font-size: var(--size-3);
+      margin-bottom: var(--size-8);
+      font-weight: 400;
     }
   }
   .content {
     padding: 0 var(--size-5);
     margin-top: var(--size-5);
+    div {
+      h3 {
+        font-weight: 500;
+        font-size: var(--size-5);
+        margin-bottom: var(--size-4);
+      }
+    }
   }
 }

@@ -42,7 +42,7 @@ export const MyboardLayout = () => {
   };
 
   return (
-    <>
+    <div className={styles.boardContainer}>
       <div className={styles.header}>
         <button onClick={onBeforePage}>
           <SVGIcon name="left" />
@@ -80,6 +80,6 @@ export const MyboardLayout = () => {
       ) : (
         <Outlet />
       )}
-    </>
+    </div>
   );
 };

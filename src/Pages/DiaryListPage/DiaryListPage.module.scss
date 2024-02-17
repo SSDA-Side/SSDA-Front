@@ -126,7 +126,6 @@
           margin-left: var(--size-5);
         }
       }
-      // TODO: SCSS 클래스명 통일하기
       .comment-area {
         .comment-box {
           margin: var(--size-6) 0 var(--size-6) var(--size-5);
@@ -140,7 +139,6 @@
       .write-comment {
         position: fixed;
         bottom: 0;
-        // TODO: 너비 수정
         z-index: 9;
         background-color: var(--white);
         width: 24.3rem;

@@ -9,6 +9,12 @@
     <symbol fill="none" viewBox="0 0 8 8" id="empty-circle" xmlns="http://www.w3.org/2000/svg">
       <circle cx="4" cy="4" r="4" fill="#fff" fill-opacity=".3"/>
     </symbol>
+    <symbol fill="none" viewBox="0 0 14 14" id="comment" xmlns="http://www.w3.org/2000/svg">
+<path d="M13 9a1.334 1.334 0 0 1-1.333 1.333h-8L1 13V2.333A1.333 1.333 0 0 1 2.333 1h9.334A1.333 1.333 0 0 1 13 2.333V9Z" stroke="#747575" stroke-linecap="round" stroke-linejoin="round"/>
+</symbol>
+<symbol fill="none" viewBox="0 0 16 16" id="empty-heart" xmlns="http://www.w3.org/2000/svg">
+<path d="M13.894 3.074a3.666 3.666 0 0 0-5.187 0L8 3.78l-.706-.706A3.668 3.668 0 0 0 2.107 8.26l.707.707L8 14.154l5.187-5.187.707-.707a3.668 3.668 0 0 0 0-5.186Z" stroke="#747575" stroke-linecap="round" stroke-linejoin="round"/>
+</symbol>
     <symbol fill="none" viewBox="0 0 36 30" id="empty-love" xmlns="http://www.w3.org/2000/svg">
 <path d="M32.546 2.652a9.05 9.05 0 0 0-12.802 0L18 4.396l-1.745-1.744A9.052 9.052 0 0 0 3.454 15.454l1.744 1.744L18 30 30.8 17.198l1.745-1.744a9.05 9.05 0 0 0 0-12.802Z" fill="#EEE"/>
 <symbol fill="none" viewBox="0 0 35 30" id="love" xmlns="http://www.w3.org/2000/svg">
