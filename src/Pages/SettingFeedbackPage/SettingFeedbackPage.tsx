@@ -14,12 +14,12 @@ export const SettingFeedbackPage = () => {
         <p>개발자에게 소중한 의견을 들려주세요 :)</p>
         <div className={styles.rating}>
           {[...Array(rating)].map((number, i) => (
-            <button onClick={() => setRating(i + 1)} key={`rating-${i}`}>
+            <button onClick={() => setRating(i + 1)} key={`rating-${number}`}>
               <SVGIcon name="star" className="star-lg" />
             </button>
           ))}
           {[...Array(5 - rating)].map((number, i) => (
-            <button onClick={() => setRating(rating + i + 1)} key={`rating-${i}`}>
+            <button onClick={() => setRating(rating + i + 1)} key={`rating-${number}`}>
               <SVGIcon name="empty-star" className="star-lg" />
             </button>
           ))}
