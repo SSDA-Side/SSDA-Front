@@ -59,6 +59,7 @@ export const DiaryListPage = () => {
       <div className={styles.memberTabContainer}>
         <div>
           <div className={styles.memberTab}>
+            {/* TODO: [feat] 탭 색상을 아이콘의 색상으로 변경 */}
             {memberList.map((member) => (
               <button
                 key={`member-${member.memberId}`}
@@ -68,6 +69,7 @@ export const DiaryListPage = () => {
                 {member.memberNickname}
               </button>
             ))}
+            <div className={styles.background}></div>
           </div>
         </div>
       </div>
@@ -98,7 +100,7 @@ const DiaryListContent = ({ memberId, boardId, date }: { memberId: number; board
         </div>
         <div className={styles.imgBoxContainer}>
           <div className={styles.imgBox}>
-            {/* TODO: 스크롤 대신 이미지 슬라이드로 변경 */}
+            {/* TODO: [feat] 스크롤 대신 이미지 슬라이드로 변경 */}
             {diaryDetail?.images.map((image) => {
               if (image.imgUrl === null) return null;
               return <img key={image.id} src={image.imgUrl} alt="이미지" />;
@@ -106,12 +108,12 @@ const DiaryListContent = ({ memberId, boardId, date }: { memberId: number; board
           </div>
         </div>
         <div className={styles.icons}>
-          {/* TODO: sprite 이미지 함수 다시 생성 */}
+          {/* TODO: [feat] sprite 이미지 함수 다시 생성 */}
           {/* <EmotionBackgroundImage index={diaryDetail.emotionId} size="sm" /> */}
         </div>
         <div className={styles.contents}>{diaryDetail?.contents}</div>
         <div className={styles.button}>
-          {/* TODO : 버튼 기능 클릭 시 수정 및 삭제 이벤트 추가 */}
+          {/* TODO : [feat] 버튼 기능 클릭 시 수정 및 삭제 이벤트 추가 */}
           <button>수정하기 </button>
           <span> ∙ </span>
           <button> 삭제하기</button>
@@ -189,7 +191,7 @@ const DiaryListComment = ({ diaryId, commentCount }: { diaryId: number; commentC
     getCommentMutation();
   }, [isCreateCommentSuccess, isCreateReplySuccess]);
 
-  // TODO: 스크롤 이벤트 추가
+  // TODO: [feat] 스크롤 이벤트 추가
   // useEffect(() => {
   //   if (commentData === undefined) return;
   //   commentData?.length > 9 && setLastViewId(commentData[commentData.length - 1]?.id);
@@ -226,7 +228,6 @@ const DiaryListComment = ({ diaryId, commentCount }: { diaryId: number; commentC
         </div>
       ))}
       <div className={styles.writeComment}>
-        {/* TODO: 좋아요 상태에 따라 버튼 변경 */}
         {comment.status === 'reply' && (
           <div className={styles.replyView}>
             <span>{comment?.userNickname}에게 답글 작성 중</span>
@@ -240,6 +241,7 @@ const DiaryListComment = ({ diaryId, commentCount }: { diaryId: number; commentC
           </div>
         )}
         <div className={styles.commentView}>
+          {/* TODO: [feat] 좋아요 상태에 따라 버튼 변경 */}
           <button>{false ? <SVGIcon name="empty-love" /> : <SVGIcon name="love" />}</button>
           <input
             type="text"
