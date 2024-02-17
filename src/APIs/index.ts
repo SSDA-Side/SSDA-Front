@@ -58,6 +58,11 @@ export const getTodayDiary = async ({ boardId, date }: GetMonthRequest) => {
   return res.data;
 };
 
+export const updateRead = async ({ boardId }: IsNewDiaryRequest) => {
+  const res = await axios.post(`/api/mode/read?boardId=${boardId}`);
+  return res.status;
+};
+
 export const isNewDiary = async ({ boardId }: IsNewDiaryRequest) => {
   const res = await axios.get(`/api/mode/exist?boardId=${boardId}`);
   return res.data;

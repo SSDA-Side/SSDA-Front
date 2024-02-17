@@ -18,6 +18,7 @@ import {
   isNewDiary,
   kakaoLogin,
   updateBoard,
+  updateRead,
 } from '@APIs/index';
 import { GetMemberListRequest } from '@Type/Request';
 import { setCookie } from '@Utils/Cookies';
@@ -121,6 +122,16 @@ export const useCreateDiary = () => {
   return useMutation({
     mutationKey: ['createDiary'],
     mutationFn: createDiary,
+  });
+};
+
+export const useUpdateRead = (boardId: number) => {
+  return useMutation({
+    mutationKey: ['myboard', 'updateRead'],
+    mutationFn: () => updateRead({ boardId }),
+    onSuccess: (data) => {
+      console.log('success', data);
+    },
   });
 };
 
