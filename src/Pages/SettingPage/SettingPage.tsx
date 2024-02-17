@@ -2,13 +2,15 @@ import { SVGIcon } from '@Icons/SVGIcon';
 import { settingList } from '@Layouts/SettingLayout/SettingLayout';
 import styles from './Setting.module.scss';
 import { useNavigate } from 'react-router-dom';
+import { removeCookie } from '@Utils/Cookies';
 
 export const SettingPage = () => {
   const navigate = useNavigate();
 
   const handleLogout = () => {
-    console.log('logout');
-    alert('ss');
+    removeCookie('accessToken');
+    alert('로그아웃 하셨습니다.');
+    navigate('/');
   };
 
   const onPageMove = (page: string) => {
