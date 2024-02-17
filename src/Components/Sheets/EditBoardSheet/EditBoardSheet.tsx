@@ -7,7 +7,8 @@ import { useSheet } from '@Hooks/useSheet';
 import { BoardProps } from '@Store/ModalStore';
 import { BottomSheetProps, BottomSheetType } from '@Store/SheetShore';
 
-export const EditBoardSheet = ({ sheetId: string }) => {
+// export const EditBoardSheet = ({ sheetId }: { sheetId: string }) => {
+export const EditBoardSheet = () => {
   const { mutate: deleteBoard } = useDeleteBoard();
 
   const { openComponentModal, openConfirm, openAlert } = useModal();
@@ -40,22 +41,13 @@ export const EditBoardSheet = ({ sheetId: string }) => {
       openConfirm({
         contents: DELETE_TEXT,
         onYes() {
-          deleteBoard(
-            { id: boardProps.id },
-            {
-              onSuccess() {
-                closeBottomSheet();
-              },
-            },
-          );
+          deleteBoard({ id: boardProps.id }, { onSuccess: closeBottomSheet });
         },
       });
     } else {
       openAlert({
         contents: COULD_NOT_DELETE_TEXT,
-        onYes() {
-          closeBottomSheet();
-        },
+        onYes: closeBottomSheet,
       });
     }
   };
@@ -82,27 +74,16 @@ export const EditBoardSheet = ({ sheetId: string }) => {
   };
 
   const handleSelect = (type: string) => {
-    switch (type) {
-      case 'edit': {
-        handleEdit();
-        break;
-      }
+    const typpedEventMap: { [k in string]: () => void } = {
+      edit: handleEdit,
+      trash: handleDelete,
+      exit: handleResign,
+      users: handleViewMember,
+    };
 
-      case 'trash': {
-        handleDelete();
-        break;
-      }
+    const typpedEvent = typpedEventMap[type];
 
-      case 'exit': {
-        handleResign();
-        break;
-      }
-
-      case 'users': {
-        handleViewMember();
-        break;
-      }
-    }
+    typpedEvent();
   };
 
   return <BoardContextMenu onSelect={handleSelect} />;

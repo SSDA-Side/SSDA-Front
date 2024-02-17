@@ -22,6 +22,7 @@ export const useSheet = () => {
     [],
   );
 
+  // 요것도 sheetId 단위로 관리해줘야 하는데... 일단 패스
   const closeBottomSheet = useRecoilCallback(
     ({ set }) =>
       () => {

@@ -71,6 +71,7 @@ const WriteForm = () => {
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
+    // @ts-expect-error: Diary 구조 변경 대응...해야 하는데 언제하냐!
     mutate(submitData, {
       onSuccess() {
         openAlert({ contents: '일기 작성 완료' });
@@ -143,7 +144,7 @@ const Head = ({ disabled }: { disabled: boolean }) => {
   );
 };
 
-const Body = ({ firstStep, onFirstStepCom }) => {
+const Body = ({ firstStep, onFirstStepCom }: { firstStep: boolean; onFirstStepCom: () => void }) => {
   const { diaryImgs: selectedFiles, stickerId, diaryDate } = useFormDataState();
   const { updateContents, updateEmotionId, updateTitle } = useFormData();
 
@@ -179,7 +180,7 @@ const Body = ({ firstStep, onFirstStepCom }) => {
   };
 
   if (firstStep) {
-    return <SelectEmotionStep onSelect={() => onFirstStepCom(false)} />;
+    return <SelectEmotionStep onSelect={() => onFirstStepCom()} />;
   }
 
   return (

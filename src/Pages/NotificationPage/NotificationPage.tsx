@@ -50,6 +50,8 @@ const NotificationView = () => {
     onIntersection: fetchNextPage,
   });
 
+  console.log(data);
+
   const hasNoNotification = data.pages.length === 0;
 
   useEffect(() => {

@@ -2,7 +2,7 @@
   {
     "id": 1,
     "notificationTypeId": 1,
-    "isRead": false,
+    "read": false,
     "regDate": "2024-01-21T01:38:26",
     "boardId": 2,
     "diaryId": 1,
@@ -13,7 +13,7 @@
   {
     "id": 2,
     "notificationTypeId": 2,
-    "isRead": true,
+    "read": true,
     "regDate": "2024-01-22T01:38:26",
     "boardId": 2,
     "diaryId": 1,
@@ -25,7 +25,7 @@
   {
     "id": 3,
     "notificationTypeId": 3,
-    "isRead": true,
+    "read": true,
     "regDate": "2024-01-23T01:38:26",
     "boardId": 2,
     "diaryId": 1,
@@ -35,7 +35,7 @@
   {
     "id": 4,
     "notificationTypeId": 4,
-    "isRead": false,
+    "read": false,
     "regDate": "2024-01-24T01:38:26",
     "boardId": 2,
     "boardTitle": "우리가좍",
@@ -44,7 +44,7 @@
   {
     "id": 5,
     "notificationTypeId": 5,
-    "isRead": false,
+    "read": false,
     "regDate": "2024-01-24T01:38:26",
     "boardId": 2,
     "boardTitle": "우리가좍"
@@ -52,7 +52,7 @@
   {
     "id": 6,
     "notificationTypeId": 1,
-    "isRead": false,
+    "read": false,
     "regDate": "2024-01-21T01:38:26",
     "boardId": 2,
     "diaryId": 1,
@@ -63,7 +63,7 @@
   {
     "id": 7,
     "notificationTypeId": 2,
-    "isRead": true,
+    "read": true,
     "regDate": "2024-01-22T01:38:26",
     "boardId": 2,
     "diaryId": 1,
@@ -75,7 +75,7 @@
   {
     "id": 8,
     "notificationTypeId": 3,
-    "isRead": true,
+    "read": true,
     "regDate": "2024-01-23T01:38:26",
     "boardId": 2,
     "diaryId": 1,
@@ -85,7 +85,7 @@
   {
     "id": 9,
     "notificationTypeId": 4,
-    "isRead": false,
+    "read": false,
     "regDate": "2024-01-24T01:38:26",
     "boardId": 2,
     "boardTitle": "우리가좍",
@@ -94,7 +94,7 @@
   {
     "id": 10,
     "notificationTypeId": 5,
-    "isRead": false,
+    "read": false,
     "regDate": "2024-01-24T01:38:26",
     "boardId": 2,
     "boardTitle": "우리가좍"
@@ -102,7 +102,7 @@
   {
     "id": 11,
     "notificationTypeId": 1,
-    "isRead": false,
+    "read": false,
     "regDate": "2024-01-21T01:38:26",
     "boardId": 2,
     "diaryId": 1,
@@ -113,7 +113,7 @@
   {
     "id": 12,
     "notificationTypeId": 2,
-    "isRead": true,
+    "read": true,
     "regDate": "2024-01-22T01:38:26",
     "boardId": 2,
     "diaryId": 1,
@@ -125,7 +125,7 @@
   {
     "id": 13,
     "notificationTypeId": 3,
-    "isRead": true,
+    "read": true,
     "regDate": "2024-01-23T01:38:26",
     "boardId": 2,
     "diaryId": 1,
@@ -135,7 +135,7 @@
   {
     "id": 14,
     "notificationTypeId": 4,
-    "isRead": false,
+    "read": false,
     "regDate": "2024-01-24T01:38:26",
     "boardId": 2,
     "boardTitle": "우리가좍",
@@ -144,7 +144,7 @@
   {
     "id": 15,
     "notificationTypeId": 5,
-    "isRead": false,
+    "read": false,
     "regDate": "2024-01-24T01:38:26",
     "boardId": 2,
     "boardTitle": "우리가좍"

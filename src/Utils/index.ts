@@ -1,7 +1,7 @@
 import type { Board } from '@Type/Model';
-import type { HeroData } from '@Type/Response';
+import type { HeroMetadata } from '@Type/Response';
 
-type GetDescriptionProp = Pick<HeroData, 'hasSharedBoard'> & Pick<Board, 'memberCount' | 'diaryCount'>;
+type GetDescriptionProp = Pick<HeroMetadata, 'hasSharedBoard'> & Pick<Board, 'memberCount' | 'diaryCount'>;
 export const getDescription = ({ hasSharedBoard, memberCount, diaryCount }: GetDescriptionProp) => {
   const hasWrittenDiary = diaryCount > 0;
 

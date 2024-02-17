@@ -1,12 +1,11 @@
 import { Typography } from '@Components/Common/Typography';
 import { EmotionSelect } from '@Components/EmotionSelect';
-import { useModal } from '@Hooks/useModal';
-
-import styles from './SelectEmotionSheet.module.scss';
 import { useSheet } from '@Hooks/useSheet';
+import styles from './SelectEmotionSheet.module.scss';
 
-export const SelectEmotionSheet = ({ sheetId }: { sheetId: string }) => {
-  const { openAlert } = useModal();
+// export const SelectEmotionSheet = ({ sheetId }: { sheetId: string }) => {
+export const SelectEmotionSheet = () => {
+  // const { openAlert } = useModal();
   const { bottomSheet, closeBottomSheet } = useSheet();
   const { onSelect } = bottomSheet;
 

@@ -6,7 +6,7 @@ import {
   createShareLink,
   deleteBoard,
   getBoardList,
-  getHeroData,
+  getHeroMetadata,
   getMemberList,
   getNotifications,
   getShareLinkMetadata,
@@ -15,10 +15,10 @@ import {
 
 import type { GetMemberListRequest } from '@Type/Request';
 
-export const useHeroData = () => {
+export const useHeroMetadata = () => {
   return useSuspenseQuery({
     queryKey: ['myboard', 'hero'],
-    queryFn: getHeroData,
+    queryFn: getHeroMetadata,
   });
 };
 

@@ -1,20 +1,22 @@
-import React, { useEffect } from 'react';
-
-import styles from './BoardSignUpPage.module.scss';
 import { EmotionImage } from '@Assets/EmotionImages';
 import { Typography } from '@Components/Common/Typography';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import styles from './BoardSignUpPage.module.scss';
 
 export const BoardSignUpPage = () => {
-  const location = useLocation();
   const navigate = useNavigate();
 
   useEffect(() => {
-    // boardId... 만 있으면 될 듯?
+    // TODO: 일기장 참여 API 호출
 
-    setTimeout(() => {
+    // just for test
+    const timerId = setTimeout(() => {
+      clearTimeout(timerId);
       navigate(`/myboard/${2}`);
     }, 1200);
+
+    return () => clearInterval(timerId);
   }, []);
 
   return (

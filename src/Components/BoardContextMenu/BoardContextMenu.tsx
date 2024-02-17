@@ -1,11 +1,9 @@
 import { SVGIcon } from '@Icons/SVGIcon';
 import { IconName } from '@Type/index';
-import React from 'react';
-
-import styles from './BoardContextMenu.module.scss';
 import { Typography } from '@Components/Common/Typography';
+import styles from './BoardContextMenu.module.scss';
 
-export const BoardContextMenu = ({ onSelect }) => {
+export const BoardContextMenu = ({ onSelect }: { onSelect: (value: string) => void }) => {
   const contextMenuList = [
     { type: 'edit', name: '일기장 편집' },
     { type: 'trash', name: '일기장 삭제' },

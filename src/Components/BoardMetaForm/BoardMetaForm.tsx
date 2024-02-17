@@ -18,11 +18,11 @@ import type { BoardFormData } from '@Type/Request';
 import cn from 'classnames';
 
 /** Const */
-const initialBoardForm = {
+const initialBoardForm: BoardFormData = {
   title: '',
   imageNumber: 0,
   appearanceType: 0,
-} as BoardFormData;
+};
 
 type BoardMetaFormProp = {
   isDisabled?: boolean;

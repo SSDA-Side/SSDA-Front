@@ -9,9 +9,8 @@ import { ComponentPayload, CreateShareLinkModalProps, ViewMemberProps } from '@S
 import { Member } from '@Type/Model';
 import cn from 'classnames';
 import { FallbackProps } from 'react-error-boundary';
-import styles from './ViewMemberModal.module.scss';
-import { MouseEvent } from 'react';
 import { InviteMemberModal } from '../InviteMemberModal';
+import styles from './ViewMemberModal.module.scss';
 
 export const ViewMemberModal = ({ modalId }: { modalId: string }) => {
   const { getModal } = useModal();
@@ -79,7 +78,6 @@ const MemberItem = ({ nickname, profileUrl, signedDate }: MemberItemProp) => {
     <div role="button" className={styles.memberContainer} tabIndex={0}>
       <Avatar profileUrl={profileUrl} />
       <div className={styles.descriptionSection}>
-        {/* TODO: 수님께 여기에 해당하는 타이포 없다고 말씀 드리기 */}
         <Typography as="body2">{nickname}</Typography>
         <Typography as="body3" className={styles.date}>
           참여일 {new Date(signedDate).toLocaleDateString()}
@@ -89,10 +87,10 @@ const MemberItem = ({ nickname, profileUrl, signedDate }: MemberItemProp) => {
   );
 };
 
-const AddNewMemberButton = ({ boardId, modalId }: { boardId; modalId: string }) => {
+const AddNewMemberButton = ({ boardId, modalId }: { boardId: number; modalId: string }) => {
   const { openComponentModal, closeModal } = useModal();
 
-  const handleClick = (e: MouseEvent<HTMLDivElement>) => {
+  const handleClick = () => {
     closeModal(modalId);
     openComponentModal<CreateShareLinkModalProps>({
       title: '초대하기',
@@ -124,6 +122,7 @@ const Foot = ({ modalId }: { modalId: string }) => {
     openConfirm({
       contents: `일기장을 나가면 더 이상 이 일기장을 볼 수 없어요.\n정말 일기장을 나가실건가요?`,
       onYes() {
+        // TODO: 일기장 나가기 API 연결
         closeModal(modalId);
       },
     });

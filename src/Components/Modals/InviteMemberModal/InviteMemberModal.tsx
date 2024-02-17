@@ -1,11 +1,10 @@
 import { Typography } from '@Components/Common/Typography';
-import React, { useEffect, useState } from 'react';
-
-import styles from './InviteMemberModal.module.scss';
-import { SVGIcon } from '@Icons/SVGIcon';
 import { useCreateShareLink } from '@Hooks/NetworkHooks';
 import { useModal } from '@Hooks/useModal';
-import { ComponentPayload, ComponentPayloadProps, CreateShareLinkModalProps } from '@Store/ModalStore';
+import { SVGIcon } from '@Icons/SVGIcon';
+import { ComponentPayload, CreateShareLinkModalProps } from '@Store/ModalStore';
+import { useEffect, useState } from 'react';
+import styles from './InviteMemberModal.module.scss';
 
 export const InviteMemberModal = ({ modalId }: { modalId: string }) => {
   const [shareLink, setShareLink] = useState('');
@@ -36,7 +35,7 @@ export const InviteMemberModal = ({ modalId }: { modalId: string }) => {
       openAlert({ contents: '초대링크가 복사되었습니다.' });
       closeModal(modalId);
     } catch (e) {
-      alert(e.message);
+      alert((e as Error).message);
     }
   };
 
@@ -48,6 +47,7 @@ export const InviteMemberModal = ({ modalId }: { modalId: string }) => {
     const imageUrl = `https://file.notion.so/f/f/9c43a3ab-d650-4eb3-b5e8-b072870e7202/0e975bbd-f604-4da1-bccd-014604d2b550/invite_image.jpg?id=c640405e-3ed4-47bc-96b3-433abd02aa65&table=block&spaceId=9c43a3ab-d650-4eb3-b5e8-b072870e7202&expirationTimestamp=1707897600000&signature=96MfTP8xwgPmRIvdad18jwEmQVRzGBj4MiwxxyGWJek&downloadName=invite_image.jpg`;
     const url = `https://tesbuild.vercel.app/`;
 
+    // @ts-expect-error: Kakao Javascript SDK
     window.Kakao.Share.sendDefault({
       objectType: 'feed',
       content: {

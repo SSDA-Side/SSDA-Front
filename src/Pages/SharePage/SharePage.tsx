@@ -1,11 +1,10 @@
+import { EmotionImage } from '@Assets/EmotionImages';
 import { CTAButton } from '@Components/Common/Button';
 import { Typography } from '@Components/Common/Typography';
-import React, { useEffect, useRef, useState } from 'react';
-
-import styles from './SharePage.module.scss';
-import { EmotionImage } from '@Assets/EmotionImages';
-import { useLocation, useNavigate } from 'react-router-dom';
 import { useGetShareLinkMetadata } from '@Hooks/NetworkHooks';
+import { useEffect, useState } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
+import styles from './SharePage.module.scss';
 
 export const SharePage = () => {
   const location = useLocation();
@@ -100,7 +99,7 @@ export const SharePage = () => {
 
           <div className={styles.texts}>
             <Typography as="h2" className={styles.spacing12}>
-              {shareMetadata?.nickname}님이
+              {shareMetadata?.username}님이
             </Typography>
             <Typography as="h2">
               <strong>{shareMetadata?.title}</strong> 일기장에 초대했어요!

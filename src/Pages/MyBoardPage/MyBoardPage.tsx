@@ -1,6 +1,12 @@
+/** React */
+import { useNavigate } from 'react-router-dom';
+
 /** Style 및 Layout */
 import { PageLayout } from '@Layouts/PageLayout';
 import styles from './MyBoardPage.module.scss';
+
+/** Icon */
+import { SVGIcon } from '@Icons/SVGIcon';
 
 /** Component */
 import { AddBoardItemButton, BoardItem } from '@Components/BoardItem';
@@ -10,15 +16,13 @@ import { Typography } from '@Components/Common/Typography';
 
 /** Hook */
 import { AsyncBoundary } from '@Components/Common/AsyncBoundary';
-import { useBoardList, useHeroData } from '@Hooks/NetworkHooks';
+import { useBoardList, useHeroMetadata } from '@Hooks/NetworkHooks';
 
 /** Type */
 import type { FallbackProps } from 'react-error-boundary';
 
 /** Util */
 import { getDescription } from '@Utils/index';
-import { SVGIcon } from '@Icons/SVGIcon';
-import { useNavigate } from 'react-router-dom';
 
 export const MyBoardPage = () => {
   return <PageLayout header={<Head />} body={<Body />} />;
@@ -56,17 +60,13 @@ const Body = () => {
 };
 
 const HeroSection = () => {
-  const { data: heroData, isSuccess } = useHeroData();
+  const { data: HeroMetadata } = useHeroMetadata();
 
-  if (!isSuccess) {
-    return;
-  }
-
-  const descriptionText = getDescription(heroData);
+  const descriptionText = getDescription(HeroMetadata);
 
   return (
     <section className={styles.heroSection}>
-      <Typography as="h1">{`${heroData.nickname}님,\n소중한 일상을 공유해보세요`}</Typography>
+      <Typography as="h1">{`${HeroMetadata.nickname}님,\n소중한 일상을 공유해보세요`}</Typography>
       <Typography as="body2" className={styles.description}>
         {descriptionText}
       </Typography>
@@ -74,7 +74,7 @@ const HeroSection = () => {
   );
 };
 
-const PageErrorUI = ({ error, resetErrorBoundary }: FallbackProps) => (
+const PageErrorUI = ({ resetErrorBoundary }: FallbackProps) => (
   <section className={styles.errorContainer}>
     <div className={styles.group}>
       <div className={styles.red}>
@@ -117,11 +117,7 @@ const PageLoadingUI = () => {
 };
 
 const BoardListSection = () => {
-  const { data: boardList, isSuccess } = useBoardList();
-
-  if (!isSuccess) {
-    return;
-  }
+  const { data: boardList } = useBoardList();
 
   const boardListElements = boardList.map((board) => <BoardItem key={`board-${board.id}`} {...board} />);
 

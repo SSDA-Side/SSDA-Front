@@ -5,7 +5,8 @@ import type { Board, Member, Notification } from '@Type/Model';
 
 /** Request */
 import type {
-  CreateBoardeRequest,
+  CreateBoardRequest,
+  CreateDiaryRequest,
   DeleteBoardRequest,
   GetMemberListRequest,
   ResignBoardRequest,
@@ -13,22 +14,16 @@ import type {
 } from '@Type/Request';
 
 /** Response */
-import type {
-  CreateShareLinkResponse,
-  GetNotificationResponse,
-  GetShareLinkMetadataResponse,
-  HeroData,
-} from '@Type/Response';
-
+import type { CreateShareLinkResponse, GetShareLinkMetadataResponse, HeroMetadata } from '@Type/Response';
 import type { KakaoLoginResponse } from '@Type/index';
 
 /** Test JSON */
 import heroResponse from '@/TestResponse/board_hero_response.json';
-import kakaoLoginResponse from '@/TestResponse/kakao_login_response.json';
 import boardResponse from '@/TestResponse/board_list_response.json';
-import memberResponse from '@/TestResponse/member_list_response.json';
 import createShareLinkResponseJSON from '@/TestResponse/create_share_link_response.json';
 import shareMetadataResponse from '@/TestResponse/get_share_link_response.json';
+import kakaoLoginResponse from '@/TestResponse/kakao_login_response.json';
+import memberResponse from '@/TestResponse/member_list_response.json';
 import notificationResponse from '@/TestResponse/notification_response.json';
 
 type JSONResponseType = { [k in string]: unknown };
@@ -42,7 +37,7 @@ const JSONResponses: JSONResponseType = {
   '/api/notification': notificationResponse,
 };
 
-const TEST_MODE = true;
+const TEST_MODE = false;
 const NETWORK_DELAY = 1200;
 
 type RejectOptions =
@@ -72,6 +67,7 @@ const fakeGet = (path: string, { wouldReject, errorCode, errorMessage }: RejectO
 const fakePost = (path: string, body: unknown, { wouldReject, errorCode, errorMessage }: RejectOptions) => {
   return new Promise((resolve, reject) => {
     setTimeout(() => {
+      console.log(body);
       if (wouldReject) {
         reject({ errorCode, errorMessage });
       } else {
@@ -90,12 +86,12 @@ export const kakaoLogin = async (authorizationCode: string) => {
   return res.data;
 };
 
-export const getHeroData = async () => {
+export const getHeroMetadata = async () => {
   if (TEST_MODE) {
-    return fakeGet('/api/boards/hero', { wouldReject: false }) as Promise<HeroData>;
+    return fakeGet('/api/boards/hero', { wouldReject: false }) as Promise<HeroMetadata>;
   }
 
-  const res = await axios.get<HeroData>('/api/boards/hero');
+  const res = await axios.get<HeroMetadata>('/api/boards/hero');
   return res.data;
 };
 
@@ -108,7 +104,7 @@ export const getBoardList = async () => {
   return res.data;
 };
 
-export const createBoard = async (boardRequestForm: CreateBoardeRequest) => {
+export const createBoard = async (boardRequestForm: CreateBoardRequest) => {
   if (TEST_MODE) {
     return fakePost('/api/boards', boardRequestForm, { wouldReject: false }) as Promise<Board[]>;
   }
@@ -153,16 +149,16 @@ export const getMemberList = async ({ id }: GetMemberListRequest) => {
   return res.data;
 };
 
-export const createDiary = async ({ id: boardId }) => {
+export const createDiary = async (submitData: CreateDiaryRequest) => {
   if (TEST_MODE) {
     return fakeGet(`/api/diary`, { wouldReject: false }) as Promise<Member[]>;
   }
 
-  const res = await axios.post(`/api/diary`);
+  const res = await axios.post(`/api/diary`, submitData);
   return res.status;
 };
 
-export const createShareLink = async ({ boardId }) => {
+export const createShareLink = async ({ boardId }: { boardId: number }) => {
   if (TEST_MODE) {
     return fakeGet(`/api/boards/share`, { wouldReject: false }) as Promise<CreateShareLinkResponse>;
   }
@@ -171,7 +167,7 @@ export const createShareLink = async ({ boardId }) => {
   return res.data;
 };
 
-export const getShareLinkMetadata = async ({ hashKey }) => {
+export const getShareLinkMetadata = async ({ hashKey }: { hashKey: string }) => {
   if (TEST_MODE) {
     return fakeGet(`/api/boards/share/get`, { wouldReject: false }) as Promise<GetShareLinkMetadataResponse>;
   }

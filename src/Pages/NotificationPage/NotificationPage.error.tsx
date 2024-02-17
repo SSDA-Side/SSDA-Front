@@ -4,7 +4,7 @@ import { Typography } from '@Components/Common/Typography';
 import { SVGIcon } from '@Icons/SVGIcon';
 import styles from './NotificationPage.module.scss';
 
-export const PageErrorUI = ({ error, resetErrorBoundary }: FallbackProps) => (
+export const PageErrorUI = ({ resetErrorBoundary }: FallbackProps) => (
   <section className={styles.errorContainer}>
     <div className={styles.group}>
       <div className={styles.red}>

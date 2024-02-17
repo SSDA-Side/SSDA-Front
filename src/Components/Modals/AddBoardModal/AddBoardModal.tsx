@@ -12,7 +12,7 @@ export const AddBoardModal = ({ modalId }: { modalId: string }) => {
 
     mutate(formData, {
       onSuccess() {
-        openAlert({ contents: '일기창 추가 완료~' });
+        openAlert({ contents: '일기장을 추가하였습니다.' });
         closeModal(modalId);
       },
     });

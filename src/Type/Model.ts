@@ -1,3 +1,10 @@
+export interface Member {
+  id: number;
+  profileUrl: string;
+  nickname: string;
+  signedDate: Date | number;
+}
+
 export interface Board {
   id: number;
   imageNumber: number;
@@ -11,29 +18,56 @@ export interface Board {
   shared: boolean;
 }
 
-export interface Member {
+export interface Diary {
   id: number;
-  profileUrl: string;
+  writer: Pick<Member, 'nickname' | 'profileUrl'>;
+  emotionId: number;
+  title: string;
+  contents: string;
+  likeCount: number;
+  commentCount: number;
+  isOwned: boolean;
+  images?: ContentImage[];
+  commentList?: Comment[];
+}
+
+export interface CommentBase {
   nickname: string;
-  signedDate: Date | number;
+  profileUrl: string;
+  contents: string;
+  regDate: Date;
+  isOwned: boolean;
+}
+
+export interface Comment extends CommentBase {
+  id: number;
+  replyList?: Reply[];
+}
+
+export interface Reply extends CommentBase {
+  id: number;
+}
+export interface ContentImage {
+  id: string;
+  imageUrl: string;
 }
 
 export interface NotificationBase {
   id: number;
-  isRead: boolean;
+  read: boolean;
   regDate: Date;
 }
 
-export type NotificationComment = {
+export interface NotificationComment extends NotificationBase {
   notificationTypeId: 1;
   boardId: number;
   diaryId: number;
   commentId: number;
   commentContents: string;
   commentWriterNickname: string;
-} & NotificationBase;
+}
 
-export type NotificationReply = {
+export interface NotificationReply extends NotificationBase {
   notificationTypeId: 2;
   boardId: number;
   diaryId: number;
@@ -41,28 +75,28 @@ export type NotificationReply = {
   replyId: number;
   replyWriterNickname: string;
   replyContents: string;
-} & NotificationBase;
+}
 
-export type NotificationLike = {
+export interface NotificationLike extends NotificationBase {
   notificationTypeId: 3;
   boardId: number;
   diaryId: number;
   likeId: number;
   likeMemberNickname: string;
-} & NotificationBase;
+}
 
-export type NotificationNewDiary = {
+export interface NotificationNewDiary extends NotificationBase {
   notificationTypeId: 4;
   boardId: number;
   boardTitle: string;
   diaryId: number;
-} & NotificationBase;
+}
 
-export type NotificationNewMember = {
+export interface NotificationNewMember extends NotificationBase {
   notificationTypeId: 5;
   boardId: number;
   boardTitle: string;
-} & NotificationBase;
+}
 
 export type Notification =
   | NotificationComment

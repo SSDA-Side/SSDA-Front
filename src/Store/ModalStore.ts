@@ -1,4 +1,4 @@
-import { BoardFormData } from '@Type/Request';
+import { Board } from '@Type/Model';
 import { ComponentType } from 'react';
 import { atom } from 'recoil';
 
@@ -29,7 +29,7 @@ export type ModalPayloadType = ComponentPayload | AlertPayload | ConfirmPayload;
 export type ComponentPayloadProps = BoardProps | ViewMemberProps | CreateShareLinkModalProps;
 
 export type BoardProps = {
-  defaultBoard: BoardFormData;
+  defaultBoard: Board;
 };
 
 export type ViewMemberProps = {
