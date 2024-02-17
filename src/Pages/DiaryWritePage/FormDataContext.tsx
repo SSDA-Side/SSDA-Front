@@ -69,6 +69,7 @@ export const useFormDataDispatch = () => {
 };
 
 export const useFormData = () => {
+  const currentFormData = useFormDataState();
   const dispatch = useFormDataDispatch();
 
   const updateBoardId = (boardId: string) =>
@@ -104,8 +105,21 @@ export const useFormData = () => {
   const updateImages = (diaryImgs: FileList) =>
     dispatch({
       type: 'updateFields',
-      payload: { diaryImgs },
+      payload: { diaryImgs: [...(currentFormData.diaryImgs || []), ...diaryImgs] },
     });
 
-  return { updateBoardId, updateDiaryDate, updateEmotionId, updateTitle, updateContents, updateImages };
+  const deleteImage = (targetFile: File) => {
+    console.log(targetFile);
+    console.log(currentFormData.diaryImgs);
+    console.log([...Array.from(currentFormData.diaryImgs || []).filter((file) => file.name !== targetFile.name)]);
+
+    dispatch({
+      type: 'updateFields',
+      payload: {
+        diaryImgs: [...Array.from(currentFormData.diaryImgs || []).filter((file) => file.name !== targetFile.name)],
+      },
+    });
+  };
+
+  return { updateBoardId, updateDiaryDate, updateEmotionId, updateTitle, updateContents, updateImages, deleteImage };
 };
