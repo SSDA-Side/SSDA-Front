@@ -71,6 +71,10 @@ export const routes = [
                     path: 'myboard/all/:boardId',
                     element: <DiaryAllPage />,
                   },
+                  {
+                    path: 'myboard/:boardId/:date',
+                    element: <DiaryListPage />,
+                  },
                 ],
               },
               {
@@ -84,10 +88,6 @@ export const routes = [
               {
                 path: 'myboard/:boardId/write',
                 element: <DiaryWritePage />,
-              },
-              {
-                path: 'myboard/:boardId/:date',
-                element: <DiaryListPage />,
               },
               {
                 path: 'notification',
