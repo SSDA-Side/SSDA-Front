@@ -7,13 +7,7 @@ import { useNavigate } from 'react-router-dom';
 
 export const DiaryItem = ({ diary }: { diary: todayDiaryData }) => {
   const navigate = useNavigate();
-  const selectDay =
-    diary.selectDate !== undefined
-      ? diary.selectDate.split('T')[0]
-      : diary.selectedDate !== undefined
-        ? diary.selectedDate.split('T')[0]
-        : '';
-
+  const selectDay = diary.selectedDate !== undefined ? diary.selectedDate.split('T')[0] : '';
   return (
     <button
       className={styles.container}
