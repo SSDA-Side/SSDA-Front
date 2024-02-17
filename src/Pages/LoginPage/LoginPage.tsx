@@ -7,6 +7,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { getCookie } from '@Utils/Cookies';
 
 const Carousel = () => {
+  // TODO: [feat] 타이머 기능 추가하여 3초마다 이미지 변경
   const [currnet, setCurrent] = useState<number>(0);
 
   return (
@@ -31,7 +32,6 @@ const Carousel = () => {
           </button>
         ))}
       </div>
-
       <div className={styles.loginContainer}>
         <SocialLogin />
       </div>

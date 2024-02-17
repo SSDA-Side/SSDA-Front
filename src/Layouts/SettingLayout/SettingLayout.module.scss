@@ -18,3 +18,8 @@
     align-items: center;
   }
 }
+
+.contents {
+  height: calc(100% - var(--size-12));
+  padding: var(--size-5);
+}

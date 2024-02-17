@@ -20,6 +20,8 @@ const SocialKakao = () => {
 
   const { mutate: kakaoLoginMutation } = useKaKaoLogin(authorizationCode);
 
+  // TODO: [refactor] login 페이지와 auth 페이지 분리
+  // TODO: [feat] access token과 refresh token 기능 추가
   useEffect(() => {
     if (location.pathname === '/login') return;
     const code = new URL(window.location.href).searchParams.get('code');

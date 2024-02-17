@@ -6,6 +6,7 @@ type InputBoxProps = {
   className?: string;
 } & React.InputHTMLAttributes<HTMLInputElement>;
 
+// TODO: [refactor] 확장성을 고려하여 리팩토링
 export const InputBox = ({ className, children, ...rest }: InputBoxProps) => {
   const [inputCount, setInputCount] = useState<number>(0);
 

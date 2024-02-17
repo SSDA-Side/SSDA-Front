@@ -50,9 +50,11 @@ export const MyboardLayout = () => {
         {/* TODO: [feat] 일기장 제목 가져오기 */}
         <div>{!isDiaryDetail ? `${year}년 ${month}월 ${day}일` : '일기장 제목'}</div>
         {/* TODO: [feat] 버튼 클릭 시 사용자 목록 보여주기 */}
-        <button>
-          <SVGIcon name="users" />
-        </button>
+        {isDiaryDetail ? (
+          <button>
+            <SVGIcon name="users" />
+          </button>
+        ) : null}
       </div>
       {isDiaryDetail ? (
         <div className={styles.container}>
