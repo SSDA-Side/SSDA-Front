@@ -17,3 +17,14 @@ export interface Member {
   nickname: string;
   signedDate: Date | number;
 }
+
+export interface Diary {
+  boardId: number;
+  memberId: number;
+  diaryId: number;
+  commentId: number;
+  date: string;
+  lastViewId: number;
+  pageSize: number;
+  contents: string;
+}

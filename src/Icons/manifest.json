@@ -50,5 +50,17 @@
   "fill-circle": {
     "width": 2,
     "height": 2
+  },
+  "comment": {
+    "width": 32,
+    "height": 32
+  },
+  "love": {
+    "width": 32,
+    "height": 32
+  },
+  "empty-love": {
+    "width": 32,
+    "height": 32
   }
 }

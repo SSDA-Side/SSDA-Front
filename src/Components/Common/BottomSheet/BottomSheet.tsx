@@ -9,6 +9,7 @@ type BottomSheetProps = {
   title: string;
 };
 
+// TODO: [refactor] 코드 참고하여 리팩토링, recoil로 상태관리
 export const BottomSheet = ({ setClose, content, title }: BottomSheetProps) => {
   return (
     <div className={styles.fullContainer}>

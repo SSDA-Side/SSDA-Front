@@ -9,12 +9,44 @@
     <symbol fill="none" viewBox="0 0 8 8" id="empty-circle" xmlns="http://www.w3.org/2000/svg">
       <circle cx="4" cy="4" r="4" fill="#fff" fill-opacity=".3"/>
     </symbol>
+    <symbol fill="none" viewBox="0 0 14 14" id="comment" xmlns="http://www.w3.org/2000/svg">
+<path d="M13 9a1.334 1.334 0 0 1-1.333 1.333h-8L1 13V2.333A1.333 1.333 0 0 1 2.333 1h9.334A1.333 1.333 0 0 1 13 2.333V9Z" stroke="#747575" stroke-linecap="round" stroke-linejoin="round"/>
+</symbol>
+<symbol fill="none" viewBox="0 0 36 35" id="empty-star" xmlns="http://www.w3.org/2000/svg">
+<path d="m18.462 1.412 4.132 9.935a1.5 1.5 0 0 0 1.265.92l10.726.859a.5.5 0 0 1 .285.878l-8.172 7a1.5 1.5 0 0 0-.483 1.487l2.497 10.467a.5.5 0 0 1-.747.542l-9.183-5.608a1.5 1.5 0 0 0-1.564 0L8.035 33.5a.5.5 0 0 1-.746-.542L9.785 22.49a1.5 1.5 0 0 0-.483-1.487l-8.172-7a.5.5 0 0 1 .285-.878l10.726-.86a1.5 1.5 0 0 0 1.265-.92l4.132-9.934a.5.5 0 0 1 .924 0Z" stroke="#FF8066"/>
+</symbol>
+<symbol fill="none" viewBox="0 0 36 35" id="star" xmlns="http://www.w3.org/2000/svg">
+<path d="m18.462 1.412 4.132 9.935a1.5 1.5 0 0 0 1.265.92l10.726.859a.5.5 0 0 1 .285.878l-8.172 7a1.5 1.5 0 0 0-.483 1.487l2.497 10.467a.5.5 0 0 1-.747.542l-9.183-5.608a1.5 1.5 0 0 0-1.564 0L8.035 33.5a.5.5 0 0 1-.746-.542L9.785 22.49a1.5 1.5 0 0 0-.483-1.487l-8.172-7a.5.5 0 0 1 .285-.878l10.726-.86a1.5 1.5 0 0 0 1.265-.92l4.132-9.934a.5.5 0 0 1 .924 0Z" fill="#FF8066" stroke="#FF8066"/>
+</symbol>
+<symbol fill="none" viewBox="0 0 16 16" id="empty-heart" xmlns="http://www.w3.org/2000/svg">
+<path d="M13.894 3.074a3.666 3.666 0 0 0-5.187 0L8 3.78l-.706-.706A3.668 3.668 0 0 0 2.107 8.26l.707.707L8 14.154l5.187-5.187.707-.707a3.668 3.668 0 0 0 0-5.186Z" stroke="#747575" stroke-linecap="round" stroke-linejoin="round"/>
+</symbol>
+    <symbol fill="none" viewBox="0 0 36 30" id="empty-love" xmlns="http://www.w3.org/2000/svg">
+<path d="M32.546 2.652a9.05 9.05 0 0 0-12.802 0L18 4.396l-1.745-1.744A9.052 9.052 0 0 0 3.454 15.454l1.744 1.744L18 30 30.8 17.198l1.745-1.744a9.05 9.05 0 0 0 0-12.802Z" fill="#EEE"/>
+<symbol fill="none" viewBox="0 0 35 30" id="love" xmlns="http://www.w3.org/2000/svg">
+<path d="M31.743 2.652a9.05 9.05 0 0 0-12.801 0l-1.745 1.744-1.744-1.744A9.052 9.052 0 1 0 2.651 15.454l1.745 1.744L17.197 30 30 17.198l1.744-1.744a9.049 9.049 0 0 0 0-12.802Z" fill="#FF8066"/>
+</symbol>
+<symbol fill="none" viewBox="0 0 20 20" id="writepen" xmlns="http://www.w3.org/2000/svg">
+<path d="M10 18.56h9M14.5 2.06a2.121 2.121 0 1 1 3 3L5 17.56l-4 1 1-4 12.5-12.5Z" stroke="#424142" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+</symbol>
+<symbol fill="none" viewBox="0 0 22 20" id="openbook" xmlns="http://www.w3.org/2000/svg">
+<path d="M1 1h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H1V1ZM21 1h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7V1Z" stroke="#424142" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+</symbol>
+<symbol fill="none" viewBox="0 0 20 22" id="calendar" xmlns="http://www.w3.org/2000/svg">
+<path d="M17 3H3a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2ZM14 1v4M6 1v4M1 9h18" stroke="#424142" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+</symbol>
+<symbol fill="none" viewBox="0 0 15 13" id="camera" xmlns="http://www.w3.org/2000/svg">
+<path fill-rule="evenodd" clip-rule="evenodd" d="M5.084.223A.5.5 0 0 1 5.5 0h3.75a.5.5 0 0 1 .416.223l1.102 1.652H13a1.75 1.75 0 0 1 1.75 1.75V10.5A1.75 1.75 0 0 1 13 12.25H1.75A1.75 1.75 0 0 1 0 10.5V3.625a1.75 1.75 0 0 1 1.75-1.75h2.232L5.084.223ZM5.768 1 4.666 2.652a.5.5 0 0 1-.416.223h-2.5a.75.75 0 0 0-.75.75V10.5a.75.75 0 0 0 .75.75H13a.75.75 0 0 0 .75-.75V3.625a.75.75 0 0 0-.75-.75h-2.5a.5.5 0 0 1-.416-.223L8.982 1H5.768Z" fill="#fff"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M7.375 4.75a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm-3 2a3 3 0 1 1 6 0 3 3 0 0 1-6 0Z" fill="#fff"/>
+</symbol>
+</symbol>
     <symbol id="right" fill="none" viewBox="0 0 32 32">
       <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m12 24 8-8-8-8"/>
     </symbol>
     <symbol id="left" fill="none" viewBox="0 0 32 32">
       <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m20 24-8-8 8-8"/>
     </symbol>
+    
     <symbol id="close" fill="none" viewBox="0 0 32 32">
       <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M24 8 8 24M8 8l16 16"/>
     </symbol>

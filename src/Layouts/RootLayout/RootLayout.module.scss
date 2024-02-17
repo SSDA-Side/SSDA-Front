@@ -1,3 +1,24 @@
+.mini {
+  * {
+    font-family: 'Mini_handwriting';
+  }
+}
+.Jeju {
+  * {
+    font-family: 'Jeju Myeongjo';
+  }
+}
+.NanumSquare {
+  * {
+    font-family: 'NanumSquare';
+  }
+}
+.Pretendard {
+  * {
+    font-family: Pretendard;
+  }
+}
+
 .full-container {
   display: flex;
   // width: 100dvw;
@@ -14,6 +35,7 @@
 
   @media screen and (min-width: 390px) {
     max-width: 390px;
+    // border: 1px solid black;
   }
 }
 
