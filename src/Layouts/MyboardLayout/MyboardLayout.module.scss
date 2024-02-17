@@ -23,7 +23,6 @@
   display: flex;
   width: 100%;
   height: calc(100% - var(--size-12));
-  overflow: scroll;
   .tab-bar {
     background-color: var(--gray100);
     width: var(--size-14);
