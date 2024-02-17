@@ -34,6 +34,10 @@ export const routes = [
         errorElement: <ErrorPage />,
         children: [
           {
+            path: '/',
+            element: <LoginPage />,
+          },
+          {
             path: 'login',
             element: <LoginPage />,
           },
