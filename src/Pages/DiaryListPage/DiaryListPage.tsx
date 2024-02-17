@@ -18,6 +18,8 @@ type member = {
   isSelect: boolean;
 };
 
+// TODO: [feat] 좋아요 모달 추가
+
 export const DiaryListPage = () => {
   const [memberList, setMemberList] = useState<member[]>([]);
   const selectedMember = memberList.find((member) => member.isSelect)?.memberId;
