@@ -27,3 +27,14 @@ export const selectedDateStore = atom<SelectedState>({
     date: new Date(),
   },
 });
+
+export type FontState = {
+  fontType: number;
+};
+
+export const fontStateStore = atom<FontState>({
+  key: 'FontState',
+  default: {
+    fontType: 0,
+  },
+});

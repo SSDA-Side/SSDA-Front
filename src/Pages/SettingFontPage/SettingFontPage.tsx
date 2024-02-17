@@ -3,11 +3,14 @@ import styles from './SettingFontPage.module.scss';
 import cn from 'classnames';
 import { TextArea } from '@Components/Common/TextArea';
 import { CTAButton } from '@Components/Common/Button';
+import { fontStateStore } from '@Store/index';
+import { useSetRecoilState } from 'recoil';
 
 const fontList = ['프리텐다드', '나눔 스퀘어', '제주 명조', '미니 손글씨'];
 
 export const SettingFontPage = () => {
   const [selectedFont, setSelectedFont] = useState<string>('');
+  const setFont = useSetRecoilState(fontStateStore);
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSelectedFont(event.target.value);
@@ -44,8 +47,14 @@ export const SettingFontPage = () => {
         ></TextArea>
       </div>
       <div className={styles.buttonBox}>
-        <CTAButton onClick={() => {}}>저장</CTAButton>
-      </div>{' '}
+        <CTAButton
+          onClick={() => {
+            setFont({ fontType: fontList.indexOf(selectedFont) });
+          }}
+        >
+          저장
+        </CTAButton>
+      </div>
     </div>
   );
 };
