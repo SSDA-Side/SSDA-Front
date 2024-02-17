@@ -92,8 +92,8 @@ const DiaryListContent = ({ memberId, boardId, date }: { memberId: number; board
       <div className={styles.content}>
         <h2>{diaryDetail?.title}</h2>
         <div className={styles.etc}>
-          <span>{diaryDetail?.selectDate}</span>
-          <span>∙ 좋아요 {diaryDetail?.likeCount}개</span>
+          <span>{diaryDetail?.timeStamp} </span>
+          <span>∙ 좋아요 {diaryDetail?.likeCount}개 </span>
           <span>∙ 댓글 {diaryDetail?.commentCount}개</span>
         </div>
         <div className={styles.imgBoxContainer}>
@@ -133,7 +133,7 @@ const DiaryListReply = ({ commentId, lastViewId }: { commentId: number; lastView
     <>
       {replyData?.map((reply) => (
         <div className={styles.replyBox} key={`key-${reply.id}`}>
-          <img src={reply.profilUrl} alt="프로필 이미지" />
+          <img src={reply.profileUrl} alt="프로필 이미지" />
           <div className={styles.body}>
             <div>
               <span>{reply.nickname}</span>
@@ -203,7 +203,7 @@ const DiaryListComment = ({ diaryId, commentCount }: { diaryId: number; commentC
       {commentData?.map((comment) => (
         <div className={styles.commentArea} key={`comment-${comment.id}`}>
           <div className={styles.commentBox}>
-            <img src={comment.profilUrl} alt="프로필 이미지" />
+            <img src={comment.profileUrl} alt="프로필 이미지" />
             <div className={styles.body}>
               <div>
                 <span>{comment.nickname}</span>
