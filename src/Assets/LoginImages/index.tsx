@@ -1,7 +1,7 @@
-import love from './love.png';
-import book from './book.png';
-import bubbleOne from './bubble-01.png';
-import bubbleTwo from './bubble-02.png';
+import love from './login_love.png';
+import book from './login_book.png';
+import bubbleOne from './login_bubble01.png';
+import bubbleTwo from './login_bubble02.png';
 
 export const LoginImage = ({ index }: { index: number }) => {
   const loginImage = [book, love];
