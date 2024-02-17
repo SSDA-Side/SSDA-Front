@@ -70,7 +70,7 @@ export const MyboardLayout = () => {
                   {/* TODO: [style] 선택한 탭이 아닐 경우 색상을 회색으로 변경 */}
                   <SVGIcon name={tab.icon as 'calendar' | 'writepen' | 'openbook'} size={20} />
                   <p>{tab.name}</p>
-                  {isNewDiary?.newExist && tab.path === 'new' && <div className={styles.newDiary} />}
+                  {true && tab.path === 'new' && <div className={styles.newDiary} />}
                 </div>
               </button>
             ))}
