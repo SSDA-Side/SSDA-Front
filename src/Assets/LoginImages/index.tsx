@@ -1,5 +1,5 @@
-import love from './love.svg';
-import book from './book.svg';
+import love from './love.png';
+import book from './book.png';
 import bubbleOne from './bubble-01.png';
 import bubbleTwo from './bubble-02.png';
 
