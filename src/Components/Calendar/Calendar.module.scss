@@ -2,13 +2,13 @@
   width: 100%;
   .nav {
     display: flex;
-    justify-content: space-between;
+    justify-content: space-evenly;
     align-items: center;
     height: var(--size-6);
     margin: var(--size-5) var(--size-5) var(--size-3) var(--size-5);
     padding: 0 var(--size-3);
     span {
-      font-size: 18px;
+      font-size: var(--size-4);
       font-weight: 200;
     }
     button {
@@ -28,6 +28,7 @@
     padding: 0 var(--size-5);
     thead {
       height: var(--size-13);
+      color: var(--gray400);
       th {
         font-size: var(--size-4);
         font-weight: 300;
@@ -50,9 +51,9 @@
             font-weight: 200;
             border-radius: 50%;
             background-color: var(--orange600);
-            height: var(--size-10);
+            height: 2.425rem;
             text-align: center;
-            line-height: var(--size-10);
+            line-height: 2.425rem;
           }
         }
         .date {
