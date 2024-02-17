@@ -14,6 +14,8 @@ export type IconName =
   | 'more'
   | 'send'
   | 'exit'
+  | 'star'
+  | 'empty-star'
   | 'trash'
   | 'image'
   | 'sunny'
@@ -25,6 +27,7 @@ export type IconName =
   | 'writepen'
   | 'openbook'
   | 'calendar'
+  | 'empty-heart'
   | 'love'
   | 'empty-love';
 
