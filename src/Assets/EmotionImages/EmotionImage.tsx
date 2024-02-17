@@ -44,27 +44,6 @@ export const EmotionImage = ({ type, index, size = 'lg' }: EmotionImage) => {
   );
 };
 
-export const EmotionBackgroundImage = ({ type, index, size = 'lg' }: EmotionImage) => {
-  if (type === undefined && index === undefined) {
-    throw new Error('EmotionImage의 type prop 또는 index prop을 설정해야 합니다.');
-  }
-
-  const itemSize = size === 'lg' ? 98 : 54;
-  const imageIndex = type ? convertTypeToIndex(type) : index || 0;
-  const imagePositionX = SPRITE_IMAGE_WIDTH * imageIndex;
-
-  return (
-    <div
-      style={{
-        width: itemSize,
-        height: itemSize,
-        background: `url('${spriteBackground}') -${imagePositionX}px -0`,
-        backgroundSize: 'cover',
-      }}
-    />
-  );
-};
-
 // type EmotionItem = {
 //   id: number;
 //   name: EmotionType;
