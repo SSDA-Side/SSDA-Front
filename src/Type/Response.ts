@@ -19,6 +19,7 @@ export type DiaryDetailData = {
   regDate: string;
   selectDate: string;
   title: string;
+  timeStamp: string;
 };
 
 export type DiaryDetailImage = {
@@ -26,10 +27,17 @@ export type DiaryDetailImage = {
   imgUrl: string;
 };
 
+export type KakaoLoginData = {
+  accessToken: string;
+  refreshToken: string;
+  expiresIn: number; // 1800
+  grantType: 'Bearer';
+};
+
 export type CommentData = {
   id: number;
   nickname: string;
-  profilUrl: string;
+  profileUrl: string;
   contents: string;
   regDate: string;
   owned: boolean;
@@ -49,8 +57,7 @@ export type todayDiaryData = {
   likeCount: number;
   commentCount: number;
   regDate?: string;
-  selectedDate?: string;
-  selectDate?: string;
+  selectedDate: string;
   timeStamp: string;
 };
 

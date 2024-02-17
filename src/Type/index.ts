@@ -47,7 +47,7 @@ export type BoardMember = {
   signedDate: Date | number;
 };
 
-export type KakaoLoginResponse = {
+export type KakaoLoginData = {
   accessToken: string;
   refreshToken: string;
   expiresIn: number; // 1800

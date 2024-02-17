@@ -74,10 +74,11 @@ export const useDeleteBoard = () => {
   });
 };
 
+// comment
 export const useGetComment = (diaryId: number, lastViewId: number) => {
   return useMutation({
     mutationKey: ['getComment'],
-    mutationFn: () => getComment(diaryId, 10, lastViewId),
+    mutationFn: () => getComment({ diaryId, pageSize: 10, lastViewId }),
     onSuccess: (data) => {
       return data;
     },
@@ -87,14 +88,14 @@ export const useGetComment = (diaryId: number, lastViewId: number) => {
 export const useCreateComment = (diaryId: number, contents: string) => {
   return useMutation({
     mutationKey: ['createComment'],
-    mutationFn: () => createComment(diaryId, contents),
+    mutationFn: () => createComment({ diaryId, contents }),
   });
 };
 
 export const useGetReply = (commentId: number, lastViewId: number) => {
   return useMutation({
     mutationKey: ['getReply'],
-    mutationFn: () => getReply(commentId, lastViewId),
+    mutationFn: () => getReply({ commentId, lastViewId }),
     onSuccess: (data) => {
       return data;
     },
@@ -104,10 +105,11 @@ export const useGetReply = (commentId: number, lastViewId: number) => {
 export const useCreateReply = (commentId: number, contents: string) => {
   return useMutation({
     mutationKey: ['createReply'],
-    mutationFn: () => createReply(commentId, contents),
+    mutationFn: () => createReply({ commentId, contents }),
   });
 };
 
+// diary
 export const useGetMemberList = ({ id }: GetMemberListRequest) => {
   return useSuspenseQuery({
     queryKey: ['myboard', 'memberList'],
@@ -125,28 +127,28 @@ export const useCreateDiary = () => {
 export const useGetAllDiary = (boardId: number, pageSize: number, lastViewId: number) => {
   return useQuery({
     queryKey: ['myboard', 'diary'],
-    queryFn: () => getAllDiary(boardId, pageSize, lastViewId),
+    queryFn: () => getAllDiary({ boardId, pageSize, lastViewId }),
   });
 };
 
 export const useIsNewDiary = (boardId: number) => {
   return useQuery({
     queryKey: ['myboard', 'isNewDiary'],
-    queryFn: () => isNewDiary(boardId),
+    queryFn: () => isNewDiary({ boardId }),
   });
 };
 
 export const useGetNewDiary = (boardId: number) => {
   return useQuery({
     queryKey: ['myboard', 'newDiary'],
-    queryFn: () => getNewDiary(boardId),
+    queryFn: () => getNewDiary({ boardId }),
   });
 };
 
 export const useGetTodayDiary = (boardId: number, date: string) => {
   return useMutation({
     mutationKey: ['myboard', 'today'],
-    mutationFn: () => getTodayDiary(boardId, date),
+    mutationFn: () => getTodayDiary({ boardId, date }),
     onSuccess: (data) => {
       return data;
     },
@@ -156,20 +158,21 @@ export const useGetTodayDiary = (boardId: number, date: string) => {
 export const useGetDiaryDetail = (memberId: number, boardId: number, date: string) => {
   return useQuery({
     queryKey: ['myboard', 'diaryDetail'],
-    queryFn: () => getDiaryDetail(memberId, boardId, date),
+    queryFn: () => getDiaryDetail({ memberId, boardId, date }),
   });
 };
 
 export const useGetMonth = (boardId: number, date: string) => {
   return useMutation({
     mutationKey: ['myboard', 'month'],
-    mutationFn: () => getMonth(boardId, date),
+    mutationFn: () => getMonth({ boardId, date }),
     onSuccess: (data) => {
       return data.dataList;
     },
   });
 };
 
+// login
 export const useKaKaoLogin = (authorizationCode: string) => {
   const navigate = useNavigate();
 
