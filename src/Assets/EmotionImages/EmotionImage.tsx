@@ -1,5 +1,4 @@
 import sprite from './sprites.png';
-import spriteBackground from './sprites_background.png';
 
 type EmotionType = 'angry' | 'happy' | 'eating' | 'sad' | 'excited' | 'fell_in_love' | 'sleeping' | 'normal' | 'bored';
 

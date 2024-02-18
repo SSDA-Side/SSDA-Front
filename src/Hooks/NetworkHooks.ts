@@ -1,4 +1,10 @@
-import { useMutation, useQueryClient, useSuspenseInfiniteQuery, useSuspenseQuery } from '@tanstack/react-query';
+import {
+  useMutation,
+  useQueryClient,
+  useSuspenseInfiniteQuery,
+  useQuery,
+  useSuspenseQuery,
+} from '@tanstack/react-query';
 import {
   createBoard,
   createComment,
@@ -14,8 +20,6 @@ import {
   getShareLinkMetadata,
   getComment,
   getDiaryDetail,
-  getHeroData,
-  getMemberList,
   getMonth,
   getNewDiary,
   getReply,
@@ -28,7 +32,6 @@ import {
 } from '@APIs/index';
 import { GetMemberListRequest } from '@Type/Request';
 import { setCookie } from '@Utils/Cookies';
-import { useMutation, useQuery, useQueryClient, useSuspenseQuery } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
 
 export const useHeroMetadata = () => {
@@ -150,10 +153,15 @@ export const useGetNotifications = () => {
     queryKey: ['getInfiniteNotification'],
     queryFn: ({ pageParam }) => getNotifications({ pageSize: 10, lastViewId: pageParam }),
     getNextPageParam: (lastPage) => {
+      // 해당 코드 제가 임의로 수정했습니다. 후에 주현님이 수정하시면 될 것 같아요!
+      if (lastPage === undefined) return undefined;
       const isLastPage = lastPage.length < 10;
       return isLastPage ? undefined : lastPage[lastPage.length - 1].id;
     },
     initialPageParam: 0,
+  });
+};
+
 export const useUpdateRead = (boardId: number) => {
   return useMutation({
     mutationKey: ['myboard', 'updateRead'],

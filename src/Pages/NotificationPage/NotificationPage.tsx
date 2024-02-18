@@ -68,7 +68,7 @@ const NotificationView = () => {
 
       <ul id="notiList" className={styles.notiList}>
         {hasNoNotification && <NoNotification />}
-        {data.pages.map((notis) => notis.map((noti) => <NotificationItem {...noti} />))}
+        {data.pages.map((notis) => notis?.map((noti) => <NotificationItem {...noti} />))}
       </ul>
     </>
   );

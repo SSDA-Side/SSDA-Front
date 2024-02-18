@@ -24,7 +24,7 @@ export type IconName =
   | 'setting'
   | 'error'
   | 'kakaotalk'
-  | 'link';
+  | 'link'
   | 'comment'
   | 'camera'
   | 'writepen'

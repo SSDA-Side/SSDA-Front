@@ -6,7 +6,7 @@ type WriteFormDate = {
   contents: string;
   stickerId: string;
   diaryDate: string;
-  diaryImgs: FileList | null;
+  diaryImgs: FileList | null | File[];
 };
 
 const initialFormData: WriteFormDate = {

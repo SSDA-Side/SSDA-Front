@@ -6,7 +6,6 @@ import type { Board, Member, Notification } from '@Type/Model';
 /** Request */
 import type {
   CreateDiaryRequest,
-  CreateBoardeRequest,
   CreateCommentRequest,
   CreateReplyRequest,
   DeleteBoardRequest,
@@ -22,11 +21,21 @@ import type {
   ResignBoardRequest,
   UpdateBoardRequest,
   UpdateCommentRequest,
+  CreateBoardRequest,
 } from '@Type/Request';
 
 /** Response */
-import type { CreateShareLinkResponse, GetShareLinkMetadataResponse, HeroMetadata } from '@Type/Response';
-import type { KakaoLoginResponse } from '@Type/index';
+import type {
+  CommentData,
+  CreateShareLinkResponse,
+  DiaryDetailData,
+  GetShareLinkMetadataResponse,
+  HeroMetadata,
+  KakaoLoginData,
+  replyData,
+  todayDiaryData,
+  userData,
+} from '@Type/Response';
 
 /** Test JSON */
 import heroResponse from '@/TestResponse/board_hero_response.json';
@@ -36,6 +45,7 @@ import shareMetadataResponse from '@/TestResponse/get_share_link_response.json';
 import kakaoLoginResponse from '@/TestResponse/kakao_login_response.json';
 import memberResponse from '@/TestResponse/member_list_response.json';
 import notificationResponse from '@/TestResponse/notification_response.json';
+import { getCookie } from '@Utils/Cookies';
 
 type JSONResponseType = { [k in string]: unknown };
 const JSONResponses: JSONResponseType = {
@@ -90,10 +100,10 @@ const fakePost = (path: string, body: unknown, { wouldReject, errorCode, errorMe
 
 export const kakaoLogin = async (authorizationCode: string) => {
   if (TEST_MODE) {
-    return fakePost('/api/auth/kakao', { authorizationCode }, { wouldReject: false }) as Promise<KakaoLoginResponse>;
+    return fakePost('/api/auth/kakao', { authorizationCode }, { wouldReject: false }) as Promise<KakaoLoginData>;
   }
 
-  const res = await axios.post<KakaoLoginResponse>('/api/auth/kakao', { authorizationCode });
+  const res = await axios.post<KakaoLoginData>('/api/auth/kakao', { authorizationCode });
   return res.data;
 };
 
@@ -139,7 +149,7 @@ export const getNewDiary = async ({ boardId }: IsNewDiaryRequest) => {
   return res.data;
 };
 
-const DELAY_TIME = 1200;
+// const DELAY_TIME = 1200;
 
 // 일기 상세
 export const getDiaryDetail = async ({ memberId, boardId, date }: GetDiaryDetailRequest) => {
@@ -194,15 +204,15 @@ export const createReply = async ({ commentId, contents }: CreateReplyRequest) =
  * 인위적인 네트워크 딜레이를 위한 임시 함수
  * API가 연결되면 해당 함수는 불필요
  * */
-const fetchJSON = async <T>(path: string) => {
-  const response = await axios.get<T>(path);
+// const fetchJSON = async <T>(path: string) => {
+//   const response = await axios.get<T>(path);
 
-  return new Promise<T>((resolve) => {
-    setTimeout(() => {
-      resolve(response.data as T);
-    }, DELAY_TIME);
-  });
-};
+//   return new Promise<T>((resolve) => {
+//     setTimeout(() => {
+//       resolve(response.data as T);
+//     }, DELAY_TIME);
+//   });
+// };
 
 export const getBoardList = async () => {
   if (TEST_MODE) {
@@ -308,7 +318,8 @@ export const getNotifications = async ({ pageSize, lastViewId }: { pageSize: num
     // } as GetNotificationResponse;
   }
 
-  const res = await axios.post<Notification[]>(`/api/notification?pageSize=${pageSize}&lastViewId=${lastViewId}`);
+  // const res = await axios.post<Notification[]>(`/api/notification?pageSize=${pageSize}&lastViewId=${lastViewId}`);
+};
 // setting
 export const getUser = async () => {
   // 쿠키 가져오기

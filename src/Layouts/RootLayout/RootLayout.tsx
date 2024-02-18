@@ -4,7 +4,6 @@ import { Outlet } from 'react-router-dom';
 import { Alert, BottomSheet, ComponentModal, Confirm } from './OverlayComponent';
 import styles from './RootLayout.module.scss';
 import { useSheet } from '@Hooks/useSheet';
-import { Confirm } from '@Components/Common/Confirm';
 import { useRecoilState } from 'recoil';
 import { fontStateStore } from '@Store/index';
 import cn from 'classnames';
