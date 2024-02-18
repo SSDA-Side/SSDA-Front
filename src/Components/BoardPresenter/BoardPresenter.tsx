@@ -7,7 +7,7 @@ import { diaryImages } from '@Assets/DiaryImages';
 /** Type */
 import { Board } from '@Type/Model';
 
-type BoardPresenterProp = Omit<Board, 'diaryCount' | 'memberCount'>;
+type BoardPresenterProp = Partial<Board>;
 export const BoardPresenter = (boardProps: BoardPresenterProp) => {
   const SIMPLE_TYPE = 0;
   const DETAIL_TYPE = 1;
@@ -25,7 +25,7 @@ export const BoardPresenter = (boardProps: BoardPresenterProp) => {
   );
 };
 
-type DetailBoardPresenterProp = Pick<Board, 'imageNumber' | 'title' | 'regDate'>;
+type DetailBoardPresenterProp = Partial<Board>;
 const DetailBoardPresenter = ({ imageNumber, title, regDate }: DetailBoardPresenterProp) => {
   const sinceLabel = new Date(regDate || new Date()).toLocaleDateString();
 
@@ -33,7 +33,7 @@ const DetailBoardPresenter = ({ imageNumber, title, regDate }: DetailBoardPresen
     <div
       className={styles.boardPreview}
       style={{
-        backgroundImage: `url('${diaryImages[imageNumber]}')`,
+        backgroundImage: `url('${diaryImages[imageNumber!]}')`,
       }}
     >
       <div className={styles.boardDetailBoxLayout}>
@@ -50,13 +50,13 @@ const DetailBoardPresenter = ({ imageNumber, title, regDate }: DetailBoardPresen
   );
 };
 
-type SimpleBoardPresenterProp = Pick<Board, 'imageNumber' | 'title'>;
+type SimpleBoardPresenterProp = Partial<Board>;
 const SimpleBoardPresenter = ({ imageNumber, title }: SimpleBoardPresenterProp) => {
   return (
     <div
       className={styles.boardPreview}
       style={{
-        backgroundImage: `url('${diaryImages[imageNumber]}')`,
+        backgroundImage: `url('${diaryImages[imageNumber!]}')`,
       }}
     >
       <div className={styles.boardSimpleBox}>

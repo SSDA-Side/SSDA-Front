@@ -1,0 +1,44 @@
+.noti-item {
+  display: flex;
+  flex-direction: row;
+  gap: 1rem;
+  padding-bottom: 2.5rem;
+}
+
+.bell {
+  display: grid;
+  place-content: center;
+  min-width: 2.5rem;
+  max-height: 2.5rem;
+
+  border-radius: 9999px;
+
+  background-color: var(--gray200);
+  color: var(--gray500);
+
+  &.active {
+    background-color: var(--primary);
+    color: var(--white);
+  }
+}
+
+.size-24 {
+  width: 1.5rem;
+  height: 1.5rem;
+}
+
+.noti-content-section {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.noti-content {
+  font-size: 1rem;
+  line-height: 1.5rem;
+}
+
+.date {
+  font-size: 0.875rem;
+  color: var(--gray500);
+}

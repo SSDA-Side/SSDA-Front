@@ -1,0 +1,152 @@
+[
+  {
+    "id": 1,
+    "notificationTypeId": 1,
+    "read": false,
+    "regDate": "2024-01-21T01:38:26",
+    "boardId": 2,
+    "diaryId": 1,
+    "commentId": 0,
+    "commentContent": "안녕",
+    "commentWriterNickname": "김주현"
+  },
+  {
+    "id": 2,
+    "notificationTypeId": 2,
+    "read": true,
+    "regDate": "2024-01-22T01:38:26",
+    "boardId": 2,
+    "diaryId": 1,
+    "commentId": 0,
+    "replyId": 0,
+    "replyWriterNickname": "김주현",
+    "replyContents": "답글안녕"
+  },
+  {
+    "id": 3,
+    "notificationTypeId": 3,
+    "read": true,
+    "regDate": "2024-01-23T01:38:26",
+    "boardId": 2,
+    "diaryId": 1,
+    "likeId": 0,
+    "likeMemberNickname": "김주현"
+  },
+  {
+    "id": 4,
+    "notificationTypeId": 4,
+    "read": false,
+    "regDate": "2024-01-24T01:38:26",
+    "boardId": 2,
+    "boardTitle": "우리가좍",
+    "diaryId": 1
+  },
+  {
+    "id": 5,
+    "notificationTypeId": 5,
+    "read": false,
+    "regDate": "2024-01-24T01:38:26",
+    "boardId": 2,
+    "boardTitle": "우리가좍"
+  },
+  {
+    "id": 6,
+    "notificationTypeId": 1,
+    "read": false,
+    "regDate": "2024-01-21T01:38:26",
+    "boardId": 2,
+    "diaryId": 1,
+    "commentId": 0,
+    "commentContent": "안녕",
+    "commentWriterNickname": "김주현"
+  },
+  {
+    "id": 7,
+    "notificationTypeId": 2,
+    "read": true,
+    "regDate": "2024-01-22T01:38:26",
+    "boardId": 2,
+    "diaryId": 1,
+    "commentId": 0,
+    "replyId": 0,
+    "replyWriterNickname": "김주현",
+    "replyContents": "답글안녕"
+  },
+  {
+    "id": 8,
+    "notificationTypeId": 3,
+    "read": true,
+    "regDate": "2024-01-23T01:38:26",
+    "boardId": 2,
+    "diaryId": 1,
+    "likeId": 0,
+    "likeMemberNickname": "김주현"
+  },
+  {
+    "id": 9,
+    "notificationTypeId": 4,
+    "read": false,
+    "regDate": "2024-01-24T01:38:26",
+    "boardId": 2,
+    "boardTitle": "우리가좍",
+    "diaryId": 1
+  },
+  {
+    "id": 10,
+    "notificationTypeId": 5,
+    "read": false,
+    "regDate": "2024-01-24T01:38:26",
+    "boardId": 2,
+    "boardTitle": "우리가좍"
+  },
+  {
+    "id": 11,
+    "notificationTypeId": 1,
+    "read": false,
+    "regDate": "2024-01-21T01:38:26",
+    "boardId": 2,
+    "diaryId": 1,
+    "commentId": 0,
+    "commentContent": "안녕",
+    "commentWriterNickname": "김주현"
+  },
+  {
+    "id": 12,
+    "notificationTypeId": 2,
+    "read": true,
+    "regDate": "2024-01-22T01:38:26",
+    "boardId": 2,
+    "diaryId": 1,
+    "commentId": 0,
+    "replyId": 0,
+    "replyWriterNickname": "김주현",
+    "replyContents": "답글안녕"
+  },
+  {
+    "id": 13,
+    "notificationTypeId": 3,
+    "read": true,
+    "regDate": "2024-01-23T01:38:26",
+    "boardId": 2,
+    "diaryId": 1,
+    "likeId": 0,
+    "likeMemberNickname": "김주현"
+  },
+  {
+    "id": 14,
+    "notificationTypeId": 4,
+    "read": false,
+    "regDate": "2024-01-24T01:38:26",
+    "boardId": 2,
+    "boardTitle": "우리가좍",
+    "diaryId": 1
+  },
+  {
+    "id": 15,
+    "notificationTypeId": 5,
+    "read": false,
+    "regDate": "2024-01-24T01:38:26",
+    "boardId": 2,
+    "boardTitle": "우리가좍"
+  }
+]

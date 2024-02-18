@@ -17,7 +17,7 @@ export const emotionTypes: EmotionType[] = [
 
 const SPRITE_IMAGE_WIDTH = 98;
 
-const convertIndexToName = (index: number): EmotionType => emotionTypes[index];
+// const convertIndexToName = (index: number): EmotionType => emotionTypes[index];
 const convertTypeToIndex = (type: EmotionType): number => emotionTypes.findIndex((emotionType) => emotionType === type);
 
 type EmotionSize = 'lg' | 'sm';

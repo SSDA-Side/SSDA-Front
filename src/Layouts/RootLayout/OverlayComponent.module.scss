@@ -1,0 +1,103 @@
+.modal-container {
+  position: fixed;
+  width: 100dvw;
+  height: 100dvh;
+  inset: 0;
+}
+
+.overlay {
+  position: fixed;
+  background: rgba(0, 0, 0, 0.6);
+  inset: 0;
+}
+
+.content {
+  box-shadow: 0 0 12px rgba(0, 0, 0, 0.2);
+  overflow-y: scroll;
+
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  width: 100%;
+  max-width: calc(var(--app-container-width) - (2 * var(--page-padding-x)));
+  max-height: 85dvh;
+
+  background: var(--white);
+  border-radius: var(--radii-sm);
+
+  transform: translate(-50%, -50%);
+
+  scrollbar-width: none;
+  overscroll-behavior-y: contain;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+.confirm-alert-box {
+  box-shadow: 0 0 12px rgba(0, 0, 0, 0.2);
+  overflow: hidden;
+
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  width: 100%;
+  max-width: calc(var(--app-container-width) - (2 * var(--page-padding-x)));
+  max-height: 85dvh;
+
+  background: var(--white);
+  text-align: center;
+  transform: translate(-50%, -50%);
+
+  div.content-box {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--spacing-8) var(--spacing-4);
+  }
+
+  div.buttons {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: row;
+
+    border-top: 1px solid var(--gray300);
+
+    &.reverse-button {
+      flex-direction: row-reverse;
+
+      button + button {
+        border-right: 1px solid var(--gray300);
+      }
+    }
+
+    button {
+      display: grid;
+      padding: var(--spacing-4);
+      width: 100%;
+      place-content: center;
+    }
+
+    button + button {
+      border-left: 1px solid var(--gray300);
+    }
+  }
+}
+
+.bottom-sheet-box {
+  padding: var(--page-padding-y) var(--page-padding-x);
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.2);
+  overflow: hidden;
+  position: fixed;
+  bottom: 0;
+  left: 50%;
+  width: 100%;
+  max-width: var(--app-container-width);
+  background-color: var(--white);
+
+  border-radius: var(--radii-sm) var(--radii-sm) 0 0;
+
+  transform: translateX((-50%));
+}

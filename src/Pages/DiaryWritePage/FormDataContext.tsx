@@ -1,4 +1,4 @@
-import { createContext, useContext, useReducer } from 'react';
+import { PropsWithChildren, createContext, useContext, useReducer } from 'react';
 
 type WriteFormDate = {
   boardId: string;
@@ -18,10 +18,15 @@ const initialFormData: WriteFormDate = {
   diaryImgs: null,
 };
 
-const FormDataContext = createContext<WriteFormDate | null>(null);
-const FormDataDispatchContext = createContext<React.Dispatch<any> | null>(null);
+type WriteAction = {
+  type: string;
+  payload: Partial<WriteFormDate>;
+};
 
-const formDataReducer = (state, action) => {
+const FormDataContext = createContext<WriteFormDate | null>(null);
+const FormDataDispatchContext = createContext<React.Dispatch<WriteAction> | null>(null);
+
+const formDataReducer = (state: WriteFormDate, action: WriteAction) => {
   switch (action.type) {
     case 'updateFields': {
       return { ...state, ...action.payload };
@@ -33,7 +38,7 @@ const formDataReducer = (state, action) => {
   }
 };
 
-export const FormDataContextProvider = ({ children }) => {
+export const FormDataContextProvider = ({ children }: PropsWithChildren) => {
   const [formData, dispatch] = useReducer(formDataReducer, initialFormData);
 
   return (

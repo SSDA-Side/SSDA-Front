@@ -1,11 +1,17 @@
+import { useMutation, useQueryClient, useSuspenseInfiniteQuery, useSuspenseQuery } from '@tanstack/react-query';
 import {
   createBoard,
   createComment,
   createDiary,
+  createShareLink,
   createReply,
   deleteBoard,
   getAllDiary,
   getBoardList,
+  getHeroMetadata,
+  getMemberList,
+  getNotifications,
+  getShareLinkMetadata,
   getComment,
   getDiaryDetail,
   getHeroData,
@@ -25,10 +31,10 @@ import { setCookie } from '@Utils/Cookies';
 import { useMutation, useQuery, useQueryClient, useSuspenseQuery } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
 
-export const useHeroData = () => {
+export const useHeroMetadata = () => {
   return useSuspenseQuery({
     queryKey: ['myboard', 'hero'],
-    queryFn: getHeroData,
+    queryFn: getHeroMetadata,
   });
 };
 
@@ -125,6 +131,29 @@ export const useCreateDiary = () => {
   });
 };
 
+export const useCreateShareLink = () => {
+  return useMutation({
+    mutationKey: ['createShareLink'],
+    mutationFn: createShareLink,
+  });
+};
+
+export const useGetShareLinkMetadata = () => {
+  return useMutation({
+    mutationKey: ['getShareLinkMetadata'],
+    mutationFn: getShareLinkMetadata,
+  });
+};
+
+export const useGetNotifications = () => {
+  return useSuspenseInfiniteQuery({
+    queryKey: ['getInfiniteNotification'],
+    queryFn: ({ pageParam }) => getNotifications({ pageSize: 10, lastViewId: pageParam }),
+    getNextPageParam: (lastPage) => {
+      const isLastPage = lastPage.length < 10;
+      return isLastPage ? undefined : lastPage[lastPage.length - 1].id;
+    },
+    initialPageParam: 0,
 export const useUpdateRead = (boardId: number) => {
   return useMutation({
     mutationKey: ['myboard', 'updateRead'],

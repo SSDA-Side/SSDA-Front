@@ -32,7 +32,7 @@ type TypographyProp = PropsWithChildren<
 
 export const Typography = ({ as, children, className, ...rest }: TypographyProp) => {
   if (['h1', 'h2', 'h3', 'h4', 'h5', 'h6'].includes(as)) {
-    return createElement(as, { ...rest, className: cn(styles[as], className) }, children);
+    return createElement(as, { ...rest, className: cn(as, className) }, children);
   }
 
   return (

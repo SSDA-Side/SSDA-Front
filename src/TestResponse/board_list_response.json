@@ -1,0 +1,57 @@
+[
+  {
+    "id": 1,
+    "imageNumber": 1,
+    "appearanceType": 1,
+    "title": "일기장1",
+    "regDate": "2024-01-21T01:38:26",
+    "diaryCount": 2,
+    "memberCount": 1,
+    "hasNewBadge": false,
+    "isShared": false
+  },
+  {
+    "id": 2,
+    "imageNumber": 2,
+    "appearanceType": 0,
+    "title": "일기장2",
+    "regDate": "2024-01-22T01:38:26",
+    "diaryCount": 2,
+    "memberCount": 1,
+    "hasNewBadge": false,
+    "isShared": false
+  },
+  {
+    "id": 3,
+    "imageNumber": 3,
+    "appearanceType": 0,
+    "title": "일기장3",
+    "regDate": "2024-01-23T01:38:26",
+    "diaryCount": 2,
+    "memberCount": 1,
+    "hasNewBadge": false,
+    "isShared": false
+  },
+  {
+    "id": 4,
+    "imageNumber": 4,
+    "appearanceType": 1,
+    "title": "일기장4",
+    "regDate": "2024-01-24T01:38:26",
+    "diaryCount": 2,
+    "memberCount": 1,
+    "hasNewBadge": false,
+    "isShared": false
+  },
+  {
+    "id": 5,
+    "imageNumber": 5,
+    "appearanceType": 0,
+    "title": "일기장5",
+    "regDate": "2024-01-25T01:38:26",
+    "diaryCount": 2,
+    "memberCount": 1,
+    "hasNewBadge": false,
+    "isShared": false
+  }
+]
