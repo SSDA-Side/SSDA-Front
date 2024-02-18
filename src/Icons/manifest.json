@@ -1,0 +1,66 @@
+{
+  "menu": {
+    "width": 32,
+    "height": 32
+  },
+  "chevron-right": {
+    "width": 32,
+    "height": 32
+  },
+  "chevron-left": {
+    "width": 32,
+    "height": 32
+  },
+  "close": {
+    "width": 32,
+    "height": 32
+  },
+  "edit": {
+    "width": 32,
+    "height": 32
+  },
+  "user": {
+    "width": 32,
+    "height": 32
+  },
+  "header/bell": {
+    "width": 32,
+    "height": 32
+  },
+  "header/bell2": {
+    "width": 32,
+    "height": 32
+  },
+  "more": {
+    "width": 32,
+    "height": 32
+  },
+  "users": {
+    "width": 32,
+    "height": 32
+  },
+  "send": {
+    "width": 37,
+    "height": 37
+  },
+  "empty-circle": {
+    "width": 2,
+    "height": 2
+  },
+  "fill-circle": {
+    "width": 2,
+    "height": 2
+  },
+  "comment": {
+    "width": 32,
+    "height": 32
+  },
+  "love": {
+    "width": 32,
+    "height": 32
+  },
+  "empty-love": {
+    "width": 32,
+    "height": 32
+  }
+}

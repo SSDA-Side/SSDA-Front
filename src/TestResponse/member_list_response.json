@@ -1,0 +1,26 @@
+[
+  {
+    "id": 0,
+    "nickname": "이세은",
+    "profileUrl": "./profile/1.jpg",
+    "signedDate": 1705638921035
+  },
+  {
+    "id": 1,
+    "nickname": "김수영",
+    "profileUrl": "",
+    "signedDate": 1705638921035
+  },
+  {
+    "id": 2,
+    "nickname": "박성호",
+    "profileUrl": "",
+    "signedDate": 1705638921035
+  },
+  {
+    "id": 3,
+    "nickname": "안예진",
+    "profileUrl": "./profile/1.jpg",
+    "signedDate": 1705638921035
+  }
+]

@@ -25,3 +25,6 @@ vscode
 *.sw?
 
 .vercel
+.env
+.env.*
+*.local

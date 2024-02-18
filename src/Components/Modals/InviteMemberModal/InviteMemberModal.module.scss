@@ -1,0 +1,59 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  padding: 2rem 2.875rem 2.5rem 2.9375rem;
+}
+
+.text-section {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.main-text {
+  font-size: 1.4375rem;
+  line-height: 1.6875rem;
+  margin-bottom: 0.75rem;
+  font-weight: 700;
+  text-align: center;
+}
+
+.grayed {
+  color: var(--gray700);
+  text-align: center;
+}
+
+.buttons {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.button-style {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5625rem;
+
+  &:disabled {
+    color: var(--gray400);
+    background-color: var(--gray200);
+  }
+}
+
+.gray700 {
+  color: var(--gray700);
+}
+
+.gray800 {
+  color: var(--gray800);
+}
+
+.delimitor {
+  width: 1px;
+  height: 2.1875rem;
+  background-color: var(--gray200);
+}

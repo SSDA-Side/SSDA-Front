@@ -1,0 +1,29 @@
+.container {
+  text-align: center;
+  width: 100%;
+  color: var(--gray800);
+  span {
+    font-weight: 500;
+  }
+  .select-container {
+    display: flex;
+    margin: 20px 30px;
+    select {
+      width: 128px;
+      height: 40px;
+      border: 1px solid var(--gray400);
+      border-radius: var(--radii-sm);
+      background-color: transparent;
+      font-size: var(--size-4);
+      font-weight: 300;
+      text-indent: 10px;
+      color: var(--color-1);
+      outline: none;
+      cursor: pointer;
+      margin: 8px 0 0 0;
+      option {
+        // TODO: option 태그 스타일링
+      }
+    }
+  }
+}

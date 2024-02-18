@@ -1,0 +1,51 @@
+:global button,
+:global [role='button'] {
+  all: unset;
+  box-sizing: border-box;
+
+  &:focus-visible {
+    outline: 2px solid blue;
+  }
+
+  &:hover {
+    cursor: pointer;
+  }
+
+  &:disabled {
+    --button-disabled: var(--gray500);
+    color: var(--button-disabled);
+  }
+}
+
+.cta-button {
+  width: 100%;
+  padding: var(--button-padding);
+  border-radius: var(--radii-sm);
+  background: var(--button-bg-primary);
+  color: var(--text-on-primary);
+
+  &:disabled {
+    --button-disabled: var(--gray400);
+    background-color: var(--button-disabled);
+    color: var(--white);
+  }
+}
+
+.icon-button {
+  display: flex;
+  // padding: 0.5rem;
+  width: fit-content;
+  height: fit-content;
+}
+
+.edit-button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: var(--black);
+  width: 1.75rem;
+  height: 1.75rem;
+  color: var(--white);
+  opacity: 0.4;
+  border-radius: 9999px;
+}

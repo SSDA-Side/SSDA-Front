@@ -1,0 +1,35 @@
+.full-container {
+  width: 390px;
+  height: auto;
+  position: fixed;
+  bottom: 0;
+  border-top-right-radius: var(--radii-2);
+  border-top-left-radius: var(--radii-2);
+  background-color: #fff;
+  border: 1px solid var(--gray400);
+  .header {
+    width: 100%;
+    height: var(--size-12);
+    margin: var(--size-6) 0 var(--size-5) 0;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    h2 {
+      font-size: var(--size-5);
+      font-weight: 600;
+    }
+    button {
+      background-color: transparent;
+      border: none;
+      position: absolute;
+      top: var(--size-10);
+      right: var(--size-10);
+      font-size: 15px;
+      cursor: pointer;
+    }
+  }
+  .content {
+    width: 100%;
+    height: auto;
+  }
+}
