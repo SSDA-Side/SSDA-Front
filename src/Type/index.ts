@@ -14,6 +14,8 @@ export type IconName =
   | 'more'
   | 'send'
   | 'exit'
+  | 'star'
+  | 'empty-star'
   | 'trash'
   | 'image'
   | 'sunny'
@@ -23,8 +25,38 @@ export type IconName =
   | 'error'
   | 'kakaotalk'
   | 'link';
+  | 'comment'
+  | 'camera'
+  | 'writepen'
+  | 'openbook'
+  | 'calendar'
+  | 'empty-heart'
+  | 'love'
+  | 'empty-love';
 
-export type KakaoLoginResponse = {
+export type HeroData = {
+  username: string;
+  sharedPeopleCount: number;
+  sharedDiaryCount: number;
+};
+
+export type Board = {
+  id: number;
+  title: string;
+  appearanceId: number;
+  imageId: number;
+  diaryCount: number;
+  peopleCount: number;
+};
+
+export type BoardMember = {
+  id: number;
+  profileUrl: string;
+  name: string;
+  signedDate: Date | number;
+};
+
+export type KakaoLoginData = {
   accessToken: string;
   refreshToken: string;
   expiresIn: number; // 1800

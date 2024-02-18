@@ -104,3 +104,15 @@ export type Notification =
   | NotificationLike
   | NotificationNewDiary
   | NotificationNewMember;
+
+export interface Diary {
+  boardId: number;
+  memberId: number;
+  diaryId: number;
+  commentId: number;
+  date: string;
+  lastViewId: number;
+  pageSize: number;
+  contents: string;
+}
+

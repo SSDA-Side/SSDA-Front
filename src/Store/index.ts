@@ -16,3 +16,25 @@ export const confirmStateStore = atom<ConfirmState>({
     onNo: null,
   },
 });
+
+export type SelectedState = {
+  date: Date;
+};
+
+export const selectedDateStore = atom<SelectedState>({
+  key: 'SelectedState',
+  default: {
+    date: new Date(),
+  },
+});
+
+export type FontState = {
+  fontType: number;
+};
+
+export const fontStateStore = atom<FontState>({
+  key: 'FontState',
+  default: {
+    fontType: 0,
+  },
+});

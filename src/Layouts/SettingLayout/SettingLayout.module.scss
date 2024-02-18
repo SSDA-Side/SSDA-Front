@@ -1,0 +1,25 @@
+.container {
+  width: 100%;
+  height: var(--size-12);
+  font-weight: 600;
+  display: inline-flex;
+  button {
+    width: 20%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  div {
+    width: 70%;
+    padding-right: 10%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+}
+
+.contents {
+  height: calc(100% - var(--size-12));
+  padding: var(--size-5);
+}

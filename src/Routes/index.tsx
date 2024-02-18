@@ -1,6 +1,10 @@
+import { MyboardLayout } from '@Layouts/MyboardLayout';
 import { RootLayout } from '@Layouts/RootLayout';
+import { DiaryAllPage } from '@Pages/DiaryAllPage';
+import { DiaryCalendarPage } from '@Pages/DiaryCalendarPage';
+
 import { DiaryEditPage } from '@Pages/DiaryEditPage';
-import { DiaryPage } from '@Pages/DiaryPage';
+import { DiaryNewPage } from '@Pages/DiaryNewPage';
 import { DiaryWritePage } from '@Pages/DiaryWritePage';
 import { ErrorPage } from '@Pages/ErrorPage';
 import { LoginPage } from '@Pages/LoginPage';
@@ -19,6 +23,8 @@ import type { RouteObject } from 'react-router-dom';
 import { ProtectedRouter } from './ProtectedRouter';
 import { SharePage } from '@Pages/SharePage';
 import { BoardSignUpPage } from '@Pages/BoardSignUpPage';
+import { SettingLayout } from '@Layouts/SettingLayout';
+import { DiaryListPage } from '@Pages/DiaryListPage';
 
 export const routes = [
   {
@@ -29,6 +35,10 @@ export const routes = [
       {
         errorElement: <ErrorPage />,
         children: [
+          {
+            path: '/',
+            element: <LoginPage />,
+          },
           {
             path: 'login',
             element: <LoginPage />,
@@ -61,12 +71,29 @@ export const routes = [
                 element: <OnBoardingPage />,
               },
               {
-                path: 'myboard',
-                element: <MyBoardPage />,
+                element: <MyboardLayout />,
+                children: [
+                  {
+                    path: 'myboard/calendar/:boardId',
+                    element: <DiaryCalendarPage />,
+                  },
+                  {
+                    path: 'myboard/new/:boardId',
+                    element: <DiaryNewPage />,
+                  },
+                  {
+                    path: 'myboard/all/:boardId',
+                    element: <DiaryAllPage />,
+                  },
+                  {
+                    path: 'myboard/:boardId/:date',
+                    element: <DiaryListPage />,
+                  },
+                ],
               },
               {
-                path: 'myboard/:boardId',
-                element: <DiaryPage />,
+                path: 'myboard',
+                element: <MyBoardPage />,
               },
               {
                 path: 'myboard/:boardId/edit',
@@ -77,36 +104,33 @@ export const routes = [
                 element: <DiaryWritePage />,
               },
               {
-                path: 'myboard/:boardId/:diaryId/comment',
-                element: <DiaryPage />,
-              },
-              {
-                path: 'myboard/:boardId/:diaryId/gallery',
-                element: <DiaryPage />,
-              },
-              {
                 path: 'notification',
                 element: <NotificationPage />,
               },
               {
-                path: 'setting',
-                element: <SettingPage />,
-              },
-              {
-                path: 'setting/profile',
-                element: <SettingProfilePage />,
-              },
-              {
-                path: 'setting/font',
-                element: <SettingFontPage />,
-              },
-              {
-                path: 'setting/cloud',
-                element: <SettingCloudPage />,
-              },
-              {
-                path: 'setting/feedback',
-                element: <SettingFeedbackPage />,
+                element: <SettingLayout />,
+                children: [
+                  {
+                    path: 'setting',
+                    element: <SettingPage />,
+                  },
+                  {
+                    path: 'setting/profile',
+                    element: <SettingProfilePage />,
+                  },
+                  {
+                    path: 'setting/font',
+                    element: <SettingFontPage />,
+                  },
+                  {
+                    path: 'setting/cloud',
+                    element: <SettingCloudPage />,
+                  },
+                  {
+                    path: 'setting/feedback',
+                    element: <SettingFeedbackPage />,
+                  },
+                ],
               },
             ],
           },
