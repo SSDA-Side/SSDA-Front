@@ -1,0 +1,107 @@
+/**
+  100 Thin
+  200 Extra Light(Ultra Light)
+  300 Light
+  400 Normal(Regular)
+  500 Medium
+  600 Semi Bold(Demi Bold)
+  700 Bold
+  800 Extra Bold(Ultra Bold)
+  900 Black(Heavy)
+*/
+
+:global h1,
+:global h2,
+:global h3,
+:global h4,
+:global h5,
+:global h6,
+:global h7,
+:global p {
+  white-space: pre-wrap;
+}
+
+:global .h1 {
+  font-size: 2rem;
+  line-height: 2.5rem;
+  font-weight: 700;
+}
+
+:global .h2 {
+  font-size: 1.4375rem;
+  line-height: 1.625rem;
+  font-weight: 700;
+}
+
+:global .h3 {
+  font-size: 1.25rem;
+  line-height: 1.4375rem;
+  font-weight: 700;
+}
+
+:global .h4 {
+  font-size: 1rem;
+  line-height: 1.125rem;
+  font-weight: 700;
+}
+
+:global .h5 {
+  font-size: 0.875rem;
+  line-height: 1rem;
+  font-weight: 700;
+}
+
+.body1 {
+  font-size: 1.4375rem;
+  line-height: 1.625rem;
+  font-weight: 400;
+}
+
+.body2 {
+  font-size: 1rem;
+  line-height: 1.125rem;
+  font-weight: 400;
+}
+
+.body3 {
+  font-size: 0.875rem;
+  line-height: 1rem;
+  font-weight: 500;
+}
+
+.button {
+  font-size: 1rem;
+  line-height: 1.125rem;
+  font-weight: 600;
+  text-align: center;
+}
+
+.caption {
+  font-size: 0.875rem;
+  line-height: 1rem;
+  font-weight: 400;
+}
+
+.caption {
+  font-size: 0.75rem;
+  line-height: 0.875rem;
+  font-weight: 400;
+}
+
+.diary-write {
+  font-size: 1.375rem;
+  line-height: 2.5rem;
+  font-weight: 400;
+}
+
+.diary-detail {
+  font-size: 1rem;
+  line-height: 1.5rem;
+  font-weight: 400;
+}
+
+.diary-add-description {
+  font-size: 1rem;
+  line-height: 1.6875rem;
+  font-weight: 400;
+}

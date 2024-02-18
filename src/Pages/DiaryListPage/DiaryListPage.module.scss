@@ -1,0 +1,196 @@
+@mixin comment-reply-box {
+  display: flex;
+  img {
+    width: var(--size-10);
+    height: var(--size-10);
+    border-radius: 50%;
+    object-fit: cover;
+  }
+  .body {
+    div {
+      margin-left: 1.125rem;
+      color: var(--gray1000);
+      span {
+      }
+      p {
+        margin-top: var(--size-2);
+      }
+    }
+    .etc {
+      margin-top: var(--size-2);
+      color: var(--gray500);
+      font-size: 0.875rem;
+    }
+  }
+  @content;
+}
+
+.container {
+  width: 100%;
+  height: 100vh;
+  .member-tab-container {
+    width: 100%;
+    margin-top: var(--size-5);
+    div {
+      width: calc(100% - var(--size-5));
+      white-space: nowrap;
+      overflow-x: auto;
+      margin: 0 auto;
+      .member-tab {
+        display: flex;
+        align-items: end;
+        .background {
+          background: linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.04) 100%);
+          width: 100%;
+          height: 8px;
+        }
+        .member {
+          margin-right: var(--size-1);
+          background: #fafafa;
+          box-shadow: 0.125rem 0px 0.125rem rgba(0, 0, 0, 0.24);
+          border-radius: var(--size-2) var(--size-2) 0px 0px;
+          width: auto;
+          padding: 0.5313rem var(--size-5);
+          height: var(--size-9);
+        }
+        .active {
+          margin-right: var(--size-1);
+          background: var(--orange600);
+          color: #ffffff;
+          box-shadow: 0.125rem 0px 0.125rem rgba(0, 0, 0, 0.24);
+          border-radius: var(--size-2) var(--size-2) 0px 0px;
+          width: auto;
+          padding: 0.5313rem var(--size-5);
+          height: var(--size-11);
+        }
+      }
+    }
+  }
+  .scroll-container {
+    overflow-y: auto;
+    height: calc(100% - 10rem);
+    .content {
+      width: calc(100% - var(--size-5) * 2);
+      margin: 0 auto;
+      h2 {
+        font-weight: 500;
+        font-size: 23px;
+        margin-top: var(--size-6);
+      }
+      .etc {
+        span {
+          color: var(--gray500);
+          font-weight: 400;
+          font-size: 12px;
+        }
+        margin-bottom: var(--size-6);
+      }
+      .img-box-container {
+        width: 100%;
+        white-space: nowrap;
+        overflow-x: auto;
+        .img-box {
+          width: 100%;
+          height: 17.5rem;
+          border: 1px solid var(--gray300);
+          img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+          }
+        }
+      }
+      .icons {
+        position: relative;
+        top: -300px;
+        left: -5px;
+      }
+      .contents {
+        width: 100%;
+        color: var(--gray700);
+        font-size: var(--size-5);
+        font-weight: 300;
+        margin: var(--size-4) 0 var(--size-3) 0;
+      }
+      .button {
+        color: var(--gray500);
+        font-size: 0.7rem;
+        margin: var(--size-2) 0;
+      }
+    }
+    .comment {
+      margin-bottom: var(--size-12);
+      .commentHeader {
+        font-size: var(--size-3);
+        color: var(--gray500);
+        margin-top: var(--size-11);
+        padding-bottom: var(--size-4);
+        border-bottom: 1px solid var(--gray300);
+        p {
+          margin-left: var(--size-5);
+        }
+      }
+      .comment-area {
+        .comment-box {
+          margin: var(--size-6) 0 var(--size-6) var(--size-5);
+          @include comment-reply-box();
+        }
+        .reply-box {
+          margin: var(--size-6) 0 var(--size-6) 4.5rem;
+          @include comment-reply-box();
+        }
+      }
+      .write-comment {
+        position: fixed;
+        bottom: 0;
+        z-index: 9;
+        background-color: var(--white);
+        width: 24.3rem;
+        .reply-view {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          padding: var(--size-1) var(--size-6);
+          background: var(--gray400);
+          color: var(--white);
+          font-size: var(--size-3);
+          button svg {
+            vertical-align: bottom;
+          }
+        }
+        .comment-view {
+          padding: 0 var(--size-5);
+          height: 4rem;
+          border-top: 1px solid var(--gray300);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          text-decoration-line: none;
+          .add-comment {
+            width: 80%;
+            display: inline;
+            border: none;
+            padding: var(--size-3) var(--size-5);
+            font-size: var(--size-4);
+            &::placeholder {
+              color: var(--gray500);
+            }
+            &:focus {
+              outline: none;
+            }
+            &:focus-visible {
+              outline: 1px solid transparent;
+            }
+          }
+          button {
+            width: 40px;
+            color: var(--gray500);
+            &:hover {
+              color: var(--orange600);
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,16 @@
+.radio-group {
+  display: flex;
+  gap: var(--spacing-2);
+  flex-direction: row;
+}
+
+.radio-button {
+  padding: var(--spacing-3) var(--spacing-4);
+  background: var(--gray300);
+  color: var(--white);
+  border-radius: var(--radii-sm);
+}
+
+.radio-selected {
+  background: var(--gray900);
+}

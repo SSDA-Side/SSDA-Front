@@ -1,0 +1,81 @@
+.calendar {
+  width: 100%;
+  .nav {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    height: var(--size-6);
+    margin: var(--size-5) var(--size-5) var(--size-3) var(--size-5);
+    padding: 0 var(--size-3);
+    span {
+      font-size: var(--size-4);
+      font-weight: 200;
+    }
+    button {
+      background-color: transparent;
+      border: none;
+      cursor: pointer;
+      font-size: var(--size-6);
+      svg {
+        width: var(--size-6);
+        height: var(--size-6);
+        vertical-align: bottom;
+      }
+    }
+  }
+  table {
+    width: 100%;
+    padding: 0 var(--size-5);
+    thead {
+      height: var(--size-13);
+      color: var(--gray400);
+      th {
+        font-size: var(--size-4);
+        font-weight: 300;
+      }
+    }
+    tbody {
+      text-align: center;
+      cursor: pointer;
+      font-weight: 200;
+      tr {
+        height: var(--size-13);
+        .prev-date,
+        .next-date {
+          color: rgb(176, 176, 176);
+        }
+        .selected-date {
+          color: #fff;
+          font-weight: 600;
+          p {
+            font-weight: 200;
+            border-radius: 50%;
+            background-color: var(--orange600);
+            height: 2.425rem;
+            text-align: center;
+            line-height: 2.5rem;
+          }
+        }
+        .date {
+          width: var(--size-9);
+        }
+        .diary-dot {
+          position: relative;
+          top: var(--size-1);
+          left: var(--size-4);
+          width: var(--size-1);
+          height: var(--size-1);
+          border-radius: 50%;
+          background-color: var(--orange600);
+        }
+        .not-dot {
+          position: relative;
+          top: var(--size-1);
+          left: var(--size-4);
+          width: var(--size-1);
+          height: var(--size-1);
+        }
+      }
+    }
+  }
+}
