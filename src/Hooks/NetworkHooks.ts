@@ -194,7 +194,6 @@ export const useKaKaoLogin = (authorizationCode: string) => {
       // const expirationTime = new Date();
       // expirationTime.setSeconds(expirationTime.getSeconds() + 1800);
       setCookie('accessToken', data['accessToken'], { path: '/' });
-      localStorage.setItem('refreshToken', data['refreshToken']);
       navigate('/myboard');
     },
   });
