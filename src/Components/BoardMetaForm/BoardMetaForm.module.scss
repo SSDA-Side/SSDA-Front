@@ -1,0 +1,73 @@
+.form-contaienr {
+  display: flex;
+  gap: var(--spacing-8);
+  flex-direction: column;
+  padding: var(--page-padding-y) var(--page-padding-x);
+}
+
+.diary-image {
+  display: inline-block;
+  width: 5.3125rem;
+  background-size: cover;
+  list-style: none;
+  aspect-ratio: 1 / 1.38;
+  & + & {
+    margin-left: var(--spacing-3);
+  }
+}
+
+.selected {
+  outline: 2px solid var(--black);
+}
+
+.group {
+  display: flex;
+  gap: var(--spacing-2);
+  flex-direction: column;
+}
+
+.input-box {
+  display: flex;
+  border-bottom: 1px solid var(--black);
+  padding-block: var(--spacing-2);
+
+  input {
+    flex: 1;
+    border: none;
+    outline: none;
+    font-size: 1rem;
+  }
+}
+
+.radio-group {
+  display: flex;
+  gap: var(--spacing-2);
+  flex-direction: row;
+}
+
+.radio-button {
+  padding: var(--spacing-3) var(--spacing-4);
+  background: var(--gray300);
+  color: var(--white);
+  border-radius: var(--radii-sm);
+}
+
+.radio-selected {
+  background: var(--gray900);
+}
+
+.edit-button-wrapper {
+  position: absolute;
+  right: var(--spacing-2);
+  bottom: var(--spacing-2);
+}
+
+.board-preview-wdith {
+  width: 145px;
+}
+
+.disabled-controll {
+  border: none;
+  min-width: auto;
+  width: 100%;
+}

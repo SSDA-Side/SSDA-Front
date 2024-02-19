@@ -5,7 +5,9 @@ import { CookiesProvider } from 'react-cookie';
 
 import { routes } from '@Routes/index';
 
-const queryClient = new QueryClient();
+const queryClient = new QueryClient({
+  defaultOptions: { queries: { retry: 0 } },
+});
 const router = createBrowserRouter(routes);
 
 function App() {

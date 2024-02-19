@@ -10,6 +10,29 @@
   height: 100%;
 }
 
+.add-on-wrapper {
+  border: none;
+  display: flex;
+  flex-direction: row;
+  gap: var(--spacing-4);
+}
+
+.padding10 {
+  padding: 0.625rem;
+  display: flex;
+}
+
+.size11 {
+  width: var(--size-11);
+  height: var(--size-11);
+}
+
+.center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 .disabled-controller {
   border: none;
   height: 100%;
