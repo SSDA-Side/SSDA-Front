@@ -30,6 +30,7 @@ import {
   updateBoard,
   updateRead,
   updateUser,
+  updateFont,
 } from '@APIs/index';
 import { GetMemberListRequest } from '@Type/Request';
 import { setCookie } from '@Utils/Cookies';
@@ -250,5 +251,12 @@ export const useUpdateUser = (profileUrl: File | string, nickname: string) => {
   return useMutation({
     mutationKey: ['myboard', 'updateUser'],
     mutationFn: () => updateUser({ profileUrl, nickname }),
+  });
+};
+
+export const useUpdateFont = (font: number, memberId: number) => {
+  return useMutation({
+    mutationKey: ['myboard', 'updateFont'],
+    mutationFn: () => updateFont({ font, memberId }),
   });
 };

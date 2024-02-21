@@ -5,6 +5,15 @@ export interface Member {
   signedDate: Date | number;
 }
 
+export interface Setting {
+  email: string;
+  font: number;
+  memberId: number;
+  profileUrl: string | File;
+  nickname: string;
+  username: string;
+}
+
 export interface Board {
   id: number;
   imageNumber: number;

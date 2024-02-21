@@ -23,6 +23,7 @@ import type {
   UpdateCommentRequest,
   CreateBoardRequest,
   updateUserInfoRequest,
+  updateFontRequest,
 } from '@Type/Request';
 
 /** Response */
@@ -220,6 +221,13 @@ export const updateUser = async ({ profileUrl, nickname }: updateUserInfoRequest
       'Content-Type': 'multipart/form-data',
     },
   });
+  return res.status;
+};
+
+// private Long memberId;
+// private int font;
+export const updateFont = async ({ font, memberId }: updateFontRequest) => {
+  const res = await axios.put(`/api/setting`, { font, memberId });
   return res.status;
 };
 

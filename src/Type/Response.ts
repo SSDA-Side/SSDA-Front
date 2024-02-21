@@ -36,7 +36,7 @@ export type GetNotificationResponse = {
 export type GetDiaryResponse = {
   currentDate: Date;
   diaryList: Diary[];
-}
+};
 
 export type DiaryDetailData = {
   commentCount: number;
@@ -102,7 +102,7 @@ export type userData = {
   age_range?: string;
   profile_image_url: string;
   birthday?: string;
-  font: string;
+  font: number;
   enabled: boolean;
   accountNonLocked?: boolean;
   oauthProvider?: string;

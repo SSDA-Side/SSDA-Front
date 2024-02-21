@@ -4,19 +4,22 @@ import { Outlet } from 'react-router-dom';
 import { Alert, BottomSheet, ComponentModal, Confirm } from './OverlayComponent';
 import styles from './RootLayout.module.scss';
 import { useSheet } from '@Hooks/useSheet';
-import { useRecoilState } from 'recoil';
-import { fontStateStore } from '@Store/index';
 import cn from 'classnames';
+import { useGetUser } from '@Hooks/NetworkHooks';
 
 export const RootLayout = () => {
-  const fontData = useRecoilState(fontStateStore);
+  // const fontData = useRecoilState(fontStateStore);
+  const { data: userData } = useGetUser();
+
+  console.log('userData', userData);
+
   return (
     <div
       className={cn(styles.fullContainer, {
-        [styles.Pretendard]: fontData[0].fontType === 0,
-        [styles.NanumSquare]: fontData[0].fontType === 1,
-        [styles.Jeju]: fontData[0].fontType === 2,
-        [styles.mini]: fontData[0].fontType === 3,
+        [styles.Pretendard]: (userData?.font as number) === 1,
+        [styles.NanumSquare]: (userData?.font as number) === 2,
+        [styles.Jeju]: (userData?.font as number) === 3,
+        [styles.mini]: (userData?.font as number) === 4,
       })}
     >
       <div className={styles.appContaienr}>

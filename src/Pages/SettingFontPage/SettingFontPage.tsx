@@ -1,17 +1,27 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import styles from './SettingFontPage.module.scss';
 import cn from 'classnames';
 import { TextArea } from '@Components/Common/TextArea';
 import { CTAButton } from '@Components/Common/Button';
-import { fontStateStore } from '@Store/index';
-import { useSetRecoilState } from 'recoil';
+import { useGetUser, useUpdateFont } from '@Hooks/NetworkHooks';
 
 const fontList = ['프리텐다드', '나눔 스퀘어', '제주 명조', '미니 손글씨'];
 
 export const SettingFontPage = () => {
   // TODO: [feat] 전역이 아니라 서버에 저장되도록 수정
+
+  // const setFont = useSetRecoilState(fontStateStore);
+  // const fontData = useRecoilState(fontStateStore);
+  const { data: userData, isSuccess } = useGetUser();
   const [selectedFont, setSelectedFont] = useState<string>('');
-  const setFont = useSetRecoilState(fontStateStore);
+  const { mutate: updateFontMutation } = useUpdateFont(fontList.indexOf(selectedFont) + 1, userData?.id as number);
+
+  useEffect(() => {
+    console.log('userData', userData);
+    if (isSuccess) {
+      setSelectedFont(fontList[userData?.font - 1]);
+    }
+  }, [isSuccess]);
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSelectedFont(event.target.value);
@@ -52,7 +62,7 @@ export const SettingFontPage = () => {
       <div className={styles.buttonBox}>
         <CTAButton
           onClick={() => {
-            setFont({ fontType: fontList.indexOf(selectedFont) });
+            updateFontMutation();
           }}
         >
           저장
