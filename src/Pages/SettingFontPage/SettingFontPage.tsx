@@ -11,8 +11,6 @@ import { fontStateStore } from '@Store/index';
 const fontList = ['프리텐다드', '나눔 스퀘어', '제주 명조', '미니 손글씨'];
 
 export const SettingFontPage = () => {
-  // TODO: [feat] 전역이 아니라 서버에 저장되도록 수정
-
   const setFont = useSetRecoilState(fontStateStore);
   const { data: userData, isSuccess } = useGetUser();
   const [selectedFont, setSelectedFont] = useState<string>('');
@@ -23,7 +21,7 @@ export const SettingFontPage = () => {
     if (isSuccess) {
       setSelectedFont(fontList[userData?.font - 1]);
     }
-  }, [isSuccess]);
+  }, [userData]);
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSelectedFont(event.target.value);
