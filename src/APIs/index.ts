@@ -209,11 +209,17 @@ export const getUser = async () => {
   return res.data;
 };
 
+// private MultipartFile profileUrl;
+// private String nickname;
 export const updateUser = async ({ profileUrl, nickname }: updateUserInfoRequest) => {
   const formData = new FormData();
   formData.append('profileUrl', profileUrl);
   formData.append('nickname', nickname);
-  const res = await axios.post(`/api/members/update`, formData);
+  const res = await axios.post(`/api/members/update`, formData, {
+    headers: {
+      'Content-Type': 'multipart/form-data',
+    },
+  });
   return res.status;
 };
 

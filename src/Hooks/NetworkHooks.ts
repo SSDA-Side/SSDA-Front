@@ -246,7 +246,7 @@ export const useGetUser = () => {
   });
 };
 
-export const useUpdateUser = (profileUrl: string, nickname: string) => {
+export const useUpdateUser = (profileUrl: File | string, nickname: string) => {
   return useMutation({
     mutationKey: ['myboard', 'updateUser'],
     mutationFn: () => updateUser({ profileUrl, nickname }),
