@@ -51,8 +51,8 @@ export const SelectDateBox = ({ currentMonth, setSelectDate }: SelectDateBoxProp
                   <li
                     key={`year-${year}`}
                     value={year}
-                    onClick={(e) => {
-                      setDateList({ ...dateList, year: Number(e.target.value) });
+                    onClick={() => {
+                      setDateList({ ...dateList, year: year });
                       setIsButtonClicked({ ...isButtonClicked, year: false });
                     }}
                   >
@@ -84,8 +84,9 @@ export const SelectDateBox = ({ currentMonth, setSelectDate }: SelectDateBoxProp
                   <li
                     key={`month-${month}`}
                     value={month}
-                    onClick={(e) => {
-                      setDateList({ ...dateList, month: Number(e.target.value) });
+                    onClick={() => {
+                      console.log(month);
+                      setDateList({ ...dateList, month: month });
                       setIsButtonClicked({ ...isButtonClicked, month: false });
                     }}
                   >
