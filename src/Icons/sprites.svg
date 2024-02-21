@@ -31,13 +31,13 @@
 <path d="M31.743 2.652a9.05 9.05 0 0 0-12.801 0l-1.745 1.744-1.744-1.744A9.052 9.052 0 1 0 2.651 15.454l1.745 1.744L17.197 30 30 17.198l1.744-1.744a9.049 9.049 0 0 0 0-12.802Z" fill="#FF8066"/>
 </symbol>
 <symbol fill="none" viewBox="0 0 20 20" id="writepen" xmlns="http://www.w3.org/2000/svg">
-<path d="M10 18.56h9M14.5 2.06a2.121 2.121 0 1 1 3 3L5 17.56l-4 1 1-4 12.5-12.5Z" stroke="#424142" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M10 18.56h9M14.5 2.06a2.121 2.121 0 1 1 3 3L5 17.56l-4 1 1-4 12.5-12.5Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
 </symbol>
 <symbol fill="none" viewBox="0 0 22 20" id="openbook" xmlns="http://www.w3.org/2000/svg">
-<path d="M1 1h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H1V1ZM21 1h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7V1Z" stroke="#424142" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M1 1h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H1V1ZM21 1h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7V1Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
 </symbol>
 <symbol fill="none" viewBox="0 0 20 22" id="calendar" xmlns="http://www.w3.org/2000/svg">
-<path d="M17 3H3a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2ZM14 1v4M6 1v4M1 9h18" stroke="#424142" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M17 3H3a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2ZM14 1v4M6 1v4M1 9h18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
 </symbol>
 <symbol fill="none" viewBox="0 0 15 13" id="camera" xmlns="http://www.w3.org/2000/svg">
 <path fill-rule="evenodd" clip-rule="evenodd" d="M5.084.223A.5.5 0 0 1 5.5 0h3.75a.5.5 0 0 1 .416.223l1.102 1.652H13a1.75 1.75 0 0 1 1.75 1.75V10.5A1.75 1.75 0 0 1 13 12.25H1.75A1.75 1.75 0 0 1 0 10.5V3.625a1.75 1.75 0 0 1 1.75-1.75h2.232L5.084.223ZM5.768 1 4.666 2.652a.5.5 0 0 1-.416.223h-2.5a.75.75 0 0 0-.75.75V10.5a.75.75 0 0 0 .75.75H13a.75.75 0 0 0 .75-.75V3.625a.75.75 0 0 0-.75-.75h-2.5a.5.5 0 0 1-.416-.223L8.982 1H5.768Z" fill="#fff"/>
