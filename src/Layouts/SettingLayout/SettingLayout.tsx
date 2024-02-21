@@ -34,7 +34,7 @@ export const SettingLayout = () => {
   const navigate = useNavigate();
 
   const onBeforePage = () => {
-    navigate(-1);
+    location.pathname === '/setting' ? navigate('/myboard') : navigate('/setting');
   };
 
   return (
