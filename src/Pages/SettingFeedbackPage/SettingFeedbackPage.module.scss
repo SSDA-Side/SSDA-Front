@@ -31,6 +31,12 @@
       width: 90%;
       height: 3.75rem;
       margin: 0 auto;
+      background-color: var(--gray300);
+    }
+  }
+  .active {
+    button {
+      background-color: var(--primary);
     }
   }
 }
