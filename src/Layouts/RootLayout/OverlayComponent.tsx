@@ -177,9 +177,7 @@ export const BottomSheet = ({ id, isOpened, ...payload }: BottomSheetType) => {
   return (
     <Modal isOpened={isOpened} onClose={handleClose}>
       <Modal.Overlay />
-      <Modal.BottomSheet>
-        <PageLayout header={header} body={<SheetElement sheetId={id} />} />
-      </Modal.BottomSheet>
+      <Modal.BottomSheet>{/* <PageLayout header={header} body={<SheetElement sheetId={id} />} /> */}</Modal.BottomSheet>
     </Modal>
   );
 };
