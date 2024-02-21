@@ -11,10 +11,10 @@ export const settingList = [
     path: '/setting/font',
     name: '폰트 설정',
   },
-  {
-    path: '/setting/cloud',
-    name: '백업/복구',
-  },
+  // {
+  //   path: '/setting/cloud',
+  //   name: '백업/복구',
+  // },
   {
     path: '/setting/feedback',
     name: '의견 보내기',

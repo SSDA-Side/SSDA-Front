@@ -20,7 +20,7 @@ export const SettingPage = () => {
   return (
     <div className={styles.container}>
       {settingList.map((setting, index) => {
-        if (index === 5) return;
+        if (index === settingList.length - 1) return;
         return (
           <button key={index} className={styles.settingItem} onClick={() => onPageMove(setting.path)}>
             {setting.name}
