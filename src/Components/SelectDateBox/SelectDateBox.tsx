@@ -1,4 +1,7 @@
+import { useEffect, useState } from 'react';
 import styles from './SelectDateBox.module.scss';
+import { SVGIcon } from '@Icons/SVGIcon';
+import cn from 'classnames';
 
 type SelectDateBoxProps = {
   currentMonth: Date;
@@ -9,36 +12,88 @@ const months = Array.from({ length: 12 }, (_, i) => i + 1);
 const years = Array.from({ length: 10 }, (_, i) => new Date().getFullYear() - i);
 
 export const SelectDateBox = ({ currentMonth, setSelectDate }: SelectDateBoxProps) => {
-  // select box에서 선택한 연도와 달을 받아와서, 해당 날짜를 저장하는 함수
-  const handleChangeDate = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const { id, value } = e.target;
-    id === 'year'
-      ? setSelectDate((selectDate) => new Date(Number(value), selectDate.getMonth()))
-      : setSelectDate((selectDate) => new Date(selectDate.getFullYear(), Number(value) - 1));
-  };
+  const [isButtonClicked, setIsButtonClicked] = useState({
+    year: false,
+    month: false,
+  });
+
+  const [dateList, setDateList] = useState({
+    year: currentMonth.getFullYear(),
+    month: currentMonth.getMonth() + 1,
+  });
+
+  useEffect(() => {
+    setSelectDate(new Date(dateList.year, dateList.month - 1));
+  }, [dateList]);
 
   return (
     <div className={styles.container}>
       <div className={styles.selectContainer}>
         <div>
           <span>YEAR</span>
-          <select id="year" onChange={handleChangeDate} defaultValue={currentMonth.getFullYear()}>
-            {years.map((year) => (
-              <option key={`year-${year}`} value={year}>
-                {year}
-              </option>
-            ))}
-          </select>
+          <button
+            id="year"
+            onClick={() => {
+              setIsButtonClicked({ ...isButtonClicked, year: !isButtonClicked.year });
+            }}
+          >
+            <span>{dateList.year}</span>
+            {isButtonClicked.year ? <SVGIcon name="down" size={9} /> : <SVGIcon name="up" size={9} />}
+          </button>
+          <div
+            className={cn({
+              [styles.active]: isButtonClicked.year,
+            })}
+          >
+            <ul>
+              {isButtonClicked.year &&
+                years.map((year) => (
+                  <li
+                    key={`year-${year}`}
+                    value={year}
+                    onClick={(e) => {
+                      setDateList({ ...dateList, year: Number(e.target.value) });
+                      setIsButtonClicked({ ...isButtonClicked, year: false });
+                    }}
+                  >
+                    {year}
+                  </li>
+                ))}
+            </ul>
+          </div>
         </div>
         <div>
           <span>MONTH</span>
-          <select id="month" onChange={handleChangeDate} defaultValue={currentMonth.getMonth() + 1}>
-            {months.map((month) => (
-              <option key={`month-${month}`} value={month}>
-                {month}
-              </option>
-            ))}
-          </select>
+          <button
+            id="month"
+            onClick={() => {
+              setIsButtonClicked({ ...isButtonClicked, month: !isButtonClicked.month });
+            }}
+          >
+            <span>{dateList.month}</span>
+            {isButtonClicked.month ? <SVGIcon name="down" size={9} /> : <SVGIcon name="up" size={9} />}
+          </button>
+          <div
+            className={cn({
+              [styles.active]: isButtonClicked.month,
+            })}
+          >
+            <ul>
+              {isButtonClicked.month &&
+                months.map((month) => (
+                  <li
+                    key={`month-${month}`}
+                    value={month}
+                    onClick={(e) => {
+                      setDateList({ ...dateList, month: Number(e.target.value) });
+                      setIsButtonClicked({ ...isButtonClicked, month: false });
+                    }}
+                  >
+                    {month}
+                  </li>
+                ))}
+            </ul>
+          </div>
         </div>
       </div>
     </div>

@@ -2,6 +2,8 @@ export type IconName =
   | 'menu'
   | 'right'
   | 'left'
+  | 'down'
+  | 'up'
   | 'close'
   | 'edit'
   | 'user'
