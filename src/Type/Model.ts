@@ -1,6 +1,6 @@
 export interface Member {
   id: number;
-  profileUrl: string;
+  profileUrl: string | File;
   nickname: string;
   signedDate: Date | number;
 }
@@ -115,4 +115,3 @@ export interface Diary {
   pageSize: number;
   contents: string;
 }
-
