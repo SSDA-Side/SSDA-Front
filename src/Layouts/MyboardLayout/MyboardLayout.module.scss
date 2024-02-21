@@ -74,7 +74,7 @@
       .active {
         z-index: 8;
         position: relative;
-        width: 5.5rem;
+        width: 5rem;
         height: var(--size-11);
         border-radius: var(--size-2);
         color: var(--black);
@@ -95,5 +95,18 @@
         }
       }
     }
+  }
+
+  .add-diary {
+    position: absolute;
+    bottom: var(--size-5);
+    left: calc(50% + 123px);
+    background-color: var(--orange600);
+    width: var(--size-12);
+    height: var(--size-12);
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
 }

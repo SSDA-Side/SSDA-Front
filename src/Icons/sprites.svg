@@ -12,6 +12,10 @@
     <symbol fill="none" viewBox="0 0 14 14" id="comment" xmlns="http://www.w3.org/2000/svg">
 <path d="M13 9a1.334 1.334 0 0 1-1.333 1.333h-8L1 13V2.333A1.333 1.333 0 0 1 2.333 1h9.334A1.333 1.333 0 0 1 13 2.333V9Z" stroke="#747575" stroke-linecap="round" stroke-linejoin="round"/>
 </symbol>
+<symbol fill="none" viewBox="0 0 16 16" id="add" xmlns="http://www.w3.org/2000/svg">
+<rect y="7.385" width="16" height="1.231" rx=".615" fill="#fff"/>
+<rect x="8.615" width="16" height="1.231" rx=".615" transform="rotate(90 8.615 0)" fill="#fff"/>
+</symbol>
 <symbol fill="none" viewBox="0 0 36 35" id="empty-star" xmlns="http://www.w3.org/2000/svg">
 <path d="m18.462 1.412 4.132 9.935a1.5 1.5 0 0 0 1.265.92l10.726.859a.5.5 0 0 1 .285.878l-8.172 7a1.5 1.5 0 0 0-.483 1.487l2.497 10.467a.5.5 0 0 1-.747.542l-9.183-5.608a1.5 1.5 0 0 0-1.564 0L8.035 33.5a.5.5 0 0 1-.746-.542L9.785 22.49a1.5 1.5 0 0 0-.483-1.487l-8.172-7a.5.5 0 0 1 .285-.878l10.726-.86a1.5 1.5 0 0 0 1.265-.92l4.132-9.934a.5.5 0 0 1 .924 0Z" stroke="#FF8066"/>
 </symbol>

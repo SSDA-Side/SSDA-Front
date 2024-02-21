@@ -7,6 +7,7 @@ export type IconName =
   | 'user'
   | 'users'
   | 'send'
+  | 'add'
   | 'empty-circle'
   | 'fill-circle'
   | 'bell'

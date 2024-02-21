@@ -38,7 +38,9 @@ export const MyboardLayout = () => {
   isError && console.error('isNewDiaryData error', isError);
 
   const onBeforePage = () => {
-    navigate(-1);
+    location.pathname.includes('new') || location.pathname.includes('all') || location.pathname.includes('calendar')
+      ? navigate('/myboard')
+      : navigate(`/myboard/calendar/${location.pathname.split('/')[2]}`);
   };
 
   return (
@@ -47,9 +49,9 @@ export const MyboardLayout = () => {
         <button onClick={onBeforePage}>
           <SVGIcon name="left" />
         </button>
-        {/* TODO: [feat] 일기장 제목 가져오기 */}
+        {/* TODO: [feat] 일기장 제목 myboard에서 전달받기 - 주현님과 논의 */}
         <div>{!isDiaryDetail ? `${year}년 ${month}월 ${day}일` : '일기장 제목'}</div>
-        {/* TODO: [feat] 버튼 클릭 시 사용자 목록 보여주기 */}
+        {/* TODO: [feat] 버튼 클릭 시 사용자 목록 보여주기 - 주현님과 논의 */}
         {isDiaryDetail ? (
           <button>
             <SVGIcon name="users" />
@@ -82,6 +84,9 @@ export const MyboardLayout = () => {
       ) : (
         <Outlet />
       )}
+      <button className={styles.addDiary} onClick={() => navigate(`/myboard/${boardId}/write`)}>
+        <SVGIcon name="add" size={16} />
+      </button>
     </div>
   );
 };
