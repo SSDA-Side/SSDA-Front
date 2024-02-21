@@ -1,6 +1,8 @@
 import { Outlet, useLocation, useNavigate } from 'react-router-dom';
 import styles from './SettingLayout.module.scss';
 import { SVGIcon } from '@Icons/SVGIcon';
+import { Modal } from './Modal';
+import cn from 'classnames';
 
 export const settingList = [
   {
@@ -31,19 +33,22 @@ export const settingList = [
 
 export const SettingLayout = () => {
   const location = useLocation();
-  const navigate = useNavigate();
-
-  const onBeforePage = () => {
-    location.pathname === '/setting' ? navigate('/myboard') : navigate('/setting');
-  };
+  const nivigate = useNavigate();
 
   return (
     <>
-      <div className={styles.container}>
-        <button onClick={onBeforePage}>
-          <SVGIcon name="left" />
-        </button>
-        <div>
+      <div className={cn(styles.container, 'setting-modal')}>
+        {location.pathname === '/setting' ? (
+          <button onClick={() => nivigate('/myboard')}>
+            <SVGIcon name="left" />
+          </button>
+        ) : (
+          <Modal className={'.setting-modal'}>
+            <SVGIcon name="left" />
+          </Modal>
+        )}
+
+        <div className={styles.items}>
           {settingList.map((settingItem) => {
             if (settingItem.path === location.pathname) {
               return settingItem.name;
