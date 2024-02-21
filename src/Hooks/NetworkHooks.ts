@@ -29,6 +29,7 @@ import {
   kakaoLogin,
   updateBoard,
   updateRead,
+  updateUser,
 } from '@APIs/index';
 import { GetMemberListRequest } from '@Type/Request';
 import { setCookie } from '@Utils/Cookies';
@@ -237,9 +238,17 @@ export const useKaKaoLogin = (authorizationCode: string) => {
   });
 };
 
+// setting
 export const useGetUser = () => {
   return useQuery({
     queryKey: ['myboard', 'member'],
     queryFn: getUser,
+  });
+};
+
+export const useUpdateUser = (profileUrl: string, nickname: string) => {
+  return useMutation({
+    mutationKey: ['myboard', 'updateUser'],
+    mutationFn: () => updateUser({ profileUrl, nickname }),
   });
 };

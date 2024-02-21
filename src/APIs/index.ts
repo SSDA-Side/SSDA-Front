@@ -22,6 +22,7 @@ import type {
   UpdateBoardRequest,
   UpdateCommentRequest,
   CreateBoardRequest,
+  updateUserInfoRequest,
 } from '@Type/Request';
 
 /** Response */
@@ -200,6 +201,22 @@ export const createReply = async ({ commentId, contents }: CreateReplyRequest) =
   return res.status;
 };
 
+// setting
+export const getUser = async () => {
+  // 쿠키 가져오기
+  const token = getCookie('accessToken');
+  const res = await axios.get<userData>(`/api/members/${token}`);
+  return res.data;
+};
+
+export const updateUser = async ({ profileUrl, nickname }: updateUserInfoRequest) => {
+  const formData = new FormData();
+  formData.append('profileUrl', profileUrl);
+  formData.append('nickname', nickname);
+  const res = await axios.post(`/api/members/update`, formData);
+  return res.status;
+};
+
 /**
  * 인위적인 네트워크 딜레이를 위한 임시 함수
  * API가 연결되면 해당 함수는 불필요
@@ -319,11 +336,4 @@ export const getNotifications = async ({ pageSize, lastViewId }: { pageSize: num
   }
 
   // const res = await axios.post<Notification[]>(`/api/notification?pageSize=${pageSize}&lastViewId=${lastViewId}`);
-};
-// setting
-export const getUser = async () => {
-  // 쿠키 가져오기
-  const token = getCookie('accessToken');
-  const res = await axios.get<userData>(`/api/members/${token}`);
-  return res.data;
 };
