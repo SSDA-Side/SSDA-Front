@@ -21,10 +21,10 @@ export const DiaryItem = ({ diary }: { diary: todayDiaryData }) => {
       <div className={styles.content}>
         <h2>{diary.title}</h2>
         <div className={styles.info}>
-          <h3>
-            {diary.nickname}
-            <span>{diary.timeStamp}</span>
-          </h3>
+          <div className={styles.name}>
+            <h3>{diary.nickname}</h3>
+            <p>{diary.timeStamp}</p>
+          </div>
           <div className={styles.count}>
             <SVGIcon name="empty-heart" size={16} />
             {diary.likeCount}
