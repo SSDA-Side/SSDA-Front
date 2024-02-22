@@ -26,6 +26,7 @@ import { BoardSignUpPage } from '@Pages/BoardSignUpPage';
 import { SettingLayout } from '@Layouts/SettingLayout';
 import { DiaryListPage } from '@Pages/DiaryListPage';
 import { GlobalLayout } from '@Layouts/GlobalLayout';
+import { OauthPage } from '@Pages/OauthPage';
 
 export const routes = [
   {
@@ -46,7 +47,7 @@ export const routes = [
           },
           {
             path: 'oauth/callback/kakao',
-            element: <LoginPage />,
+            element: <OauthPage />,
           },
           {
             path: 'logout',

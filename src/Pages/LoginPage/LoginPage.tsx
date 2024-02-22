@@ -3,7 +3,7 @@ import { LoginImage } from '@Assets/LoginImages';
 import styles from './LoginPage.module.scss';
 import { useEffect, useState } from 'react';
 import { SVGIcon } from '@Icons/SVGIcon';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { getCookie } from '@Utils/Cookies';
 import dassdaLogo from '@Assets/dassdaLogo.png';
 
@@ -55,12 +55,10 @@ const Carousel = () => {
 
 export const LoginPage = () => {
   const navigate = useNavigate();
-  const location = useLocation();
 
   useEffect(() => {
-    if (location.pathname === '/oauth/callback/kakao') return;
     if (getCookie('accessToken')) navigate('/myboard');
-  }, [navigate, location.pathname]);
+  }, [navigate]);
   return (
     <div className={styles.container}>
       <Carousel />
