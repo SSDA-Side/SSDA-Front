@@ -26,21 +26,17 @@ const tabList = [
 export const MyboardLayout = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const diaryLocation = location.pathname.split('/')[2];
   const boardId = location.pathname.split('/')[3];
+  const isModePage =
+    location.pathname.includes('new') || location.pathname.includes('all') || location.pathname.includes('calendar');
 
   const date = location.pathname.split('/').slice(3, 4);
   const [year, month, day] = date[0].split('-');
 
-  const isDiaryDetail = diaryLocation === 'calendar' || diaryLocation === 'all' || diaryLocation === 'new';
-  const { data: isNewDiary, isError } = useIsNewDiary(Number(boardId));
-
-  isError && console.error('isNewDiaryData error', isError);
+  const { data: isNewDiary } = useIsNewDiary(Number(boardId));
 
   const onBeforePage = () => {
-    location.pathname.includes('new') || location.pathname.includes('all') || location.pathname.includes('calendar')
-      ? navigate('/myboard')
-      : navigate(`/myboard/calendar/${location.pathname.split('/')[2]}`);
+    isModePage ? navigate('/myboard') : navigate(`/myboard/calendar/${location.pathname.split('/')[2]}`);
   };
 
   return (
@@ -50,15 +46,15 @@ export const MyboardLayout = () => {
           <SVGIcon name="left" />
         </button>
         {/* TODO: [feat] 일기장 제목 myboard에서 전달받기 - 주현님과 논의 */}
-        <div>{!isDiaryDetail ? `${year}년 ${month}월 ${day}일` : '일기장 제목'}</div>
+        <div>{!isModePage ? `${year}년 ${month}월 ${day}일` : '일기장 제목'}</div>
         {/* TODO: [feat] 버튼 클릭 시 사용자 목록 보여주기 - 주현님과 논의 */}
-        {isDiaryDetail ? (
+        {isModePage ? (
           <button>
             <SVGIcon name="users" />
           </button>
         ) : null}
       </div>
-      {isDiaryDetail ? (
+      {isModePage ? (
         <div className={styles.container}>
           <div className={styles.tabBar}>
             {tabList.map((tab) => (
