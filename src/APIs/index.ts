@@ -224,6 +224,13 @@ export const updateUser = async ({ profileUrl, nickname }: updateUserInfoRequest
   return res.status;
 };
 
+// private String qaContents;
+// private int starPoint;
+export const createQnA = async ({ qaContents, starPoint }: { qaContents: string; starPoint: number }) => {
+  const res = await axios.post(`/api/setting`, { qaContents, starPoint });
+  return res.status;
+};
+
 // private Long memberId;
 // private int font;
 export const updateFont = async ({ font, memberId }: updateFontRequest) => {

@@ -31,6 +31,7 @@ import {
   updateRead,
   updateUser,
   updateFont,
+  createQnA,
 } from '@APIs/index';
 import { GetMemberListRequest } from '@Type/Request';
 import { setCookie } from '@Utils/Cookies';
@@ -258,5 +259,12 @@ export const useUpdateFont = (font: number, memberId: number) => {
   return useMutation({
     mutationKey: ['myboard', 'updateFont'],
     mutationFn: () => updateFont({ font, memberId }),
+  });
+};
+
+export const useCreateQnA = () => {
+  return useMutation({
+    mutationKey: ['myboard', 'createQnA'],
+    mutationFn: createQnA,
   });
 };

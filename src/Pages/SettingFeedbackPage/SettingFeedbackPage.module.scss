@@ -40,3 +40,31 @@
     }
   }
 }
+
+.success-container {
+  height: 100%;
+  .is-send-page {
+    height: 80%;
+    display: flex;
+    justify-content: baseline;
+    padding-top: 6rem;
+    align-items: center;
+    flex-direction: column;
+    img {
+      width: 6.125rem;
+      height: 6.125rem;
+      margin-bottom: var(--size-2);
+    }
+    h1 {
+      font-weight: 500 !important;
+      font-size: 1.25rem;
+      color: var(--gray700);
+      margin-bottom: var(--size-3);
+    }
+    p {
+      font-weight: 400;
+      font-size: var(--size-4);
+      color: var(--gray600);
+    }
+  }
+}
