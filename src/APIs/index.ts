@@ -166,7 +166,8 @@ export const getLikes = async ({ diaryId }: GetLikesRequest) => {
 };
 
 export const updateLikes = async ({ diaryId }: GetLikesRequest) => {
-  const res = await axios.put(`/api/diary/${diaryId}/likes`);
+  console.log('updateLikes', diaryId);
+  const res = await axios.post(`/api/diary/${diaryId}/likes`);
   return res.status;
 };
 
@@ -312,6 +313,11 @@ export const createDiary = async (submitData: CreateDiaryRequest) => {
   }
 
   const res = await axios.post(`/api/diary`, submitData);
+  return res.status;
+};
+
+export const deleteDiary = async ({ diaryId }: { diaryId: number }) => {
+  const res = await axios.delete(`/api/diary/${diaryId}`);
   return res.status;
 };
 
