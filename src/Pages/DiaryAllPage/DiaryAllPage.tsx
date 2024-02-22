@@ -14,7 +14,6 @@ type IsNewDateDiaryProps = {
 
 const IsNewDateDiary = ({ diary, selectedDate, setSelectedDate }: IsNewDateDiaryProps) => {
   if (selectedDate !== diary.selectedDate) {
-    // TODO: [test] item이 여러 개일 겨웅 날짜가 성공적으로 바뀌는지 확인하기
     return (
       <h3 style={{ marginTop: '10px' }}>
         {diary.selectedDate.split('-')[1]}월 {diary.selectedDate.split('-')[2].split('T')[0]}일 일기

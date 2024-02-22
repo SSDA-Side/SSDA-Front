@@ -166,7 +166,6 @@ export const getLikes = async ({ diaryId }: GetLikesRequest) => {
 };
 
 export const updateLikes = async ({ diaryId }: GetLikesRequest) => {
-  console.log('updateLikes', diaryId);
   const res = await axios.post(`/api/diary/${diaryId}/likes`);
   return res.status;
 };

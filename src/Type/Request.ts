@@ -17,8 +17,8 @@ export type DiaryFormData = {
 
 export type CreateDiaryRequest = DiaryFormData;
 export type UpdateDiaryRequest = Pick<Diary, 'id'> & DiaryFormData;
-export type DeleteDiaryRequest = Pick<Diary, 'id'>;
 export type GetDiaryRequest = Pick<Diary, 'id'>;
+export type DeleteDiaryRequest = Pick<Diary, 'diaryId'>;
 
 /** 일기장 멤버 조회 */
 export type GetMemberListRequest = Pick<Board, 'id'>;

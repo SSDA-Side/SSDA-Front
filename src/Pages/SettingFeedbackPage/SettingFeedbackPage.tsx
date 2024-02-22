@@ -13,7 +13,6 @@ const IsSendSuccess = () => {
   return (
     <div className={styles.successContainer}>
       <div className={styles.isSendPage}>
-        {/* TODO: [refactor] 이미지를 sprite 파일에 추가하던가 기타 등등 */}
         <EmotionImage index={1} />
         <h1>전송 완료!</h1>
         <p>의견이 잘 접수되었습니다.</p>

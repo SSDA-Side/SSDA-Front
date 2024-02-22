@@ -77,7 +77,9 @@ export const MyboardLayout = () => {
           <Outlet />
         </div>
       ) : (
-        <Outlet />
+        <div className={styles.container}>
+          <Outlet />
+        </div>
       )}
       <button className={styles.addDiary} onClick={() => navigate(`/myboard/${boardId}/write`)}>
         <SVGIcon name="add" size={16} />

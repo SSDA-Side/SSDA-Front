@@ -12,7 +12,6 @@ import sleepImage from '@Assets/EmotionImages/sleepEmotion.png';
 export const IsNotDiary = () => {
   return (
     <div className={styles.isNotDiary}>
-      {/* TODO: [refactor] 이미지를 sprite 파일에 추가하던가 기타 등등 */}
       <img src={sleepImage} />
       <h1>아직 작성된 일기가 없어요</h1>
       <p>가장 먼저 일기를 작성해보세요!</p>

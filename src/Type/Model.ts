@@ -29,6 +29,7 @@ export interface Board {
 
 export interface Diary {
   id: number;
+  diaryId: number;
   writer: Pick<Member, 'nickname' | 'profileUrl'>;
   emotionId: number;
   title: string;

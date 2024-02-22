@@ -92,36 +92,40 @@ export const useDeleteBoard = () => {
 
 // comment
 export const useGetComment = (diaryId: number, lastViewId: number) => {
-  return useMutation({
-    mutationKey: ['getComment'],
-    mutationFn: () => getComment({ diaryId, pageSize: 10, lastViewId }),
-    onSuccess: (data) => {
-      return data;
-    },
+  return useQuery({
+    queryKey: ['getComment'],
+    queryFn: () => getComment({ diaryId, pageSize: 10, lastViewId }),
   });
 };
 
 export const useCreateComment = (diaryId: number, contents: string) => {
+  const queryClient = useQueryClient();
+
   return useMutation({
     mutationKey: ['createComment'],
     mutationFn: () => createComment({ diaryId, contents }),
-  });
-};
-
-export const useGetReply = (commentId: number, lastViewId: number) => {
-  return useMutation({
-    mutationKey: ['getReply'],
-    mutationFn: () => getReply({ commentId, lastViewId }),
-    onSuccess: (data) => {
-      return data;
+    onSuccess() {
+      queryClient.invalidateQueries({ queryKey: ['getComment'] });
     },
   });
 };
 
+export const useGetReply = (commentId: number, lastViewId: number) => {
+  return useQuery({
+    queryKey: ['getReply'],
+    queryFn: () => getReply({ commentId, lastViewId }),
+  });
+};
+
 export const useCreateReply = (commentId: number, contents: string) => {
+  const queryClient = useQueryClient();
+
   return useMutation({
     mutationKey: ['createReply'],
     mutationFn: () => createReply({ commentId, contents }),
+    onSuccess() {
+      queryClient.invalidateQueries({ queryKey: ['getReply'] });
+    },
   });
 };
 
