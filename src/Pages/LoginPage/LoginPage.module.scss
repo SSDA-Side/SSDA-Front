@@ -1,6 +1,7 @@
 .container {
   width: 100%;
   height: 100%;
+  background-color: var(--gray100);
   .carousel {
     width: 100%;
     height: 100%;
@@ -11,18 +12,40 @@
       justify-content: center;
       align-items: center;
       flex-direction: column;
-      img {
-        margin-bottom: var(--spacing-4);
+      .image-container {
+        width: 100%;
+        height: 20rem;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+      .content-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        h1 {
+          font-weight: 700;
+          font-size: var(--size-8);
+          color: var(--gray800);
+          margin: var(--size-4) 0;
+        }
+        p {
+          font-weight: 300;
+          font-size: var(--size-5);
+          line-height: 1.875rem;
+          color: var(--gray600);
+        }
+        margin-bottom: 2.5rem;
       }
       .carousel-content {
         width: 19rem;
         height: 8.5rem;
         padding-right: var(--spacing-8);
         color: var(--white);
-        h1 {
-          font-size: var(--size-10);
-          font-family: 'Quicksand', sans-serif !important;
-          margin-bottom: var(--spacing-4);
+        img {
+          width: 8.75rem;
+          margin-bottom: var(--size-4);
         }
         h2 {
           font-size: var(--size-8);
@@ -39,13 +62,7 @@
         margin: 0 4px;
       }
     }
-    &-0 {
-      background-color: #f0d7c8;
-    }
-    &-1 {
-      background-color: #aebcce;
-    }
-    &-2 {
+    &-3 {
       background-color: #ff8066;
     }
   }
