@@ -32,6 +32,9 @@ import {
   updateUser,
   updateFont,
   createQnA,
+  deleteDiary,
+  getLikes,
+  updateLikes,
 } from '@APIs/index';
 import { GetMemberListRequest } from '@Type/Request';
 import { setCookie } from '@Utils/Cookies';
@@ -123,6 +126,32 @@ export const useCreateReply = (commentId: number, contents: string) => {
 };
 
 // diary
+export const useGetLike = (diaryId: number) => {
+  return useQuery({
+    queryKey: ['getLike'],
+    queryFn: () => getLikes({ diaryId }),
+  });
+};
+
+export const useUpdateLike = (diaryId: number) => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationKey: ['updateLike'],
+    mutationFn: () => updateLikes({ diaryId }),
+    onSuccess() {
+      queryClient.invalidateQueries({ queryKey: ['getLike'] });
+    },
+  });
+};
+
+export const useDeleteDiary = () => {
+  return useMutation({
+    mutationKey: ['deleteDiary'],
+    mutationFn: deleteDiary,
+  });
+};
+
 export const useGetMemberList = ({ id }: GetMemberListRequest) => {
   return useSuspenseQuery({
     queryKey: ['myboard', 'memberList'],
@@ -207,9 +236,12 @@ export const useGetTodayDiary = (boardId: number, date: string) => {
 };
 
 export const useGetDiaryDetail = (memberId: number, boardId: number, date: string) => {
-  return useQuery({
-    queryKey: ['myboard', 'diaryDetail'],
-    queryFn: () => getDiaryDetail({ memberId, boardId, date }),
+  return useMutation({
+    mutationKey: ['myboard', 'diaryDetail'],
+    mutationFn: () => getDiaryDetail({ memberId, boardId, date }),
+    onSuccess: (data) => {
+      return data;
+    },
   });
 };
 
@@ -234,7 +266,6 @@ export const useKaKaoLogin = (authorizationCode: string) => {
       // const expirationTime = new Date();
       // expirationTime.setSeconds(expirationTime.getSeconds() + 1800);
       setCookie('accessToken', data['accessToken'], { path: '/' });
-      localStorage.setItem('refreshToken', data['refreshToken']);
       navigate('/myboard');
     },
   });
