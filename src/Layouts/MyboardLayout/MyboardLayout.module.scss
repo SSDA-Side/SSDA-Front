@@ -39,17 +39,17 @@
         margin: var(--size-2) 0;
         color: var(--gray500);
         fill: var(--gray500);
-
-        .new-diary {
-          position: relative;
-          bottom: var(--size-10);
-          left: var(--size-7);
-          width: 6px;
-          height: 6px;
-          border-radius: 50%;
-          background-color: var(--orange600);
+        div {
+          .new-diary {
+            position: relative;
+            bottom: var(--size-10);
+            left: -0.5rem;
+            width: var(--size-1);
+            height: var(--size-1);
+            border-radius: 50%;
+            background-color: var(--orange600);
+          }
         }
-
         &:hover {
           color: var(--black);
         }
@@ -72,6 +72,7 @@
         }
       }
       .active {
+        margin-left: 0.125rem;
         z-index: 8;
         position: relative;
         width: 5rem;
@@ -87,7 +88,11 @@
           display: flex;
           justify-content: center;
           align-items: center;
-          border-left: 0.125rem solid var(--orange600);
+          .new-diary {
+            position: relative;
+            bottom: var(--size-3);
+            left: -4rem;
+          }
           svg {
             margin-right: 0.5rem;
             margin-left: -0.6rem;
