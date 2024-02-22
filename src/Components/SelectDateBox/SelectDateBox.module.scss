@@ -7,9 +7,9 @@
   }
   .select-container {
     display: flex;
-    margin: 20px 30px;
+    margin: var(--size-5) 1.875rem;
     span {
-      padding-right: 10px;
+      padding-right: 0.625rem;
     }
     button {
       width: 8rem;
@@ -33,7 +33,7 @@
     height: 20rem;
     position: absolute;
     overflow-y: scroll;
-    margin-top: 8px;
+    margin-top: var(--size-2);
     border: 1px solid var(--gray400);
     border-radius: var(--radii-sm);
     width: 8rem;
