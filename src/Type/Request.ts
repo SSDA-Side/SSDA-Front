@@ -34,6 +34,7 @@ export type UpdateCommentRequest = Pick<Diary, 'diaryId' | 'commentId' | 'conten
 export type DeleteCommentRequest = Pick<Diary, 'diaryId' | 'commentId'>;
 export type CreateCommentRequest = Pick<Diary, 'diaryId' | 'contents'>;
 export type GetReplyRequest = Pick<Diary, 'commentId' | 'lastViewId'>;
+export type DeleteReplyRequest = Pick<Diary, 'commentId' | 'replyId'>;
 export type CreateReplyRequest = Pick<Diary, 'commentId' | 'contents'>;
 export type updateUserInfoRequest = Pick<Setting, 'nickname' | 'profileUrl'>;
 export type updateFontRequest = Pick<Setting, 'font' | 'memberId'>;

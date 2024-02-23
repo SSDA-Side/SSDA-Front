@@ -25,6 +25,7 @@ import type {
   UpdateCommentRequest,
   updateUserInfoRequest,
   updateFontRequest,
+  DeleteReplyRequest,
 } from '@Type/Request';
 
 /** Response */
@@ -206,6 +207,11 @@ export const getReply = async ({ commentId, lastViewId }: GetReplyRequest) => {
 
 export const createReply = async ({ commentId, contents }: CreateReplyRequest) => {
   const res = await axios.post(`/api/comment/${commentId}/reply`, { contents });
+  return res.status;
+};
+
+export const deleteReply = async ({ commentId, replyId }: DeleteReplyRequest) => {
+  const res = await axios.delete(`/api/comment/${commentId}/reply/${replyId}`);
   return res.status;
 };
 

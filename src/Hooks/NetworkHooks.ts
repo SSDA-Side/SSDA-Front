@@ -40,6 +40,8 @@ import {
   getEmotionQuestion,
   readAllNotifications,
   getBoardTitle,
+  deleteComment,
+  deleteReply,
 } from '@APIs/index';
 import { GetMemberListRequest, SignUpBoardRequest } from '@Type/Request';
 import { setCookie } from '@Utils/Cookies';
@@ -136,6 +138,33 @@ export const useCreateComment = () => {
     mutationFn: createComment,
     onSuccess() {
       queryClient.invalidateQueries({ queryKey: ['getComment'] });
+      queryClient.invalidateQueries({ queryKey: ['getReply'] });
+      queryClient.invalidateQueries({ queryKey: ['myboard', 'diaryDetail'] });
+    },
+  });
+};
+
+export const useDeleteComment = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationKey: ['deleteComment'],
+    mutationFn: deleteComment,
+    onSuccess() {
+      queryClient.invalidateQueries({ queryKey: ['getComment'] });
+      queryClient.invalidateQueries({ queryKey: ['getReply'] });
+      queryClient.invalidateQueries({ queryKey: ['myboard', 'diaryDetail'] });
+    },
+  });
+};
+
+export const useDeleteReply = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationKey: ['deleteReply'],
+    mutationFn: deleteReply,
+    onSuccess() {
       queryClient.invalidateQueries({ queryKey: ['getReply'] });
       queryClient.invalidateQueries({ queryKey: ['myboard', 'diaryDetail'] });
     },
@@ -311,17 +340,14 @@ export const useGetMonth = (boardId: number, date: string) => {
 };
 
 // login
-export const useKaKaoLogin = (authorizationCode: string) => {
-  const navigate = useNavigate();
-
+export const useKaKaoLogin = () => {
   return useMutation({
     mutationKey: ['kakao', 'login'],
-    mutationFn: () => kakaoLogin(authorizationCode),
+    mutationFn: kakaoLogin,
     onSuccess: (data) => {
       // const expirationTime = new Date();
       // expirationTime.setSeconds(expirationTime.getSeconds() + 1800);
       setCookie('accessToken', data['accessToken'], { path: '/' });
-      navigate('/myboard');
     },
   });
 };

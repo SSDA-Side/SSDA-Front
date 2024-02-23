@@ -30,6 +30,7 @@ export interface Board {
 export interface Diary {
   id: number;
   diaryId: number;
+  replyId: number;
   writer: Pick<Member, 'nickname' | 'profileUrl'>;
   emotionId: number;
   title: string;

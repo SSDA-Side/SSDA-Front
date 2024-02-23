@@ -1,7 +1,9 @@
 import {
   useCreateComment,
   useCreateReply,
+  useDeleteComment,
   useDeleteDiary,
+  useDeleteReply,
   useGetComment,
   useGetDiaryDetail,
   useGetLike,
@@ -64,14 +66,16 @@ const colorList = [
 ];
 
 // TODO: [feat] 댓글, 답글 삭제 기능 추가
+// TODO: [design] 댓글이 삭제된 경우 댓글이 없다는 문구 추가
+// TODO: [feat] 좋아요 모달 추가
 // TODO: [feat] 댓글, 답글 무한 스크롤로 변경
 // TODO: [fix] 주소가 제대로 들어오지 않을 때 대응, /myboard/1/detail?date=2024-02-23&mId=1
 export const DiaryListPage = () => {
   const location = useLocation();
 
   const searchParams = new URLSearchParams(location.search);
-  const memberId = searchParams.get('mId');
-  const date = searchParams.get('date');
+  const memberId = searchParams.get('mId') || 0;
+  const date = searchParams.get('date') || '';
 
   const boardId = location.pathname.split('/')[2];
 
@@ -273,6 +277,7 @@ const DiaryComment = ({ diaryId }: DiaryCommentProps) => {
 
   const { data: commentData, isSuccess: getCommentSuccess } = useGetComment(diaryId, lastViewId.comment);
   const { mutate: createCommentMutation } = useCreateComment();
+  const { mutate: deleteCommentMutation } = useDeleteComment();
   const { mutate: createReplyMutation } = useCreateReply();
   const { data: likeData, isSuccess: likeSuccess } = useGetLike(diaryId);
   const { mutate: updateLikeMutation } = useUpdateLike(diaryId);
@@ -305,7 +310,20 @@ const DiaryComment = ({ diaryId }: DiaryCommentProps) => {
                         });
                       }}
                     >
-                      답글 달기
+                      답글
+                    </button>
+                    <span> ∙ </span>
+
+                    <button
+                      onClick={() => {
+                        // diaryId, comment.commentId
+                        deleteCommentMutation({
+                          diaryId: +diaryId,
+                          commentId: comment.id,
+                        });
+                      }}
+                    >
+                      삭제
                     </button>
                   </div>
                 </div>
@@ -361,7 +379,6 @@ const DiaryComment = ({ diaryId }: DiaryCommentProps) => {
                         },
                       },
                     );
-                    // comment?.commentId, comment.data
                   } else {
                     createReplyMutation(
                       { commentId: comment.commentId, contents: comment.data },
@@ -384,8 +401,14 @@ const DiaryComment = ({ diaryId }: DiaryCommentProps) => {
   );
 };
 
-const DiaryReply = ({ commentId, lastViewId }: { commentId: number; lastViewId: number }) => {
+type DiaryReplyProps = {
+  commentId: number;
+  lastViewId: number;
+};
+
+const DiaryReply = ({ commentId, lastViewId }: DiaryReplyProps) => {
   const { data: replyData, isSuccess } = useGetReply(commentId, lastViewId);
+  const { mutate: deleteReplyMutation } = useDeleteReply();
 
   return (
     <>
@@ -400,7 +423,14 @@ const DiaryReply = ({ commentId, lastViewId }: { commentId: number; lastViewId: 
               </div>
               <div className={styles.etc}>
                 <span>{reply.timeStamp}</span>
-                <span>&nbsp;&nbsp;</span>
+                <span> ∙ </span>
+                <button
+                  onClick={() => {
+                    deleteReplyMutation({ commentId: +commentId, replyId: reply.id });
+                  }}
+                >
+                  삭제
+                </button>
               </div>
             </div>
           </div>
