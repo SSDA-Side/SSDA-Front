@@ -1,7 +1,7 @@
 import { BoardContextMenu } from '@Components/BoardContextMenu/BoardContextMenu';
 import { ModifyBoardModal } from '@Components/Modals/ModifyBoardModal';
 import { ViewMemberModal } from '@Components/Modals/ViewMemberModal';
-import { useDeleteBoard } from '@Hooks/NetworkHooks';
+import { useDeleteBoard, useResignBoard } from '@Hooks/NetworkHooks';
 import { useModal } from '@Hooks/useModal';
 import { useSheet } from '@Hooks/useSheet';
 import { BoardProps } from '@Store/ModalStore';
@@ -9,6 +9,7 @@ import { BottomSheetProps, BottomSheetType } from '@Store/SheetShore';
 
 // export const EditBoardSheet = ({ sheetId }: { sheetId: string }) => {
 export const EditBoardSheet = () => {
+  const { mutate: resignBoard } = useResignBoard();
   const { mutate: deleteBoard } = useDeleteBoard();
 
   const { openComponentModal, openConfirm, openAlert } = useModal();
@@ -34,7 +35,7 @@ export const EditBoardSheet = () => {
   };
 
   const handleDelete = () => {
-    const isOnlyOneMember = boardProps.memberCount === 0;
+    const isOnlyOneMember = boardProps.memberCount === 1;
     const couleDeleteBoard = isOnlyOneMember;
 
     if (couleDeleteBoard) {
@@ -56,8 +57,13 @@ export const EditBoardSheet = () => {
     openConfirm({
       contents: RESIGN_TEXT,
       onYes() {
-        openAlert({ contents: '사실 아직 미구현임ㅋㅋ' });
-        closeBottomSheet();
+        resignBoard(
+          { id: boardProps.id },
+          {
+            onSuccess: closeBottomSheet,
+            onError: () => openAlert({ contents: '서버에서 오류가 났습니다.\n다시 시도해주세요.' }),
+          },
+        );
       },
     });
   };
@@ -68,7 +74,7 @@ export const EditBoardSheet = () => {
       title: '멤버 보기',
       children: ViewMemberModal,
       props: {
-        boardId: boardProps.id,
+        board: boardProps,
       },
     });
   };

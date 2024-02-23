@@ -1,5 +1,5 @@
 /** React */
-import { useLayoutEffect, useRef, useState } from 'react';
+import { memo, useLayoutEffect, useRef, useState } from 'react';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 
 /** Styles 및 Layout */
@@ -13,14 +13,14 @@ import { PageHeader } from '@Components/Common/PageHeader';
 import { Typography } from '@Components/Common/Typography';
 
 /** Hook */
-import { useCreateDiary } from '@Hooks/NetworkHooks';
+import { useCreateDiary, useGetEmotionQuestion } from '@Hooks/NetworkHooks';
 
 /** Context */
 import { FormDataContextProvider, useFormData, useFormDataState } from './FormDataContext';
 
 /** Type */
 import { EmotionSelect } from '@Components/EmotionSelect';
-import { SelectEmotionSheet } from '@Components/Sheets/SelectEmotionSheet/SelectEmotionSheet';
+import { SelectEmotionSheet } from '@Components/Sheets/SelectEmotionSheet';
 import { useModal } from '@Hooks/useModal';
 import { useSheet } from '@Hooks/useSheet';
 import type { ChangeEvent, FormEvent, KeyboardEvent } from 'react';
@@ -41,13 +41,11 @@ export const DiaryWritePage = () => {
 const WriteForm = () => {
   const [location, urlParams] = [useLocation(), useParams()];
   const { mutate, isPending } = useCreateDiary();
-
+  const navigate = useNavigate();
   const [isFirstStep, setIsFirstStep] = useState(true);
 
   const submitData = useFormDataState();
-  const { updateBoardId, updateDiaryDate } = useFormData();
-
-  const { openAlert } = useModal();
+  const { updateBoardId, updateSelectedDate } = useFormData();
 
   useLayoutEffect(() => {
     const { boardId: savedBoardId } = submitData;
@@ -57,25 +55,24 @@ const WriteForm = () => {
       throw new Error('never but for boardId type-guard');
     }
 
-    if (currentBoardId === savedBoardId) {
+    if (+currentBoardId === savedBoardId) {
       return;
     }
 
-    updateBoardId(currentBoardId);
+    updateBoardId(+currentBoardId);
 
     const searchParams = new URLSearchParams(location.search);
-    const diaryDate = searchParams.get('date') || getTodayDateString();
+    const selectedDate = searchParams.get('date') || getTodayDateString();
 
-    updateDiaryDate(diaryDate);
+    updateSelectedDate(new Date(selectedDate).toISOString().slice(0, -1));
   }, []);
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    // @ts-expect-error: Diary 구조 변경 대응...해야 하는데 언제하냐!
     mutate(submitData, {
       onSuccess() {
-        openAlert({ contents: '일기 작성 완료' });
+        navigate(`/myboard/calendar/${submitData.boardId}`, { replace: true });
       },
     });
   };
@@ -97,9 +94,9 @@ const Head = ({ disabled }: { disabled: boolean }) => {
   const navigate = useNavigate();
 
   const formData = useFormDataState();
-  const { boardId, diaryTitle, contents, diaryImgs } = formData;
+  const { boardId, title, contents, images } = formData;
 
-  const isEmptyTitle = diaryTitle.trim() === '';
+  const isEmptyTitle = title.trim() === '';
   const isEmptyContent = contents.trim() === '';
 
   const isDisabled = disabled || isEmptyTitle || isEmptyContent;
@@ -107,20 +104,20 @@ const Head = ({ disabled }: { disabled: boolean }) => {
   const { openConfirm } = useModal();
 
   const handleBackClick = () => {
-    const hasTitle = diaryTitle.trim() !== '';
+    const hasTitle = title.trim() !== '';
     const hasContent = contents.trim() !== '';
-    const haveSomeImages = diaryImgs !== null;
+    const haveSomeImages = images.length !== 0;
     const haveUnsavedChanges = hasTitle || hasContent || haveSomeImages;
 
     if (!haveUnsavedChanges) {
-      return navigate(`/myboard/${boardId}`, { replace: true });
+      return navigate(`/myboard/calendar/${boardId}`, { replace: true });
     }
 
     handleUnsavedChanges();
   };
 
   const handleUnsavedChanges = () => {
-    const handleYes = () => navigate(`/myboard/${boardId}`, { replace: true });
+    const handleYes = () => navigate(`/myboard/calendar/${boardId}`, { replace: true });
 
     openConfirm({
       contents: '작성 중인 내용을\n저장하지 않고 나가시겠습니까?',
@@ -146,7 +143,7 @@ const Head = ({ disabled }: { disabled: boolean }) => {
 };
 
 const Body = ({ firstStep, onFirstStepCom }: { firstStep: boolean; onFirstStepCom: () => void }) => {
-  const { diaryImgs: selectedFiles, stickerId, diaryDate } = useFormDataState();
+  const { images: selectedFiles, emotionId, selectedDate } = useFormDataState();
   const { updateContents, updateEmotionId, updateTitle, deleteImage } = useFormData();
 
   const { openBottomSheet } = useSheet();
@@ -169,10 +166,10 @@ const Body = ({ firstStep, onFirstStepCom }: { firstStep: boolean; onFirstStepCo
 
   const handleEmotionClick = () => {
     openBottomSheet({
-      title: diaryDate,
+      title: new Intl.DateTimeFormat('ko-KR', { dateStyle: 'medium' }).format(new Date(selectedDate)),
       children: SelectEmotionSheet,
       onSelect(emotionId) {
-        updateEmotionId(emotionId as string);
+        updateEmotionId(emotionId as number);
       },
     });
   };
@@ -185,7 +182,7 @@ const Body = ({ firstStep, onFirstStepCom }: { firstStep: boolean; onFirstStepCo
     <main className={styles.container}>
       <section className={styles.emotionSection}>
         <button type="button" onClick={handleEmotionClick}>
-          <EmotionImage index={Number(stickerId)} />
+          <EmotionImage index={emotionId - 1} />
         </button>
       </section>
 
@@ -215,7 +212,7 @@ const Body = ({ firstStep, onFirstStepCom }: { firstStep: boolean; onFirstStepCo
 
         <div className={styles.imageList}>
           {selectedFiles &&
-            Array.from(selectedFiles).map((file, index) => (
+            selectedFiles.map((file, index) => (
               <PreviewImage key={index} file={file} onDelete={(file) => deleteImage(file)} />
             ))}
           {showAddImageButton && <AddImageButton />}
@@ -226,26 +223,30 @@ const Body = ({ firstStep, onFirstStepCom }: { firstStep: boolean; onFirstStepCo
 };
 
 const SelectEmotionStep = ({ onSelect }: { onSelect: () => void }) => {
-  const { diaryDate } = useFormDataState();
+  const { data } = useGetEmotionQuestion();
+  const { selectedDate } = useFormDataState();
   const { updateEmotionId } = useFormData();
 
-  const handleEmotionSelect = (emotionId: string) => {
+  const handleEmotionSelect = (emotionId: number) => {
     updateEmotionId(emotionId);
     onSelect();
   };
 
   return (
     <main className={cn(styles.container, styles.center)}>
-      <Typography as="body1">{diaryDate}</Typography>
-      <Typography as="body2">오늘 하루는 어떠셨나요?</Typography>
+      <Typography as="body1">
+        {new Intl.DateTimeFormat('ko-KR', { dateStyle: 'long' }).format(new Date(selectedDate))}
+      </Typography>
+      <Typography as="body2">{data?.emotionContent || '질문 불러오는 중...'}</Typography>
       <EmotionSelect onSelect={handleEmotionSelect} />
     </main>
   );
 };
 
 const Foot = ({ dateHidden }: { dateHidden: boolean }) => {
-  const { diaryDate, diaryImgs } = useFormDataState();
+  const { selectedDate, images } = useFormDataState();
   const { updateImages } = useFormData();
+  const { openAlert } = useModal();
 
   const fileRef = useRef<HTMLInputElement>(null);
 
@@ -267,21 +268,35 @@ const Foot = ({ dateHidden }: { dateHidden: boolean }) => {
 
     const maxImageCount = 3;
     const isSelectdImgCountOverMax = selectedFiles.length > maxImageCount;
-    const isAllAddedImgCountOverMax = selectedFiles.length + (diaryImgs?.length || 0) > maxImageCount;
+    const isAllAddedImgCountOverMax = selectedFiles.length + (images?.length || 0) > maxImageCount;
 
     const isOverflow = isSelectdImgCountOverMax || isAllAddedImgCountOverMax;
 
     if (isOverflow) {
-      return alert('최대 3개의 이미지만 선택할 수 있어요😭');
+      return openAlert({ contents: '최대 3개의 이미지만 선택할 수 있어요😭' });
     }
 
-    updateImages(selectedFiles);
+    const imageFileNames = [...selectedFiles].map((imageFile) => imageFile.name);
+
+    const hasAlready = !!images.find((imageFile) => imageFileNames.includes(imageFile.name));
+
+    if (hasAlready) {
+      return openAlert({ contents: '같은 이미지를 선택하셨습니다.' });
+    }
+
+    updateImages([...selectedFiles]);
   };
 
   return (
     <section className={styles.footer}>
       <PageHeader>
-        <PageHeader.Left>{!dateHidden && <Typography as="body1">{diaryDate}</Typography>}</PageHeader.Left>
+        <PageHeader.Left>
+          {!dateHidden && (
+            <Typography as="body1">
+              {new Intl.DateTimeFormat('ko-KR', { dateStyle: 'medium' }).format(new Date(selectedDate))}
+            </Typography>
+          )}
+        </PageHeader.Left>
 
         <PageHeader.Right>
           <fieldset className={styles.addOnWrapper} disabled={dateHidden}>
@@ -315,20 +330,23 @@ const AddImageButton = () => {
 };
 
 type PreviewImageProp = { file: File; onDelete: (targetFile: File) => void };
-const PreviewImage = ({ file, onDelete }: PreviewImageProp) => {
-  return (
-    <div
-      className={styles.imagePlaceholder}
-      style={{
-        backgroundImage: `url('${URL.createObjectURL(file)}')`,
-      }}
-    >
-      <button className={styles.deleteMark} type="button" onClick={() => onDelete(file)}>
-        <SVGIcon name="close" size={24} />
-      </button>
-    </div>
-  );
-};
+const PreviewImage = memo(
+  ({ file, onDelete }: PreviewImageProp) => {
+    return (
+      <div
+        className={styles.imagePlaceholder}
+        style={{
+          backgroundImage: `url('${URL.createObjectURL(file)}')`,
+        }}
+      >
+        <button className={styles.deleteMark} type="button" onClick={() => onDelete(file)}>
+          <SVGIcon name="close" size={24} />
+        </button>
+      </div>
+    );
+  },
+  (p, n) => p.file === n.file,
+);
 
 const getTodayDateString = () =>
   new Intl.DateTimeFormat('fr-CA', { year: 'numeric', month: '2-digit', day: '2-digit' }).format(Date.now());

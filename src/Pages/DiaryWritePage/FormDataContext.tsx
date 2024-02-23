@@ -1,32 +1,24 @@
+import { DiaryFormData } from '@Type/Request';
 import { PropsWithChildren, createContext, useContext, useReducer } from 'react';
 
-type WriteFormDate = {
-  boardId: string;
-  diaryTitle: string;
-  contents: string;
-  stickerId: string;
-  diaryDate: string;
-  diaryImgs: FileList | null | File[];
-};
-
-const initialFormData: WriteFormDate = {
-  boardId: '-1',
-  diaryTitle: '',
+const initialFormData: DiaryFormData = {
+  boardId: -1,
+  title: '',
   contents: '',
-  stickerId: '0',
-  diaryDate: '',
-  diaryImgs: null,
+  emotionId: 1,
+  selectedDate: new Date().toISOString(),
+  images: [] as File[],
 };
 
 type WriteAction = {
   type: string;
-  payload: Partial<WriteFormDate>;
+  payload: Partial<DiaryFormData>;
 };
 
-const FormDataContext = createContext<WriteFormDate | null>(null);
+const FormDataContext = createContext<DiaryFormData | null>(null);
 const FormDataDispatchContext = createContext<React.Dispatch<WriteAction> | null>(null);
 
-const formDataReducer = (state: WriteFormDate, action: WriteAction) => {
+const formDataReducer = (state: DiaryFormData, action: WriteAction) => {
   switch (action.type) {
     case 'updateFields': {
       return { ...state, ...action.payload };
@@ -72,28 +64,28 @@ export const useFormData = () => {
   const currentFormData = useFormDataState();
   const dispatch = useFormDataDispatch();
 
-  const updateBoardId = (boardId: string) =>
+  const updateBoardId = (boardId: number) =>
     dispatch({
       type: 'updateFields',
       payload: { boardId },
     });
 
-  const updateDiaryDate = (diaryDate: string) =>
+  const updateSelectedDate = (selectedDate: string) =>
     dispatch({
       type: 'updateFields',
-      payload: { diaryDate },
+      payload: { selectedDate },
     });
 
-  const updateEmotionId = (stickerId: string) =>
+  const updateEmotionId = (emotionId: number) =>
     dispatch({
       type: 'updateFields',
-      payload: { stickerId },
+      payload: { emotionId },
     });
 
-  const updateTitle = (diaryTitle: string) =>
+  const updateTitle = (title: string) =>
     dispatch({
       type: 'updateFields',
-      payload: { diaryTitle },
+      payload: { title },
     });
 
   const updateContents = (contents: string) =>
@@ -102,24 +94,20 @@ export const useFormData = () => {
       payload: { contents },
     });
 
-  const updateImages = (diaryImgs: FileList) =>
+  const updateImages = (images: File[]) =>
     dispatch({
       type: 'updateFields',
-      payload: { diaryImgs: [...(currentFormData.diaryImgs || []), ...diaryImgs] },
+      payload: { images: [...(currentFormData.images || []), ...images] },
     });
 
   const deleteImage = (targetFile: File) => {
-    console.log(targetFile);
-    console.log(currentFormData.diaryImgs);
-    console.log([...Array.from(currentFormData.diaryImgs || []).filter((file) => file.name !== targetFile.name)]);
-
     dispatch({
       type: 'updateFields',
       payload: {
-        diaryImgs: [...Array.from(currentFormData.diaryImgs || []).filter((file) => file.name !== targetFile.name)],
+        images: [...Array.from(currentFormData.images || []).filter((file) => file.name !== targetFile.name)],
       },
     });
   };
 
-  return { updateBoardId, updateDiaryDate, updateEmotionId, updateTitle, updateContents, updateImages, deleteImage };
+  return { updateBoardId, updateSelectedDate, updateEmotionId, updateTitle, updateContents, updateImages, deleteImage };
 };

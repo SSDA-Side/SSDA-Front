@@ -4,7 +4,7 @@ import { IconButton } from '@Components/Common/Button';
 import { PageHeader } from '@Components/Common/PageHeader';
 import { Typography } from '@Components/Common/Typography';
 import { NotificationItem } from '@Components/NotificationItem';
-import { useGetNotifications } from '@Hooks/NetworkHooks';
+import { useGetNotifications, useHeroMetadata, useReadAllNotification } from '@Hooks/NetworkHooks';
 import { useInfiniteObserver } from '@Hooks/useInfiniteObserver';
 import { PageLayout } from '@Layouts/PageLayout';
 import { useEffect } from 'react';
@@ -44,15 +44,16 @@ const Body = () => {
 };
 
 const NotificationView = () => {
+  const { data: heroMetadata } = useHeroMetadata();
+
+  const { mutate: readAllNotifications } = useReadAllNotification();
   const { data, fetchNextPage, hasNextPage } = useGetNotifications();
   const { disconnect: disconnectObserver } = useInfiniteObserver({
     parentNodeId: 'notiList',
     onIntersection: fetchNextPage,
   });
 
-  console.log(data);
-
-  const hasNoNotification = data.pages.length === 0;
+  const hasNoNotification = data.pages[0].length === 0;
 
   useEffect(() => {
     !hasNextPage && disconnectObserver();
@@ -62,7 +63,11 @@ const NotificationView = () => {
     <>
       <p className={styles.description}>30일 이내 도착한 새 알림이 보여집니다. </p>
 
-      <button className={styles.allReadButton} onClick={() => fetchNextPage()} disabled={!hasNextPage}>
+      <button
+        className={styles.allReadButton}
+        onClick={() => readAllNotifications()}
+        disabled={!heroMetadata.hasNewNotification}
+      >
         모두 읽음 표시
       </button>
 

@@ -35,10 +35,13 @@ import {
   deleteDiary,
   getLikes,
   updateLikes,
+  resignBoard,
+  signUpBoard,
 } from '@APIs/index';
-import { GetMemberListRequest } from '@Type/Request';
+import { GetMemberListRequest, SignUpBoardRequest } from '@Type/Request';
 import { setCookie } from '@Utils/Cookies';
 import { useNavigate } from 'react-router-dom';
+import { AxiosError } from 'axios';
 
 export const useHeroMetadata = () => {
   return useSuspenseQuery({
@@ -84,6 +87,30 @@ export const useDeleteBoard = () => {
   return useMutation({
     mutationKey: ['deleteBoard'],
     mutationFn: deleteBoard,
+    onSuccess() {
+      queryClient.invalidateQueries({ queryKey: ['myboard', 'list'] });
+    },
+  });
+};
+
+export const useResignBoard = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationKey: ['resignBoard'],
+    mutationFn: resignBoard,
+    onSuccess() {
+      queryClient.invalidateQueries({ queryKey: ['myboard', 'list'] });
+    },
+  });
+};
+
+export const useSignUpBoard = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation<number, AxiosError<{ message: string }>, SignUpBoardRequest>({
+    mutationKey: ['signUpBoard'],
+    mutationFn: signUpBoard,
     onSuccess() {
       queryClient.invalidateQueries({ queryKey: ['myboard', 'list'] });
     },
@@ -177,16 +204,16 @@ export const useCreateShareLink = () => {
   });
 };
 
-export const useGetShareLinkMetadata = () => {
-  return useMutation({
-    mutationKey: ['getShareLinkMetadata'],
-    mutationFn: getShareLinkMetadata,
+export const useGetShareLinkMetadata = ({ hashKey }: { hashKey: string }) => {
+  return useSuspenseQuery({
+    queryKey: ['shareLinkMetadata'],
+    queryFn: () => getShareLinkMetadata({ hashKey }),
   });
 };
 
 export const useGetNotifications = () => {
   return useSuspenseInfiniteQuery({
-    queryKey: ['getInfiniteNotification'],
+    queryKey: ['infiniteNotifications'],
     queryFn: ({ pageParam }) => getNotifications({ pageSize: 10, lastViewId: pageParam }),
     getNextPageParam: (lastPage) => {
       // 해당 코드 제가 임의로 수정했습니다. 후에 주현님이 수정하시면 될 것 같아요!
@@ -195,6 +222,19 @@ export const useGetNotifications = () => {
       return isLastPage ? undefined : lastPage[lastPage.length - 1].id;
     },
     initialPageParam: 0,
+  });
+};
+
+export const useReadAllNotification = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationKey: ['readAllNotification'],
+    mutationFn: readAllNotifications,
+    onSuccess() {
+      queryClient.invalidateQueries({ queryKey: ['infiniteNotifications'] });
+      queryClient.invalidateQueries({ queryKey: ['myboard', 'hero'] });
+    },
   });
 };
 
@@ -303,3 +343,10 @@ export const useCreateQnA = () => {
     mutationFn: createQnA,
   });
 };
+
+// export const useGetEmotionQuestion = () => {
+//   return useQuery({
+//     queryKey: ['prediction', 'emotion'],
+//     queryFn: getEmotionQuestion,
+//   });
+// };

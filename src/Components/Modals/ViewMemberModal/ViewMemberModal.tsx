@@ -1,12 +1,12 @@
 import { AsyncBoundary } from '@Components/Common/AsyncBoundary';
 import { Avatar } from '@Components/Common/Avatar';
 import { Typography } from '@Components/Common/Typography';
-import { useGetMemberList } from '@Hooks/NetworkHooks';
+import { useGetMemberList, useResignBoard } from '@Hooks/NetworkHooks';
 import { useModal } from '@Hooks/useModal';
 import { SVGIcon } from '@Icons/SVGIcon';
 import { PageLayout } from '@Layouts/PageLayout';
 import { ComponentPayload, CreateShareLinkModalProps, ViewMemberProps } from '@Store/ModalStore';
-import { Member } from '@Type/Model';
+import { Board, Member } from '@Type/Model';
 import cn from 'classnames';
 import { FallbackProps } from 'react-error-boundary';
 import { InviteMemberModal } from '../InviteMemberModal';
@@ -17,29 +17,29 @@ export const ViewMemberModal = ({ modalId }: { modalId: string }) => {
 
   const { payload } = getModal(modalId);
   const { props } = payload as ComponentPayload<ViewMemberProps>;
-  const { boardId } = props!;
+  const { board } = props!;
 
   return (
     <PageLayout
       header={<></>}
-      body={<Body boardId={boardId} modalId={modalId} />}
-      footer={<Foot modalId={modalId} />}
+      body={<Body board={board} modalId={modalId} />}
+      footer={<Foot board={board} modalId={modalId} />}
     />
   );
 };
 
-const Body = ({ boardId, modalId }: { boardId: number; modalId: string }) => {
+const Body = ({ board, modalId }: { board: Board; modalId: string }) => {
   return (
     <div className={styles.bodyContainer}>
       <AsyncBoundary ErrorFallback={MemberListErrorUI} SuspenseFallback={<MemberListLoadingUI />}>
-        <MemberList boardId={boardId} modalId={modalId} />
+        <MemberList board={board} modalId={modalId} />
       </AsyncBoundary>
     </div>
   );
 };
 
-const MemberList = ({ boardId, modalId }: { boardId: number; modalId: string }) => {
-  const { data: memberList, isSuccess } = useGetMemberList({ id: boardId });
+const MemberList = ({ board, modalId }: { board: Board; modalId: string }) => {
+  const { data: memberList, isSuccess } = useGetMemberList({ id: board.id });
 
   if (!isSuccess) {
     return;
@@ -52,7 +52,7 @@ const MemberList = ({ boardId, modalId }: { boardId: number; modalId: string }) 
       <Typography as="body2" className={styles.greyed}>
         총 {memberList.length}명
       </Typography>
-      <AddNewMemberButton modalId={modalId} boardId={boardId} />
+      <AddNewMemberButton modalId={modalId} board={board} />
       {memberListElement}
     </>
   );
@@ -61,7 +61,7 @@ const MemberList = ({ boardId, modalId }: { boardId: number; modalId: string }) 
 const MemberListErrorUI = ({ error, resetErrorBoundary }: FallbackProps) => {
   return (
     <div>
-      불러오는데 에러가 났넹~
+      멤버 목록을 불러오는 도중 오류가 발생했습니다.
       <p>{error.message}</p>
       <button onClick={() => resetErrorBoundary()}>다시 시도</button>
     </div>
@@ -73,21 +73,21 @@ const MemberListLoadingUI = () => {
 };
 
 type MemberItemProp = Member;
-const MemberItem = ({ nickname, profileUrl, signedDate }: MemberItemProp) => {
+const MemberItem = ({ nickname, profileUrl, regDate }: MemberItemProp) => {
   return (
     <div role="button" className={styles.memberContainer} tabIndex={0}>
       <Avatar profileUrl={profileUrl} />
       <div className={styles.descriptionSection}>
         <Typography as="body2">{nickname}</Typography>
         <Typography as="body3" className={styles.date}>
-          참여일 {new Date(signedDate).toLocaleDateString()}
+          참여일 {new Date(regDate).toLocaleDateString()}
         </Typography>
       </div>
     </div>
   );
 };
 
-const AddNewMemberButton = ({ boardId, modalId }: { boardId: number; modalId: string }) => {
+const AddNewMemberButton = ({ board, modalId }: { board: Board; modalId: string }) => {
   const { openComponentModal, closeModal } = useModal();
 
   const handleClick = () => {
@@ -96,7 +96,7 @@ const AddNewMemberButton = ({ boardId, modalId }: { boardId: number; modalId: st
       title: '초대하기',
       children: InviteMemberModal,
       props: {
-        boardId,
+        board,
       },
     });
   };
@@ -115,15 +115,26 @@ const AddNewMemberButton = ({ boardId, modalId }: { boardId: number; modalId: st
   );
 };
 
-const Foot = ({ modalId }: { modalId: string }) => {
-  const { openConfirm, closeModal } = useModal();
+const Foot = ({ board, modalId }: { board: Board; modalId: string }) => {
+  const { mutate: resignBoard } = useResignBoard();
+  const { openConfirm, openAlert, closeModal } = useModal();
 
   const handleClick = () => {
     openConfirm({
       contents: `일기장을 나가면 더 이상 이 일기장을 볼 수 없어요.\n정말 일기장을 나가실건가요?`,
       onYes() {
-        // TODO: 일기장 나가기 API 연결
-        closeModal(modalId);
+        resignBoard(
+          { id: board.id },
+          {
+            onSuccess: () => {
+              openAlert({ contents: '일기장을 나갔습니다.' });
+              closeModal(modalId);
+            },
+            onError: () => {
+              openAlert({ contents: '일기장 나기기에 실패했습니다.\n다시 시도해주세요.' });
+            },
+          },
+        );
       },
     });
   };

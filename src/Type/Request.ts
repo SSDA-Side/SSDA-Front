@@ -7,12 +7,13 @@ export type CreateBoardRequest = BoardFormData;
 export type UpdateBoardRequest = Pick<Board, 'id'> & BoardFormData;
 export type DeleteBoardRequest = Pick<Board, 'id'>;
 export type ResignBoardRequest = Pick<Board, 'id'>;
+export type SignUpBoardRequest = Pick<Board, 'id'>;
 
 /** 일기 */
 export type DiaryFormData = {
   boardId: number;
-  selectedDate: Date;
-  images: FileList;
+  selectedDate: string;
+  images: File[];
 } & Pick<Diary, 'emotionId' | 'title' | 'contents'>;
 
 export type CreateDiaryRequest = DiaryFormData;

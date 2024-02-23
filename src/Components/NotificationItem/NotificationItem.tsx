@@ -14,6 +14,7 @@ import { getFormattedDate } from '@Utils/index';
 
 import cn from 'classnames';
 import styles from './NotificationItem.module.scss';
+import { useNavigate } from 'react-router-dom';
 
 export const NotificationItem = (notification: Notification) => {
   const { notificationTypeId: notiType } = notification;
@@ -45,14 +46,14 @@ type NotiItemPresenterProp = {
   category: string;
   content: string;
   regDate: Date;
-  read: boolean;
+  isRead: boolean;
   onClick: () => void;
 };
 
-const NotiItemPresenter = ({ category, content, onClick, read, regDate }: NotiItemPresenterProp) => {
+const NotiItemPresenter = ({ category, content, onClick, isRead, regDate }: NotiItemPresenterProp) => {
   return (
     <li role="button" className={styles.notiItem} onClick={onClick}>
-      <div className={cn(styles.bell, { [styles.active]: !read })}>
+      <div className={cn(styles.bell, { [styles.active]: !isRead })}>
         <SVGIcon name="bell" className={styles.size24} />
       </div>
 
@@ -65,76 +66,81 @@ const NotiItemPresenter = ({ category, content, onClick, read, regDate }: NotiIt
   );
 };
 
-const NotiItemComment = ({ commentWriterNickname, read, regDate }: NotificationComment) => {
+const NotiItemComment = ({ commentWriterNickname, isRead, regDate, boardId }: NotificationComment) => {
+  const navigate = useNavigate();
+
   const presenterProps: NotiItemPresenterProp = {
     category: '댓글 알림',
     content: `${commentWriterNickname}님이 회원님의 일기에 댓글을 달았습니다.`,
     onClick: () => {
-      // TODO: 해당 일기로 이동
-      console.log('댓글');
+      navigate(`/myboard/${boardId}/${regDate.split('T')[0]}`);
     },
-    regDate,
-    read,
+    regDate: new Date(regDate),
+    isRead,
   };
 
   return <NotiItemPresenter {...presenterProps} />;
 };
 
-const NotiItemReply = ({ replyWriterNickname, read, regDate }: NotificationReply) => {
+const NotiItemReply = ({ replyWriterNickname, isRead, regDate, boardId }: NotificationReply) => {
+  const navigate = useNavigate();
+
   const presenterProps: NotiItemPresenterProp = {
     category: '답글 알림',
     content: `${replyWriterNickname}님이 회원님의 일기에 답글을 달았습니다.`,
     onClick: () => {
-      // TODO: 해당 일기로 이동
-      console.log('답글');
+      navigate(`/myboard/${boardId}/${regDate.split('T')[0]}`);
     },
-    regDate,
-    read,
+    regDate: new Date(regDate),
+    isRead,
   };
 
   return <NotiItemPresenter {...presenterProps} />;
 };
 
-const NotiItemLike = ({ likeMemberNickname, read, regDate }: NotificationLike) => {
+const NotiItemLike = ({ likeMemberNickname, isRead, regDate, boardId }: NotificationLike) => {
+  const navigate = useNavigate();
+
   const presenterProps: NotiItemPresenterProp = {
     category: '좋아요 알림',
     content: `${likeMemberNickname}님이 회원님의 일기에 좋아요을 눌렀습니다.`,
     onClick: () => {
-      // TODO: 해당 일기로 이동
-      console.log('좋아요');
+      navigate(`/myboard/${boardId}/${regDate.split('T')[0]}`);
     },
-    regDate,
-    read,
+    regDate: new Date(regDate),
+    isRead,
   };
 
   return <NotiItemPresenter {...presenterProps} />;
 };
 
-const NotiItemNewDiary = ({ boardTitle, read, regDate }: NotificationNewDiary) => {
+const NotiItemNewDiary = ({ boardTitle, isRead, regDate, boardId }: NotificationNewDiary) => {
+  const navigate = useNavigate();
+
   const presenterProps: NotiItemPresenterProp = {
     category: '새글 알림',
     content: `'${boardTitle}' 일기장에 새글이 등록되었습니다. 댓글과 좋아요를 남겨주세요!`,
     onClick: () => {
-      // TODO: 해당 일기로 이동
-      console.log('새글');
+      navigate(`/myboard/${boardId}/${regDate.split('T')[0]}`);
     },
-    regDate,
-    read,
+    regDate: new Date(regDate),
+    isRead,
   };
 
   return <NotiItemPresenter {...presenterProps} />;
 };
 
-const NotiItemNewMember = ({ boardTitle, read, regDate }: NotificationNewMember) => {
+const NotiItemNewMember = ({ boardTitle, isRead, regDate, boardId }: NotificationNewMember) => {
+  const navigate = useNavigate();
+
   const presenterProps: NotiItemPresenterProp = {
     category: '일기장 신규 멤버 추가 알림',
     content: `'${boardTitle}' 일기장에 새로운 멤버가 참여했습니다.`,
     onClick: () => {
-      // TODO: 해당 일기장으로 이동
-      console.log('신규 멤버');
+      navigate(`/myboard/calendar/${boardId}`);
     },
-    regDate,
-    read,
+    regDate: new Date(regDate),
+    isRead,
   };
 
   return <NotiItemPresenter {...presenterProps} />;
