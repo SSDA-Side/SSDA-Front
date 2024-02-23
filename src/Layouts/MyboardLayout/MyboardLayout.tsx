@@ -34,6 +34,7 @@ export const MyboardLayout = () => {
   const [year, month, day] = date[0].split('-');
 
   const { data: isNewDiary } = useIsNewDiary(Number(boardId));
+  const diaryTitle = location.state.boardTitle;
 
   const onBeforePage = () => {
     isModePage ? navigate('/myboard') : navigate(`/myboard/calendar/${location.pathname.split('/')[2]}`);
@@ -46,7 +47,7 @@ export const MyboardLayout = () => {
           <SVGIcon name="left" />
         </button>
         {/* TODO: [feat] 일기장 제목 myboard에서 전달받기 - 주현님과 논의 */}
-        <div>{!isModePage ? `${year}년 ${month}월 ${day}일` : '일기장 제목'}</div>
+        <div>{!isModePage ? `${year}년 ${month}월 ${day}일` : diaryTitle}</div>
         {/* TODO: [feat] 버튼 클릭 시 사용자 목록 보여주기 - 주현님과 논의 */}
         {isModePage ? (
           <button>

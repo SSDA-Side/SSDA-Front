@@ -166,7 +166,11 @@ const BoardListSection = () => {
   const { data: boardList } = useBoardList();
 
   const boardListElements = boardList.map((board) => (
-    <BoardItem onClick={() => naviage(`/myboard/calendar/${board.id}`)} key={`board-${board.id}`} {...board} />
+    <BoardItem
+      onClick={() => naviage(`/myboard/calendar/${board.id}`, { state: { boardTitle: board.title } })}
+      key={`board-${board.id}`}
+      {...board}
+    />
   ));
 
   return (
