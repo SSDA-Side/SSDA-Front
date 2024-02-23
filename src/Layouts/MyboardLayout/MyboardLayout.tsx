@@ -41,21 +41,22 @@ export const MyboardLayout = () => {
         <button onClick={() => navigate('/myboard')}>
           <SVGIcon name="left" />
         </button>
-        {/* TODO: [feat] 제목 변경하기 */}
-        <div>{boardTitle.boardTitle}</div>
-        <button
-          onClick={() => {
-            openComponentModal({
-              title: '멤버 보기',
-              children: ViewMemberModal,
-              props: {
-                board: { id: +boardId, title: boardTitle.boardTitle } as BoardProps,
-              },
-            });
-          }}
-        >
-          <SVGIcon name="users" />
-        </button>
+        <div>{boardTitle?.boardTitle}</div>
+        {boardTitle && (
+          <button
+            onClick={() => {
+              openComponentModal({
+                title: '멤버 보기',
+                children: ViewMemberModal,
+                props: {
+                  board: { id: +boardId, title: boardTitle?.boardTitle } as BoardProps,
+                },
+              });
+            }}
+          >
+            <SVGIcon name="users" />
+          </button>
+        )}
       </div>
       <div className={styles.container}>
         <div className={styles.tabBar}>

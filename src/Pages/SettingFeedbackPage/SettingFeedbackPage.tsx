@@ -69,13 +69,11 @@ export const SettingFeedbackPage = () => {
                     qaContents: feedback,
                     starPoint: rating,
                   };
-                  // // TODO: [fix] API 정상적으로 연결되면 onErorr, onSuccess 수정하기
                   sendFeedbackMutation(submitData, {
                     onSuccess: () => {
                       setIsSend(true);
                     },
                     onError: () => {
-                      setIsSend(true);
                       console.log('error');
                     },
                   });
