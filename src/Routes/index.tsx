@@ -91,11 +91,11 @@ export const routes = [
                         path: 'myboard/all/:boardId',
                         element: <DiaryAllPage />,
                       },
-                      {
-                        path: 'myboard/:boardId/:date',
-                        element: <DiaryListPage />,
-                      },
                     ],
+                  },
+                  {
+                    path: 'myboard/:boardId/:date',
+                    element: <DiaryListPage />,
                   },
                   {
                     path: 'myboard',
