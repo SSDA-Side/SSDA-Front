@@ -1,56 +1,51 @@
 import {
-  useMutation,
-  useQueryClient,
-  useSuspenseInfiniteQuery,
-  useQuery,
-  useSuspenseQuery,
-} from '@tanstack/react-query';
-import {
   createBoard,
   createComment,
   createDiary,
-  createShareLink,
+  createQnA,
   createReply,
+  createShareLink,
   deleteBoard,
+  deleteComment,
+  deleteDiary,
+  deleteReply,
   getAllDiary,
   getBoardList,
-  getHeroMetadata,
-  getMemberList,
-  getNotifications,
-  getShareLinkMetadata,
+  getBoardTitle,
   getComment,
   getDiaryDetail,
+  getEmotionQuestion,
+  getHeroMetadata,
+  getLikes,
+  getMemberList,
   getMonth,
   getNewDiary,
+  getNotifications,
   getReply,
+  getShareLinkMetadata,
   getTodayDiary,
   getUser,
   isNewDiary,
   kakaoLogin,
+  readAllNotifications,
+  readNotification,
+  resignBoard,
+  signUpBoard,
   updateBoard,
+  updateFont,
+  updateLikes,
   updateRead,
   updateUser,
-  updateFont,
-  createQnA,
-  deleteDiary,
-  getLikes,
-  updateLikes,
-  resignBoard,
-  signUpBoard,
-  getEmotionQuestion,
-  readAllNotifications,
-  getBoardTitle,
-  deleteComment,
-  deleteReply,
-  resignBoard,
-  signUpBoard,
-  readAllNotifications,
-  getEmotionQuestion,
-  readNotification,
 } from '@APIs/index';
-import { GetMemberListRequest, SignUpBoardRequest, SignUpBoardRequest } from '@Type/Request';
+import { GetMemberListRequest, SignUpBoardRequest } from '@Type/Request';
 import { setCookie } from '@Utils/Cookies';
-import { useNavigate } from 'react-router-dom';
+import {
+  useMutation,
+  useQuery,
+  useQueryClient,
+  useSuspenseInfiniteQuery,
+  useSuspenseQuery,
+} from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 
 export const useHeroMetadata = () => {
@@ -272,6 +267,20 @@ export const useGetNotifications = () => {
   });
 };
 
+export const useReadNotification = () => {
+  return useMutation({
+    mutationKey: ['readNotification'],
+    mutationFn: readNotification,
+  });
+};
+
+export const useReadAllNotification = () => {
+  return useMutation({
+    mutationKey: ['readAllNotification'],
+    mutationFn: readAllNotifications,
+  });
+};
+
 export const useUpdateRead = (boardId: number) => {
   return useMutation({
     mutationKey: ['myboard', 'updateRead'],
@@ -370,13 +379,6 @@ export const useCreateQnA = () => {
   return useMutation({
     mutationKey: ['myboard', 'createQnA'],
     mutationFn: createQnA,
-  });
-};
-
-export const useGetEmotionQuestion = () => {
-  return useQuery({
-    queryKey: ['prediction', 'emotion'],
-    queryFn: getEmotionQuestion,
   });
 };
 
