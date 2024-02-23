@@ -268,16 +268,28 @@ export const useGetNotifications = () => {
 };
 
 export const useReadNotification = () => {
+  const queryClient = useQueryClient();
+
   return useMutation({
     mutationKey: ['readNotification'],
     mutationFn: readNotification,
+    onSuccess() {
+      queryClient.invalidateQueries({ queryKey: ['infiniteNotifications'] });
+      queryClient.invalidateQueries({ queryKey: ['myboard', 'hero'] });
+    },
   });
 };
 
 export const useReadAllNotification = () => {
+  const queryClient = useQueryClient();
+
   return useMutation({
     mutationKey: ['readAllNotification'],
     mutationFn: readAllNotifications,
+    onSuccess() {
+      queryClient.invalidateQueries({ queryKey: ['infiniteNotifications'] });
+      queryClient.invalidateQueries({ queryKey: ['myboard', 'hero'] });
+    },
   });
 };
 
