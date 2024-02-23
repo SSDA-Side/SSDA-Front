@@ -20,6 +20,10 @@
       margin-top: var(--size-2);
       color: var(--gray500);
       font-size: 0.875rem;
+      button {
+        color: var(--gray500);
+        font-size: 0.875rem;
+      }
     }
   }
   @content;
@@ -27,61 +31,96 @@
 
 .container {
   width: 100%;
-  height: 100vh;
-  .member-tab-container {
+  height: 100%;
+  .header {
     width: 100%;
-    margin-top: var(--size-5);
+    height: var(--size-12);
+    font-weight: 600;
+    display: inline-flex;
+    button {
+      height: 100%;
+      width: 20%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
     div {
-      width: calc(100% - var(--size-5));
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100%;
+      width: 60%;
+    }
+  }
+  .tablist-container {
+    width: 100%;
+    height: 3rem;
+    margin: var(--size-5) 0 var(--size-8) 0;
+    div {
+      width: calc(100% - var(--size-4));
       white-space: nowrap;
       overflow-x: auto;
       margin: 0 auto;
+      &::-webkit-scrollbar {
+        width: 16px;
+      }
+
+      &::-webkit-scrollbar-track {
+        background-color: transparent;
+      }
+
+      &::-webkit-scrollbar-thumb {
+        border: 4px solid transparent;
+        background: #606060;
+        background-clip: content-box;
+        border-radius: 8px;
+      }
       .member-tab {
         display: flex;
         align-items: end;
         .background {
           background: linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.04) 100%);
           width: 100%;
-          height: 8px;
+          height: var(--size-2);
         }
         .member {
           margin-right: var(--size-1);
           background: #fafafa;
-          box-shadow: 0.125rem 0px 0.125rem rgba(0, 0, 0, 0.24);
-          border-radius: var(--size-2) var(--size-2) 0px 0px;
+          box-shadow: 0.125rem 0 0.125rem rgba(0, 0, 0, 0.24);
+          border-radius: var(--size-2) var(--size-2) 0 0;
           width: auto;
           padding: 0.5313rem var(--size-5);
           height: var(--size-9);
         }
-        .active {
+
+        .member.active {
           margin-right: var(--size-1);
-          background: var(--orange600);
           color: #ffffff;
-          box-shadow: 0.125rem 0px 0.125rem rgba(0, 0, 0, 0.24);
-          border-radius: var(--size-2) var(--size-2) 0px 0px;
+          box-shadow: 0.125rem 0 0.125rem rgba(0, 0, 0, 0.24);
+          border-radius: var(--size-2) var(--size-2) 0 0;
           width: auto;
           padding: 0.5313rem var(--size-5);
-          height: var(--size-11);
+          height: 2.9rem;
         }
       }
     }
   }
+
   .scroll-container {
-    overflow-y: auto;
-    height: calc(100% - 10rem);
+    width: 100%;
+    height: calc(100% - 6.25rem);
     .content {
       width: calc(100% - var(--size-5) * 2);
       margin: 0 auto;
       h2 {
         font-weight: 500;
-        font-size: 23px;
-        margin-top: var(--size-6);
+        font-size: 1.4375rem;
       }
       .etc {
         span {
           color: var(--gray500);
           font-weight: 400;
-          font-size: 12px;
+          font-size: var(--size-3);
         }
         margin-bottom: var(--size-6);
       }
@@ -100,97 +139,130 @@
           }
         }
       }
-      .icons {
-        position: relative;
-        top: -300px;
-        left: -5px;
-      }
       .contents {
         width: 100%;
-        color: var(--gray700);
-        font-size: var(--size-5);
+        color: var(--gray900);
+        font-size: 1.375rem;
         font-weight: 300;
         margin: var(--size-4) 0 var(--size-3) 0;
+        line-height: 2rem;
+        text-indent: 2.3rem;
+
+        .icons {
+          position: absolute;
+          top: 13.5rem;
+          left: calc(50% - 11.5rem);
+          float: left;
+        }
       }
       .button {
         color: var(--gray500);
         font-size: 0.7rem;
         margin: var(--size-2) 0;
       }
-    }
-    .comment {
-      margin-bottom: var(--size-12);
-      .commentHeader {
+      .comment-count {
+        width: calc(100% + var(--size-5));
+        transform: translateX(-1.25rem);
         font-size: var(--size-3);
         color: var(--gray500);
         margin-top: var(--size-11);
         padding-bottom: var(--size-4);
         border-bottom: 1px solid var(--gray300);
         p {
-          margin-left: var(--size-5);
-        }
-      }
-      .comment-area {
-        .comment-box {
-          margin: var(--size-6) 0 var(--size-6) var(--size-5);
-          @include comment-reply-box();
-        }
-        .reply-box {
-          margin: var(--size-6) 0 var(--size-6) 4.5rem;
-          @include comment-reply-box();
-        }
-      }
-      .write-comment {
-        position: fixed;
-        bottom: 0;
-        z-index: 9;
-        background-color: var(--white);
-        width: 24.3rem;
-        .reply-view {
-          display: flex;
-          align-items: center;
-          justify-content: space-between;
-          padding: var(--size-1) var(--size-6);
-          background: var(--gray400);
-          color: var(--white);
-          font-size: var(--size-3);
-          button svg {
-            vertical-align: bottom;
-          }
-        }
-        .comment-view {
-          padding: 0 var(--size-5);
-          height: 4rem;
-          border-top: 1px solid var(--gray300);
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          text-decoration-line: none;
-          .add-comment {
-            width: 80%;
-            display: inline;
-            border: none;
-            padding: var(--size-3) var(--size-5);
-            font-size: var(--size-4);
-            &::placeholder {
-              color: var(--gray500);
-            }
-            &:focus {
-              outline: none;
-            }
-            &:focus-visible {
-              outline: 1px solid transparent;
-            }
-          }
-          button {
-            width: 40px;
-            color: var(--gray500);
-            &:hover {
-              color: var(--orange600);
-            }
-          }
+          margin-left: 1.25rem;
+          font-size: 0.7rem;
         }
       }
     }
   }
+
+  // scroll-container 내부의 comment-container
+  .comment-container {
+    width: 100%;
+    margin: var(--size-6) 0 var(--size-12) 0;
+    .comment-area {
+      .comment-box {
+        margin: var(--size-2) 0 var(--size-2) var(--size-5);
+        @include comment-reply-box();
+      }
+      .reply-box {
+        margin: var(--size-2) 0 var(--size-2) 4.5rem;
+        @include comment-reply-box();
+      }
+    }
+  }
+  // scroll-container 내부의 comment-container 내부의 write-container
+  .write-container {
+    position: fixed;
+    bottom: 0;
+    // TODO: [fix] 일기 추가 버튼이랑 댓글 작성 컴포넌트 위치 논의
+    z-index: 13;
+    background-color: var(--white);
+    width: auto;
+    transform: translateX(-1.25rem);
+
+    .reply-view {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: var(--size-1) var(--size-6);
+      background: var(--gray200);
+      color: var(--gray600);
+      font-size: var(--size-3);
+      font-weight: 400;
+      button svg {
+        vertical-align: bottom;
+      }
+    }
+
+    color: #747575;
+    .comment-view {
+      padding: 0 var(--size-5);
+      height: 4rem;
+      border-top: 1px solid var(--gray300);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-decoration-line: none;
+      input {
+        width: 16.6rem;
+      }
+      .add-comment {
+        display: inline;
+        border: none;
+        padding: var(--size-3) var(--size-5);
+        font-size: var(--size-4);
+        &::placeholder {
+          color: var(--gray500);
+        }
+        &:focus {
+          outline: none;
+        }
+        &:focus-visible {
+          outline: 1px solid transparent;
+        }
+      }
+      button {
+        width: 2.5rem;
+        color: var(--gray500);
+        &:hover {
+          color: var(--orange600);
+        }
+      }
+    }
+  }
+}
+
+.add-diary {
+  z-index: 7;
+  position: absolute;
+  bottom: calc(100% + var(--size-2));
+  left: calc(50% + 123px);
+  background-color: var(--orange600);
+  width: var(--size-12);
+  height: var(--size-12);
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }

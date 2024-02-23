@@ -1,8 +1,17 @@
 export interface Member {
   id: number;
-  profileUrl: string;
+  profileUrl: string | File;
   nickname: string;
   regDate: Date | number;
+}
+
+export interface Setting {
+  email: string;
+  font: number;
+  memberId: number;
+  profileUrl: string | File;
+  nickname: string;
+  username: string;
 }
 
 export interface Board {
@@ -20,6 +29,8 @@ export interface Board {
 
 export interface Diary {
   id: number;
+  diaryId: number;
+  replyId: number;
   writer: Pick<Member, 'nickname' | 'profileUrl'>;
   emotionId: number;
   title: string;

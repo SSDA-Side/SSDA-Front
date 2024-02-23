@@ -1,0 +1,58 @@
+.modal-container {
+  width: 19.4rem;
+  height: 10rem;
+  transform: translate(-50%, -50%);
+  top: 50%;
+  left: 50%;
+  height: auto;
+  border-radius: var(--radii-2);
+  background-color: var(--white);
+  position: fixed;
+  z-index: 9;
+  // TODO: [fix] 멤버 보기 시 z-index 값 고치기
+  border: var(--gray400) 1px solid;
+  .header {
+    margin: 2.5rem auto;
+    width: 100%;
+    height: 70%;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    span {
+      line-height: 0.3rem;
+      font-weight: 400;
+      color: #212121;
+    }
+  }
+  .footer {
+    width: 100%;
+    height: 30%;
+    display: flex;
+    border-top: 1px solid var(--gray200);
+    button {
+      padding: 16px 0;
+      width: 50%;
+      height: 100%;
+      &:first-child {
+        border-right: 1px solid var(--gray200);
+      }
+    }
+  }
+}
+
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  margin: auto;
+  width: 100vw;
+  height: 100vh;
+  background-color: var(--black);
+  opacity: 0.5;
+  z-index: 8;
+  display: block;
+  cursor: pointer;
+  overflow: hidden;
+}

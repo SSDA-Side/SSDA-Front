@@ -23,6 +23,9 @@ import type {
   SignUpBoardRequest,
   UpdateBoardRequest,
   UpdateCommentRequest,
+  updateUserInfoRequest,
+  updateFontRequest,
+  DeleteReplyRequest,
 } from '@Type/Request';
 
 /** Response */
@@ -119,6 +122,11 @@ export const getHeroMetadata = async () => {
 };
 
 // diary
+export const getBoardTitle = async ({ boardId }: { boardId: number }) => {
+  const res = await axios.get(`/api/boards/title/${boardId}`);
+  return res.data;
+};
+
 export const getMonth = async ({ boardId, date }: GetMonthRequest) => {
   const res = await axios.get(`/api/mode/month?boardId=${boardId}&date=${date}`);
   return res.data;
@@ -166,7 +174,7 @@ export const getLikes = async ({ diaryId }: GetLikesRequest) => {
 };
 
 export const updateLikes = async ({ diaryId }: GetLikesRequest) => {
-  const res = await axios.put(`/api/diary/${diaryId}/likes`);
+  const res = await axios.post(`/api/diary/${diaryId}/likes`);
   return res.status;
 };
 
@@ -199,6 +207,47 @@ export const getReply = async ({ commentId, lastViewId }: GetReplyRequest) => {
 
 export const createReply = async ({ commentId, contents }: CreateReplyRequest) => {
   const res = await axios.post(`/api/comment/${commentId}/reply`, { contents });
+  return res.status;
+};
+
+export const deleteReply = async ({ commentId, replyId }: DeleteReplyRequest) => {
+  const res = await axios.delete(`/api/comment/${commentId}/reply/${replyId}`);
+  return res.status;
+};
+
+// setting
+export const getUser = async () => {
+  // 쿠키 가져오기
+  const token = getCookie('accessToken');
+  const res = await axios.get<userData>(`/api/members/${token}`);
+  return res.data;
+};
+
+// private MultipartFile profileUrl;
+// private String nickname;
+export const updateUser = async ({ profileUrl, nickname }: updateUserInfoRequest) => {
+  const formData = new FormData();
+  formData.append('profileUrl', profileUrl);
+  formData.append('nickname', nickname);
+  const res = await axios.post(`/api/members/update`, formData, {
+    headers: {
+      'Content-Type': 'multipart/form-data',
+    },
+  });
+  return res.status;
+};
+
+// private String qaContents;
+// private int starPoint;
+export const createQnA = async ({ qaContents, starPoint }: { qaContents: string; starPoint: number }) => {
+  const res = await axios.post(`/api/setting`, { qaContents, starPoint });
+  return res.status;
+};
+
+// private Long memberId;
+// private int font;
+export const updateFont = async ({ font, memberId }: updateFontRequest) => {
+  const res = await axios.put(`/api/setting`, { font, memberId });
   return res.status;
 };
 
@@ -284,6 +333,11 @@ export const createDiary = async (submitData: CreateDiaryRequest) => {
   return res.status;
 };
 
+export const deleteDiary = async ({ diaryId }: { diaryId: number }) => {
+  const res = await axios.delete(`/api/diary/${diaryId}`);
+  return res.status;
+};
+
 export const createShareLink = async ({ boardId }: { boardId: number }) => {
   if (TEST_MODE) {
     return fakeGet(`/api/boards/share`, { wouldReject: false }) as Promise<CreateShareLinkResponse>;
@@ -320,14 +374,6 @@ export const getNotifications = async ({ pageSize, lastViewId }: { pageSize: num
 
 export const readAllNotifications = async () => {
   const res = await axios.post<string>(`/api/notification`, {});
-  return res.data;
-};
-
-// setting
-export const getUser = async () => {
-  // 쿠키 가져오기
-  const token = getCookie('accessToken');
-  const res = await axios.get<userData>(`/api/members/${token}`);
   return res.data;
 };
 

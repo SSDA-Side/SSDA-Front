@@ -25,6 +25,8 @@ import { SharePage, loader as shareLoader } from '@Pages/SharePage';
 import { BoardSignUpPage } from '@Pages/BoardSignUpPage';
 import { SettingLayout } from '@Layouts/SettingLayout';
 import { DiaryListPage } from '@Pages/DiaryListPage';
+import { GlobalLayout } from '@Layouts/GlobalLayout';
+import { OauthPage } from '@Pages/OauthPage';
 
 export const routes = [
   {
@@ -45,7 +47,7 @@ export const routes = [
           },
           {
             path: 'oauth/callback/kakao',
-            element: <LoginPage />,
+            element: <OauthPage />,
           },
           {
             path: 'logout',
@@ -68,68 +70,73 @@ export const routes = [
             element: <ProtectedRouter />,
             children: [
               {
-                path: 'onboarding',
-                element: <OnBoardingPage />,
-              },
-              {
-                element: <MyboardLayout />,
+                element: <GlobalLayout />,
                 children: [
                   {
-                    path: 'myboard/calendar/:boardId',
-                    element: <DiaryCalendarPage />,
+                    path: 'onboarding',
+                    element: <OnBoardingPage />,
                   },
                   {
-                    path: 'myboard/new/:boardId',
-                    element: <DiaryNewPage />,
+                    element: <MyboardLayout />,
+                    children: [
+                      {
+                        path: 'myboard/:boardId/calendar',
+                        element: <DiaryCalendarPage />,
+                      },
+                      {
+                        path: 'myboard/:boardId/new',
+                        element: <DiaryNewPage />,
+                      },
+                      {
+                        path: 'myboard/:boardId/all',
+                        element: <DiaryAllPage />,
+                      },
+                    ],
                   },
                   {
-                    path: 'myboard/all/:boardId',
-                    element: <DiaryAllPage />,
-                  },
-                  {
-                    path: 'myboard/:boardId/:date',
+                    path: 'myboard/:boardId/detail',
                     element: <DiaryListPage />,
                   },
-                ],
-              },
-              {
-                path: 'myboard',
-                element: <MyBoardPage />,
-              },
-              {
-                path: 'myboard/:boardId/edit',
-                element: <DiaryEditPage />,
-              },
-              {
-                path: 'myboard/:boardId/write',
-                element: <DiaryWritePage />,
-              },
-              {
-                path: 'notification',
-                element: <NotificationPage />,
-              },
-              {
-                element: <SettingLayout />,
-                children: [
                   {
-                    path: 'setting',
-                    element: <SettingPage />,
+                    path: 'myboard',
+                    element: <MyBoardPage />,
                   },
                   {
-                    path: 'setting/profile',
-                    element: <SettingProfilePage />,
+                    path: 'myboard/:boardId/edit',
+                    element: <DiaryEditPage />,
                   },
                   {
-                    path: 'setting/font',
-                    element: <SettingFontPage />,
+                    path: 'myboard/:boardId/write',
+                    element: <DiaryWritePage />,
                   },
                   {
-                    path: 'setting/cloud',
-                    element: <SettingCloudPage />,
+                    path: 'notification',
+                    element: <NotificationPage />,
                   },
                   {
-                    path: 'setting/feedback',
-                    element: <SettingFeedbackPage />,
+                    element: <SettingLayout />,
+                    children: [
+                      {
+                        path: 'setting',
+                        element: <SettingPage />,
+                      },
+                      {
+                        path: 'setting/profile',
+                        element: <SettingProfilePage />,
+                      },
+                      {
+                        path: 'setting/font',
+                        element: <SettingFontPage />,
+                      },
+                      {
+                        path: 'setting/cloud',
+                        element: <SettingCloudPage />,
+                      },
+                      {
+                        path: 'setting/feedback',
+                        element: <SettingFeedbackPage />,
+                      },
+                    ],
                   },
                 ],
               },

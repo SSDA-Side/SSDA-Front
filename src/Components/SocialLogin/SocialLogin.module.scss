@@ -1,6 +1,6 @@
 .kakao-login-button {
-  width: 360px;
-  height: 54px;
+  width: 22.5rem;
+  height: 3.375rem;
   background-color: #fee500;
   display: flex;
   justify-content: center;
@@ -8,6 +8,6 @@
   cursor: pointer;
   border-radius: var(--radii-6);
   img {
-    transform: translateX(-90px);
+    transform: translateX(-5.625rem);
   }
 }
