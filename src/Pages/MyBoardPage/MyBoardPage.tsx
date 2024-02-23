@@ -23,18 +23,37 @@ import type { FallbackProps } from 'react-error-boundary';
 
 /** Util */
 import { getDescription } from '@Utils/index';
+import { useSetRecoilState } from 'recoil';
+import { UserStore } from '@Store/UserStore';
+import { useEffect } from 'react';
+import { HeroMetadata } from '@Type/Response';
 
 export const MyBoardPage = () => {
-  return <PageLayout header={<Head />} body={<Body />} />;
+  return (
+    <AsyncBoundary ErrorFallback={PageErrorUI} SuspenseFallback={<PageLoadingUI />}>
+      <AwaitedView />
+    </AsyncBoundary>
+  );
 };
 
-const Head = () => {
+const AwaitedView = () => {
+  const { data: heroMetadata } = useHeroMetadata();
+  const setUserNickname = useSetRecoilState(UserStore);
+
+  useEffect(() => {
+    setUserNickname({ nickname: heroMetadata.nickname });
+  }, [heroMetadata.nickname]);
+
+  return <PageLayout header={<Head {...heroMetadata} />} body={<Body heroMetadata={heroMetadata} />} />;
+};
+
+const Head = ({ hasNewNotification }: HeroMetadata) => {
   const navigate = useNavigate();
 
   return (
     <PageHeader>
       <PageHeader.Left>
-        <IconButton icon="setting" />
+        <IconButton icon="setting" onClick={() => navigate('/setting')} />
       </PageHeader.Left>
 
       <PageHeader.Center>
@@ -42,31 +61,27 @@ const Head = () => {
       </PageHeader.Center>
 
       <PageHeader.Right>
-        <IconButton icon="bell" onClick={() => navigate('/notification')} />
+        <IconButton icon={hasNewNotification ? 'bell_new' : 'bell'} onClick={() => navigate('/notification')} />
       </PageHeader.Right>
     </PageHeader>
   );
 };
 
-const Body = () => {
+const Body = ({ heroMetadata }: { heroMetadata: HeroMetadata }) => {
   return (
     <main className={styles.contaienr}>
-      <AsyncBoundary ErrorFallback={PageErrorUI} SuspenseFallback={<PageLoadingUI />}>
-        <HeroSection />
-        <BoardListSection />
-      </AsyncBoundary>
+      <HeroSection heroMetadata={heroMetadata} />
+      <BoardListSection />
     </main>
   );
 };
 
-const HeroSection = () => {
-  const { data: HeroMetadata } = useHeroMetadata();
-
-  const descriptionText = getDescription(HeroMetadata);
+const HeroSection = ({ heroMetadata }: { heroMetadata: HeroMetadata }) => {
+  const descriptionText = getDescription(heroMetadata);
 
   return (
     <section className={styles.heroSection}>
-      <Typography as="h1">{`${HeroMetadata.nickname}님,\n소중한 일상을 공유해보세요`}</Typography>
+      <Typography as="h1">{`${heroMetadata.nickname}님,\n소중한 일상을 공유해보세요`}</Typography>
       <Typography as="body2" className={styles.description}>
         {descriptionText}
       </Typography>
@@ -75,31 +90,61 @@ const HeroSection = () => {
 };
 
 const PageErrorUI = ({ resetErrorBoundary }: FallbackProps) => (
-  <section className={styles.errorContainer}>
-    <div className={styles.group}>
-      <div className={styles.red}>
-        <SVGIcon name="error" />
+  <>
+    <PageHeader>
+      <PageHeader.Left>
+        <IconButton icon="setting" disabled={true} />
+      </PageHeader.Left>
+
+      <PageHeader.Center>
+        <Typography as="h4">MY 일기장</Typography>
+      </PageHeader.Center>
+
+      <PageHeader.Right>
+        <IconButton icon="bell" disabled={true} />
+      </PageHeader.Right>
+    </PageHeader>
+
+    <section className={styles.errorContainer}>
+      <div className={styles.group}>
+        <div className={styles.red}>
+          <SVGIcon name="error" />
+        </div>
+
+        <div className={styles.red}>
+          <Typography as="body2">통신 실패</Typography>
+        </div>
       </div>
 
-      <div className={styles.red}>
-        <Typography as="body2">통신 실패</Typography>
+      <div className={styles.delimitor} />
+
+      <div className={styles.group}>
+        <Typography as="body2">오류가 발생했어요.</Typography>
+        <Typography as="body2">아래의 버튼을 통해 다시 시도해보세요.</Typography>
       </div>
-    </div>
 
-    <div className={styles.delimitor} />
-
-    <div className={styles.group}>
-      <Typography as="body2">오류가 발생했어요.</Typography>
-      <Typography as="body2">아래의 버튼을 통해 다시 시도해보세요.</Typography>
-    </div>
-
-    <CTAButton onClick={() => resetErrorBoundary()}>다시 가져오기</CTAButton>
-  </section>
+      <CTAButton onClick={() => resetErrorBoundary()}>다시 가져오기</CTAButton>
+    </section>
+  </>
 );
 
 const PageLoadingUI = () => {
   return (
     <>
+      <PageHeader>
+        <PageHeader.Left>
+          <IconButton icon="setting" disabled={true} />
+        </PageHeader.Left>
+
+        <PageHeader.Center>
+          <Typography as="h4">MY 일기장</Typography>
+        </PageHeader.Center>
+
+        <PageHeader.Right>
+          <IconButton icon="bell" disabled={true} />
+        </PageHeader.Right>
+      </PageHeader>
+
       <section className={styles.heroSection}>
         <div className={styles.heroSkeleton} style={{ width: '30%', height: '2.5rem' }} />
         <div className={styles.heroSkeleton} style={{ width: '100%', height: '2.5rem' }} />
@@ -117,9 +162,12 @@ const PageLoadingUI = () => {
 };
 
 const BoardListSection = () => {
+  const naviage = useNavigate();
   const { data: boardList } = useBoardList();
 
-  const boardListElements = boardList.map((board) => <BoardItem key={`board-${board.id}`} {...board} />);
+  const boardListElements = boardList.map((board) => (
+    <BoardItem onClick={() => naviage(`/myboard/calendar/${board.id}`)} key={`board-${board.id}`} {...board} />
+  ));
 
   return (
     <section className={styles.boardListSection}>

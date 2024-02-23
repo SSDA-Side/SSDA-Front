@@ -5,8 +5,9 @@ import type { Board, Member, Notification } from '@Type/Model';
 
 /** Request */
 import type {
-  CreateDiaryRequest,
+  CreateBoardRequest,
   CreateCommentRequest,
+  CreateDiaryRequest,
   CreateReplyRequest,
   DeleteBoardRequest,
   DeleteCommentRequest,
@@ -19,9 +20,9 @@ import type {
   GetReplyRequest,
   IsNewDiaryRequest,
   ResignBoardRequest,
+  SignUpBoardRequest,
   UpdateBoardRequest,
   UpdateCommentRequest,
-  CreateBoardRequest,
 } from '@Type/Request';
 
 /** Response */
@@ -29,6 +30,7 @@ import type {
   CommentData,
   CreateShareLinkResponse,
   DiaryDetailData,
+  EmotionQuestion,
   GetShareLinkMetadataResponse,
   HeroMetadata,
   KakaoLoginData,
@@ -255,7 +257,12 @@ export const resignBoard = async ({ id }: ResignBoardRequest) => {
     return fakePost('/api/boards', id, { wouldReject: false }) as Promise<Board[]>;
   }
 
-  const res = await axios.post(`/api/boards/${id}`);
+  const res = await axios.post(`/api/boards/${id}/resign`, {});
+  return res.status;
+};
+
+export const signUpBoard = async ({ id }: SignUpBoardRequest) => {
+  const res = await axios.post(`/api/boards/${id}/join`, {});
   return res.status;
 };
 
@@ -264,7 +271,7 @@ export const getMemberList = async ({ id }: GetMemberListRequest) => {
     return fakeGet(`/api/boards/member`, { wouldReject: false }) as Promise<Member[]>;
   }
 
-  const res = await axios.get<Member[]>(`/api/boards/${id}/member`);
+  const res = await axios.get<Member[]>(`/api/boards/${id}/members`);
   return res.data;
 };
 
@@ -273,7 +280,7 @@ export const createDiary = async (submitData: CreateDiaryRequest) => {
     return fakeGet(`/api/diary`, { wouldReject: false }) as Promise<Member[]>;
   }
 
-  const res = await axios.post(`/api/diary`, submitData);
+  const res = await axios.postForm(`/api/diary`, submitData);
   return res.status;
 };
 
@@ -282,7 +289,7 @@ export const createShareLink = async ({ boardId }: { boardId: number }) => {
     return fakeGet(`/api/boards/share`, { wouldReject: false }) as Promise<CreateShareLinkResponse>;
   }
 
-  const res = await axios.post<CreateShareLinkResponse>(`/api/board/${boardId}/share`);
+  const res = await axios.post<CreateShareLinkResponse>(`/api/boards/${boardId}/share`);
   return res.data;
 };
 
@@ -291,7 +298,7 @@ export const getShareLinkMetadata = async ({ hashKey }: { hashKey: string }) => 
     return fakeGet(`/api/boards/share/get`, { wouldReject: false }) as Promise<GetShareLinkMetadataResponse>;
   }
 
-  const res = await axios.post<GetShareLinkMetadataResponse>(`/api/share/${hashKey}`);
+  const res = await axios.get<GetShareLinkMetadataResponse>(`/api/boards/share/${hashKey}`);
   return res.data;
 };
 
@@ -305,25 +312,26 @@ export const getNotifications = async ({ pageSize, lastViewId }: { pageSize: num
     const notis = notifications.slice(startIndex, startIndex + pageSize);
 
     return notis;
-
-    // 이 아래건 react query에서 처리해주는 듯?
-    // const hasNextPage = startIndex + pageSize < notifications.length;
-    // const isLastPage = !hasNextPage;
-    // const isLastPage = notis.length < pageSize || !hasNextPage; // hasNextPage가 true인데 notis가 pageSize보다 낮을 리가
-
-    // return {
-    //   hasNextPage,
-    //   isLastPage,
-    //   pages: notis,
-    // } as GetNotificationResponse;
   }
 
-  // const res = await axios.post<Notification[]>(`/api/notification?pageSize=${pageSize}&lastViewId=${lastViewId}`);
+  const res = await axios.get<Notification[]>(`/api/notification?pageSize=${pageSize}&lastViewId=${lastViewId}`);
+  return res.data;
 };
+
+export const readAllNotifications = async () => {
+  const res = await axios.post<string>(`/api/notification`, {});
+  return res.data;
+};
+
 // setting
 export const getUser = async () => {
   // 쿠키 가져오기
   const token = getCookie('accessToken');
   const res = await axios.get<userData>(`/api/members/${token}`);
+  return res.data;
+};
+
+export const getEmotionQuestion = async () => {
+  const res = await axios.get<EmotionQuestion>(`/api/prediction/emotion`);
   return res.data;
 };

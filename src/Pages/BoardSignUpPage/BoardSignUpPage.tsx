@@ -1,22 +1,43 @@
 import { EmotionImage } from '@Assets/EmotionImages';
 import { Typography } from '@Components/Common/Typography';
 import { useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Navigate, useLocation, useNavigate } from 'react-router-dom';
 import styles from './BoardSignUpPage.module.scss';
+import { useSignUpBoard } from '@Hooks/NetworkHooks';
+import { useModal } from '@Hooks/useModal';
 
 export const BoardSignUpPage = () => {
+  const location = useLocation();
+
+  if (!location.state) {
+    return <Navigate to="/" />;
+  }
+
+  return <SignUpHandler boardId={location.state.boardId} />;
+};
+
+export const SignUpHandler = ({ boardId }: { boardId: number }) => {
   const navigate = useNavigate();
 
+  const { openAlert } = useModal();
+  const { mutate: signUpBoard } = useSignUpBoard();
+
   useEffect(() => {
-    // TODO: 일기장 참여 API 호출
-
-    // just for test
-    const timerId = setTimeout(() => {
-      clearTimeout(timerId);
-      navigate(`/myboard/${2}`);
-    }, 1200);
-
-    return () => clearInterval(timerId);
+    signUpBoard(
+      { id: boardId },
+      {
+        onSuccess: () => {
+          navigate(`/myboard/calendar/${boardId}`, { replace: true });
+        },
+        onError: (error) => {
+          if (error.response!.data.message === '이미 참여한 일기장입니다') {
+            navigate(`/myboard/calendar/${boardId}`, { replace: true });
+          } else {
+            openAlert({ contents: '일기장 참여에 실패했습니다.\n다시 시도해주세요.' });
+          }
+        },
+      },
+    );
   }, []);
 
   return (

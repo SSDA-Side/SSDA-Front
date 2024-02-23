@@ -9,20 +9,20 @@ import type { Board, Diary, Member, Notification } from './Model';
 /** 히어로 */
 export type HeroMetadata = {
   hasSharedBoard: boolean;
+  hasNewNotification: boolean;
 } & Pick<Board, 'memberCount' | 'diaryCount'> &
   Pick<Member, 'nickname'>;
 
 /** 공유 링크  */
 export type CreateShareLinkResponse = {
-  link: string;
+  shareLink: string;
 };
 
 export type GetShareLinkMetadataResponse = {
-  memberId: number;
-  username: string;
+  nickname: string;
   profileUrl: string;
   boardId: number;
-  title: string;
+  boardTitle: string;
 };
 
 /** 알림 */
@@ -36,7 +36,7 @@ export type GetNotificationResponse = {
 export type GetDiaryResponse = {
   currentDate: Date;
   diaryList: Diary[];
-}
+};
 
 export type DiaryDetailData = {
   commentCount: number;
@@ -111,4 +111,8 @@ export type userData = {
   authorities?: string[];
   username: string;
   password?: null;
+};
+
+export type EmotionQuestion = {
+  emotionContent: string;
 };

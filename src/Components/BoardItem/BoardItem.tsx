@@ -22,16 +22,19 @@ import { useModal } from '@Hooks/useModal';
 import { useSheet } from '@Hooks/useSheet';
 import { BottomSheetProps } from '@Store/SheetShore';
 import type { Board } from '@Type/Model';
+import { MouseEvent } from 'react';
 
-type BoardItmeProp = Board;
-export const BoardItem = (boardProps: BoardItmeProp) => {
+type BoardItmeProp = Board & { onClick: () => void };
+export const BoardItem = ({ onClick, ...boardProps }: BoardItmeProp) => {
   const { openBottomSheet } = useSheet();
 
   const handleBoardClick = () => {
-    // TODO: Navigate to board detail page
+    onClick();
   };
 
-  const handleEditClick = () => {
+  const handleEditClick = (e: MouseEvent<HTMLButtonElement>) => {
+    e.stopPropagation();
+
     openBottomSheet<BottomSheetProps>({
       title: boardProps.title,
       children: EditBoardSheet,

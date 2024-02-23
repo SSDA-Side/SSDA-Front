@@ -2,7 +2,7 @@ export interface Member {
   id: number;
   profileUrl: string;
   nickname: string;
-  signedDate: Date | number;
+  regDate: Date | number;
 }
 
 export interface Board {
@@ -54,8 +54,8 @@ export interface ContentImage {
 
 export interface NotificationBase {
   id: number;
-  read: boolean;
-  regDate: Date;
+  isRead: boolean;
+  regDate: string;
 }
 
 export interface NotificationComment extends NotificationBase {
@@ -115,4 +115,3 @@ export interface Diary {
   pageSize: number;
   contents: string;
 }
-
