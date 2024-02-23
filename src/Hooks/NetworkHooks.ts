@@ -42,8 +42,13 @@ import {
   getBoardTitle,
   deleteComment,
   deleteReply,
+  resignBoard,
+  signUpBoard,
+  readAllNotifications,
+  getEmotionQuestion,
+  readNotification,
 } from '@APIs/index';
-import { GetMemberListRequest, SignUpBoardRequest } from '@Type/Request';
+import { GetMemberListRequest, SignUpBoardRequest, SignUpBoardRequest } from '@Type/Request';
 import { setCookie } from '@Utils/Cookies';
 import { useNavigate } from 'react-router-dom';
 import { AxiosError } from 'axios';
@@ -267,19 +272,6 @@ export const useGetNotifications = () => {
   });
 };
 
-export const useReadAllNotification = () => {
-  const queryClient = useQueryClient();
-
-  return useMutation({
-    mutationKey: ['readAllNotification'],
-    mutationFn: readAllNotifications,
-    onSuccess() {
-      queryClient.invalidateQueries({ queryKey: ['infiniteNotifications'] });
-      queryClient.invalidateQueries({ queryKey: ['myboard', 'hero'] });
-    },
-  });
-};
-
 export const useUpdateRead = (boardId: number) => {
   return useMutation({
     mutationKey: ['myboard', 'updateRead'],
@@ -378,6 +370,13 @@ export const useCreateQnA = () => {
   return useMutation({
     mutationKey: ['myboard', 'createQnA'],
     mutationFn: createQnA,
+  });
+};
+
+export const useGetEmotionQuestion = () => {
+  return useQuery({
+    queryKey: ['prediction', 'emotion'],
+    queryFn: getEmotionQuestion,
   });
 };
 

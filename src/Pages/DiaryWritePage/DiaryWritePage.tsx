@@ -303,7 +303,7 @@ const Foot = ({ dateHidden }: { dateHidden: boolean }) => {
             <IconButton
               type="button"
               icon="image"
-              className={styles.primary}
+              className={cn(styles.greyed, { [styles.primary]: images.length !== 0 })}
               onClick={() => fileRef.current?.click()}
             />
             <IconButton type="button" icon="clock" className={styles.greyed} />

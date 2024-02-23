@@ -12,6 +12,7 @@ export interface Setting {
   profileUrl: string | File;
   nickname: string;
   username: string;
+  regDate: Date | number;
 }
 
 export interface Board {
@@ -65,6 +66,7 @@ export interface ContentImage {
 
 export interface NotificationBase {
   id: number;
+  writerId: number;
   isRead: boolean;
   regDate: string;
 }

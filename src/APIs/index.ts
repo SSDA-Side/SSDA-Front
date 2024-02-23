@@ -1,7 +1,7 @@
 import { axios } from './Axios';
 
 /** Model */
-import type { Board, Member, Notification } from '@Type/Model';
+import type { Board, Member, Notification, NotificationBase } from '@Type/Model';
 
 /** Request */
 import type {
@@ -377,7 +377,15 @@ export const readAllNotifications = async () => {
   return res.data;
 };
 
+// setting
+
 export const getEmotionQuestion = async () => {
   const res = await axios.get<EmotionQuestion>(`/api/prediction/emotion`);
   return res.data;
+};
+
+export const readNotification = async ({ id, writerId }: Pick<NotificationBase, 'id' | 'writerId'>) => {
+  console.log({ writerId });
+  const res = await axios.put<number>(`/api/notification/${id}`, { writerId });
+  return res.status;
 };
