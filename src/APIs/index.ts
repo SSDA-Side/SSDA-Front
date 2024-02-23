@@ -329,54 +329,6 @@ export const createDiary = async (submitData: CreateDiaryRequest) => {
     return fakeGet(`/api/diary`, { wouldReject: false }) as Promise<Member[]>;
   }
 
-  const { images } = submitData;
-
-  if (images.length === 0) {
-    // const newSubmitData = {
-    //   ...submitData,
-    //   images: undefined,
-    // };
-    let count = 1;
-    const newFormData = new FormData();
-    // newFormData.append('image1', '');
-    // newFormData.append('image2', '');
-    // newFormData.append('image3', '');
-    for (let key in submitData) {
-      if (key !== 'images') {
-        newFormData.append(key, submitData[key]);
-      } else {
-        // newFormData.append(`image${count++}`, submitData[key]);
-      }
-    }
-
-    const newSubmitData = {
-      diaryRequest: JSON.stringify(submitData),
-    };
-
-    // const res = await axios.postForm(`/api/diary`, newSubmitData);
-    // const res = await axios.post(`/api/diary`, newSubmitData);
-    // const res = await axios.post(`/api/diary`, newSubmitData, { headers: { 'Content-Type': 'multipart/form-data' } });
-    const res = await axios.post(`/api/diary`, newSubmitData);
-    // const res = await axios.post(`/api/diary`, newFormData, { headers: { 'Content-Type': 'multipart/form-data' } });
-    return res.status;
-  }
-
-  // const newFormData = new FormData();
-
-  // for (let key in submitData) {
-  //   if (key !== 'images') {
-  //     newFormData.append(key, submitData[key]);
-  //   } else {
-  //     newFormData.append(key, new Blob([]));
-  //   }
-  // }
-
-  // console.log(newFormData);
-
-  // const res = await axios.post(`/api/diary`, newFormData, { headers: { 'Content-Type': 'multipart/form-data' } });
-  // return res.status;
-
-  const res = await axios.postForm(`/api/diary`, submitData);
   const res = await axios.postForm(`/api/diary`, submitData);
   return res.status;
 };
@@ -426,21 +378,6 @@ export const readAllNotifications = async () => {
 };
 
 // setting
-export const getUser = async () => {
-  // 쿠키 가져오기
-  const token = getCookie('accessToken');
-  const res = await axios.get<userData>(`/api/members/${token}`);
-};
-
-export const readAllNotifications = async () => {
-  const res = await axios.post<string>(`/api/notification`, {});
-  return res.data;
-};
-
-export const getEmotionQuestion = async () => {
-  const res = await axios.get<EmotionQuestion>(`/api/prediction/emotion`);
-  return res.data;
-};
 
 export const getEmotionQuestion = async () => {
   const res = await axios.get<EmotionQuestion>(`/api/prediction/emotion`);
