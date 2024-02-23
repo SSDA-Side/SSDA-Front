@@ -27,11 +27,11 @@ export const SignUpHandler = ({ boardId }: { boardId: number }) => {
       { id: boardId },
       {
         onSuccess: () => {
-          navigate(`/myboard/calendar/${boardId}`, { replace: true });
+          navigate(`/myboard/${boardId}/calendar`, { replace: true });
         },
         onError: (error) => {
           if (error.response!.data.message === '이미 참여한 일기장입니다') {
-            navigate(`/myboard/calendar/${boardId}`, { replace: true });
+            navigate(`/myboard/${boardId}/calendar`, { replace: true });
           } else {
             openAlert({ contents: '일기장 참여에 실패했습니다.\n다시 시도해주세요.' });
           }

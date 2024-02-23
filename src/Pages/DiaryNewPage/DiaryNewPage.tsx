@@ -6,7 +6,7 @@ import { IsNotDiary } from '@Pages/DiaryCalendarPage/DiaryCalendarPage';
 
 export const DiaryNewPage = () => {
   const location = useLocation();
-  const boardId = location.pathname.split('/')[3];
+  const boardId = location.pathname.split('/')[2];
 
   const { data: NewDiaryData, isError, isSuccess } = useGetNewDiary(Number(boardId));
   const { mutate: isUpdateReadMutation } = useUpdateRead(Number(boardId));

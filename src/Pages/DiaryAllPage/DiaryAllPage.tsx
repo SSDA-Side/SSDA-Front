@@ -28,7 +28,7 @@ const IsNewDateDiary = ({ diary, selectedDate, setSelectedDate }: IsNewDateDiary
 
 export const DiaryAllPage = () => {
   const location = useLocation();
-  const boardId = location.pathname.split('/')[3];
+  const boardId = location.pathname.split('/')[2];
   // TODO: [feat] 무한 스크롤 구현하기
   const [lastViewId] = useState<number>(0);
   const [selectedDate, setSelectedDate] = useState<string>('');

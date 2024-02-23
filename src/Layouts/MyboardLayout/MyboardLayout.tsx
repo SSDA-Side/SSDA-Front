@@ -26,10 +26,9 @@ const tabList = [
 export const MyboardLayout = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const boardId = location.pathname.split('/')[3];
+  const boardId = location.pathname.split('/')[2];
 
   const { data: isNewDiary } = useIsNewDiary(Number(boardId));
-  const diaryTitle = location?.state?.boardTitle;
 
   return (
     <div className={styles.boardContainer}>
@@ -37,7 +36,8 @@ export const MyboardLayout = () => {
         <button onClick={() => navigate('/myboard')}>
           <SVGIcon name="left" />
         </button>
-        <div>{diaryTitle}</div>
+        {/* TODO: [feat] 제목 변경하기 */}
+        <div>{}</div>
         {/* TODO: [feat] 버튼 클릭 시 사용자 목록 보여주기 - 주현님과 논의 */}
         <button>
           <SVGIcon name="users" />
@@ -48,7 +48,7 @@ export const MyboardLayout = () => {
           {tabList.map((tab) => (
             <button
               key={tab.path}
-              onClick={() => navigate(`/myboard/${tab.path}/${boardId}`)}
+              onClick={() => navigate(`/myboard/${boardId}/${tab.path}`)}
               className={cn({
                 [styles.active]: location.pathname.includes(tab.path),
                 [styles.not]: !location.pathname.includes(tab.path),

@@ -90,7 +90,7 @@ export const DiaryListPage = () => {
   return (
     <div className={styles.container}>
       <div className={styles.header}>
-        <button onClick={() => navigate(`/myboard/calendar/${location.pathname.split('/')[2]}`)}>
+        <button onClick={() => navigate(`/myboard/${location.pathname.split('/')[2]}/calendar`)}>
           <SVGIcon name="left" />
         </button>
         <div>{`${year}년 ${month}월 ${day}일`}</div>
@@ -238,7 +238,7 @@ const DiaryContent = ({ memberList, setSelectTabColor }: DiaryContentProps) => {
                   },
                   {
                     onSuccess: () => {
-                      navigate(`/myboard/calendar/${boardId}`);
+                      navigate(`/myboard/${boardId}/calendar`);
                     },
                   },
                 );

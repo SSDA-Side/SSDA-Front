@@ -24,7 +24,7 @@ export const DiaryCalendarPage = () => {
   const { date } = selectedDate[0];
 
   const location = useLocation();
-  const boardId = location.pathname.split('/')[3];
+  const boardId = location.pathname.split('/')[2];
   const dateStr = `${date.getFullYear()}-${formatDate(date.getMonth() + 1)}-${formatDate(date.getDate())}`;
 
   const {

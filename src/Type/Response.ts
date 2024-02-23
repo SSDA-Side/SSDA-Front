@@ -75,6 +75,7 @@ export type CommentData = {
   regDate: string;
   owned: boolean;
   deletedMark: boolean;
+  timeStamp: string;
 }[];
 
 export type replyData = CommentData;

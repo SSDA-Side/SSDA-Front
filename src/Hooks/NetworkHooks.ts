@@ -37,6 +37,8 @@ import {
   updateLikes,
   resignBoard,
   signUpBoard,
+  getEmotionQuestion,
+  readAllNotifications,
 } from '@APIs/index';
 import { GetMemberListRequest, SignUpBoardRequest } from '@Type/Request';
 import { setCookie } from '@Utils/Cookies';
@@ -120,7 +122,7 @@ export const useSignUpBoard = () => {
 // comment
 export const useGetComment = (diaryId: number, lastViewId: number) => {
   return useQuery({
-    queryKey: ['getComment'],
+    queryKey: ['getComment', diaryId],
     queryFn: () => getComment({ diaryId, pageSize: 10, lastViewId }),
   });
 };
@@ -133,13 +135,15 @@ export const useCreateComment = () => {
     mutationFn: createComment,
     onSuccess() {
       queryClient.invalidateQueries({ queryKey: ['getComment'] });
+      queryClient.invalidateQueries({ queryKey: ['getReply'] });
+      queryClient.invalidateQueries({ queryKey: ['myboard', 'diaryDetail'] });
     },
   });
 };
 
 export const useGetReply = (commentId: number, lastViewId: number) => {
   return useQuery({
-    queryKey: ['getReply'],
+    queryKey: ['getReply', commentId],
     queryFn: () => getReply({ commentId, lastViewId }),
   });
 };
@@ -152,6 +156,7 @@ export const useCreateReply = () => {
     mutationFn: createReply,
     onSuccess() {
       queryClient.invalidateQueries({ queryKey: ['getReply'] });
+      queryClient.invalidateQueries({ queryKey: ['myboard', 'diaryDetail'] });
     },
   });
 };
@@ -172,6 +177,7 @@ export const useUpdateLike = (diaryId: number) => {
     mutationFn: () => updateLikes({ diaryId }),
     onSuccess() {
       queryClient.invalidateQueries({ queryKey: ['getLike'] });
+      queryClient.invalidateQueries({ queryKey: ['myboard', 'diaryDetail'] });
     },
   });
 };
@@ -280,12 +286,10 @@ export const useGetTodayDiary = (boardId: number, date: string) => {
 };
 
 export const useGetDiaryDetail = (memberId: number, boardId: number, date: string) => {
-  return useMutation({
-    mutationKey: ['myboard', 'diaryDetail'],
-    mutationFn: () => getDiaryDetail({ memberId, boardId, date }),
-    onSuccess: (data) => {
-      return data;
-    },
+  return useQuery({
+    queryKey: ['myboard', 'diaryDetail', memberId],
+    enabled: memberId !== undefined,
+    queryFn: () => getDiaryDetail({ memberId, boardId, date }),
   });
 };
 
@@ -344,9 +348,9 @@ export const useCreateQnA = () => {
   });
 };
 
-// export const useGetEmotionQuestion = () => {
-//   return useQuery({
-//     queryKey: ['prediction', 'emotion'],
-//     queryFn: getEmotionQuestion,
-//   });
-// };
+export const useGetEmotionQuestion = () => {
+  return useQuery({
+    queryKey: ['prediction', 'emotion'],
+    queryFn: getEmotionQuestion,
+  });
+};
