@@ -59,7 +59,9 @@ export const EmotionBackgroundImage = ({ type, index }: EmotionImage) => {
       style={{
         width: itemSize,
         height: itemSize,
-        background: `url('${backgroundSprite}') -${imagePositionX}px -0`,
+        backgroundImage: `url('${backgroundSprite}')`,
+        backgroundPosition: `-${imagePositionX}px -0`,
+        // background: `url('${backgroundSprite}') -${imagePositionX}px -0`,
         backgroundSize: 'cover',
       }}
     />
