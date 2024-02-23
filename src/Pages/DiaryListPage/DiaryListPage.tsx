@@ -65,10 +65,16 @@ const colorList = [
 
 // TODO: [feat] 댓글, 답글 삭제 기능 추가
 // TODO: [feat] 댓글, 답글 무한 스크롤로 변경
-
+// TODO: [fix] 주소가 제대로 들어오지 않을 때 대응, /myboard/1/detail?date=2024-02-23&mId=1
 export const DiaryListPage = () => {
   const location = useLocation();
-  const [boardId, date] = location.pathname.split('/').slice(2, 4);
+
+  const searchParams = new URLSearchParams(location.search);
+  const memberId = searchParams.get('mId');
+  const date = searchParams.get('date');
+
+  const boardId = location.pathname.split('/')[2];
+
   const [year, month, day] = date.split('-');
 
   const {
@@ -78,10 +84,9 @@ export const DiaryListPage = () => {
     isPending,
     data: todayData,
   } = useGetTodayDiary(Number(boardId), date);
+
   const [selectTabColor, setSelectTabColor] = useState(colorList[0]);
   const navigate = useNavigate();
-
-  const [memberList, setMemberList] = useState<member[]>([]);
 
   useEffect(() => {
     getTodayDiaryMutation();
@@ -100,15 +105,14 @@ export const DiaryListPage = () => {
       {isSuccess && (
         <>
           <div className={styles.tablistContainer}>
-            <TabList
-              todayData={todayData}
-              memberList={memberList}
-              setMemberList={setMemberList}
-              selectTabColor={selectTabColor}
-            />
+            <TabList todayData={todayData} selectTabColor={selectTabColor} />
           </div>
           <div className={styles.scrollContainer}>
-            <DiaryContent memberList={memberList} setSelectTabColor={setSelectTabColor} />
+            {memberId === null ? (
+              <div>일기를 불러오는 중 에러가 발생했습니다.</div>
+            ) : (
+              <DiaryContent memberId={memberId} setSelectTabColor={setSelectTabColor} />
+            )}
           </div>
         </>
       )}
@@ -118,34 +122,26 @@ export const DiaryListPage = () => {
 
 type tabListProps = {
   todayData: todayDiaryData[];
-  memberList: member[];
-  setMemberList: React.Dispatch<React.SetStateAction<member[]>>;
   selectTabColor: { backgroundColor: string; textColor: string };
 };
 
-const TabList = ({ todayData, memberList, setMemberList, selectTabColor }: tabListProps) => {
+const TabList = ({ todayData, selectTabColor }: tabListProps) => {
+  const searchParams = new URLSearchParams(location.search);
+  const memberId = searchParams.get('mId');
+  const [memberList, setMemberList] = useState<member[]>([]);
+  const navigate = useNavigate();
+  const boardId = location.pathname.split('/')[2];
+
   useEffect(() => {
     if (todayData === undefined) return;
     setMemberList(
-      todayData?.map((member, index) => ({
+      todayData?.map((member) => ({
         memberId: member.memberId,
         memberNickname: member.nickname,
-        isSelect: index === 0 ? true : false,
+        isSelect: +memberId === member.memberId,
       })),
     );
-  }, []);
-
-  const handleClickMember = (member: string) => {
-    setMemberList((prev) =>
-      prev.map((item) => {
-        if (item.memberNickname === member) {
-          return { ...item, isSelect: true };
-        } else {
-          return { ...item, isSelect: false };
-        }
-      }),
-    );
-  };
+  }, [memberId]);
 
   return (
     <div>
@@ -161,7 +157,9 @@ const TabList = ({ todayData, memberList, setMemberList, selectTabColor }: tabLi
                 backgroundColor: member.isSelect ? selectTabColor.backgroundColor : '#FAFAFA',
                 color: member.isSelect ? selectTabColor.textColor : '#606160',
               }}
-              onClick={() => handleClickMember(member.memberNickname)}
+              onClick={() => {
+                navigate(`/myboard/${boardId}/detail?date=${searchParams.get('date')}&mId=${member.memberId}`);
+              }}
             >
               {member.memberNickname}
             </button>
@@ -174,16 +172,16 @@ const TabList = ({ todayData, memberList, setMemberList, selectTabColor }: tabLi
 };
 
 type DiaryContentProps = {
-  memberList: member[];
+  memberId: string;
   setSelectTabColor: React.Dispatch<React.SetStateAction<{ backgroundColor: string; textColor: string }>>;
 };
 
-const DiaryContent = ({ memberList, setSelectTabColor }: DiaryContentProps) => {
-  const memberId = memberList.find((member) => member.isSelect)?.memberId;
-
+const DiaryContent = ({ memberId, setSelectTabColor }: DiaryContentProps) => {
   const location = useLocation();
   const navigate = useNavigate();
-  const [boardId, date] = location.pathname.split('/').slice(2, 4);
+  const searchParams = new URLSearchParams(location.search);
+  const date = searchParams.get('date');
+  const boardId = location.pathname.split('/')[2];
 
   const { data: diaryDetail, isError, isSuccess } = useGetDiaryDetail(Number(memberId), Number(boardId), date);
 
@@ -278,6 +276,8 @@ const DiaryComment = ({ diaryId }: DiaryCommentProps) => {
   const { mutate: createReplyMutation } = useCreateReply();
   const { data: likeData, isSuccess: likeSuccess } = useGetLike(diaryId);
   const { mutate: updateLikeMutation } = useUpdateLike(diaryId);
+  const navigate = useNavigate();
+  const boardId = useLocation().pathname.split('/')[2];
 
   return (
     <>
@@ -326,6 +326,9 @@ const DiaryComment = ({ diaryId }: DiaryCommentProps) => {
                 </button>
               </div>
             )}
+            <button className={styles.addDiary} onClick={() => navigate(`/myboard/${boardId}/write`)}>
+              <SVGIcon name="add" size={16} />
+            </button>
             <div className={styles.commentView}>
               <button
                 onClick={() => {
@@ -354,7 +357,6 @@ const DiaryComment = ({ diaryId }: DiaryCommentProps) => {
                       { diaryId, contents: comment.data },
                       {
                         onSuccess: () => {
-                          setCommentsCount((prev) => prev + 1);
                           setComment({ status: 'comment', commentId: 0, data: '', userNickname: '' });
                         },
                       },
@@ -365,7 +367,6 @@ const DiaryComment = ({ diaryId }: DiaryCommentProps) => {
                       { commentId: comment.commentId, contents: comment.data },
                       {
                         onSuccess: () => {
-                          setCommentsCount((prev) => prev + 1);
                           setComment({ status: 'comment', commentId: 0, data: '', userNickname: '' });
                         },
                       },

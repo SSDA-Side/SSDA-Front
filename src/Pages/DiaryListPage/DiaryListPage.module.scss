@@ -248,3 +248,17 @@
     }
   }
 }
+
+.add-diary {
+  z-index: 7;
+  position: absolute;
+  bottom: calc(100% + var(--size-2));
+  left: calc(50% + 123px);
+  background-color: var(--orange600);
+  width: var(--size-12);
+  height: var(--size-12);
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

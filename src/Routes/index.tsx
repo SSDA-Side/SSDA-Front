@@ -94,7 +94,7 @@ export const routes = [
                     ],
                   },
                   {
-                    path: 'myboard/:boardId/:date',
+                    path: 'myboard/:boardId/detail',
                     element: <DiaryListPage />,
                   },
                   {

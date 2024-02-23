@@ -11,7 +11,7 @@ export const DiaryItem = ({ diary }: { diary: todayDiaryData }) => {
     <button
       className={styles.container}
       onClick={() => {
-        navigate(`/myboard/${diary.boardId}/${selectDay}`);
+        navigate(`/myboard/${diary.boardId}/detail?date=${selectDay}&mId=${diary.memberId}`);
       }}
     >
       <div className={styles.header}>

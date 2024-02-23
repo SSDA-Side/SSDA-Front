@@ -37,7 +37,7 @@ export const Calendar = () => {
 
   // 현재 달의 일기가 있는 날짜를 가져오기
   const location = useLocation();
-  const boardId = location.pathname.split('/')[3];
+  const boardId = location.pathname.split('/')[2];
   const currentDateStr = `${currentDate.getFullYear()}-${formatDate(currentDate.getMonth() + 1)}-${formatDate(
     currentDate.getDate(),
   )}`;
