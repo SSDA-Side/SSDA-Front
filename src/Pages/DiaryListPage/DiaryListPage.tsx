@@ -63,6 +63,8 @@ const colorList = [
   },
 ];
 
+// TODO: [feat] 댓글, 답글 무한 스크롤로 변경
+
 export const DiaryListPage = () => {
   const location = useLocation();
   const [boardId, date] = location.pathname.split('/').slice(2, 4);
@@ -84,7 +86,6 @@ export const DiaryListPage = () => {
   return (
     <div className={styles.container}>
       {isError && <div>일기를 불러오는 중 에러가 발생했습니다.</div>}
-      {/* TODO: [fix] 로딩중일 때 로딩중 컴포넌트로 변경 */}
       {isPending && <div>로딩중...</div>}
       {isSuccess && (
         <>
@@ -166,6 +167,7 @@ type DiaryContentProps = {
 
 const DiaryContent = ({ memberList, setSelectTabColor }: DiaryContentProps) => {
   const memberId = memberList.find((member) => member.isSelect)?.memberId;
+  const [commentsCount, setCommentsCount] = useState(0);
 
   const location = useLocation();
   const navigate = useNavigate();
@@ -188,6 +190,7 @@ const DiaryContent = ({ memberList, setSelectTabColor }: DiaryContentProps) => {
   useEffect(() => {
     if (isSuccess) {
       setSelectTabColor(colorList[diaryDetail?.emotionId]);
+      setCommentsCount(diaryDetail?.commentCount as number);
     }
   }, [isSuccess]);
 
@@ -244,9 +247,9 @@ const DiaryContent = ({ memberList, setSelectTabColor }: DiaryContentProps) => {
             </button>
           </div>
           <div className={styles.commentCount}>
-            <p>{diaryDetail?.commentCount}개의 댓글</p>
+            <p>{commentsCount}개의 댓글</p>
           </div>
-          <DiaryComment diaryId={diaryDetail.id} />
+          <DiaryComment diaryId={diaryDetail.id} setCommentsCount={setCommentsCount} />
         </div>
       )}
     </div>
@@ -255,9 +258,10 @@ const DiaryContent = ({ memberList, setSelectTabColor }: DiaryContentProps) => {
 
 type DiaryCommentProps = {
   diaryId: number;
+  setCommentsCount: React.Dispatch<React.SetStateAction<number>>;
 };
 
-const DiaryComment = ({ diaryId }: DiaryCommentProps) => {
+const DiaryComment = ({ diaryId, setCommentsCount }: DiaryCommentProps) => {
   const [lastViewId] = useState({
     comment: 0,
     reply: 0,
@@ -270,16 +274,10 @@ const DiaryComment = ({ diaryId }: DiaryCommentProps) => {
   });
 
   const { data: commentData, isSuccess: getCommentSuccess } = useGetComment(diaryId, lastViewId.comment);
-  const { mutate: createCommentMutation, isSuccess: commentSuccess } = useCreateComment(diaryId, comment.data);
-  const { mutate: createReplyMutation, isSuccess: replySuccess } = useCreateReply(comment?.commentId, comment.data);
+  const { mutate: createCommentMutation } = useCreateComment();
+  const { mutate: createReplyMutation } = useCreateReply();
   const { data: likeData, isSuccess: likeSuccess } = useGetLike(diaryId);
   const { mutate: updateLikeMutation } = useUpdateLike(diaryId);
-
-  useEffect(() => {
-    if (commentSuccess || replySuccess) {
-      setComment({ status: 'comment', commentId: 0, data: '', userNickname: '' });
-    }
-  }, [commentSuccess, replySuccess]);
 
   return (
     <>
@@ -351,9 +349,27 @@ const DiaryComment = ({ diaryId }: DiaryCommentProps) => {
                 onClick={() => {
                   if (comment.data === '') return;
                   if (comment.status === 'comment') {
-                    createCommentMutation();
+                    // diaryId, comment.data
+                    createCommentMutation(
+                      { diaryId, contents: comment.data },
+                      {
+                        onSuccess: () => {
+                          setCommentsCount((prev) => prev + 1);
+                          setComment({ status: 'comment', commentId: 0, data: '', userNickname: '' });
+                        },
+                      },
+                    );
+                    // comment?.commentId, comment.data
                   } else {
-                    createReplyMutation();
+                    createReplyMutation(
+                      { commentId: comment.commentId, contents: comment.data },
+                      {
+                        onSuccess: () => {
+                          setCommentsCount((prev) => prev + 1);
+                          setComment({ status: 'comment', commentId: 0, data: '', userNickname: '' });
+                        },
+                      },
+                    );
                   }
                 }}
               >

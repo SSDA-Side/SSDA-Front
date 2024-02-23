@@ -98,12 +98,12 @@ export const useGetComment = (diaryId: number, lastViewId: number) => {
   });
 };
 
-export const useCreateComment = (diaryId: number, contents: string) => {
+export const useCreateComment = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
     mutationKey: ['createComment'],
-    mutationFn: () => createComment({ diaryId, contents }),
+    mutationFn: createComment,
     onSuccess() {
       queryClient.invalidateQueries({ queryKey: ['getComment'] });
     },
@@ -117,12 +117,12 @@ export const useGetReply = (commentId: number, lastViewId: number) => {
   });
 };
 
-export const useCreateReply = (commentId: number, contents: string) => {
+export const useCreateReply = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
     mutationKey: ['createReply'],
-    mutationFn: () => createReply({ commentId, contents }),
+    mutationFn: createReply,
     onSuccess() {
       queryClient.invalidateQueries({ queryKey: ['getReply'] });
     },
