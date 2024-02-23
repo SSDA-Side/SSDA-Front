@@ -22,15 +22,15 @@ const ModalController = () => {
 
   const getTypedComponent = ({ id, type, isOpened, payload }: Modal) => {
     if (type === 'Component') {
-      return <ComponentModal id={id} isOpened={isOpened} {...(payload as ComponentPayload)} />;
+      return <ComponentModal key={id} id={id} isOpened={isOpened} {...(payload as ComponentPayload)} />;
     }
 
     if (type === 'Alert') {
-      return <Alert id={id} isOpened={isOpened} {...(payload as AlertPayload)} />;
+      return <Alert key={id} id={id} isOpened={isOpened} {...(payload as AlertPayload)} />;
     }
 
     if (type === 'Confirm') {
-      return <Confirm id={id} isOpened={isOpened} {...(payload as ConfirmPayload)} />;
+      return <Confirm key={id} id={id} isOpened={isOpened} {...(payload as ConfirmPayload)} />;
     }
   };
 
