@@ -26,6 +26,7 @@ const IsNewDateDiary = ({ diary, selectedDate, setSelectedDate }: IsNewDateDiary
   }
 };
 
+// TODO: [fix] 큰 날짜 수정
 export const DiaryAllPage = () => {
   const location = useLocation();
   const boardId = location.pathname.split('/')[2];

@@ -1,29 +1,31 @@
 import { useKaKaoLogin } from '@Hooks/NetworkHooks';
-import { getCookie } from '@Utils/Cookies';
-import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useEffect } from 'react';
+import { Navigate, useNavigate } from 'react-router-dom';
 
 export const OauthPage = () => {
+  const callbackUrl = localStorage.getItem('callbackUrl');
+  const authorizationCode = new URL(window.location.href).searchParams.get('code');
+
+  const hasNoCallbackUrl = callbackUrl === null;
+  const hasNoCode = authorizationCode === null;
+
+  if (hasNoCallbackUrl || hasNoCode) {
+    return <Navigate to="/" />;
+  }
+  return <ValidatedView callbackUrl={callbackUrl} code={authorizationCode} />;
+};
+
+const ValidatedView = ({ callbackUrl, code }: { callbackUrl: string; code: string }) => {
   const navigate = useNavigate();
+  const { mutate: kakaoLoginMutation } = useKaKaoLogin();
 
   useEffect(() => {
-    if (getCookie('accessToken')) navigate('/myboard');
-  }, [navigate]);
-  const [authorizationCode, setAuthorizationCode] = useState<string>('');
-  const { mutate: kakaoLoginMutation } = useKaKaoLogin(authorizationCode);
-
-  useEffect(() => {
-    const code = new URL(window.location.href).searchParams.get('code');
-    if (code) {
-      setAuthorizationCode(code);
-    }
+    kakaoLoginMutation(code, {
+      onSuccess() {
+        localStorage.removeItem('callbackUrl');
+        navigate(callbackUrl);
+      },
+    });
   }, []);
-
-  useEffect(() => {
-    if (authorizationCode) {
-      kakaoLoginMutation();
-    }
-  }, [authorizationCode, kakaoLoginMutation]);
-
-  return <></>;
+  return <>로그인 중입니다</>;
 };

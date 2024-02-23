@@ -20,6 +20,10 @@
       margin-top: var(--size-2);
       color: var(--gray500);
       font-size: 0.875rem;
+      button {
+        color: var(--gray500);
+        font-size: 0.875rem;
+      }
     }
   }
   @content;

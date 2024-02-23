@@ -8,6 +8,8 @@ const kakaoLoginUrl = `https://kauth.kakao.com/oauth/authorize?client_id=${REST_
 
 const SocialKakao = () => {
   const handleLogin = () => {
+    localStorage.setItem('callbackUrl', '/myboard');
+    // navigate('/oauth', { state: { callbackUrl: '/myboard' } });
     window.location.href = kakaoLoginUrl;
   };
 
