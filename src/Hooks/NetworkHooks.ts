@@ -33,6 +33,7 @@ import {
   signUpBoard,
   readAllNotifications,
   getEmotionQuestion,
+  readNotification,
 } from '@APIs/index';
 import { GetMemberListRequest, SignUpBoardRequest } from '@Type/Request';
 import { setCookie } from '@Utils/Cookies';
@@ -197,6 +198,19 @@ export const useReadAllNotification = () => {
   return useMutation({
     mutationKey: ['readAllNotification'],
     mutationFn: readAllNotifications,
+    onSuccess() {
+      queryClient.invalidateQueries({ queryKey: ['infiniteNotifications'] });
+      queryClient.invalidateQueries({ queryKey: ['myboard', 'hero'] });
+    },
+  });
+};
+
+export const useReadNotification = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationKey: ['readNotification'],
+    mutationFn: readNotification,
     onSuccess() {
       queryClient.invalidateQueries({ queryKey: ['infiniteNotifications'] });
       queryClient.invalidateQueries({ queryKey: ['myboard', 'hero'] });

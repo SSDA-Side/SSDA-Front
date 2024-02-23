@@ -4,7 +4,7 @@ import { IconButton } from '@Components/Common/Button';
 import { PageHeader } from '@Components/Common/PageHeader';
 import { Typography } from '@Components/Common/Typography';
 import { NotificationItem } from '@Components/NotificationItem';
-import { useGetNotifications, useHeroMetadata, useReadAllNotification } from '@Hooks/NetworkHooks';
+import { useGetNotifications, useHeroMetadata, useReadAllNotification, useReadNotification } from '@Hooks/NetworkHooks';
 import { useInfiniteObserver } from '@Hooks/useInfiniteObserver';
 import { PageLayout } from '@Layouts/PageLayout';
 import { useEffect } from 'react';

@@ -54,6 +54,7 @@ export interface ContentImage {
 
 export interface NotificationBase {
   id: number;
+  writerId: number;
   isRead: boolean;
   regDate: string;
 }

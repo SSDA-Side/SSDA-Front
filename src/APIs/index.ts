@@ -1,7 +1,7 @@
 import { axios } from './Axios';
 
 /** Model */
-import type { Board, Member, Notification } from '@Type/Model';
+import type { Board, Member, Notification, NotificationBase } from '@Type/Model';
 
 /** Request */
 import type {
@@ -280,6 +280,53 @@ export const createDiary = async (submitData: CreateDiaryRequest) => {
     return fakeGet(`/api/diary`, { wouldReject: false }) as Promise<Member[]>;
   }
 
+  const { images } = submitData;
+
+  if (images.length === 0) {
+    // const newSubmitData = {
+    //   ...submitData,
+    //   images: undefined,
+    // };
+    let count = 1;
+    const newFormData = new FormData();
+    // newFormData.append('image1', '');
+    // newFormData.append('image2', '');
+    // newFormData.append('image3', '');
+    for (let key in submitData) {
+      if (key !== 'images') {
+        newFormData.append(key, submitData[key]);
+      } else {
+        // newFormData.append(`image${count++}`, submitData[key]);
+      }
+    }
+
+    const newSubmitData = {
+      diaryRequest: JSON.stringify(submitData),
+    };
+
+    // const res = await axios.postForm(`/api/diary`, newSubmitData);
+    // const res = await axios.post(`/api/diary`, newSubmitData);
+    // const res = await axios.post(`/api/diary`, newSubmitData, { headers: { 'Content-Type': 'multipart/form-data' } });
+    const res = await axios.post(`/api/diary`, newSubmitData);
+    // const res = await axios.post(`/api/diary`, newFormData, { headers: { 'Content-Type': 'multipart/form-data' } });
+    return res.status;
+  }
+
+  // const newFormData = new FormData();
+
+  // for (let key in submitData) {
+  //   if (key !== 'images') {
+  //     newFormData.append(key, submitData[key]);
+  //   } else {
+  //     newFormData.append(key, new Blob([]));
+  //   }
+  // }
+
+  // console.log(newFormData);
+
+  // const res = await axios.post(`/api/diary`, newFormData, { headers: { 'Content-Type': 'multipart/form-data' } });
+  // return res.status;
+
   const res = await axios.postForm(`/api/diary`, submitData);
   return res.status;
 };
@@ -334,4 +381,10 @@ export const getUser = async () => {
 export const getEmotionQuestion = async () => {
   const res = await axios.get<EmotionQuestion>(`/api/prediction/emotion`);
   return res.data;
+};
+
+export const readNotification = async ({ id, writerId }: Pick<NotificationBase, 'id' | 'writerId'>) => {
+  console.log({ writerId });
+  const res = await axios.put<number>(`/api/notification/${id}`, { writerId });
+  return res.status;
 };
