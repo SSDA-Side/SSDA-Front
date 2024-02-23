@@ -1,11 +1,12 @@
 import { Board } from '@Type/Model';
-import { ComponentType } from 'react';
+import { FunctionComponent } from 'react';
 import { atom } from 'recoil';
 
 export type BottomSheetType<T = unknown> = {
   id: string;
   title: string;
-  children: ComponentType<{ sheetId: string }>;
+  children: FunctionComponent<{ sheetId: string }>;
+  // children: ComponentType<{ sheetId: string }>;
   props?: T;
   isOpened: boolean;
   onClose?: () => void;

@@ -1,1 +1,1 @@
-export { SharePage } from './SharePage';
+export { SharePage, loader } from './SharePage';

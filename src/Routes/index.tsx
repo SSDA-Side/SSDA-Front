@@ -21,7 +21,7 @@ import { SettingProfilePage } from '@Pages/SettingProfilePage';
 
 import type { RouteObject } from 'react-router-dom';
 import { ProtectedRouter } from './ProtectedRouter';
-import { SharePage } from '@Pages/SharePage';
+import { SharePage, loader as shareLoader } from '@Pages/SharePage';
 import { BoardSignUpPage } from '@Pages/BoardSignUpPage';
 import { SettingLayout } from '@Layouts/SettingLayout';
 import { DiaryListPage } from '@Pages/DiaryListPage';
@@ -53,6 +53,7 @@ export const routes = [
           },
           {
             path: 'share',
+            loader: shareLoader,
             element: <SharePage />,
           },
           {
