@@ -2,8 +2,11 @@
 import { Outlet, useLocation, useNavigate } from 'react-router-dom';
 import styles from './MyboardLayout.module.scss';
 import cn from 'classnames';
-import { useIsNewDiary } from '@Hooks/NetworkHooks';
+import { useGetBoardTitle, useIsNewDiary } from '@Hooks/NetworkHooks';
 import { SVGIcon } from '@Icons/SVGIcon';
+import { useModal } from '@Hooks/useModal';
+import { ViewMemberModal } from '@Components/Modals/ViewMemberModal';
+import { BoardProps } from '@Store/ModalStore';
 
 const tabList = [
   {
@@ -27,8 +30,10 @@ export const MyboardLayout = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const boardId = location.pathname.split('/')[2];
+  const { openComponentModal } = useModal();
 
   const { data: isNewDiary } = useIsNewDiary(Number(boardId));
+  const { data: boardTitle } = useGetBoardTitle(Number(boardId));
 
   return (
     <div className={styles.boardContainer}>
@@ -37,9 +42,18 @@ export const MyboardLayout = () => {
           <SVGIcon name="left" />
         </button>
         {/* TODO: [feat] 제목 변경하기 */}
-        <div>{}</div>
-        {/* TODO: [feat] 버튼 클릭 시 사용자 목록 보여주기 - 주현님과 논의 */}
-        <button>
+        <div>{boardTitle.boardTitle}</div>
+        <button
+          onClick={() => {
+            openComponentModal({
+              title: '멤버 보기',
+              children: ViewMemberModal,
+              props: {
+                board: { id: +boardId, title: boardTitle.boardTitle } as BoardProps,
+              },
+            });
+          }}
+        >
           <SVGIcon name="users" />
         </button>
       </div>

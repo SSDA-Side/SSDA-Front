@@ -121,6 +121,11 @@ export const getHeroMetadata = async () => {
 };
 
 // diary
+export const getBoardTitle = async ({ boardId }: { boardId: number }) => {
+  const res = await axios.get(`/api/boards/title/${boardId}`);
+  return res.data;
+};
+
 export const getMonth = async ({ boardId, date }: GetMonthRequest) => {
   const res = await axios.get(`/api/mode/month?boardId=${boardId}&date=${date}`);
   return res.data;

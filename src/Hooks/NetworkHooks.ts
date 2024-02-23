@@ -39,6 +39,7 @@ import {
   signUpBoard,
   getEmotionQuestion,
   readAllNotifications,
+  getBoardTitle,
 } from '@APIs/index';
 import { GetMemberListRequest, SignUpBoardRequest } from '@Type/Request';
 import { setCookie } from '@Utils/Cookies';
@@ -162,6 +163,13 @@ export const useCreateReply = () => {
 };
 
 // diary
+export const useGetBoardTitle = (boardId: number) => {
+  return useQuery({
+    queryKey: ['getBoardTitle'],
+    queryFn: () => getBoardTitle({ boardId }),
+  });
+};
+
 export const useGetLike = (diaryId: number) => {
   return useQuery({
     queryKey: ['getLike'],
@@ -222,7 +230,6 @@ export const useGetNotifications = () => {
     queryKey: ['infiniteNotifications'],
     queryFn: ({ pageParam }) => getNotifications({ pageSize: 10, lastViewId: pageParam }),
     getNextPageParam: (lastPage) => {
-      // 해당 코드 제가 임의로 수정했습니다. 후에 주현님이 수정하시면 될 것 같아요!
       if (lastPage === undefined) return undefined;
       const isLastPage = lastPage.length < 10;
       return isLastPage ? undefined : lastPage[lastPage.length - 1].id;
@@ -288,7 +295,7 @@ export const useGetTodayDiary = (boardId: number, date: string) => {
 export const useGetDiaryDetail = (memberId: number, boardId: number, date: string) => {
   return useQuery({
     queryKey: ['myboard', 'diaryDetail', memberId],
-    enabled: memberId !== undefined,
+    enabled: memberId !== undefined && !isNaN(memberId),
     queryFn: () => getDiaryDetail({ memberId, boardId, date }),
   });
 };
