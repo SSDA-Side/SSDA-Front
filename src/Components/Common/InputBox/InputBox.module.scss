@@ -1,6 +1,6 @@
 .full-container {
   width: 100%;
-  max-height: 350px;
+  max-height: 21.875rem;
   position: relative;
   padding: var(--size-3) var(--size-5);
   .input-box {
@@ -21,7 +21,7 @@
     }
   }
   p {
-    margin-top: 8px;
+    margin-top: var(--size-2);
     font-size: var(--size-3);
     color: var(--gray400);
     position: absolute;

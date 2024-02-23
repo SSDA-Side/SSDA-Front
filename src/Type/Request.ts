@@ -1,4 +1,4 @@
-import type { Board, Diary } from './Model';
+import type { Board, Diary, Setting } from './Model';
 
 /** 일기장 */
 export type BoardFormData = Pick<Board, 'title' | 'imageNumber' | 'appearanceType'>;
@@ -18,8 +18,8 @@ export type DiaryFormData = {
 
 export type CreateDiaryRequest = DiaryFormData;
 export type UpdateDiaryRequest = Pick<Diary, 'id'> & DiaryFormData;
-export type DeleteDiaryRequest = Pick<Diary, 'id'>;
 export type GetDiaryRequest = Pick<Diary, 'id'>;
+export type DeleteDiaryRequest = Pick<Diary, 'diaryId'>;
 
 /** 일기장 멤버 조회 */
 export type GetMemberListRequest = Pick<Board, 'id'>;
@@ -34,4 +34,7 @@ export type UpdateCommentRequest = Pick<Diary, 'diaryId' | 'commentId' | 'conten
 export type DeleteCommentRequest = Pick<Diary, 'diaryId' | 'commentId'>;
 export type CreateCommentRequest = Pick<Diary, 'diaryId' | 'contents'>;
 export type GetReplyRequest = Pick<Diary, 'commentId' | 'lastViewId'>;
+export type DeleteReplyRequest = Pick<Diary, 'commentId' | 'replyId'>;
 export type CreateReplyRequest = Pick<Diary, 'commentId' | 'contents'>;
+export type updateUserInfoRequest = Pick<Setting, 'nickname' | 'profileUrl'>;
+export type updateFontRequest = Pick<Setting, 'font' | 'memberId'>;

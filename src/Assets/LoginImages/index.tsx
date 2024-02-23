@@ -1,24 +1,24 @@
-import love from './login_love.png';
-import book from './login_book.png';
-import bubbleOne from './login_bubble01.png';
-import bubbleTwo from './login_bubble02.png';
+import onboard01 from './onboarding01.png';
+import onboard02 from './onboarding02.png';
+import onboard03 from './onboarding03.png';
+import cn from 'classnames';
+import styles from './LoginImages.module.scss';
 
 type LoginImageProps = {
   index: number;
 };
 
 export const LoginImage = ({ index }: LoginImageProps) => {
-  const loginImage = [book, love];
-  return <img src={loginImage[index]} alt="login-carousel-image" style={{ width: '185px', height: '185px' }} />;
-};
-
-export const BubbleImage = ({ index }: LoginImageProps) => {
-  const bubbleImage = [bubbleOne, bubbleTwo];
+  const loginImage = [onboard01, onboard02, onboard03];
   return (
     <img
-      src={bubbleImage[index]}
-      alt="login-carousel-bubble"
-      style={{ width: '313px', height: '153px', marginLeft: '1rem' }}
+      src={loginImage[index]}
+      alt="login-carousel-image"
+      className={cn({
+        [styles.frist]: index === 0,
+        [styles.second]: index === 1,
+        [styles.third]: index === 2,
+      })}
     />
   );
 };

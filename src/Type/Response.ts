@@ -75,6 +75,7 @@ export type CommentData = {
   regDate: string;
   owned: boolean;
   deletedMark: boolean;
+  timeStamp: string;
 }[];
 
 export type replyData = CommentData;
@@ -102,7 +103,7 @@ export type userData = {
   age_range?: string;
   profile_image_url: string;
   birthday?: string;
-  font: string;
+  font: number;
   enabled: boolean;
   accountNonLocked?: boolean;
   oauthProvider?: string;

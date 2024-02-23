@@ -35,6 +35,6 @@ export type FontState = {
 export const fontStateStore = atom<FontState>({
   key: 'FontState',
   default: {
-    fontType: 0,
+    fontType: 1,
   },
 });

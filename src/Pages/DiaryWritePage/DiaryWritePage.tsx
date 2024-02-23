@@ -70,11 +70,9 @@ const WriteForm = () => {
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    console.log({ submitData });
-
     mutate(submitData, {
       onSuccess() {
-        navigate(`/myboard/calendar/${submitData.boardId}`, { replace: true });
+        navigate(`/myboard/${submitData.boardId}/calendar`, { replace: true });
       },
     });
   };
@@ -112,14 +110,14 @@ const Head = ({ disabled }: { disabled: boolean }) => {
     const haveUnsavedChanges = hasTitle || hasContent || haveSomeImages;
 
     if (!haveUnsavedChanges) {
-      return navigate(`/myboard/calendar/${boardId}`, { replace: true });
+      return navigate(`/myboard/${boardId}/calendar`, { replace: true });
     }
 
     handleUnsavedChanges();
   };
 
   const handleUnsavedChanges = () => {
-    const handleYes = () => navigate(`/myboard/calendar/${boardId}`, { replace: true });
+    const handleYes = () => navigate(`/myboard/${boardId}/calendar`, { replace: true });
 
     openConfirm({
       contents: '작성 중인 내용을\n저장하지 않고 나가시겠습니까?',
