@@ -26,6 +26,7 @@ import type {
   updateUserInfoRequest,
   updateFontRequest,
   DeleteReplyRequest,
+  UpdateDiaryRequest,
 } from '@Type/Request';
 
 /** Response */
@@ -330,6 +331,11 @@ export const createDiary = async (submitData: CreateDiaryRequest) => {
   }
 
   const res = await axios.postForm(`/api/diary`, submitData);
+  return res.status;
+};
+
+export const updateDiary = async (submitData: UpdateDiaryRequest) => {
+  const res = await axios.putForm(`/api/diary/${submitData.id}`, submitData);
   return res.status;
 };
 

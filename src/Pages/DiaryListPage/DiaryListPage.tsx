@@ -226,7 +226,7 @@ const DiaryContent = ({ memberId, setSelectTabColor }: DiaryContentProps) => {
           <div className={styles.button}>
             <button
               onClick={() => {
-                navigate(`/myboard/${boardId}/edit`);
+                navigate(`/myboard/${boardId}/edit`, { state: { diary: diaryDetail } });
               }}
             >
               수정하기
