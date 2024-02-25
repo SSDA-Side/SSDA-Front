@@ -34,9 +34,21 @@ export const MyboardLayout = () => {
   const { openComponentModal } = useModal();
   const selectedDate = useRecoilState(selectedDateStore);
   const { date } = selectedDate[0];
-  const dateStr = location.pathname.includes('calendar')
-    ? new Date(date).toISOString().split('T')[0]
-    : new Date().toISOString().split('T')[0];
+
+  function formatDate(dateString: Date) {
+    // 주어진 문자열 형식의 날짜를 Date 객체로 변환
+    const date = new Date(dateString);
+
+    // 원하는 형식으로 날짜를 문자열로 변환
+    const year = date.getFullYear();
+    const month = (date.getMonth() + 1).toString().padStart(2, '0');
+    const day = date.getDate().toString().padStart(2, '0');
+
+    return `${year}-${month}-${day}`;
+  }
+
+  const formattedDate = formatDate(date);
+  const dateStr = location.pathname.includes('calendar') ? formattedDate : new Date().toISOString().split('T')[0];
 
   const { data: isNewDiary } = useIsNewDiary(Number(boardId));
   const { data: boardTitle } = useGetBoardTitle(Number(boardId));
