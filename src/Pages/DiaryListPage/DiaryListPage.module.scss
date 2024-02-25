@@ -124,21 +124,6 @@
         }
         margin-bottom: var(--size-6);
       }
-      .img-box-container {
-        width: 100%;
-        white-space: nowrap;
-        overflow-x: auto;
-        .img-box {
-          width: 100%;
-          height: 17.5rem;
-          border: 1px solid var(--gray300);
-          img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-          }
-        }
-      }
       .contents {
         width: 100%;
         color: var(--gray900);
@@ -150,9 +135,27 @@
 
         .icons {
           position: absolute;
-          top: 13.5rem;
+          top: 13rem;
           left: calc(50% - 11.5rem);
           float: left;
+          z-index: 1;
+        }
+        .img-box-container {
+          width: 100%;
+          white-space: nowrap;
+          overflow-x: auto;
+          margin-bottom: var(--size-4);
+          .img-box {
+            width: 100%;
+            height: 17.5rem;
+            border: 1px solid var(--gray300);
+            transform: translateX(-2.4rem);
+            img {
+              width: 100%;
+              height: 100%;
+              object-fit: cover;
+            }
+          }
         }
       }
       .button {

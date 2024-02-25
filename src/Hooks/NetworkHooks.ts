@@ -323,7 +323,7 @@ export const useGetTodayDiary = (boardId: number, date: string) => {
 
 export const useGetDiaryDetail = (memberId: number, boardId: number, date: string) => {
   return useQuery({
-    queryKey: ['myboard', 'diaryDetail', memberId],
+    queryKey: ['myboard', 'diaryDetail', memberId, boardId, date],
     enabled: memberId !== undefined && !isNaN(memberId),
     queryFn: () => getDiaryDetail({ memberId, boardId, date }),
   });

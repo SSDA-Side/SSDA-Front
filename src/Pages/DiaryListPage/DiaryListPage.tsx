@@ -114,7 +114,7 @@ export const DiaryListPage = () => {
             {memberId === null ? (
               <div>일기를 불러오는 중 에러가 발생했습니다.</div>
             ) : (
-              <DiaryContent memberId={memberId} setSelectTabColor={setSelectTabColor} />
+              <DiaryContent memberId={Number(memberId)} setSelectTabColor={setSelectTabColor} />
             )}
           </div>
         </>
@@ -175,7 +175,7 @@ const TabList = ({ todayData, selectTabColor }: tabListProps) => {
 };
 
 type DiaryContentProps = {
-  memberId: string;
+  memberId: number;
   setSelectTabColor: React.Dispatch<React.SetStateAction<{ backgroundColor: string; textColor: string }>>;
 };
 
@@ -186,10 +186,11 @@ const DiaryContent = ({ memberId, setSelectTabColor }: DiaryContentProps) => {
   const date = searchParams.get('date');
   const boardId = location.pathname.split('/')[2];
 
-  const { data: diaryDetail, isError, isSuccess } = useGetDiaryDetail(Number(memberId), Number(boardId), date);
+  const { data: diaryDetail, isError, isSuccess } = useGetDiaryDetail(memberId, Number(boardId), date || '');
 
   const { mutate: deleteDiaryMutation } = useDeleteDiary();
 
+  console.log(diaryDetail);
   useEffect(() => {
     if (isSuccess) {
       setSelectTabColor(colorList[diaryDetail?.emotionId]);
@@ -207,19 +208,21 @@ const DiaryContent = ({ memberId, setSelectTabColor }: DiaryContentProps) => {
             <span>∙ 좋아요 {diaryDetail?.likeCount}개 </span>
             <span>∙ 댓글 {diaryDetail?.commentCount}개</span>
           </div>
-          {/* TODO: [feat] 스크롤 대신 이미지 슬라이드로 변경, [fix] 이미지가 정상적으로 처리될 때까지 공백, [fix] 이미지가 있을 경우 이모지 위치랑 게시글 내용 테스트 */}
-          {/* <div className={styles.imgBoxContainer}>
-            <div className={styles.imgBox}>
-              {diaryDetail?.images.map((image) => {
-                if (image.imgUrl === null) return null;
-                return <img key={image.id} src={image.imgUrl} alt="이미지" />;
-              })}
-            </div>
-          </div> */}
+          {/* TODO: [feat] 스크롤 대신 이미지 슬라이드로 변경 */}
           <div className={styles.contents}>
             <div className={styles.icons}>
               <EmotionBackgroundImage index={Number(diaryDetail?.emotionId)} />
             </div>
+            {diaryDetail !== undefined && diaryDetail.images[0].imgUrl !== null && (
+              <div className={styles.imgBoxContainer}>
+                <div className={styles.imgBox}>
+                  {diaryDetail?.images.map((image) => {
+                    if (image.imgUrl === null) return null;
+                    return <img key={image.id} src={image.imgUrl} alt="이미지" />;
+                  })}
+                </div>
+              </div>
+            )}
             {diaryDetail?.contents}
           </div>
           <div className={styles.button}>
