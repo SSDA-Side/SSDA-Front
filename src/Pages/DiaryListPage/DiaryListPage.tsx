@@ -69,6 +69,7 @@ const colorList = [
 
 // TODO: [feat] 댓글, 답글 삭제 기능 추가
 // TODO: [design] 댓글이 삭제된 경우 댓글이 없다는 문구 추가
+// TODO: [feat] 탭 색상을 아이콘의 색상과 맞추기
 export const DiaryListPage = () => {
   const location = useLocation();
 
@@ -155,8 +156,8 @@ const TabList = ({ todayData }: tabListProps) => {
                 [styles.active]: member.isSelect,
               })}
               style={{
-                backgroundColor: colorList[0].backgroundColor,
-                color: colorList[0].textColor,
+                backgroundColor: member.isSelect ? colorList[0].backgroundColor : '#FAFAFA',
+                color: member.isSelect ? colorList[0].textColor : '#606160',
               }}
               onClick={() => {
                 navigate(`/myboard/${boardId}/detail?date=${searchParams.get('date')}&mId=${member.memberId}`);
