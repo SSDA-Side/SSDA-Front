@@ -1,6 +1,6 @@
 export interface Member {
   id: number;
-  profileUrl: string | File;
+  profileUrl: string;
   nickname: string;
   regDate: Date | number;
 }

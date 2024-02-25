@@ -6,7 +6,6 @@ import { useGetBoardTitle, useIsNewDiary } from '@Hooks/NetworkHooks';
 import { SVGIcon } from '@Icons/SVGIcon';
 import { useModal } from '@Hooks/useModal';
 import { ViewMemberModal } from '@Components/Modals/ViewMemberModal';
-import { BoardProps } from '@Store/ModalStore';
 
 const tabList = [
   {
@@ -49,7 +48,7 @@ export const MyboardLayout = () => {
                 title: '멤버 보기',
                 children: ViewMemberModal,
                 props: {
-                  board: { id: +boardId, title: boardTitle?.boardTitle } as BoardProps,
+                  board: { id: +boardId, title: boardTitle?.boardTitle },
                 },
               });
             }}

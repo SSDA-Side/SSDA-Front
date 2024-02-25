@@ -141,7 +141,7 @@ const TabList = ({ todayData, selectTabColor }: tabListProps) => {
       todayData?.map((member) => ({
         memberId: member.memberId,
         memberNickname: member.nickname,
-        isSelect: +memberId === member.memberId,
+        isSelect: +memberId! === member.memberId,
       })),
     );
   }, [memberId]);

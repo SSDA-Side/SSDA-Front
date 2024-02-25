@@ -13,7 +13,6 @@ import cn from 'classnames';
 import { ChangeEvent, KeyboardEvent, useMemo, useRef, useState } from 'react';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import styles from './DiaryWritePage.module.scss';
-import { ContentImage } from '@Type/Model';
 
 const initialFormData: DiaryFormData = {
   boardId: -1,

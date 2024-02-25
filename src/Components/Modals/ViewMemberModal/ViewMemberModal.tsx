@@ -28,7 +28,7 @@ export const ViewMemberModal = ({ modalId }: { modalId: string }) => {
   );
 };
 
-const Body = ({ board, modalId }: { board: Board; modalId: string }) => {
+const Body = ({ board, modalId }: { board: Board | { id: number; title: string }; modalId: string }) => {
   return (
     <div className={styles.bodyContainer}>
       <AsyncBoundary ErrorFallback={MemberListErrorUI} SuspenseFallback={<MemberListLoadingUI />}>
@@ -38,7 +38,7 @@ const Body = ({ board, modalId }: { board: Board; modalId: string }) => {
   );
 };
 
-const MemberList = ({ board, modalId }: { board: Board; modalId: string }) => {
+const MemberList = ({ board, modalId }: { board: Board | { id: number; title: string }; modalId: string }) => {
   const { data: memberList, isSuccess } = useGetMemberList({ id: board.id });
 
   if (!isSuccess) {
@@ -87,7 +87,7 @@ const MemberItem = ({ nickname, profileUrl, regDate }: MemberItemProp) => {
   );
 };
 
-const AddNewMemberButton = ({ board, modalId }: { board: Board; modalId: string }) => {
+const AddNewMemberButton = ({ board, modalId }: { board: Board | { id: number; title: string }; modalId: string }) => {
   const { openComponentModal, closeModal } = useModal();
 
   const handleClick = () => {
@@ -115,7 +115,7 @@ const AddNewMemberButton = ({ board, modalId }: { board: Board; modalId: string 
   );
 };
 
-const Foot = ({ board, modalId }: { board: Board; modalId: string }) => {
+const Foot = ({ board, modalId }: { board: Board | { id: number; title: string }; modalId: string }) => {
   const { mutate: resignBoard } = useResignBoard();
   const { openConfirm, openAlert, closeModal } = useModal();
 

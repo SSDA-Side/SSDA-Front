@@ -40,12 +40,12 @@ export const SettingFeedbackPage = () => {
           <div className={styles.feedbackContainer}>
             <p>개발자에게 소중한 의견을 들려주세요 :)</p>
             <div className={styles.rating}>
-              {[...Array(rating)].map((number, i) => (
+              {[...Array(rating)].map((_number, i) => (
                 <button onClick={() => setRating(i + 1)} key={`rating-star-${i}`}>
                   <SVGIcon name="star" className="star-lg" />
                 </button>
               ))}
-              {[...Array(5 - rating)].map((number, i) => (
+              {[...Array(5 - rating)].map((_number, i) => (
                 <button onClick={() => setRating(rating + i + 1)} key={`rating-empty-${i}`}>
                   <SVGIcon name="empty-star" className="star-lg" />
                 </button>

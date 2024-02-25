@@ -33,11 +33,11 @@ export type BoardProps = {
 };
 
 export type ViewMemberProps = {
-  board: Board;
+  board: Board | { id: number; title: string };
 };
 
 export type CreateShareLinkModalProps = {
-  board: Board;
+  board: Board | { id: number; title: string };
 };
 
 export type Modal<T extends ModalPayloadType = ModalPayloadType> = {

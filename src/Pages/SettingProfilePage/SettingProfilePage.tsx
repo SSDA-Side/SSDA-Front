@@ -62,8 +62,8 @@ export const SettingProfilePage = () => {
           type="file"
           accept="image/*"
           onChange={(e) => {
-            if (e.target.files) {
-              e.target.files && setUser((prev) => ({ ...prev, img: e.target.files[0] as File }));
+            if (e.target.files && e.target.files !== null) {
+              e.target.files && setUser((prev) => ({ ...prev, img: e.target.files![0] as File }));
               const reader = new FileReader();
               reader.readAsDataURL(e.target.files[0]);
               reader.onload = () => {

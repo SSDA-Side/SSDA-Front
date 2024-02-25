@@ -16,7 +16,6 @@ import cn from 'classnames';
 import styles from './NotificationItem.module.scss';
 import { useNavigate } from 'react-router-dom';
 import { useReadNotification } from '@Hooks/NetworkHooks';
-import { MouseEvent } from 'react';
 import { useModal } from '@Hooks/useModal';
 
 export const NotificationItem = (notification: Notification) => {
