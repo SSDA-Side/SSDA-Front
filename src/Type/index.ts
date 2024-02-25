@@ -4,6 +4,7 @@ export type IconName =
   | 'left'
   | 'down'
   | 'up'
+  | 'peoples'
   | 'close'
   | 'edit'
   | 'user'

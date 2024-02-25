@@ -60,7 +60,7 @@ export const MyboardLayout = () => {
               });
             }}
           >
-            <SVGIcon name="users" />
+            <SVGIcon name="peoples" />
           </button>
         )}
       </div>

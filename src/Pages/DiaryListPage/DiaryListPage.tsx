@@ -69,6 +69,7 @@ const colorList = [
 
 // TODO: [feat] 댓글, 답글 삭제 기능 추가
 // TODO: [design] 댓글이 삭제된 경우 댓글이 없다는 문구 추가
+// TODO: [feat] 탭 색상을 아이콘의 색상과 맞추기
 export const DiaryListPage = () => {
   const location = useLocation();
 
@@ -88,7 +89,6 @@ export const DiaryListPage = () => {
     data: todayData,
   } = useGetTodayDiary(Number(boardId), date);
 
-  const [selectTabColor, setSelectTabColor] = useState(colorList[0]);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -108,13 +108,13 @@ export const DiaryListPage = () => {
       {isSuccess && (
         <>
           <div className={styles.tablistContainer}>
-            <TabList todayData={todayData} selectTabColor={selectTabColor} />
+            <TabList todayData={todayData} />
           </div>
           <div className={styles.scrollContainer}>
             {memberId === null ? (
               <div>일기를 불러오는 중 에러가 발생했습니다.</div>
             ) : (
-              <DiaryContent memberId={Number(memberId)} setSelectTabColor={setSelectTabColor} />
+              <DiaryContent memberId={Number(memberId)} />
             )}
           </div>
         </>
@@ -125,10 +125,9 @@ export const DiaryListPage = () => {
 
 type tabListProps = {
   todayData: todayDiaryData[];
-  selectTabColor: { backgroundColor: string; textColor: string };
 };
 
-const TabList = ({ todayData, selectTabColor }: tabListProps) => {
+const TabList = ({ todayData }: tabListProps) => {
   const searchParams = new URLSearchParams(location.search);
   const memberId = searchParams.get('mId');
   const [memberList, setMemberList] = useState<member[]>([]);
@@ -157,8 +156,8 @@ const TabList = ({ todayData, selectTabColor }: tabListProps) => {
                 [styles.active]: member.isSelect,
               })}
               style={{
-                backgroundColor: member.isSelect ? selectTabColor.backgroundColor : '#FAFAFA',
-                color: member.isSelect ? selectTabColor.textColor : '#606160',
+                backgroundColor: member.isSelect ? colorList[0].backgroundColor : '#FAFAFA',
+                color: member.isSelect ? colorList[0].textColor : '#606160',
               }}
               onClick={() => {
                 navigate(`/myboard/${boardId}/detail?date=${searchParams.get('date')}&mId=${member.memberId}`);
@@ -206,10 +205,9 @@ const LikeModalContent = ({ diaryId }: LikeModalContentProps) => {
 
 type DiaryContentProps = {
   memberId: number;
-  setSelectTabColor: React.Dispatch<React.SetStateAction<{ backgroundColor: string; textColor: string }>>;
 };
 
-const DiaryContent = ({ memberId, setSelectTabColor }: DiaryContentProps) => {
+const DiaryContent = ({ memberId }: DiaryContentProps) => {
   const location = useLocation();
   const navigate = useNavigate();
   const searchParams = new URLSearchParams(location.search);
@@ -219,12 +217,6 @@ const DiaryContent = ({ memberId, setSelectTabColor }: DiaryContentProps) => {
   const { data: diaryDetail, isError, isSuccess } = useGetDiaryDetail(memberId, Number(boardId), date || '');
 
   const { mutate: deleteDiaryMutation } = useDeleteDiary();
-
-  useEffect(() => {
-    if (isSuccess) {
-      setSelectTabColor(colorList[diaryDetail?.emotionId]);
-    }
-  }, [isSuccess]);
 
   return (
     <div>
