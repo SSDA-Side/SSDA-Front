@@ -248,13 +248,14 @@ const DiaryContent = ({ memberId, setSelectTabColor }: DiaryContentProps) => {
             <div className={styles.icons}>
               <EmotionBackgroundImage index={Number(diaryDetail?.emotionId)} />
             </div>
-            {diaryDetail !== undefined && diaryDetail.images !== undefined && diaryDetail.images[0].imgUrl !== null && (
+            {diaryDetail.images !== null && (
               <div className={styles.imgBoxContainer}>
                 <div className={styles.imgBox}>
-                  {diaryDetail?.images.map((image) => {
-                    if (image.imgUrl === null) return null;
-                    return <img key={image.id} src={image.imgUrl} alt="이미지" />;
-                  })}
+                  {diaryDetail.images !== undefined &&
+                    diaryDetail.images.map((image) => {
+                      if (image.imgUrl === null) return null;
+                      return <img key={image.id} src={image.imgUrl} alt="이미지" />;
+                    })}
                 </div>
               </div>
             )}
@@ -322,6 +323,9 @@ const DiaryComment = ({ diaryId }: DiaryCommentProps) => {
   const { mutate: updateLikeMutation } = useUpdateLike(diaryId);
   const navigate = useNavigate();
   const boardId = useLocation().pathname.split('/')[2];
+
+  const searchParams = new URLSearchParams(location.search);
+  const selectedDate = searchParams.get('date');
 
   useEffect(() => {
     setFetchData([]);
@@ -407,7 +411,10 @@ const DiaryComment = ({ diaryId }: DiaryCommentProps) => {
                 </button>
               </div>
             )}
-            <button className={styles.addDiary} onClick={() => navigate(`/myboard/${boardId}/write`)}>
+            <button
+              className={styles.addDiary}
+              onClick={() => navigate(`/myboard/${boardId}/write?date=${selectedDate}`)}
+            >
               <SVGIcon name="add" size={16} />
             </button>
             <div className={styles.commentView}>

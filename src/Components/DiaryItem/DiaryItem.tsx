@@ -15,7 +15,7 @@ export const DiaryItem = ({ diary }: { diary: todayDiaryData }) => {
       }}
     >
       <div className={styles.header}>
-        {diary.thumbnailUrl === '' && diary.thumbnailUrl === null ? (
+        {diary.thumbnailUrl === '' || diary.thumbnailUrl === null ? (
           <EmotionImage index={Number(diary.emotionId)} />
         ) : (
           <img src={diary.thumbnailUrl} alt="thumbnail" />
