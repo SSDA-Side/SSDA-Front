@@ -78,10 +78,10 @@ export const MyboardLayout = () => {
           ))}
         </div>
         <Outlet />
+        <button className={styles.addDiary} onClick={() => navigate(`/myboard/${boardId}/write`)}>
+          <SVGIcon name="add" size={16} />
+        </button>
       </div>
-      <button className={styles.addDiary} onClick={() => navigate(`/myboard/${boardId}/write`)}>
-        <SVGIcon name="add" size={16} />
-      </button>
     </div>
   );
 };
