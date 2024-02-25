@@ -6,6 +6,8 @@ import { useGetBoardTitle, useIsNewDiary } from '@Hooks/NetworkHooks';
 import { SVGIcon } from '@Icons/SVGIcon';
 import { useModal } from '@Hooks/useModal';
 import { ViewMemberModal } from '@Components/Modals/ViewMemberModal';
+import { useRecoilState } from 'recoil';
+import { selectedDateStore } from '@Store/index';
 
 const tabList = [
   {
@@ -30,6 +32,7 @@ export const MyboardLayout = () => {
   const location = useLocation();
   const boardId = location.pathname.split('/')[2];
   const { openComponentModal } = useModal();
+  const selectedDate = useRecoilState(selectedDateStore);
 
   const { data: isNewDiary } = useIsNewDiary(Number(boardId));
   const { data: boardTitle } = useGetBoardTitle(Number(boardId));
@@ -77,7 +80,7 @@ export const MyboardLayout = () => {
           ))}
         </div>
         <Outlet />
-        <button className={styles.addDiary} onClick={() => navigate(`/myboard/${boardId}/write`)}>
+        <button className={styles.addDiary} onClick={() => navigate(`/myboard/${boardId}/write?date=${selectedDate}`)}>
           <SVGIcon name="add" size={16} />
         </button>
       </div>

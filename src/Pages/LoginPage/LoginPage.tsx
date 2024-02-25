@@ -14,8 +14,16 @@ const explainList = [
   ['소중한 사람들과', '서로의 일상을 주고받아보세요!'],
 ];
 
+// TODO: [feat] 3초마다
 const Carousel = () => {
   const [current, setCurrent] = useState<number>(0);
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrent((current + 1) % 3);
+    }, 3000);
+    return () => clearInterval(timer);
+  }, [current]);
 
   return (
     <div className={`${styles.carousel} ${styles[`carousel-${current}`]}`}>
