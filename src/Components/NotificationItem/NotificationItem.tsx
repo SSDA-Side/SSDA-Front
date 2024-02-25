@@ -85,7 +85,7 @@ const NotiItemPresenter = ({ id, writerId, category, content, onClick, isRead, r
   );
 };
 
-const NotiItemComment = ({ id, writerId, commentWriterNickname, , isRead, regDate, boardId }: NotificationComment) => {
+const NotiItemComment = ({ id, writerId, commentWriterNickname, isRead, regDate, boardId }: NotificationComment) => {
   const navigate = useNavigate();
   const { data: userData } = useGetUser();
 
