@@ -1,7 +1,7 @@
 import { axios } from './Axios';
 
 /** Model */
-import type { Board, Member, Notification } from '@Type/Model';
+import type { Board, Member, Notification, NotificationBase } from '@Type/Model';
 
 /** Request */
 import type {
@@ -26,6 +26,7 @@ import type {
   updateUserInfoRequest,
   updateFontRequest,
   DeleteReplyRequest,
+  UpdateDiaryRequest,
 } from '@Type/Request';
 
 /** Response */
@@ -334,6 +335,11 @@ export const createDiary = async (submitData: CreateDiaryRequest) => {
   return res.status;
 };
 
+export const updateDiary = async (submitData: UpdateDiaryRequest) => {
+  const res = await axios.putForm(`/api/diary/${submitData.id}`, submitData);
+  return res.status;
+};
+
 export const deleteDiary = async ({ diaryId }: { diaryId: number }) => {
   const res = await axios.delete(`/api/diary/${diaryId}`);
   return res.status;
@@ -378,7 +384,14 @@ export const readAllNotifications = async () => {
   return res.data;
 };
 
+// setting
+
 export const getEmotionQuestion = async () => {
   const res = await axios.get<EmotionQuestion>(`/api/prediction/emotion`);
   return res.data;
+};
+
+export const readNotification = async ({ id, writerId }: Pick<NotificationBase, 'id' | 'writerId'>) => {
+  const res = await axios.put<number>(`/api/notification/${id}`, { writerId });
+  return res.status;
 };

@@ -15,6 +15,9 @@ import { getFormattedDate } from '@Utils/index';
 import cn from 'classnames';
 import styles from './NotificationItem.module.scss';
 import { useNavigate } from 'react-router-dom';
+import { useReadNotification } from '@Hooks/NetworkHooks';
+import { MouseEvent } from 'react';
+import { useModal } from '@Hooks/useModal';
 
 export const NotificationItem = (notification: Notification) => {
   const { notificationTypeId: notiType } = notification;
@@ -43,16 +46,33 @@ export const NotificationItem = (notification: Notification) => {
 };
 
 type NotiItemPresenterProp = {
-  category: string;
-  content: string;
+  id: number;
+  writerId: number;
   regDate: Date;
   isRead: boolean;
+  category: string;
+  content: string;
   onClick: () => void;
 };
 
-const NotiItemPresenter = ({ category, content, onClick, isRead, regDate }: NotiItemPresenterProp) => {
+const NotiItemPresenter = ({ id, writerId, category, content, onClick, isRead, regDate }: NotiItemPresenterProp) => {
+  const { mutate: readNotification } = useReadNotification();
+  const { openAlert } = useModal();
+
+  const handleClick = () => {
+    readNotification(
+      { id, writerId },
+      {
+        onError() {
+          openAlert({ contents: '알림 읽기에 실패했습니다.' });
+        },
+      },
+    );
+    onClick();
+  };
+
   return (
-    <li role="button" className={styles.notiItem} onClick={onClick}>
+    <li role="button" className={styles.notiItem} onClick={handleClick}>
       <div className={cn(styles.bell, { [styles.active]: !isRead })}>
         <SVGIcon name="bell" className={styles.size24} />
       </div>
@@ -66,10 +86,12 @@ const NotiItemPresenter = ({ category, content, onClick, isRead, regDate }: Noti
   );
 };
 
-const NotiItemComment = ({ commentWriterNickname, isRead, regDate, boardId }: NotificationComment) => {
+const NotiItemComment = ({ id, writerId, commentWriterNickname, isRead, regDate, boardId }: NotificationComment) => {
   const navigate = useNavigate();
 
   const presenterProps: NotiItemPresenterProp = {
+    id,
+    writerId,
     category: '댓글 알림',
     content: `${commentWriterNickname}님이 회원님의 일기에 댓글을 달았습니다.`,
     onClick: () => {
@@ -82,10 +104,12 @@ const NotiItemComment = ({ commentWriterNickname, isRead, regDate, boardId }: No
   return <NotiItemPresenter {...presenterProps} />;
 };
 
-const NotiItemReply = ({ replyWriterNickname, isRead, regDate, boardId }: NotificationReply) => {
+const NotiItemReply = ({ id, writerId, replyWriterNickname, isRead, regDate, boardId }: NotificationReply) => {
   const navigate = useNavigate();
 
   const presenterProps: NotiItemPresenterProp = {
+    id,
+    writerId,
     category: '답글 알림',
     content: `${replyWriterNickname}님이 회원님의 일기에 답글을 달았습니다.`,
     onClick: () => {
@@ -98,10 +122,12 @@ const NotiItemReply = ({ replyWriterNickname, isRead, regDate, boardId }: Notifi
   return <NotiItemPresenter {...presenterProps} />;
 };
 
-const NotiItemLike = ({ likeMemberNickname, isRead, regDate, boardId }: NotificationLike) => {
+const NotiItemLike = ({ id, writerId, likeMemberNickname, isRead, regDate, boardId }: NotificationLike) => {
   const navigate = useNavigate();
 
   const presenterProps: NotiItemPresenterProp = {
+    id,
+    writerId,
     category: '좋아요 알림',
     content: `${likeMemberNickname}님이 회원님의 일기에 좋아요을 눌렀습니다.`,
     onClick: () => {
@@ -114,10 +140,12 @@ const NotiItemLike = ({ likeMemberNickname, isRead, regDate, boardId }: Notifica
   return <NotiItemPresenter {...presenterProps} />;
 };
 
-const NotiItemNewDiary = ({ boardTitle, isRead, regDate, boardId }: NotificationNewDiary) => {
+const NotiItemNewDiary = ({ id, writerId, boardTitle, isRead, regDate, boardId }: NotificationNewDiary) => {
   const navigate = useNavigate();
 
   const presenterProps: NotiItemPresenterProp = {
+    id,
+    writerId,
     category: '새글 알림',
     content: `'${boardTitle}' 일기장에 새글이 등록되었습니다. 댓글과 좋아요를 남겨주세요!`,
     onClick: () => {
@@ -130,10 +158,12 @@ const NotiItemNewDiary = ({ boardTitle, isRead, regDate, boardId }: Notification
   return <NotiItemPresenter {...presenterProps} />;
 };
 
-const NotiItemNewMember = ({ boardTitle, isRead, regDate, boardId }: NotificationNewMember) => {
+const NotiItemNewMember = ({ id, writerId, boardTitle, isRead, regDate, boardId }: NotificationNewMember) => {
   const navigate = useNavigate();
 
   const presenterProps: NotiItemPresenterProp = {
+    id,
+    writerId,
     category: '일기장 신규 멤버 추가 알림',
     content: `'${boardTitle}' 일기장에 새로운 멤버가 참여했습니다.`,
     onClick: () => {

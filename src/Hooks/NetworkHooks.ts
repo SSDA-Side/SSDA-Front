@@ -1,50 +1,52 @@
 import {
-  useMutation,
-  useQueryClient,
-  useSuspenseInfiniteQuery,
-  useQuery,
-  useSuspenseQuery,
-} from '@tanstack/react-query';
-import {
   createBoard,
   createComment,
   createDiary,
-  createShareLink,
+  createQnA,
   createReply,
+  createShareLink,
   deleteBoard,
+  deleteComment,
+  deleteDiary,
+  deleteReply,
   getAllDiary,
   getBoardList,
-  getHeroMetadata,
-  getMemberList,
-  getNotifications,
-  getShareLinkMetadata,
+  getBoardTitle,
   getComment,
   getDiaryDetail,
+  getEmotionQuestion,
+  getHeroMetadata,
+  getLikes,
+  getMemberList,
   getMonth,
   getNewDiary,
+  getNotifications,
   getReply,
+  getShareLinkMetadata,
   getTodayDiary,
   getUser,
   isNewDiary,
   kakaoLogin,
-  updateBoard,
-  updateRead,
-  updateUser,
-  updateFont,
-  createQnA,
-  deleteDiary,
-  getLikes,
-  updateLikes,
+  readAllNotifications,
+  readNotification,
   resignBoard,
   signUpBoard,
-  getEmotionQuestion,
-  readAllNotifications,
-  getBoardTitle,
-  deleteComment,
-  deleteReply,
+  updateBoard,
+  updateDiary,
+  updateFont,
+  updateLikes,
+  updateRead,
+  updateUser,
 } from '@APIs/index';
 import { GetMemberListRequest, SignUpBoardRequest } from '@Type/Request';
-import { setCookie } from '@Utils/Cookies';
+import { setCookie } from '@Utils/Cookies'
+import {
+  useMutation,
+  useQuery,
+  useQueryClient,
+  useSuspenseInfiniteQuery,
+  useSuspenseQuery,
+} from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 
 export const useHeroMetadata = () => {
@@ -239,6 +241,13 @@ export const useCreateDiary = () => {
   });
 };
 
+export const useUpdateDiary = () => {
+  return useMutation({
+    mutationKey: ['updateDiary'],
+    mutationFn: updateDiary,
+  });
+};
+
 export const useCreateShareLink = () => {
   return useMutation({
     mutationKey: ['createShareLink'],
@@ -263,6 +272,19 @@ export const useGetNotifications = () => {
       return isLastPage ? undefined : lastPage[lastPage.length - 1].id;
     },
     initialPageParam: 0,
+  });
+};
+
+export const useReadNotification = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationKey: ['readNotification'],
+    mutationFn: readNotification,
+    onSuccess() {
+      queryClient.invalidateQueries({ queryKey: ['infiniteNotifications'] });
+      queryClient.invalidateQueries({ queryKey: ['myboard', 'hero'] });
+    },
   });
 };
 

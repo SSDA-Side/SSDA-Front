@@ -14,6 +14,7 @@ export type DiaryFormData = {
   boardId: number;
   selectedDate: string;
   images: File[];
+  uploadedImageIds: number[];
 } & Pick<Diary, 'emotionId' | 'title' | 'contents'>;
 
 export type CreateDiaryRequest = DiaryFormData;
