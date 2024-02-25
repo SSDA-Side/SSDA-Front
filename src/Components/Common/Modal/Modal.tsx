@@ -11,7 +11,7 @@ type ModalProps = {
   children: React.ReactNode; // 해당 요소 클릭 시 모달 띄우기
   title: string; // 모달의 제목
   className: string; // 모달을 띄울 위치
-  content?: React.ReactNode; // 모달의 컨텐츠에 들어갈 컴포넌트
+  content?: React.ReactNode; // 모달의 내용
   button?: {
     // 모달의 버튼
     onClick?: () => void;
@@ -20,7 +20,7 @@ type ModalProps = {
   };
 };
 
-// TODO: [refactor] 현재 모달은 캘린더에서만 사용되고 있음. 다른 코드 참고하여 리팩토링
+// TODO: [refactor] 현재 모달은 캘린더에서만 사용되고 있음. 다른 코드 참고하여 리팩토링 (+확장 고려해서 다른 곳에서도 사용할 수 있도록)
 export const Modal = ({ children, title, className, content, button }: ModalProps) => {
   const [showModal, setShowModal] = useState(false);
 
@@ -69,8 +69,8 @@ const ModalContent = ({ onClose, title, content, className, button }: ModalConte
         </button>
       </div>
       <div className={styles.content}>{content}</div>
-      <div className={styles.footer}>
-        {button?.buttonType === 'CTA' && (
+      {button?.buttonType === 'CTA' && (
+        <div className={styles.footer}>
           <CTAButton
             children={button.buttonName}
             onClick={() => {
@@ -78,8 +78,8 @@ const ModalContent = ({ onClose, title, content, className, button }: ModalConte
               onClose();
             }}
           />
-        )}
-      </div>
+        </div>
+      )}
     </div>
   );
 };

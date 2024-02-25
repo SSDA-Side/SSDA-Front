@@ -22,10 +22,6 @@ type PresenterProps = {
   onClick: () => void;
 };
 
-// TODO: [feat] 미래 날짜로 이동하지 못하게 막기
-// TODO: [design] selectBox 디자인 수정
-// TODO: [refactor] 모달에서 날짜 이동 시 해당 날짜에 데이터 갱신하기
-
 export const Calendar = () => {
   const [currentDate, setCurrentDate] = useState<Date>(today);
   const [selectDate, setSelectDate] = useState<Date>(new Date()); // 모달에서 선택한 날짜를 저장
@@ -41,7 +37,7 @@ export const Calendar = () => {
 
   // 현재 달의 일기가 있는 날짜를 가져오기
   const location = useLocation();
-  const boardId = location.pathname.split('/')[3];
+  const boardId = location.pathname.split('/')[2];
   const currentDateStr = `${currentDate.getFullYear()}-${formatDate(currentDate.getMonth() + 1)}-${formatDate(
     currentDate.getDate(),
   )}`;

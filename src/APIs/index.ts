@@ -1,12 +1,13 @@
 import { axios } from './Axios';
 
 /** Model */
-import type { Board, Member, Notification } from '@Type/Model';
+import type { Board, Member, Notification, NotificationBase } from '@Type/Model';
 
 /** Request */
 import type {
-  CreateDiaryRequest,
+  CreateBoardRequest,
   CreateCommentRequest,
+  CreateDiaryRequest,
   CreateReplyRequest,
   DeleteBoardRequest,
   DeleteCommentRequest,
@@ -19,9 +20,13 @@ import type {
   GetReplyRequest,
   IsNewDiaryRequest,
   ResignBoardRequest,
+  SignUpBoardRequest,
   UpdateBoardRequest,
   UpdateCommentRequest,
-  CreateBoardRequest,
+  updateUserInfoRequest,
+  updateFontRequest,
+  DeleteReplyRequest,
+  UpdateDiaryRequest,
 } from '@Type/Request';
 
 /** Response */
@@ -29,9 +34,11 @@ import type {
   CommentData,
   CreateShareLinkResponse,
   DiaryDetailData,
+  EmotionQuestion,
   GetShareLinkMetadataResponse,
   HeroMetadata,
   KakaoLoginData,
+  likeData,
   replyData,
   todayDiaryData,
   userData,
@@ -117,6 +124,11 @@ export const getHeroMetadata = async () => {
 };
 
 // diary
+export const getBoardTitle = async ({ boardId }: { boardId: number }) => {
+  const res = await axios.get(`/api/boards/title/${boardId}`);
+  return res.data;
+};
+
 export const getMonth = async ({ boardId, date }: GetMonthRequest) => {
   const res = await axios.get(`/api/mode/month?boardId=${boardId}&date=${date}`);
   return res.data;
@@ -159,12 +171,12 @@ export const getDiaryDetail = async ({ memberId, boardId, date }: GetDiaryDetail
 
 // ㅣike
 export const getLikes = async ({ diaryId }: GetLikesRequest) => {
-  const res = await axios.get(`/api/diary/${diaryId}/likes`);
+  const res = await axios.get<likeData[]>(`/api/diary/${diaryId}/likes`);
   return res.data;
 };
 
 export const updateLikes = async ({ diaryId }: GetLikesRequest) => {
-  const res = await axios.put(`/api/diary/${diaryId}/likes`);
+  const res = await axios.post(`/api/diary/${diaryId}/likes`);
   return res.status;
 };
 
@@ -197,6 +209,47 @@ export const getReply = async ({ commentId, lastViewId }: GetReplyRequest) => {
 
 export const createReply = async ({ commentId, contents }: CreateReplyRequest) => {
   const res = await axios.post(`/api/comment/${commentId}/reply`, { contents });
+  return res.status;
+};
+
+export const deleteReply = async ({ commentId, replyId }: DeleteReplyRequest) => {
+  const res = await axios.delete(`/api/comment/${commentId}/reply/${replyId}`);
+  return res.status;
+};
+
+// setting
+export const getUser = async () => {
+  // 쿠키 가져오기
+  const token = getCookie('accessToken');
+  const res = await axios.get<userData>(`/api/members/${token}`);
+  return res.data;
+};
+
+// private MultipartFile profileUrl;
+// private String nickname;
+export const updateUser = async ({ profileUrl, nickname }: updateUserInfoRequest) => {
+  const formData = new FormData();
+  formData.append('profileUrl', profileUrl);
+  formData.append('nickname', nickname);
+  const res = await axios.post(`/api/members/update`, formData, {
+    headers: {
+      'Content-Type': 'multipart/form-data',
+    },
+  });
+  return res.status;
+};
+
+// private String qaContents;
+// private int starPoint;
+export const createQnA = async ({ qaContents, starPoint }: { qaContents: string; starPoint: number }) => {
+  const res = await axios.post(`/api/setting`, { qaContents, starPoint });
+  return res.status;
+};
+
+// private Long memberId;
+// private int font;
+export const updateFont = async ({ font, memberId }: updateFontRequest) => {
+  const res = await axios.put(`/api/setting`, { font, memberId });
   return res.status;
 };
 
@@ -255,7 +308,12 @@ export const resignBoard = async ({ id }: ResignBoardRequest) => {
     return fakePost('/api/boards', id, { wouldReject: false }) as Promise<Board[]>;
   }
 
-  const res = await axios.post(`/api/boards/${id}`);
+  const res = await axios.post(`/api/boards/${id}/resign`, {});
+  return res.status;
+};
+
+export const signUpBoard = async ({ id }: SignUpBoardRequest) => {
+  const res = await axios.post(`/api/boards/${id}/join`, {});
   return res.status;
 };
 
@@ -264,7 +322,7 @@ export const getMemberList = async ({ id }: GetMemberListRequest) => {
     return fakeGet(`/api/boards/member`, { wouldReject: false }) as Promise<Member[]>;
   }
 
-  const res = await axios.get<Member[]>(`/api/boards/${id}/member`);
+  const res = await axios.get<Member[]>(`/api/boards/${id}/members`);
   return res.data;
 };
 
@@ -273,7 +331,17 @@ export const createDiary = async (submitData: CreateDiaryRequest) => {
     return fakeGet(`/api/diary`, { wouldReject: false }) as Promise<Member[]>;
   }
 
-  const res = await axios.post(`/api/diary`, submitData);
+  const res = await axios.postForm(`/api/diary`, submitData);
+  return res.status;
+};
+
+export const updateDiary = async (submitData: UpdateDiaryRequest) => {
+  const res = await axios.putForm(`/api/diary/${submitData.id}`, submitData);
+  return res.status;
+};
+
+export const deleteDiary = async ({ diaryId }: { diaryId: number }) => {
+  const res = await axios.delete(`/api/diary/${diaryId}`);
   return res.status;
 };
 
@@ -282,7 +350,7 @@ export const createShareLink = async ({ boardId }: { boardId: number }) => {
     return fakeGet(`/api/boards/share`, { wouldReject: false }) as Promise<CreateShareLinkResponse>;
   }
 
-  const res = await axios.post<CreateShareLinkResponse>(`/api/board/${boardId}/share`);
+  const res = await axios.post<CreateShareLinkResponse>(`/api/boards/${boardId}/share`);
   return res.data;
 };
 
@@ -291,7 +359,7 @@ export const getShareLinkMetadata = async ({ hashKey }: { hashKey: string }) => 
     return fakeGet(`/api/boards/share/get`, { wouldReject: false }) as Promise<GetShareLinkMetadataResponse>;
   }
 
-  const res = await axios.post<GetShareLinkMetadataResponse>(`/api/share/${hashKey}`);
+  const res = await axios.get<GetShareLinkMetadataResponse>(`/api/boards/share/${hashKey}`);
   return res.data;
 };
 
@@ -305,25 +373,25 @@ export const getNotifications = async ({ pageSize, lastViewId }: { pageSize: num
     const notis = notifications.slice(startIndex, startIndex + pageSize);
 
     return notis;
-
-    // 이 아래건 react query에서 처리해주는 듯?
-    // const hasNextPage = startIndex + pageSize < notifications.length;
-    // const isLastPage = !hasNextPage;
-    // const isLastPage = notis.length < pageSize || !hasNextPage; // hasNextPage가 true인데 notis가 pageSize보다 낮을 리가
-
-    // return {
-    //   hasNextPage,
-    //   isLastPage,
-    //   pages: notis,
-    // } as GetNotificationResponse;
   }
 
-  // const res = await axios.post<Notification[]>(`/api/notification?pageSize=${pageSize}&lastViewId=${lastViewId}`);
-};
-// setting
-export const getUser = async () => {
-  // 쿠키 가져오기
-  const token = getCookie('accessToken');
-  const res = await axios.get<userData>(`/api/members/${token}`);
+  const res = await axios.get<Notification[]>(`/api/notification?pageSize=${pageSize}&lastViewId=${lastViewId}`);
   return res.data;
+};
+
+export const readAllNotifications = async () => {
+  const res = await axios.post<string>(`/api/notification`, {});
+  return res.data;
+};
+
+// setting
+
+export const getEmotionQuestion = async () => {
+  const res = await axios.get<EmotionQuestion>(`/api/prediction/emotion`);
+  return res.data;
+};
+
+export const readNotification = async ({ id, writerId }: Pick<NotificationBase, 'id' | 'writerId'>) => {
+  const res = await axios.put<number>(`/api/notification/${id}`, { writerId });
+  return res.status;
 };

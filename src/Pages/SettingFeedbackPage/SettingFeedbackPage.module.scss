@@ -8,7 +8,7 @@
     padding: var(--size-5);
     p {
       font-weight: 400;
-      font-size: 14px;
+      font-size: 0.875rem;
       color: var(--gray500);
     }
     .rating {
@@ -16,7 +16,7 @@
     }
     div textarea {
       font-weight: 400;
-      font-size: 14px;
+      font-size: 0.875rem;
       height: 6.25rem;
       &::placeholder {
         color: var(--gray500);
@@ -31,6 +31,40 @@
       width: 90%;
       height: 3.75rem;
       margin: 0 auto;
+      background-color: var(--gray300);
+    }
+  }
+  .active {
+    button {
+      background-color: var(--primary);
+    }
+  }
+}
+
+.success-container {
+  height: 100%;
+  .is-send-page {
+    height: 80%;
+    display: flex;
+    justify-content: baseline;
+    padding-top: 6rem;
+    align-items: center;
+    flex-direction: column;
+    img {
+      width: 6.125rem;
+      height: 6.125rem;
+      margin-bottom: var(--size-2);
+    }
+    h1 {
+      font-weight: 500 !important;
+      font-size: 1.25rem;
+      color: var(--gray700);
+      margin-bottom: var(--size-3);
+    }
+    p {
+      font-weight: 400;
+      font-size: var(--size-4);
+      color: var(--gray600);
     }
   }
 }

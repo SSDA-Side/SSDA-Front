@@ -9,6 +9,20 @@
     border-left: 1px dashed var(--gray400);
     border-radius: var(--size-1);
     overflow-y: scroll;
+    &::-webkit-scrollbar {
+      width: 16px;
+    }
+
+    &::-webkit-scrollbar-track {
+      background-color: transparent;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      border: 4px solid transparent;
+      background: #606060;
+      background-clip: content-box;
+      border-radius: 8px;
+    }
     .content {
       padding: 0 var(--size-5);
       margin-top: var(--size-5);
@@ -24,5 +38,28 @@
         margin-bottom: var(--size-5);
       }
     }
+  }
+}
+
+.is-not-diary {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  img {
+    width: 6.125rem;
+    height: 6.125rem;
+    margin-bottom: var(--size-2);
+  }
+  h1 {
+    font-weight: 700 !important;
+    font-size: 1.25rem;
+    color: var(--gray700);
+  }
+  p {
+    margin-top: var(--size-2);
+    font-weight: 400;
+    font-size: var(--size-4);
+    color: var(--gray600);
   }
 }
