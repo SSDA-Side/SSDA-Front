@@ -6,6 +6,7 @@ import { DiaryItem } from '@Components/DiaryItem';
 import { todayDiaryData } from '@Type/Response';
 import cn from 'classnames';
 import { IsNotDiary } from '@Pages/DiaryCalendarPage/DiaryCalendarPage';
+import { useInView } from 'react-intersection-observer';
 
 type IsNewDateDiaryProps = {
   diary: todayDiaryData;
@@ -31,33 +32,16 @@ export const DiaryAllPage = () => {
   const location = useLocation();
   const boardId = location.pathname.split('/')[2];
   // TODO: [feat] 무한 스크롤 구현하기
+  const [ref, inView] = useInView();
   const [lastViewId, setLastViewId] = useState<number>(0);
 
-  const {
-    data: AllDiaryData,
-    isError,
-    isSuccess,
-    isLoading,
-    refetch,
-  } = useGetAllDiary(Number(boardId), 10, lastViewId);
+  const { data: AllDiaryData, isError, isSuccess, refetch } = useGetAllDiary(Number(boardId), 10, lastViewId);
 
   useEffect(() => {
-    const container = document.querySelector('.diary-container');
-
-    function handleScroll() {
-      if (
-        container?.scrollTop &&
-        container?.scrollHeight &&
-        container?.clientHeight &&
-        container.scrollTop + container.clientHeight >= container.scrollHeight
-      ) {
-        !isLoading && AllDiaryData && setLastViewId((lastViewId) => lastViewId + 10);
-        return;
-      }
+    if (inView) {
+      AllDiaryData && setLastViewId((lastViewId) => lastViewId + 10);
     }
-    container?.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, [isLoading]);
+  }, [inView]);
 
   useEffect(() => {
     if (lastViewId > 0 && AllDiaryData && AllDiaryData?.length % 10 === 0) {
@@ -87,6 +71,7 @@ export const DiaryAllPage = () => {
                   <DiaryItem diary={diary} />
                 </div>
               ))}
+              <div ref={ref}></div>
             </div>
           </>
         )
