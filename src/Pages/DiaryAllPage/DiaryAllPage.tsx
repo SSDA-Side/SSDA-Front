@@ -31,11 +31,17 @@ const IsNewDateDiary = ({ diary, beforeDiary }: IsNewDateDiaryProps) => {
 export const DiaryAllPage = () => {
   const location = useLocation();
   const boardId = location.pathname.split('/')[2];
-  // TODO: [feat] 무한 스크롤 구현하기
   const [ref, inView] = useInView();
   const [lastViewId, setLastViewId] = useState<number>(0);
+  const [fetchData, setFetchData] = useState<todayDiaryData[]>([]);
 
   const { data: AllDiaryData, isError, isSuccess, refetch } = useGetAllDiary(Number(boardId), 10, lastViewId);
+
+  useEffect(() => {
+    if (isSuccess) {
+      setFetchData((fetchData) => [...fetchData, ...AllDiaryData]);
+    }
+  }, [AllDiaryData]);
 
   useEffect(() => {
     if (inView) {
@@ -64,7 +70,7 @@ export const DiaryAllPage = () => {
               <p>다른 멤버들이 올린 일기를 확인해보세요!</p>
             </div>
             <div className={styles.content}>
-              {AllDiaryData?.map((diary, i, arr) => (
+              {fetchData?.map((diary, i, arr) => (
                 <div key={`diaryAll-${diary.id}`}>
                   <IsNewDateDiary diary={diary} beforeDiary={arr[i - 1]} />
 
