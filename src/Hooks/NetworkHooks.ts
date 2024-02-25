@@ -45,7 +45,6 @@ import {
 } from '@APIs/index';
 import { GetMemberListRequest, SignUpBoardRequest } from '@Type/Request';
 import { setCookie } from '@Utils/Cookies';
-import { useNavigate } from 'react-router-dom';
 import { AxiosError } from 'axios';
 
 export const useHeroMetadata = () => {

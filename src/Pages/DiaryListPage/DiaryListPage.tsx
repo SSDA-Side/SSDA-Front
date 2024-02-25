@@ -15,9 +15,10 @@ import styles from './DiaryListPage.module.scss';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import cn from 'classnames';
-import { todayDiaryData } from '@Type/Response';
+import { CommentData, todayDiaryData } from '@Type/Response';
 import { EmotionBackgroundImage } from '@Assets/EmotionImages';
 import { SVGIcon } from '@Icons/SVGIcon';
+import { useInView } from 'react-intersection-observer';
 
 type member = {
   memberId: number;
@@ -68,7 +69,6 @@ const colorList = [
 // TODO: [feat] 댓글, 답글 삭제 기능 추가
 // TODO: [design] 댓글이 삭제된 경우 댓글이 없다는 문구 추가
 // TODO: [feat] 좋아요 모달 추가
-// TODO: [feat] 댓글, 답글 무한 스크롤로 변경
 export const DiaryListPage = () => {
   const location = useLocation();
 
@@ -266,7 +266,7 @@ type DiaryCommentProps = {
 };
 
 const DiaryComment = ({ diaryId }: DiaryCommentProps) => {
-  const [lastViewId] = useState({
+  const [lastViewId, setLastViewId] = useState({
     comment: 0,
     reply: 0,
   });
@@ -277,7 +277,9 @@ const DiaryComment = ({ diaryId }: DiaryCommentProps) => {
     userNickname: '',
   });
 
-  const { data: commentData, isSuccess: getCommentSuccess } = useGetComment(diaryId, lastViewId.comment);
+  const { data: commentData, isSuccess: getCommentSuccess, refetch } = useGetComment(diaryId, lastViewId.comment);
+  const [fetchData, setFetchData] = useState<CommentData>([]);
+  const [ref, inView] = useInView();
   const { mutate: createCommentMutation } = useCreateComment();
   const { mutate: deleteCommentMutation } = useDeleteComment();
   const { mutate: createReplyMutation } = useCreateReply();
@@ -286,11 +288,34 @@ const DiaryComment = ({ diaryId }: DiaryCommentProps) => {
   const navigate = useNavigate();
   const boardId = useLocation().pathname.split('/')[2];
 
+  useEffect(() => {
+    setFetchData([]);
+    refetch();
+  }, []);
+
+  useEffect(() => {
+    if (getCommentSuccess) {
+      setFetchData((fetchData) => [...fetchData, ...commentData]);
+    }
+  }, [commentData]);
+
+  useEffect(() => {
+    if (inView && commentData && commentData?.length % 10 === 0) {
+      setLastViewId((lastViewId) => ({ ...lastViewId, comment: lastViewId.comment + 10 }));
+    }
+  }, [inView]);
+
+  useEffect(() => {
+    if (lastViewId.comment > 0 && commentData && commentData?.length % 10 === 0) {
+      refetch();
+    }
+  }, [lastViewId.comment]);
+
   return (
     <>
       {getCommentSuccess && likeSuccess && (
         <div className={styles.commentContainer}>
-          {commentData?.map((comment) => (
+          {fetchData?.map((comment) => (
             <div className={styles.commentArea} key={`comment-${comment.id}`}>
               <div className={styles.commentBox}>
                 <img src={comment.profileUrl} alt="프로필 이미지" />
@@ -333,6 +358,7 @@ const DiaryComment = ({ diaryId }: DiaryCommentProps) => {
               <DiaryReply commentId={comment.id} lastViewId={lastViewId.reply} />
             </div>
           ))}
+          <div ref={ref}></div>
           <div className={styles.writeContainer}>
             {comment.status === 'reply' && (
               <div className={styles.replyView}>
