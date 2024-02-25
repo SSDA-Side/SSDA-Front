@@ -11,7 +11,7 @@ type ModalProps = {
   children: React.ReactNode; // 해당 요소 클릭 시 모달 띄우기
   title: string; // 모달의 제목
   className: string; // 모달을 띄울 위치
-  content?: React.ReactNode; // 모달의 컨텐츠에 들어갈 컴포넌트
+  content?: React.ReactNode; // 모달의 내용
   button?: {
     // 모달의 버튼
     onClick?: () => void;
@@ -69,8 +69,8 @@ const ModalContent = ({ onClose, title, content, className, button }: ModalConte
         </button>
       </div>
       <div className={styles.content}>{content}</div>
-      <div className={styles.footer}>
-        {button?.buttonType === 'CTA' && (
+      {button?.buttonType === 'CTA' && (
+        <div className={styles.footer}>
           <CTAButton
             children={button.buttonName}
             onClick={() => {
@@ -78,8 +78,8 @@ const ModalContent = ({ onClose, title, content, className, button }: ModalConte
               onClose();
             }}
           />
-        )}
-      </div>
+        </div>
+      )}
     </div>
   );
 };

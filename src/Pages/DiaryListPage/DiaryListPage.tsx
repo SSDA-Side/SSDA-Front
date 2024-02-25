@@ -19,6 +19,7 @@ import { CommentData, todayDiaryData } from '@Type/Response';
 import { EmotionBackgroundImage } from '@Assets/EmotionImages';
 import { SVGIcon } from '@Icons/SVGIcon';
 import { useInView } from 'react-intersection-observer';
+import { Modal } from '@Components/Common/Modal';
 
 type member = {
   memberId: number;
@@ -174,6 +175,36 @@ const TabList = ({ todayData, selectTabColor }: tabListProps) => {
   );
 };
 
+type LikeModalContentProps = {
+  diaryId: number;
+};
+
+const LikeModalContent = ({ diaryId }: LikeModalContentProps) => {
+  const { data: likeData, isSuccess: likeSuccess } = useGetLike(diaryId);
+
+  return (
+    <div>
+      {likeSuccess ? (
+        <div className={styles.likeContainer}>
+          <div className={styles.likeTitle}>
+            <p>총 {likeData?.length}명</p>
+          </div>
+          {likeData?.map((like) => (
+            <div key={`like-${like.nickname}`}>
+              <div className={styles.likeProfile}>
+                <img src={like.profileUrl} alt="프로필 이미지" />
+              </div>
+              <p>{like.nickname}</p>
+            </div>
+          ))}
+        </div>
+      ) : (
+        <div>로딩중...</div>
+      )}
+    </div>
+  );
+};
+
 type DiaryContentProps = {
   memberId: number;
   setSelectTabColor: React.Dispatch<React.SetStateAction<{ backgroundColor: string; textColor: string }>>;
@@ -190,7 +221,6 @@ const DiaryContent = ({ memberId, setSelectTabColor }: DiaryContentProps) => {
 
   const { mutate: deleteDiaryMutation } = useDeleteDiary();
 
-  console.log(diaryDetail);
   useEffect(() => {
     if (isSuccess) {
       setSelectTabColor(colorList[diaryDetail?.emotionId]);
@@ -201,11 +231,17 @@ const DiaryContent = ({ memberId, setSelectTabColor }: DiaryContentProps) => {
     <div>
       {isError && <div>일기를 불러오는 중 에러가 발생했습니다.</div>}
       {isSuccess && (
-        <div className={styles.content}>
+        <div className={cn(styles.content, 'diary-detail-modal')}>
           <h2>{diaryDetail?.title}</h2>
           <div className={styles.etc}>
             <span>{diaryDetail?.timeStamp} </span>
-            <span>∙ 좋아요 {diaryDetail?.likeCount}개 </span>
+            <Modal
+              className={'.diary-detail-modal'}
+              title="좋아요 누른 멤버"
+              content={<LikeModalContent diaryId={diaryDetail?.id} />}
+            >
+              <span>∙ 좋아요 {diaryDetail?.likeCount}개 </span>
+            </Modal>
             <span>∙ 댓글 {diaryDetail?.commentCount}개</span>
           </div>
           {/* TODO: [feat] 스크롤 대신 이미지 슬라이드로 변경 */}

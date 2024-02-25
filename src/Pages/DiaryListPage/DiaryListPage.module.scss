@@ -256,6 +256,33 @@
       }
     }
   }
+
+  .like-container {
+    margin: 0 0 0 1.875rem;
+
+    .like-title {
+      margin-bottom: var(--size-6);
+    }
+    div {
+      display: flex;
+      align-items: center;
+      justify-content: left;
+      .like-profile {
+        width: 3.5rem;
+        height: 3.5rem;
+        background: #eeeeee;
+        border-radius: 8px;
+        border: 1.3px solid #9e9e9e;
+        object-fit: cover;
+        margin-right: var(--size-5);
+      }
+      p {
+        font-weight: 500;
+        font-size: 0.875rem;
+        color: var(--gray1000);
+      }
+    }
+  }
 }
 
 .add-diary {
