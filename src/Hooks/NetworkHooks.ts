@@ -32,6 +32,7 @@ import {
   resignBoard,
   signUpBoard,
   updateBoard,
+  updateDiary,
   updateFont,
   updateLikes,
   updateRead,
@@ -237,6 +238,13 @@ export const useCreateDiary = () => {
   return useMutation({
     mutationKey: ['createDiary'],
     mutationFn: createDiary,
+  });
+};
+
+export const useUpdateDiary = () => {
+  return useMutation({
+    mutationKey: ['updateDiary'],
+    mutationFn: updateDiary,
   });
 };
 

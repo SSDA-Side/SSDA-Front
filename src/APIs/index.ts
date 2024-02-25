@@ -26,6 +26,7 @@ import type {
   updateUserInfoRequest,
   updateFontRequest,
   DeleteReplyRequest,
+  UpdateDiaryRequest,
 } from '@Type/Request';
 
 /** Response */
@@ -333,6 +334,11 @@ export const createDiary = async (submitData: CreateDiaryRequest) => {
   return res.status;
 };
 
+export const updateDiary = async (submitData: UpdateDiaryRequest) => {
+  const res = await axios.putForm(`/api/diary/${submitData.id}`, submitData);
+  return res.status;
+};
+
 export const deleteDiary = async ({ diaryId }: { diaryId: number }) => {
   const res = await axios.delete(`/api/diary/${diaryId}`);
   return res.status;
@@ -385,7 +391,6 @@ export const getEmotionQuestion = async () => {
 };
 
 export const readNotification = async ({ id, writerId }: Pick<NotificationBase, 'id' | 'writerId'>) => {
-  console.log({ writerId });
   const res = await axios.put<number>(`/api/notification/${id}`, { writerId });
   return res.status;
 };
