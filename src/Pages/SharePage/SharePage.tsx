@@ -6,6 +6,11 @@ import { useGetShareLinkMetadata } from '@Hooks/NetworkHooks';
 import { FallbackProps } from 'react-error-boundary';
 import { LoaderFunctionArgs, useLoaderData, useNavigate } from 'react-router-dom';
 import styles from './SharePage.module.scss';
+import { getCookie } from '@Utils/Cookies';
+
+const REST_API_KEY = import.meta.env.VITE_KAKAO_REST_API_KEY;
+const REDIRECT_URI = import.meta.env.VITE_KAKAO_REDIRECT_URI;
+const kakaoLoginUrl = `https://kauth.kakao.com/oauth/authorize?client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI}&response_type=code`;
 
 export async function loader({ request }: LoaderFunctionArgs) {
   const hashKey = new URL(request.url).searchParams.get('hash');
@@ -84,7 +89,15 @@ const AwaitedView = ({ hashKey }: { hashKey: string }) => {
   const navigate = useNavigate();
 
   const handleSignupClick = () => {
-    navigate('/signup_board', { state: { boardId: shareMeta.boardId }, replace: true });
+    const token = getCookie('accessToken');
+
+    if (token) {
+      navigate('/signup_board', { state: { boardId: shareMeta.boardId }, replace: true });
+    } else {
+      localStorage.setItem('callbackUrl', '/signup_board');
+      localStorage.setItem('callbackState', JSON.stringify({ boardId: shareMeta.boardId }));
+      window.location.href = kakaoLoginUrl;
+    }
   };
 
   return (

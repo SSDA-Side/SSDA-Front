@@ -1,6 +1,6 @@
 import { useKaKaoLogin } from '@Hooks/NetworkHooks';
 import { useEffect } from 'react';
-import { Navigate, useNavigate } from 'react-router-dom';
+import { Navigate, useLocation, useNavigate } from 'react-router-dom';
 
 export const OauthPage = () => {
   const callbackUrl = localStorage.getItem('callbackUrl');
@@ -23,7 +23,14 @@ const ValidatedView = ({ callbackUrl, code }: { callbackUrl: string; code: strin
     kakaoLoginMutation(code, {
       onSuccess() {
         localStorage.removeItem('callbackUrl');
-        navigate(callbackUrl);
+        const state = localStorage.getItem('callbackState');
+
+        if (state !== null) {
+          const { boardId } = JSON.parse(state);
+          navigate(callbackUrl, { state: { boardId } });
+        } else {
+          navigate(callbackUrl);
+        }
       },
     });
   }, []);

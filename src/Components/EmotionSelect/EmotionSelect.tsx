@@ -11,7 +11,7 @@ export const EmotionSelect = ({ onSelect }: EmotionSelectProp) => {
     () =>
       emotionTypes.map((emotion, index) => (
         <button key={emotion} type="button" onClick={() => onSelect(index + 1)}>
-          <EmotionImage key={emotion} type={emotion} />
+          <EmotionImage key={emotion} type={emotion} index={index} />
         </button>
       )),
     [onSelect],
