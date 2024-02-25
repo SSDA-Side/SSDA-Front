@@ -15,8 +15,11 @@ export const DiaryItem = ({ diary }: { diary: todayDiaryData }) => {
       }}
     >
       <div className={styles.header}>
-        {/* TODO: [fix] 이미지 정상적으로 처리될 때까지 이모지로 대체 */}
-        {true ? <EmotionImage index={Number(diary.emotionId)} /> : <img src={diary.thumbnailUrl} alt="thumbnail" />}
+        {diary.thumbnailUrl === '' ? (
+          <EmotionImage index={Number(diary.emotionId)} />
+        ) : (
+          <img src={diary.thumbnailUrl} alt="thumbnail" />
+        )}
       </div>
       <div className={styles.content}>
         <h2>{diary.title}</h2>

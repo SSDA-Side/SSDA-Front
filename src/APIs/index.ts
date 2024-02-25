@@ -38,6 +38,7 @@ import type {
   GetShareLinkMetadataResponse,
   HeroMetadata,
   KakaoLoginData,
+  likeData,
   replyData,
   todayDiaryData,
   userData,
@@ -170,7 +171,7 @@ export const getDiaryDetail = async ({ memberId, boardId, date }: GetDiaryDetail
 
 // ㅣike
 export const getLikes = async ({ diaryId }: GetLikesRequest) => {
-  const res = await axios.get(`/api/diary/${diaryId}/likes`);
+  const res = await axios.get<likeData[]>(`/api/diary/${diaryId}/likes`);
   return res.data;
 };
 

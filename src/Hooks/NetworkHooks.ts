@@ -39,7 +39,7 @@ import {
   updateUser,
 } from '@APIs/index';
 import { GetMemberListRequest, SignUpBoardRequest } from '@Type/Request';
-import { setCookie } from '@Utils/Cookies';
+import { setCookie } from '@Utils/Cookies'
 import {
   useMutation,
   useQuery,
@@ -344,7 +344,7 @@ export const useGetTodayDiary = (boardId: number, date: string) => {
 
 export const useGetDiaryDetail = (memberId: number, boardId: number, date: string) => {
   return useQuery({
-    queryKey: ['myboard', 'diaryDetail', memberId],
+    queryKey: ['myboard', 'diaryDetail', memberId, boardId, date],
     enabled: memberId !== undefined && !isNaN(memberId),
     queryFn: () => getDiaryDetail({ memberId, boardId, date }),
   });
@@ -381,17 +381,26 @@ export const useGetUser = () => {
   });
 };
 
-export const useUpdateUser = (profileUrl: File | string, nickname: string) => {
+export const useUpdateUser = () => {
+  const queryClient = useQueryClient();
   return useMutation({
     mutationKey: ['myboard', 'updateUser'],
-    mutationFn: () => updateUser({ profileUrl, nickname }),
+    mutationFn: updateUser,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['myboard', 'member'] });
+    },
   });
 };
 
 export const useUpdateFont = (font: number, memberId: number) => {
+  const queryClient = useQueryClient();
+
   return useMutation({
     mutationKey: ['myboard', 'updateFont'],
     mutationFn: () => updateFont({ font, memberId }),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['myboard', 'member'] });
+    },
   });
 };
 

@@ -95,6 +95,13 @@ export type todayDiaryData = {
   timeStamp: string;
 };
 
+export type likeData = {
+  likeCount: number;
+  likedByCurrentUser: boolean;
+  nickname: string;
+  profileUrl: string;
+};
+
 export type userData = {
   id: number;
   email?: string;

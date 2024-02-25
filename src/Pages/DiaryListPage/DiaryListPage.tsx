@@ -15,9 +15,11 @@ import styles from './DiaryListPage.module.scss';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import cn from 'classnames';
-import { todayDiaryData } from '@Type/Response';
+import { CommentData, todayDiaryData } from '@Type/Response';
 import { EmotionBackgroundImage } from '@Assets/EmotionImages';
 import { SVGIcon } from '@Icons/SVGIcon';
+import { useInView } from 'react-intersection-observer';
+import { Modal } from '@Components/Common/Modal';
 
 type member = {
   memberId: number;
@@ -67,9 +69,6 @@ const colorList = [
 
 // TODO: [feat] 댓글, 답글 삭제 기능 추가
 // TODO: [design] 댓글이 삭제된 경우 댓글이 없다는 문구 추가
-// TODO: [feat] 좋아요 모달 추가
-// TODO: [feat] 댓글, 답글 무한 스크롤로 변경
-// TODO: [fix] 주소가 제대로 들어오지 않을 때 대응, /myboard/1/detail?date=2024-02-23&mId=1
 export const DiaryListPage = () => {
   const location = useLocation();
 
@@ -115,7 +114,7 @@ export const DiaryListPage = () => {
             {memberId === null ? (
               <div>일기를 불러오는 중 에러가 발생했습니다.</div>
             ) : (
-              <DiaryContent memberId={memberId} setSelectTabColor={setSelectTabColor} />
+              <DiaryContent memberId={Number(memberId)} setSelectTabColor={setSelectTabColor} />
             )}
           </div>
         </>
@@ -175,8 +174,38 @@ const TabList = ({ todayData, selectTabColor }: tabListProps) => {
   );
 };
 
+type LikeModalContentProps = {
+  diaryId: number;
+};
+
+const LikeModalContent = ({ diaryId }: LikeModalContentProps) => {
+  const { data: likeData, isSuccess: likeSuccess } = useGetLike(diaryId);
+
+  return (
+    <div>
+      {likeSuccess ? (
+        <div className={styles.likeContainer}>
+          <div className={styles.likeTitle}>
+            <p>총 {likeData?.length}명</p>
+          </div>
+          {likeData?.map((like) => (
+            <div key={`like-${like.nickname}`}>
+              <div className={styles.likeProfile}>
+                <img src={like.profileUrl} alt="프로필 이미지" />
+              </div>
+              <p>{like.nickname}</p>
+            </div>
+          ))}
+        </div>
+      ) : (
+        <div>로딩중...</div>
+      )}
+    </div>
+  );
+};
+
 type DiaryContentProps = {
-  memberId: string;
+  memberId: number;
   setSelectTabColor: React.Dispatch<React.SetStateAction<{ backgroundColor: string; textColor: string }>>;
 };
 
@@ -187,7 +216,7 @@ const DiaryContent = ({ memberId, setSelectTabColor }: DiaryContentProps) => {
   const date = searchParams.get('date');
   const boardId = location.pathname.split('/')[2];
 
-  const { data: diaryDetail, isError, isSuccess } = useGetDiaryDetail(Number(memberId), Number(boardId), date);
+  const { data: diaryDetail, isError, isSuccess } = useGetDiaryDetail(memberId, Number(boardId), date || '');
 
   const { mutate: deleteDiaryMutation } = useDeleteDiary();
 
@@ -201,26 +230,34 @@ const DiaryContent = ({ memberId, setSelectTabColor }: DiaryContentProps) => {
     <div>
       {isError && <div>일기를 불러오는 중 에러가 발생했습니다.</div>}
       {isSuccess && (
-        <div className={styles.content}>
+        <div className={cn(styles.content, 'diary-detail-modal')}>
           <h2>{diaryDetail?.title}</h2>
           <div className={styles.etc}>
             <span>{diaryDetail?.timeStamp} </span>
-            <span>∙ 좋아요 {diaryDetail?.likeCount}개 </span>
+            <Modal
+              className={'.diary-detail-modal'}
+              title="좋아요 누른 멤버"
+              content={<LikeModalContent diaryId={diaryDetail?.id} />}
+            >
+              <span>∙ 좋아요 {diaryDetail?.likeCount}개 </span>
+            </Modal>
             <span>∙ 댓글 {diaryDetail?.commentCount}개</span>
           </div>
-          {/* TODO: [feat] 스크롤 대신 이미지 슬라이드로 변경, [fix] 이미지가 정상적으로 처리될 때까지 공백, [fix] 이미지가 있을 경우 이모지 위치랑 게시글 내용 테스트 */}
-          {/* <div className={styles.imgBoxContainer}>
-            <div className={styles.imgBox}>
-              {diaryDetail?.images.map((image) => {
-                if (image.imgUrl === null) return null;
-                return <img key={image.id} src={image.imgUrl} alt="이미지" />;
-              })}
-            </div>
-          </div> */}
+          {/* TODO: [feat] 스크롤 대신 이미지 슬라이드로 변경 */}
           <div className={styles.contents}>
             <div className={styles.icons}>
               <EmotionBackgroundImage index={Number(diaryDetail?.emotionId)} />
             </div>
+            {diaryDetail !== undefined && diaryDetail.images[0].imgUrl !== null && (
+              <div className={styles.imgBoxContainer}>
+                <div className={styles.imgBox}>
+                  {diaryDetail?.images.map((image) => {
+                    if (image.imgUrl === null) return null;
+                    return <img key={image.id} src={image.imgUrl} alt="이미지" />;
+                  })}
+                </div>
+              </div>
+            )}
             {diaryDetail?.contents}
           </div>
           <div className={styles.button}>
@@ -264,7 +301,7 @@ type DiaryCommentProps = {
 };
 
 const DiaryComment = ({ diaryId }: DiaryCommentProps) => {
-  const [lastViewId] = useState({
+  const [lastViewId, setLastViewId] = useState({
     comment: 0,
     reply: 0,
   });
@@ -275,7 +312,9 @@ const DiaryComment = ({ diaryId }: DiaryCommentProps) => {
     userNickname: '',
   });
 
-  const { data: commentData, isSuccess: getCommentSuccess } = useGetComment(diaryId, lastViewId.comment);
+  const { data: commentData, isSuccess: getCommentSuccess, refetch } = useGetComment(diaryId, lastViewId.comment);
+  const [fetchData, setFetchData] = useState<CommentData>([]);
+  const [ref, inView] = useInView();
   const { mutate: createCommentMutation } = useCreateComment();
   const { mutate: deleteCommentMutation } = useDeleteComment();
   const { mutate: createReplyMutation } = useCreateReply();
@@ -284,11 +323,34 @@ const DiaryComment = ({ diaryId }: DiaryCommentProps) => {
   const navigate = useNavigate();
   const boardId = useLocation().pathname.split('/')[2];
 
+  useEffect(() => {
+    setFetchData([]);
+    refetch();
+  }, []);
+
+  useEffect(() => {
+    if (getCommentSuccess) {
+      setFetchData((fetchData) => [...fetchData, ...commentData]);
+    }
+  }, [commentData]);
+
+  useEffect(() => {
+    if (inView && commentData && commentData?.length % 10 === 0) {
+      setLastViewId((lastViewId) => ({ ...lastViewId, comment: lastViewId.comment + 10 }));
+    }
+  }, [inView]);
+
+  useEffect(() => {
+    if (lastViewId.comment > 0 && commentData && commentData?.length % 10 === 0) {
+      refetch();
+    }
+  }, [lastViewId.comment]);
+
   return (
     <>
       {getCommentSuccess && likeSuccess && (
         <div className={styles.commentContainer}>
-          {commentData?.map((comment) => (
+          {fetchData?.map((comment) => (
             <div className={styles.commentArea} key={`comment-${comment.id}`}>
               <div className={styles.commentBox}>
                 <img src={comment.profileUrl} alt="프로필 이미지" />
@@ -331,6 +393,7 @@ const DiaryComment = ({ diaryId }: DiaryCommentProps) => {
               <DiaryReply commentId={comment.id} lastViewId={lastViewId.reply} />
             </div>
           ))}
+          <div ref={ref}></div>
           <div className={styles.writeContainer}>
             {comment.status === 'reply' && (
               <div className={styles.replyView}>
