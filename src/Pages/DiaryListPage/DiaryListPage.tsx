@@ -157,16 +157,8 @@ const TabList = ({ todayData, selectTabColor }: tabListProps) => {
                 [styles.active]: member.isSelect,
               })}
               style={{
-                backgroundColor: member.isSelect
-                  ? selectTabColor.backgroundColor === undefined
-                    ? colorList[0].backgroundColor
-                    : selectTabColor.backgroundColor
-                  : '#FAFAFA',
-                color: member.isSelect
-                  ? selectTabColor.textColor === undefined
-                    ? colorList[0].textColor
-                    : selectTabColor.textColor
-                  : '#606160',
+                backgroundColor: colorList[0].backgroundColor,
+                color: colorList[0].textColor,
               }}
               onClick={() => {
                 navigate(`/myboard/${boardId}/detail?date=${searchParams.get('date')}&mId=${member.memberId}`);
