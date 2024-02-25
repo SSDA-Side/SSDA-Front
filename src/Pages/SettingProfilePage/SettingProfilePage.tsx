@@ -24,6 +24,7 @@ export const SettingProfilePage = () => {
   useEffect(() => {
     isSuccess &&
       setUser((prev) => ({ ...prev, name: userData?.nickname, img: new File([], userData?.profile_image_url) }));
+    userData && setPrevImg(userData?.profile_image_url);
   }, [userData, isSuccess]);
 
   const handleSaveClick = () => {
