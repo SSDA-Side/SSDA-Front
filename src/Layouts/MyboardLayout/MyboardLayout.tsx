@@ -34,6 +34,9 @@ export const MyboardLayout = () => {
   const { openComponentModal } = useModal();
   const selectedDate = useRecoilState(selectedDateStore);
   const { date } = selectedDate[0];
+  const dateStr = location.pathname.includes('calendar')
+    ? new Date(date).toISOString().split('T')[0]
+    : new Date().toISOString().split('T')[0];
 
   const { data: isNewDiary } = useIsNewDiary(Number(boardId));
   const { data: boardTitle } = useGetBoardTitle(Number(boardId));
@@ -81,7 +84,7 @@ export const MyboardLayout = () => {
           ))}
         </div>
         <Outlet />
-        <button className={styles.addDiary} onClick={() => navigate(`/myboard/${boardId}/write?date=${date}`)}>
+        <button className={styles.addDiary} onClick={() => navigate(`/myboard/${boardId}/write?date=${dateStr}`)}>
           <SVGIcon name="add" size={16} />
         </button>
       </div>

@@ -114,6 +114,11 @@ export const kakaoLogin = async (authorizationCode: string) => {
   return res.data;
 };
 
+// export const refreshToken = async () => {
+//   const res = await axios.patch('/api/members');
+//   return res.data;
+// };
+
 export const getHeroMetadata = async () => {
   if (TEST_MODE) {
     return fakeGet('/api/boards/hero', { wouldReject: false }) as Promise<HeroMetadata>;
