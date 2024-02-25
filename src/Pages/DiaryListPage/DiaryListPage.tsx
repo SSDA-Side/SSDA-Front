@@ -320,13 +320,12 @@ const DiaryComment = ({ diaryId }: DiaryCommentProps) => {
   const selectedDate = searchParams.get('date');
 
   useEffect(() => {
-    setFetchData([]);
-    refetch();
-  }, []);
-
-  useEffect(() => {
     if (getCommentSuccess) {
-      setFetchData((fetchData) => [...fetchData, ...commentData]);
+      if (lastViewId.comment === 0) {
+        setFetchData(commentData);
+      } else {
+        setFetchData((fetchData) => [...fetchData, ...commentData]);
+      }
     }
   }, [commentData]);
 
