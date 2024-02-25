@@ -20,7 +20,7 @@ const Carousel = () => {
 
   useEffect(() => {
     const timer = setInterval(() => {
-      setCurrent((current + 1) % 3);
+      setCurrent((current + 1) % 4);
     }, 3000);
     return () => clearInterval(timer);
   }, [current]);
