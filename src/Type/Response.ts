@@ -43,7 +43,7 @@ export type DiaryDetailData = {
   contents: string;
   emotionId: number;
   id: number;
-  images: DiaryDetailImage[];
+  images?: DiaryDetailImage[];
   likeCount: number;
   memberId: number;
   nickname: string;
