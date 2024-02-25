@@ -406,7 +406,7 @@ export const useUpdateFont = (font: number, memberId: number) => {
 
 export const useCreateQnA = () => {
   return useMutation({
-    mutationKey: ['myboard', 'createQnA'],
+    mutationKey: ['createQnA'],
     mutationFn: createQnA,
   });
 };
