@@ -248,7 +248,7 @@ const DiaryContent = ({ memberId, setSelectTabColor }: DiaryContentProps) => {
             <div className={styles.icons}>
               <EmotionBackgroundImage index={Number(diaryDetail?.emotionId)} />
             </div>
-            {diaryDetail !== undefined && diaryDetail.images[0].imgUrl !== null && (
+            {diaryDetail !== undefined && diaryDetail.images !== undefined && diaryDetail.images[0].imgUrl !== null && (
               <div className={styles.imgBoxContainer}>
                 <div className={styles.imgBox}>
                   {diaryDetail?.images.map((image) => {

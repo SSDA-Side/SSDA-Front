@@ -39,7 +39,7 @@ import {
   updateUser,
 } from '@APIs/index';
 import { GetMemberListRequest, SignUpBoardRequest } from '@Type/Request';
-import { setCookie } from '@Utils/Cookies'
+import { setCookie } from '@Utils/Cookies';
 import {
   useMutation,
   useQuery,
