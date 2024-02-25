@@ -1,9 +1,10 @@
 import { useGetAllDiary } from '@Hooks/NetworkHooks';
 import styles from './DiaryAllPage.module.scss';
 import { useLocation } from 'react-router-dom';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { DiaryItem } from '@Components/DiaryItem';
 import { todayDiaryData } from '@Type/Response';
+import cn from 'classnames';
 import { IsNotDiary } from '@Pages/DiaryCalendarPage/DiaryCalendarPage';
 
 type IsNewDateDiaryProps = {
@@ -12,8 +13,6 @@ type IsNewDateDiaryProps = {
 };
 
 const IsNewDateDiary = ({ diary, beforeDiary }: IsNewDateDiaryProps) => {
-  console.log('beforeDiary', diary);
-
   const beforeDate = beforeDiary?.selectedDate?.split('T')[0];
   const currentDate = diary.selectedDate.split('T')[0];
 
@@ -32,12 +31,42 @@ export const DiaryAllPage = () => {
   const location = useLocation();
   const boardId = location.pathname.split('/')[2];
   // TODO: [feat] 무한 스크롤 구현하기
-  const [lastViewId] = useState<number>(0);
+  const [lastViewId, setLastViewId] = useState<number>(0);
 
-  const { data: AllDiaryData, isError, isSuccess } = useGetAllDiary(Number(boardId), 10, lastViewId);
+  const {
+    data: AllDiaryData,
+    isError,
+    isSuccess,
+    isLoading,
+    refetch,
+  } = useGetAllDiary(Number(boardId), 10, lastViewId);
+
+  useEffect(() => {
+    const container = document.querySelector('.diary-container');
+
+    function handleScroll() {
+      if (
+        container?.scrollTop &&
+        container?.scrollHeight &&
+        container?.clientHeight &&
+        container.scrollTop + container.clientHeight >= container.scrollHeight
+      ) {
+        !isLoading && AllDiaryData && setLastViewId((lastViewId) => lastViewId + 10);
+        return;
+      }
+    }
+    container?.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [isLoading]);
+
+  useEffect(() => {
+    if (lastViewId > 0 && AllDiaryData && AllDiaryData?.length % 10 === 0) {
+      refetch();
+    }
+  }, [lastViewId]);
 
   return (
-    <div className={styles.container}>
+    <div className={cn(styles.container, 'diary-container')}>
       {isError && <div>일기 목록을 불러오는데 실패했습니다</div>}
       {isSuccess ? (
         AllDiaryData?.length === 0 ? (
@@ -54,6 +83,7 @@ export const DiaryAllPage = () => {
               {AllDiaryData?.map((diary, i, arr) => (
                 <div key={`diaryAll-${diary.id}`}>
                   <IsNewDateDiary diary={diary} beforeDiary={arr[i - 1]} />
+
                   <DiaryItem diary={diary} />
                 </div>
               ))}
