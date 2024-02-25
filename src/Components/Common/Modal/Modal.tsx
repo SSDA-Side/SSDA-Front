@@ -20,7 +20,7 @@ type ModalProps = {
   };
 };
 
-// TODO: [refactor] 현재 모달은 캘린더에서만 사용되고 있음. 다른 코드 참고하여 리팩토링
+// TODO: [refactor] 현재 모달은 캘린더에서만 사용되고 있음. 다른 코드 참고하여 리팩토링 (+확장 고려해서 다른 곳에서도 사용할 수 있도록)
 export const Modal = ({ children, title, className, content, button }: ModalProps) => {
   const [showModal, setShowModal] = useState(false);
 

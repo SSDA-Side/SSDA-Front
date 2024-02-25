@@ -9,7 +9,6 @@ type ModalProps = {
   className: string; // 모달을 띄울 위치
 };
 
-// TODO: [refactor] 현재 모달은 setting 사용되고 있음. 다른 코드 참고하여 리팩토링
 export const Modal = ({ children, className }: ModalProps) => {
   const [showModal, setShowModal] = useState(false);
 

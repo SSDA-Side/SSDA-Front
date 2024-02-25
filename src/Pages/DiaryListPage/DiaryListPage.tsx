@@ -69,7 +69,6 @@ const colorList = [
 // TODO: [design] 댓글이 삭제된 경우 댓글이 없다는 문구 추가
 // TODO: [feat] 좋아요 모달 추가
 // TODO: [feat] 댓글, 답글 무한 스크롤로 변경
-// TODO: [fix] 주소가 제대로 들어오지 않을 때 대응, /myboard/1/detail?date=2024-02-23&mId=1
 export const DiaryListPage = () => {
   const location = useLocation();
 
