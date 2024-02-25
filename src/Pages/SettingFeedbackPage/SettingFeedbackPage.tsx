@@ -74,7 +74,7 @@ export const SettingFeedbackPage = () => {
                       setIsSend(true);
                     },
                     onError: () => {
-                      console.log('error');
+                      setIsSend(true);
                     },
                   });
                 }
