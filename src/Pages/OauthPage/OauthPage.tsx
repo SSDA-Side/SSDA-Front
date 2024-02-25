@@ -1,6 +1,6 @@
 import { useKaKaoLogin } from '@Hooks/NetworkHooks';
 import { useEffect } from 'react';
-import { Navigate, useLocation, useNavigate } from 'react-router-dom';
+import { Navigate, useNavigate } from 'react-router-dom';
 
 export const OauthPage = () => {
   const callbackUrl = localStorage.getItem('callbackUrl');
