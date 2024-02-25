@@ -391,7 +391,6 @@ export const getEmotionQuestion = async () => {
 };
 
 export const readNotification = async ({ id, writerId }: Pick<NotificationBase, 'id' | 'writerId'>) => {
-  console.log({ writerId });
   const res = await axios.put<number>(`/api/notification/${id}`, { writerId });
   return res.status;
 };

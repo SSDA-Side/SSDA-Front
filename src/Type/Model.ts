@@ -60,8 +60,8 @@ export interface Reply extends CommentBase {
   id: number;
 }
 export interface ContentImage {
-  id: string;
-  imageUrl: string;
+  id: number;
+  imgUrl: string;
 }
 
 export interface NotificationBase {

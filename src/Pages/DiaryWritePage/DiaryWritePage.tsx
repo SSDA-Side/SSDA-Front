@@ -13,6 +13,7 @@ import cn from 'classnames';
 import { ChangeEvent, KeyboardEvent, useMemo, useRef, useState } from 'react';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import styles from './DiaryWritePage.module.scss';
+import { ContentImage } from '@Type/Model';
 
 const initialFormData: DiaryFormData = {
   boardId: -1,
@@ -21,7 +22,7 @@ const initialFormData: DiaryFormData = {
   emotionId: -1,
   selectedDate: new Date().toISOString(),
   images: [] as File[],
-  uploadedImageUrls: [],
+  uploadedImageIds: [],
 };
 
 export const DiaryWritePage = () => {
@@ -148,7 +149,7 @@ const WriteForm = ({
   onFieldChange,
   ...formData
 }: { onFieldChange: (fields: Partial<DiaryFormData>) => void } & DiaryFormData) => {
-  const { title, images, contents, emotionId, selectedDate, uploadedImageUrls } = formData;
+  const { title, images, contents, emotionId, selectedDate, uploadedImageIds } = formData;
   const { openBottomSheet } = useSheet();
 
   const handleEmotionClick = () => {
@@ -175,9 +176,9 @@ const WriteForm = ({
     }
   };
 
-  const handleDeleteImage = (targetImage: File | string) => {
-    if (typeof targetImage === 'string') {
-      onFieldChange({ uploadedImageUrls: uploadedImageUrls.filter((imageUrl) => imageUrl !== targetImage) });
+  const handleDeleteImage = (targetImage: File | number) => {
+    if (typeof targetImage === 'number') {
+      onFieldChange({ uploadedImageIds: uploadedImageIds.filter((imageId) => imageId !== targetImage) });
     } else {
       onFieldChange({
         images: [...images.filter((file) => file.name !== targetImage.name)],
@@ -231,10 +232,10 @@ const WriteForm = ({
 
 const ImageList = ({
   images,
-  uploadedImageUrls,
+  uploadedImageIds,
   onDelete,
-}: { onDelete: (targetFile: File | string) => void } & DiaryFormData) => {
-  const previewImages = [...uploadedImageUrls, ...images];
+}: { onDelete: (targetFile: File | number) => void } & DiaryFormData) => {
+  const previewImages = [...uploadedImageIds, ...images];
 
   const hasImages = previewImages.length !== 0;
   const isNotMax = previewImages.length < 3;
@@ -248,9 +249,9 @@ const ImageList = ({
   );
 };
 
-type PreviewImageProp = { image: File | string; onDelete: (targetFile: File | string) => void };
+type PreviewImageProp = { image: File | number; onDelete: (targetFile: File | number) => void };
 const PreviewImage = ({ image, onDelete }: PreviewImageProp) => {
-  const imageUrl = useMemo(() => (typeof image === 'string' ? image : URL.createObjectURL(image)), [image]);
+  const imageUrl = useMemo(() => (typeof image === 'number' ? image : URL.createObjectURL(image)), [image]);
 
   return (
     <div

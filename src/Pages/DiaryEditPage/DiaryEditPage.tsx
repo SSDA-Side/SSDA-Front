@@ -4,15 +4,28 @@ import { PageHeader } from '@Components/Common/PageHeader';
 import { Typography } from '@Components/Common/Typography';
 import { EmotionSelect } from '@Components/EmotionSelect';
 import { SelectEmotionSheet } from '@Components/Sheets/SelectEmotionSheet';
-import { useCreateDiary, useGetEmotionQuestion, useUpdateDiary } from '@Hooks/NetworkHooks';
+import { useGetEmotionQuestion, useUpdateDiary } from '@Hooks/NetworkHooks';
 import { useModal } from '@Hooks/useModal';
 import { useSheet } from '@Hooks/useSheet';
 import { SVGIcon } from '@Icons/SVGIcon';
+import { ContentImage } from '@Type/Model';
 import { DiaryFormData, UpdateDiaryRequest } from '@Type/Request';
 import cn from 'classnames';
 import { ChangeEvent, KeyboardEvent, useMemo, useRef, useState } from 'react';
 import { Navigate, useLocation, useNavigate, useParams } from 'react-router-dom';
 import styles from './DiaryEditPage.module.scss';
+
+type EditFormData = {
+  id: number;
+  boardId: number;
+  memberId: number;
+  emotionId: number;
+  title: string;
+  contents: string;
+  selectedDate: string;
+  images: File[];
+  uploadedImages: ContentImage[];
+};
 
 export const DiaryEditPage = () => {
   const [location, urlParams] = [useLocation(), useParams()];
@@ -24,27 +37,25 @@ export const DiaryEditPage = () => {
 
   const { diary } = location.state;
 
-  // images는 무조건 로컬 파일이고, uploadedImageUrls은 업로드 된 이미지 주소임
-  const newDiary = {
+  const newEditData: EditFormData = {
     ...diary,
-    boardId,
-    id: diary.id,
+    boardId: Number(boardId),
     emotionId: diary.emotionId + 1,
     images: [],
-    uploadedImageUrls: diary.images.length === 0 ? [] : diary.images.map(({ imgUrl }) => imgUrl),
+    uploadedImages: diary.images as ContentImage[],
   };
 
-  return <AwaitedPage initialDiary={newDiary} />;
+  return <AwaitedPage initialEditData={newEditData} />;
 };
 
-const AwaitedPage = ({ initialDiary }: { initialDiary: DiaryFormData }) => {
-  const { boardId, selectedDate, memberId } = initialDiary;
+const AwaitedPage = ({ initialEditData }: { initialEditData: EditFormData }) => {
+  const { boardId, selectedDate } = initialEditData;
 
   const { mutate: updateDiary } = useUpdateDiary();
   const { openConfirm, openAlert } = useModal();
   const navigate = useNavigate();
 
-  const [formData, setFormData] = useState(initialDiary);
+  const [formData, setFormData] = useState(initialEditData);
 
   const shouldSelectEmotion = formData.emotionId === -1;
   const couldWriteDiary = formData.emotionId !== -1;
@@ -77,10 +88,18 @@ const AwaitedPage = ({ initialDiary }: { initialDiary: DiaryFormData }) => {
   };
 
   const handleSubmit = () => {
-    updateDiary(formData as UpdateDiaryRequest, {
+    const submitData: UpdateDiaryRequest = {
+      ...formData,
+      uploadedImageIds: formData.uploadedImages.map(({ id }) => id),
+    };
+
+    console.log({ submitData });
+
+    updateDiary(submitData, {
       onSuccess() {
-        navigate(`/myboard/${boardId}/detail?date=${selectedDate.split('T')[0]}&mId=${memberId}`, { replace: true });
-        // navigate(`/myboard/${boardId}/calendar`, { replace: true });
+        navigate(`/myboard/${boardId}/detail?date=${selectedDate.split('T')[0]}&mId=${formData.memberId}`, {
+          replace: true,
+        });
       },
       onError() {
         openAlert({ contents: '일기 수정에 실패했습니다.\n다시 시도해주세요.' });
@@ -123,7 +142,7 @@ const Header = ({
   );
 };
 
-const SelectEmotionView = ({ onSelect, selectedDate }: { onSelect: (emotionId: number) => void } & DiaryFormData) => {
+const SelectEmotionView = ({ onSelect, selectedDate }: { onSelect: (emotionId: number) => void } & EditFormData) => {
   const { data } = useGetEmotionQuestion();
 
   return (
@@ -153,8 +172,8 @@ const SelectEmotionView = ({ onSelect, selectedDate }: { onSelect: (emotionId: n
 const WriteForm = ({
   onFieldChange,
   ...formData
-}: { onFieldChange: (fields: Partial<DiaryFormData>) => void } & DiaryFormData) => {
-  const { title, images, contents, emotionId, selectedDate, uploadedImageUrls } = formData;
+}: { onFieldChange: (fields: Partial<EditFormData>) => void } & EditFormData) => {
+  const { title, images, contents, emotionId, selectedDate, uploadedImages } = formData;
   const { openBottomSheet } = useSheet();
 
   const handleEmotionClick = () => {
@@ -181,12 +200,12 @@ const WriteForm = ({
     }
   };
 
-  const handleDeleteImage = (targetImage: File | string) => {
-    if (typeof targetImage === 'string') {
-      onFieldChange({ uploadedImageUrls: uploadedImageUrls.filter((imageUrl) => imageUrl !== targetImage) });
+  const handleDeleteImage = (targetImage: File | ContentImage) => {
+    if (typeof targetImage === 'object') {
+      onFieldChange({ uploadedImages: uploadedImages.filter(({ id }) => id !== (targetImage as ContentImage).id) });
     } else {
       onFieldChange({
-        images: [...images.filter((file) => file.name !== targetImage.name)],
+        images: [...images.filter((file) => file.name !== (targetImage as File).name)],
       });
     }
   };
@@ -237,10 +256,10 @@ const WriteForm = ({
 
 const ImageList = ({
   images,
-  uploadedImageUrls,
+  uploadedImages,
   onDelete,
-}: { onDelete: (targetFile: File | string) => void } & DiaryFormData) => {
-  const previewImages = [...(uploadedImageUrls || []), ...images];
+}: { onDelete: (targetFile: File | ContentImage) => void } & EditFormData) => {
+  const previewImages = [...(uploadedImages || []), ...images];
 
   console.log(previewImages);
 
@@ -256,9 +275,9 @@ const ImageList = ({
   );
 };
 
-type PreviewImageProp = { image: File | string; onDelete: (targetFile: File | string) => void };
+type PreviewImageProp = { image: File | ContentImage; onDelete: (targetFile: File | ContentImage) => void };
 const PreviewImage = ({ image, onDelete }: PreviewImageProp) => {
-  const imageUrl = useMemo(() => (typeof image === 'string' ? image : URL.createObjectURL(image)), [image]);
+  const imageUrl = useMemo(() => (image instanceof File ? URL.createObjectURL(image) : image.imgUrl), [image]);
 
   return (
     <div
@@ -290,11 +309,12 @@ const AddImageButton = () => {
 const Toolbar = ({
   selectedDate,
   images,
+  uploadedImages,
   contents,
   onFieldChange,
 }: {
-  onFieldChange: (fields: Partial<DiaryFormData>) => void;
-} & Partial<DiaryFormData>) => {
+  onFieldChange: (fields: Partial<EditFormData>) => void;
+} & Partial<EditFormData>) => {
   const { openAlert } = useModal();
 
   const fileRef = useRef<HTMLInputElement>(null);
@@ -316,8 +336,12 @@ const Toolbar = ({
     }
 
     const maxImageCount = 3;
-    const isSelectdImgCountOverMax = selectedFiles.length > maxImageCount;
-    const isAllAddedImgCountOverMax = selectedFiles.length + (images?.length || 0) > maxImageCount;
+    const selectedFilesCount = selectedFiles.length;
+    const localFilesCount = images?.length || 0;
+    const uploadedImagesCount = uploadedImages?.length || 0;
+
+    const isSelectdImgCountOverMax = selectedFilesCount > maxImageCount;
+    const isAllAddedImgCountOverMax = selectedFilesCount + localFilesCount + uploadedImagesCount > maxImageCount;
 
     const isOverflow = isSelectdImgCountOverMax || isAllAddedImgCountOverMax;
 
@@ -331,6 +355,8 @@ const Toolbar = ({
     if (hasAlready) {
       return openAlert({ contents: '같은 이미지를 선택하셨습니다.' });
     }
+
+    console.log({ selectedFiles });
 
     onFieldChange({ images: [...(images || []), ...selectedFiles] });
     e.target.value = '';
