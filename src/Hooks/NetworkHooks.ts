@@ -371,9 +371,14 @@ export const useUpdateUser = () => {
 };
 
 export const useUpdateFont = (font: number, memberId: number) => {
+  const queryClient = useQueryClient();
+
   return useMutation({
     mutationKey: ['myboard', 'updateFont'],
     mutationFn: () => updateFont({ font, memberId }),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['myboard', 'member'] });
+    },
   });
 };
 
