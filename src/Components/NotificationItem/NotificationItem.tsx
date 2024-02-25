@@ -94,7 +94,8 @@ const NotiItemComment = ({ id, writerId, commentWriterNickname, isRead, regDate,
     category: '댓글 알림',
     content: `${commentWriterNickname}님이 회원님의 일기에 댓글을 달았습니다.`,
     onClick: () => {
-      navigate(`/myboard/${boardId}/${regDate.split('T')[0]}`);
+      //https://www.dassda.today/myboard/9/detail?date=2024-02-25&mId=6
+      navigate(`/myboard/${boardId}/detail?date=${regDate.split('T')[0]}&mId=${writerId}`);
     },
     regDate: new Date(regDate),
     isRead,
@@ -112,7 +113,7 @@ const NotiItemReply = ({ id, writerId, replyWriterNickname, isRead, regDate, boa
     category: '답글 알림',
     content: `${replyWriterNickname}님이 회원님의 일기에 답글을 달았습니다.`,
     onClick: () => {
-      navigate(`/myboard/${boardId}/${regDate.split('T')[0]}`);
+      navigate(`/myboard/${boardId}/detail?date=${regDate.split('T')[0]}&mId=${writerId}`);
     },
     regDate: new Date(regDate),
     isRead,
@@ -130,7 +131,7 @@ const NotiItemLike = ({ id, writerId, likeMemberNickname, isRead, regDate, board
     category: '좋아요 알림',
     content: `${likeMemberNickname}님이 회원님의 일기에 좋아요을 눌렀습니다.`,
     onClick: () => {
-      navigate(`/myboard/${boardId}/${regDate.split('T')[0]}`);
+      navigate(`/myboard/${boardId}/detail?date=${regDate.split('T')[0]}&mId=${writerId}`);
     },
     regDate: new Date(regDate),
     isRead,
@@ -148,7 +149,7 @@ const NotiItemNewDiary = ({ id, writerId, boardTitle, isRead, regDate, boardId }
     category: '새글 알림',
     content: `'${boardTitle}' 일기장에 새글이 등록되었습니다. 댓글과 좋아요를 남겨주세요!`,
     onClick: () => {
-      navigate(`/myboard/${boardId}/${regDate.split('T')[0]}`);
+      navigate(`/myboard/${boardId}/detail?date=${regDate.split('T')[0]}&mId=${writerId}`);
     },
     regDate: new Date(regDate),
     isRead,
@@ -166,7 +167,7 @@ const NotiItemNewMember = ({ id, writerId, boardTitle, isRead, regDate, boardId 
     category: '일기장 신규 멤버 추가 알림',
     content: `'${boardTitle}' 일기장에 새로운 멤버가 참여했습니다.`,
     onClick: () => {
-      navigate(`/myboard/calendar/${boardId}`);
+      navigate(`/myboard/${boardId}/calendar`);
     },
     regDate: new Date(regDate),
     isRead,
