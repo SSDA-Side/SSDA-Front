@@ -69,7 +69,6 @@ const colorList = [
 
 // TODO: [feat] 댓글, 답글 삭제 기능 추가
 // TODO: [design] 댓글이 삭제된 경우 댓글이 없다는 문구 추가
-// TODO: [feat] 좋아요 모달 추가
 export const DiaryListPage = () => {
   const location = useLocation();
 

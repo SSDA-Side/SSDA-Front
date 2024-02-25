@@ -3,6 +3,7 @@ import { CTAButton } from '@Components/Common/Button';
 import styles from './SettingProfilePage.module.scss';
 import { SVGIcon } from '@Icons/SVGIcon';
 import { useGetUser, useUpdateUser } from '@Hooks/NetworkHooks';
+import { useNavigate } from 'react-router-dom';
 
 type User = {
   name: string;
@@ -17,17 +18,32 @@ export const SettingProfilePage = () => {
   const [prevImg, setPrevImg] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
   const { data: userData, isSuccess } = useGetUser();
-  const { mutate: updateUser } = useUpdateUser(user.img, user.name);
+  const { mutate: updateUser } = useUpdateUser();
+  const navigate = useNavigate();
 
   useEffect(() => {
-    isSuccess && setUser((prev) => ({ ...prev, name: userData?.nickname, img: userData?.profile_image_url }));
+    isSuccess &&
+      setUser((prev) => ({ ...prev, name: userData?.nickname, img: new File([], userData?.profile_image_url) }));
   }, [userData, isSuccess]);
 
   const handleSaveClick = () => {
     if (user.name.length < 1 || user.name.length > 8) {
       setErrorMessage('이름은 1~8글자 이내로 입력해주세요.');
     } else {
-      updateUser();
+      updateUser(
+        {
+          nickname: user.name,
+          profileUrl: user.img,
+        },
+        {
+          onSuccess: () => {
+            navigate('/setting');
+          },
+          onError: () => {
+            alert('프로필을 수정하는데 실패했습니다.');
+          },
+        },
+      );
     }
   };
 

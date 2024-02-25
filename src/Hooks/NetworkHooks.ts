@@ -359,10 +359,14 @@ export const useGetUser = () => {
   });
 };
 
-export const useUpdateUser = (profileUrl: File | string, nickname: string) => {
+export const useUpdateUser = () => {
+  const queryClient = useQueryClient();
   return useMutation({
     mutationKey: ['myboard', 'updateUser'],
-    mutationFn: () => updateUser({ profileUrl, nickname }),
+    mutationFn: updateUser,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['myboard', 'member'] });
+    },
   });
 };
 
