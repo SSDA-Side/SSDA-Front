@@ -38,14 +38,19 @@ export const DiaryAllPage = () => {
   const { data: AllDiaryData, isError, isSuccess, refetch } = useGetAllDiary(Number(boardId), 10, lastViewId);
 
   useEffect(() => {
+    setFetchData([]);
+    refetch();
+  }, []);
+
+  useEffect(() => {
     if (isSuccess) {
       setFetchData((fetchData) => [...fetchData, ...AllDiaryData]);
     }
   }, [AllDiaryData]);
 
   useEffect(() => {
-    if (inView) {
-      AllDiaryData && setLastViewId((lastViewId) => lastViewId + 10);
+    if (inView && AllDiaryData && AllDiaryData?.length % 10 === 0) {
+      setLastViewId((lastViewId) => lastViewId + 10);
     }
   }, [inView]);
 
