@@ -222,7 +222,7 @@ const DiaryContent = ({ memberId, setSelectTabColor }: DiaryContentProps) => {
 
   useEffect(() => {
     if (isSuccess) {
-      setSelectTabColor(colorList[diaryDetail?.emotionId]);
+      diaryDetail && diaryDetail.emotionId && setSelectTabColor(colorList[diaryDetail.emotionId]);
     }
   }, [isSuccess]);
 
