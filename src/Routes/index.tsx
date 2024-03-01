@@ -80,14 +80,14 @@ export const routes = [
                     path: 'calendar',
                     element: <DiaryCalendarPage />,
                   },
-                  {
-                    path: 'all',
-                    element: <DiaryAllPage />,
-                  },
-                  {
-                    path: 'new',
-                    element: <DiaryNewPage />,
-                  },
+                  // {
+                  //   path: 'all',
+                  //   element: <DiaryAllPage />,
+                  // },
+                  // {
+                  //   path: 'new',
+                  //   element: <DiaryNewPage />,
+                  // },
                 ],
               },
               {

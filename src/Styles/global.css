@@ -4,7 +4,29 @@
   box-sizing: border-box;
 }
 
-html {
-  overflow-y: scroll;
-  overflow-x: hidden;
+div#root {
+  display: flex;
+  min-height: 100dvh;
+  max-height: 100dvh;
+  margin: 0 auto;
+}
+
+@media screen and (min-width: 390px) {
+  div#root {
+    max-width: 390px;
+  }
+}
+
+@media screen and (max-width: 390px) {
+  :root {
+    --app-container-width: 100dvw;
+    font-size: 4.1vw;
+  }
+}
+
+@media screen and (min-width: 391px) {
+  :root {
+    --app-container-width: 390px;
+    font-size: 16px;
+  }
 }
