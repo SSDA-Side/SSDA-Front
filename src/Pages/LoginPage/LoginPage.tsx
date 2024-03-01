@@ -1,75 +1,87 @@
-import { SocialLogin } from '@Components/SocialLogin';
-import { LoginImage } from '@Assets/LoginImages';
-import styles from './LoginPage.module.scss';
 import { useEffect, useState } from 'react';
-import { SVGIcon } from '@Icons/SVGIcon';
-import { useNavigate } from 'react-router-dom';
-import { getCookie } from '@Utils/Cookies';
-import dassdaLogo from '@Assets/dassdaLogo.png';
 
-const titleList = ['다양한 디자인 템플릿', '귀여운 기분 감정들', '같이 쓰는 일기'];
-const explainList = [
-  ['약 20여가지 디자인 중에', '마음에 드는 표지를 골라', '일기장을 만들어보세요!'],
-  ['오늘 하루는 어땠는지', '기분 스티커로 표현해보세요!'],
-  ['소중한 사람들과', '서로의 일상을 주고받아보세요!'],
+import kakaoLogo from '@Assets/LoginImages/kakao_logo.svg';
+import styles from './LoginPage.module.scss';
+
+import image1 from '@Assets/LoginImages/onboarding01.png';
+import image2 from '@Assets/LoginImages/onboarding02.png';
+import image3 from '@Assets/LoginImages/onboarding03.png';
+
+import cn from 'classnames';
+
+const REST_API_KEY = import.meta.env.VITE_KAKAO_REST_API_KEY;
+const REDIRECT_URI = import.meta.env.VITE_KAKAO_REDIRECT_URI;
+const kakaoLoginUrl = `https://kauth.kakao.com/oauth/authorize?client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI}&response_type=code`;
+
+const onboardingDatas = [
+  {
+    id: 0,
+    title: '다양한 디자인 템플릿',
+    text: `약 20여가지 디자인 중에\n마음에 드는 표지를 골라\n일기장을 만들어보세요!`,
+    image: image1,
+  },
+  {
+    id: 1,
+    title: '귀여운 기분 감정들',
+    text: `오늘 하루는 어땠는지\n기분 스티커로 표현해보세요!`,
+    image: image2,
+  },
+  {
+    id: 2,
+    title: '같이 쓰는 일기',
+    text: `소중한 사람들과\n서로의 일상을 주고받아보세요!`,
+    image: image3,
+  },
 ];
 
-// TODO: [feat] 3초마다
-const Carousel = () => {
-  const [current, setCurrent] = useState<number>(0);
-
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setCurrent((current + 1) % 4);
-    }, 3000);
-    return () => clearInterval(timer);
-  }, [current]);
-
-  return (
-    <div className={`${styles.carousel} ${styles[`carousel-${current}`]}`}>
-      <div className={styles.carouselContainer}>
-        {current === 3 ? (
-          <div className={styles.carouselContent}>
-            <img src={dassdaLogo} alt="dassdaLogo" />
-            <h2>소중한 사람과 함께 일상을 공유해보세요!</h2>
-          </div>
-        ) : (
-          <>
-            <div className={styles.imageContainer}>
-              <LoginImage index={current} />
-            </div>
-            <div className={styles.contentContainer}>
-              <h1>{titleList[current]}</h1>
-              {explainList[current].map((text, index) => (
-                <p key={`explain-${index}`}>{text}</p>
-              ))}
-            </div>
-          </>
-        )}
-      </div>
-      <div className={styles.carouselButton}>
-        {[0, 1, 2, 3].map((index) => (
-          <button onClick={() => setCurrent(index)} key={`name- ${index}`}>
-            <SVGIcon name={index === current ? 'fill-circle' : 'empty-circle'} size={8} />
-          </button>
-        ))}
-      </div>
-      <div className={styles.loginContainer}>
-        <SocialLogin />
-      </div>
-    </div>
-  );
-};
-
 export const LoginPage = () => {
-  const navigate = useNavigate();
+  const [currentIndex, setCurrentIndex] = useState(0);
 
   useEffect(() => {
-    if (getCookie('accessToken')) navigate('/myboard');
-  }, [navigate]);
+    const timerId = setInterval(() => {
+      setCurrentIndex((prev) => (prev < onboardingDatas.length - 1 ? prev + 1 : 0));
+    }, 2500);
+
+    return () => clearInterval(timerId);
+  }, []);
+
+  const handleLogin = () => {
+    localStorage.setItem('callbackUrl', '/myboard');
+    window.location.href = kakaoLoginUrl;
+  };
+
   return (
     <div className={styles.container}>
-      <Carousel />
+      <div className={styles.listWrapper}>
+        <div className={styles.list} style={{ transform: `translateX(${-100 * currentIndex}%)` }}>
+          {onboardingDatas.map(({ id, image, title, text }) => (
+            <div key={id} className={styles.content}>
+              <div className={styles.imgWrapper}>
+                <img src={image} />
+              </div>
+
+              <h2>{title}</h2>
+              <p className={styles.description}>{text}</p>
+            </div>
+          ))}
+        </div>
+
+        <ul className={styles.nav}>
+          {onboardingDatas.map((onboardingData) => (
+            <li
+              key={onboardingData.id}
+              className={cn(styles.navItem, { [styles.selected]: currentIndex === onboardingData.id })}
+            />
+          ))}
+        </ul>
+      </div>
+
+      <div className={styles.bottom}>
+        <button className={styles.kakaoLoginButton} onClick={handleLogin}>
+          <img src={kakaoLogo} alt="kakaoLogo" />
+          카카오로 시작하기
+        </button>
+      </div>
     </div>
   );
 };
