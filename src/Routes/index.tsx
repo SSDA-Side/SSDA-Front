@@ -22,6 +22,7 @@ import { SettingProfilePage } from '@Pages/SettingProfilePage';
 import { SharePage, loader as shareLoader } from '@Pages/SharePage';
 import type { RouteObject } from 'react-router-dom';
 import { ProtectedRouter } from './ProtectedRouter';
+import { DiaryListPage } from '@Pages/DiaryListPage';
 
 export const routes = [
   {
@@ -73,6 +74,10 @@ export const routes = [
                 element: <DiaryWritePage />,
               },
               {
+                path: 'myboard/:boardId/diary/:diaryId',
+                element: <DiaryListPage />,
+              },
+              {
                 path: 'myboard/:boardId',
                 element: <TabLayout />,
                 children: [
@@ -80,14 +85,14 @@ export const routes = [
                     path: 'calendar',
                     element: <DiaryCalendarPage />,
                   },
-                  // {
-                  //   path: 'all',
-                  //   element: <DiaryAllPage />,
-                  // },
-                  // {
-                  //   path: 'new',
-                  //   element: <DiaryNewPage />,
-                  // },
+                  {
+                    path: 'all',
+                    element: <DiaryAllPage />,
+                  },
+                  {
+                    path: 'new',
+                    element: <DiaryNewPage />,
+                  },
                 ],
               },
               {

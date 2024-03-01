@@ -1,501 +1,150 @@
-import {
-  useCreateComment,
-  useCreateReply,
-  useDeleteComment,
-  useDeleteDiary,
-  useDeleteReply,
-  useGetComment,
-  useGetDiaryDetail,
-  useGetLike,
-  useGetReply,
-  useGetTodayDiary,
-  useUpdateLike,
-} from '@Hooks/NetworkHooks';
+import { IconButton } from '@Components/Common/Button';
+import { PageHeader } from '@Components/Common/PageHeader';
+import { Typography } from '@Components/Common/Typography';
+import { useNavigate } from 'react-router-dom';
 import styles from './DiaryListPage.module.scss';
-import { useLocation, useNavigate } from 'react-router-dom';
-import { useEffect, useState } from 'react';
 import cn from 'classnames';
-import { CommentData, todayDiaryData } from '@Type/Response';
-import { EmotionBackgroundImage } from '@Assets/EmotionImages';
-import { SVGIcon } from '@Icons/SVGIcon';
-import { useInView } from 'react-intersection-observer';
-import { Modal } from '@Components/Common/Modal';
 
-type member = {
-  memberId: number;
-  memberNickname: string;
-  isSelect: boolean;
-};
-
-const colorList = [
-  {
-    backgroundColor: '#CA5B68',
-    textColor: '#ffffff',
-  },
-
-  {
-    backgroundColor: '#AEBCCE',
-    textColor: '#424142',
-  },
-  {
-    backgroundColor: '#F0D7C8',
-    textColor: '#424142',
-  },
-  {
-    backgroundColor: '#E2C2A0',
-    textColor: '#424142',
-  },
-  {
-    backgroundColor: '#E58F86',
-    textColor: '#000000',
-  },
-  {
-    backgroundColor: '#F0D7C8',
-    textColor: '#424142',
-  },
-  {
-    backgroundColor: '#C8ACA8',
-    textColor: '#000000',
-  },
-  {
-    backgroundColor: '#D7A285',
-    textColor: '#000000',
-  },
-  {
-    backgroundColor: '#8292B0',
-    textColor: '#000000',
-  },
-];
-
-// TODO: [feat] 댓글, 답글 삭제 기능 추가
-// TODO: [design] 댓글이 삭제된 경우 댓글이 없다는 문구 추가
-// TODO: [feat] 탭 색상을 아이콘의 색상과 맞추기
 export const DiaryListPage = () => {
-  const location = useLocation();
-
-  const searchParams = new URLSearchParams(location.search);
-  const memberId = searchParams.get('mId') || 0;
-  const date = searchParams.get('date') || '';
-
-  const boardId = location.pathname.split('/')[2];
-
-  const [year, month, day] = date.split('-');
-
-  const {
-    mutate: getTodayDiaryMutation,
-    isError,
-    isSuccess,
-    isPending,
-    data: todayData,
-  } = useGetTodayDiary(Number(boardId), date);
-
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    getTodayDiaryMutation();
-  }, []);
-
   return (
     <div className={styles.container}>
-      <div className={styles.header}>
-        <button onClick={() => navigate(`/myboard/${location.pathname.split('/')[2]}/calendar`)}>
-          <SVGIcon name="left" />
-        </button>
-        <div>{`${year}년 ${month}월 ${day}일`}</div>
-      </div>
-      {isError && <div>일기를 불러오는 중 에러가 발생했습니다.</div>}
-      {isPending && <div>로딩중...</div>}
-      {isSuccess && (
-        <>
-          <div className={styles.tablistContainer}>
-            <TabList todayData={todayData} />
+      <Header />
+
+      <div className={styles.diaryBody}>
+        <div>
+          <ul className={styles.tabList}>
+            <li className={styles.tabItem}>김주현</li>
+            <li className={cn(styles.tabItem, { [styles.activeTabItem]: true })}>김주현</li>
+            <li className={styles.tabItem}>김주현</li>
+            <li className={styles.tabItem}>김주현</li>
+            <li className={styles.tabItem}>김주현</li>
+            <li className={styles.tabItem}>김주현</li>
+            <li className={styles.tabItem}>김주현</li>
+            <li className={styles.tabItem}>김주현</li>
+            <li className={styles.tabItem}>김주현</li>
+            <li className={styles.tabItem}>김주현</li>
+            <li className={styles.tabItem}>김주현</li>
+            <li className={styles.tabItem}>김주현</li>
+            <li className={styles.tabItem}>김주현</li>
+            <li className={styles.tabItem}>김주현</li>
+            <li className={styles.tabItem}>김주현</li>
+          </ul>
+        </div>
+
+        <div className={styles.diarySection}>
+          <div>
+            <p className={styles.title}>일기 제목</p>
+            <p className={cn(styles.greyed, styles.fz14)}>5일 전 ∙ 좋아요 1개 ∙ 댓글 19개</p>
           </div>
-          <div className={styles.scrollContainer}>
-            {memberId === null ? (
-              <div>일기를 불러오는 중 에러가 발생했습니다.</div>
-            ) : (
-              <DiaryContent memberId={Number(memberId)} />
-            )}
+
+          <div className={styles.imageList}>
+            <div className={styles.imageWrapper}>
+              <img src="/profile/1.jpg" />
+            </div>
+            <div className={styles.imageWrapper}>
+              <img src="/profile/1.jpg" />
+            </div>
+            <div className={styles.imageWrapper}>
+              <img src="/profile/1.jpg" />
+            </div>
           </div>
-        </>
-      )}
-    </div>
-  );
-};
 
-type tabListProps = {
-  todayData: todayDiaryData[];
-};
+          <div className={styles.diaryContent}>
+            <p>안녕하세요?</p>
 
-const TabList = ({ todayData }: tabListProps) => {
-  const searchParams = new URLSearchParams(location.search);
-  const memberId = searchParams.get('mId');
-  const [memberList, setMemberList] = useState<member[]>([]);
-  const navigate = useNavigate();
-  const boardId = location.pathname.split('/')[2];
+            <div className={styles.diaryTool}>
+              <button>수정하기</button>
+              <button>삭제하기</button>
+            </div>
+          </div>
+        </div>
 
-  useEffect(() => {
-    if (todayData === undefined) return;
-    setMemberList(
-      todayData?.map((member) => ({
-        memberId: member.memberId,
-        memberNickname: member.nickname,
-        isSelect: +memberId! === member.memberId,
-      })),
-    );
-  }, [memberId]);
+        <div className={styles.commentSection}>
+          <h3>총 14개의 댓글</h3>
 
-  return (
-    <div>
-      <div>
-        <div className={styles.memberTab}>
-          {memberList.map((member) => (
-            <button
-              key={`member-${member.memberId}`}
-              className={cn(styles.member, {
-                [styles.active]: member.isSelect,
-              })}
-              style={{
-                backgroundColor: member.isSelect ? colorList[0].backgroundColor : '#FAFAFA',
-                color: member.isSelect ? colorList[0].textColor : '#606160',
-              }}
-              onClick={() => {
-                navigate(`/myboard/${boardId}/detail?date=${searchParams.get('date')}&mId=${member.memberId}`);
-              }}
-            >
-              {member.memberNickname}
-            </button>
-          ))}
-          <div className={styles.background}></div>
+          <ul>
+            <li>
+              <CommentItem />
+              <ul>
+                <li>
+                  <ReplyItem />
+                </li>
+              </ul>
+            </li>
+          </ul>
+
+          <p className={styles.greyed}>모든 댓글을 불러왔습니다.</p>
         </div>
       </div>
-    </div>
-  );
-};
 
-type LikeModalContentProps = {
-  diaryId: number;
-};
-
-const LikeModalContent = ({ diaryId }: LikeModalContentProps) => {
-  const { data: likeData, isSuccess: likeSuccess } = useGetLike(diaryId);
-
-  return (
-    <div>
-      {likeSuccess ? (
-        <div className={styles.likeContainer}>
-          <div className={styles.likeTitle}>
-            <p>총 {likeData?.length}명</p>
-          </div>
-          {likeData?.map((like) => (
-            <div key={`like-${like.nickname}`}>
-              <div className={styles.likeProfile}>
-                <img src={like.profileUrl} alt="프로필 이미지" />
-              </div>
-              <p>{like.nickname}</p>
-            </div>
-          ))}
+      <div className={styles.writingSection}>
+        <div className={styles.replyMode}>
+          <span>
+            <strong>김주현</strong>님에게 답글을 다는 중입니다...
+          </span>
+          <button>X</button>
         </div>
-      ) : (
-        <div>로딩중...</div>
-      )}
+        <IconButton icon="empty-heart" />
+        <input placeholder="댓글 쓰기..." />
+        <button>등록</button>
+      </div>
     </div>
   );
 };
 
-type DiaryContentProps = {
-  memberId: number;
+const CommentBase = () => {
+  return (
+    <div className={styles.rowGroup} style={{ gap: '1rem' }}>
+      <div className={styles.commentProfileWrapper}>
+        <img src="/profile/1.jpg" />
+      </div>
+
+      <div className={styles.colGroup}>
+        <div className={styles.colGroup} style={{ gap: '.25rem' }}>
+          <p className={styles.name}>김주현</p>
+          <p>안녕?</p>
+        </div>
+
+        <div className={styles.commentTool}>
+          <p>5일 전</p>
+          <button>답글</button>
+          <button>삭제</button>
+        </div>
+      </div>
+    </div>
+  );
 };
 
-const DiaryContent = ({ memberId }: DiaryContentProps) => {
-  const location = useLocation();
+const CommentItem = () => {
+  return (
+    <div className={styles.commentItem}>
+      <CommentBase />
+    </div>
+  );
+};
+
+const ReplyItem = () => {
+  return (
+    <div className={styles.replyItem}>
+      <CommentBase />
+
+      <button className={styles.loadMore}>나머지 답글 불러오기</button>
+    </div>
+  );
+};
+
+const Header = () => {
   const navigate = useNavigate();
-  const searchParams = new URLSearchParams(location.search);
-  const date = searchParams.get('date');
-  const boardId = location.pathname.split('/')[2];
-
-  const { data: diaryDetail, isError, isSuccess } = useGetDiaryDetail(memberId, Number(boardId), date || '');
-
-  const { mutate: deleteDiaryMutation } = useDeleteDiary();
 
   return (
-    <div>
-      {isError && <div>일기를 불러오는 중 에러가 발생했습니다.</div>}
-      {isSuccess && (
-        <div className={cn(styles.content, 'diary-detail-modal')}>
-          <h2>{diaryDetail?.title}</h2>
-          <div className={styles.etc}>
-            <span>{diaryDetail?.timeStamp} </span>
-            <Modal
-              className={'.diary-detail-modal'}
-              title="좋아요 누른 멤버"
-              content={<LikeModalContent diaryId={diaryDetail?.id} />}
-            >
-              <span>∙ 좋아요 {diaryDetail?.likeCount}개 </span>
-            </Modal>
-            <span>∙ 댓글 {diaryDetail?.commentCount}개</span>
-          </div>
-          {/* TODO: [feat] 스크롤 대신 이미지 슬라이드로 변경 */}
-          <div className={styles.contents}>
-            <div className={styles.icons}>
-              <EmotionBackgroundImage index={Number(diaryDetail?.emotionId)} />
-            </div>
-            {diaryDetail.images !== null && (
-              <div className={styles.imgBoxContainer}>
-                <div className={styles.imgBox}>
-                  {diaryDetail.images !== undefined &&
-                    diaryDetail.images.map((image) => {
-                      if (image.imgUrl === null) return null;
-                      return <img key={image.id} src={image.imgUrl} alt="이미지" />;
-                    })}
-                </div>
-              </div>
-            )}
-            {diaryDetail?.contents}
-          </div>
-          <div className={styles.button}>
-            <button
-              onClick={() => {
-                navigate(`/myboard/${boardId}/edit`, { state: { diary: diaryDetail } });
-              }}
-            >
-              수정하기
-            </button>
-            <span> ∙ </span>
-            <button
-              onClick={() => {
-                deleteDiaryMutation(
-                  {
-                    diaryId: diaryDetail?.id as number,
-                  },
-                  {
-                    onSuccess: () => {
-                      navigate(`/myboard/${boardId}/calendar`);
-                    },
-                  },
-                );
-              }}
-            >
-              삭제하기
-            </button>
-          </div>
-          <div className={styles.commentCount}>
-            <p>{diaryDetail.commentCount}개의 댓글</p>
-          </div>
-          <DiaryComment diaryId={diaryDetail.id} />
-        </div>
-      )}
-    </div>
-  );
-};
+    <PageHeader>
+      <PageHeader.Left>
+        <IconButton icon="left" onClick={() => navigate(-1)} />
+      </PageHeader.Left>
 
-type DiaryCommentProps = {
-  diaryId: number;
-};
-
-const DiaryComment = ({ diaryId }: DiaryCommentProps) => {
-  const [lastViewId, setLastViewId] = useState({
-    comment: 0,
-    reply: 0,
-  });
-  const [comment, setComment] = useState({
-    status: 'comment',
-    commentId: 0,
-    data: '',
-    userNickname: '',
-  });
-
-  const { data: commentData, isSuccess: getCommentSuccess, refetch } = useGetComment(diaryId, lastViewId.comment);
-  const [fetchData, setFetchData] = useState<CommentData>([]);
-  const [ref, inView] = useInView();
-  const { mutate: createCommentMutation } = useCreateComment();
-  const { mutate: deleteCommentMutation } = useDeleteComment();
-  const { mutate: createReplyMutation } = useCreateReply();
-  const { data: likeData, isSuccess: likeSuccess } = useGetLike(diaryId);
-  const { mutate: updateLikeMutation } = useUpdateLike(diaryId);
-  const navigate = useNavigate();
-  const boardId = useLocation().pathname.split('/')[2];
-
-  const searchParams = new URLSearchParams(location.search);
-  const selectedDate = searchParams.get('date');
-
-  useEffect(() => {
-    if (getCommentSuccess) {
-      if (lastViewId.comment === 0) {
-        setFetchData(commentData);
-      } else {
-        setFetchData((fetchData) => [...fetchData, ...commentData]);
-      }
-    }
-  }, [commentData]);
-
-  useEffect(() => {
-    if (inView && commentData && commentData?.length % 10 === 0) {
-      setLastViewId((lastViewId) => ({ ...lastViewId, comment: lastViewId.comment + 10 }));
-    }
-  }, [inView]);
-
-  useEffect(() => {
-    if (lastViewId.comment > 0 && commentData && commentData?.length % 10 === 0) {
-      refetch();
-    }
-  }, [lastViewId.comment]);
-
-  return (
-    <>
-      {getCommentSuccess && likeSuccess && (
-        <div className={styles.commentContainer}>
-          {fetchData?.map((comment) => (
-            <div className={styles.commentArea} key={`comment-${comment.id}`}>
-              <div className={styles.commentBox}>
-                <img src={comment.profileUrl} alt="프로필 이미지" />
-                <div className={styles.body}>
-                  <div>
-                    <span>{comment.nickname}</span>
-                    <p>{comment.contents}</p>
-                  </div>
-                  <div className={styles.etc}>
-                    <span>{comment.timeStamp}</span>
-                    <span>&nbsp;&nbsp;</span>
-                    <button
-                      onClick={() => {
-                        setComment({
-                          status: 'reply',
-                          commentId: comment.id,
-                          data: '',
-                          userNickname: comment?.nickname,
-                        });
-                      }}
-                    >
-                      답글
-                    </button>
-                    <span> ∙ </span>
-
-                    <button
-                      onClick={() => {
-                        // diaryId, comment.commentId
-                        deleteCommentMutation({
-                          diaryId: +diaryId,
-                          commentId: comment.id,
-                        });
-                      }}
-                    >
-                      삭제
-                    </button>
-                  </div>
-                </div>
-              </div>
-              <DiaryReply commentId={comment.id} lastViewId={lastViewId.reply} />
-            </div>
-          ))}
-          <div ref={ref}></div>
-          <div className={styles.writeContainer}>
-            {comment.status === 'reply' && (
-              <div className={styles.replyView}>
-                <span>{comment?.userNickname}에게 답글 작성 중</span>
-                <button
-                  onClick={() => {
-                    setComment({ status: 'comment', commentId: 0, data: '', userNickname: '' });
-                  }}
-                >
-                  <SVGIcon name="close" size={12} />
-                </button>
-              </div>
-            )}
-            <button
-              className={styles.addDiary}
-              onClick={() => navigate(`/myboard/${boardId}/write?date=${selectedDate}`)}
-            >
-              <SVGIcon name="add" size={16} />
-            </button>
-            <div className={styles.commentView}>
-              <button
-                onClick={() => {
-                  updateLikeMutation();
-                }}
-              >
-                {likeData?.length === 0 ? <SVGIcon name="empty-love" /> : <SVGIcon name="love" />}
-              </button>
-              <input
-                type="text"
-                className={styles.addComment}
-                maxLength={30}
-                placeholder="댓글 쓰기..."
-                value={comment.data}
-                onChange={(event) => {
-                  setComment((prev) => ({ ...prev, data: event.target.value }));
-                }}
-              />
-              <button
-                style={{ color: `${comment.data === '' ? '#9e9e9e' : '#FF8066'}` }}
-                onClick={() => {
-                  if (comment.data === '') return;
-                  if (comment.status === 'comment') {
-                    // diaryId, comment.data
-                    createCommentMutation(
-                      { diaryId, contents: comment.data },
-                      {
-                        onSuccess: () => {
-                          setComment({ status: 'comment', commentId: 0, data: '', userNickname: '' });
-                        },
-                      },
-                    );
-                  } else {
-                    createReplyMutation(
-                      { commentId: comment.commentId, contents: comment.data },
-                      {
-                        onSuccess: () => {
-                          setComment({ status: 'comment', commentId: 0, data: '', userNickname: '' });
-                        },
-                      },
-                    );
-                  }
-                }}
-              >
-                등록
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
-    </>
-  );
-};
-
-type DiaryReplyProps = {
-  commentId: number;
-  lastViewId: number;
-};
-
-const DiaryReply = ({ commentId, lastViewId }: DiaryReplyProps) => {
-  const { data: replyData, isSuccess } = useGetReply(commentId, lastViewId);
-  const { mutate: deleteReplyMutation } = useDeleteReply();
-
-  return (
-    <>
-      {isSuccess &&
-        replyData?.map((reply) => (
-          <div className={styles.replyBox} key={`key-${reply.id}`}>
-            <img src={reply.profileUrl} alt="프로필 이미지" />
-            <div className={styles.body}>
-              <div>
-                <span>{reply.nickname}</span>
-                <p>{reply.contents}</p>
-              </div>
-              <div className={styles.etc}>
-                <span>{reply.timeStamp}</span>
-                <span> ∙ </span>
-                <button
-                  onClick={() => {
-                    deleteReplyMutation({ commentId: +commentId, replyId: reply.id });
-                  }}
-                >
-                  삭제
-                </button>
-              </div>
-            </div>
-          </div>
-        ))}
-    </>
+      <PageHeader.Center>
+        <Typography as="h4">2024년 03월 01일</Typography>
+      </PageHeader.Center>
+    </PageHeader>
   );
 };

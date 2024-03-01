@@ -312,9 +312,13 @@ export const useUpdateRead = (boardId: number) => {
 };
 
 export const useGetAllDiary = (boardId: number, pageSize: number, lastViewId: number) => {
-  return useQuery({
-    queryKey: ['myboard', 'diary'],
-    queryFn: () => getAllDiary({ boardId, pageSize, lastViewId }),
+  return useSuspenseInfiniteQuery({
+    queryKey: ['diary', 'all', boardId, lastViewId],
+    queryFn: ({ pageParam: lastViewId }) => getAllDiary({ boardId, pageSize, lastViewId }),
+    initialPageParam: 0,
+    getNextPageParam(lastPage) {
+      return lastPage.length === 0 ? undefined : lastPage[lastPage.length - 1].id;
+    },
   });
 };
 
@@ -326,19 +330,16 @@ export const useIsNewDiary = (boardId: number) => {
 };
 
 export const useGetNewDiary = (boardId: number) => {
-  return useQuery({
-    queryKey: ['myboard', 'newDiary'],
+  return useSuspenseQuery({
+    queryKey: ['diary', 'new', boardId],
     queryFn: () => getNewDiary({ boardId }),
   });
 };
 
 export const useGetTodayDiary = (boardId: number, date: string) => {
-  return useMutation({
-    mutationKey: ['myboard', 'today'],
-    mutationFn: () => getTodayDiary({ boardId, date }),
-    onSuccess: (data) => {
-      return data;
-    },
+  return useSuspenseQuery({
+    queryKey: ['diary', boardId, date],
+    queryFn: () => getTodayDiary({ boardId, date }),
   });
 };
 
@@ -350,13 +351,12 @@ export const useGetDiaryDetail = (memberId: number, boardId: number, date: strin
   });
 };
 
-export const useGetMonth = (boardId: number, date: string) => {
-  return useMutation({
-    mutationKey: ['myboard', 'month'],
-    mutationFn: () => getMonth({ boardId, date }),
-    onSuccess: (data) => {
-      return data.dataList;
-    },
+export const useGetMonth = (boardId: number, selectedDate: Date) => {
+  const date = selectedDate.toISOString().split('T')[0];
+
+  return useQuery({
+    queryKey: ['calendar', 'month', selectedDate.getFullYear() + selectedDate.getMonth()],
+    queryFn: () => getMonth({ boardId, date }),
   });
 };
 

@@ -35,7 +35,12 @@ export const TabLayout = () => {
 
       <div className={styles.sideLayout}>
         <TabList />
-        <Outlet />
+
+        <div className={styles.container}>
+          <div className={styles.dashedContainer}>
+            <Outlet />
+          </div>
+        </div>
       </div>
     </div>
   );
@@ -45,30 +50,38 @@ const Header = () => {
   const navigate = useNavigate();
 
   return (
-    <PageHeader>
-      <PageHeader.Left>
-        <IconButton icon="left" onClick={() => navigate('/myboard')} />
-      </PageHeader.Left>
+    <div className={styles.header}>
+      <PageHeader>
+        <PageHeader.Left>
+          <IconButton icon="left" onClick={() => navigate('/myboard')} />
+        </PageHeader.Left>
 
-      <PageHeader.Center>
-        <Typography as="h4">안뇽안뇽</Typography>
-      </PageHeader.Center>
+        <PageHeader.Center>
+          <Typography as="h4">안뇽안뇽</Typography>
+        </PageHeader.Center>
 
-      <PageHeader.Right>
-        <IconButton icon="users" onClick={() => {}} />
-      </PageHeader.Right>
-    </PageHeader>
+        <PageHeader.Right>
+          <IconButton icon="users" onClick={() => {}} />
+        </PageHeader.Right>
+      </PageHeader>
+    </div>
   );
 };
 
 const TabList = () => {
+  const navigate = useNavigate();
   const [currentTabIndex, setCurrentTabIndex] = useState(0);
+
+  const handleClick = (id: number, path: string) => {
+    setCurrentTabIndex(id);
+    navigate(path, { replace: true });
+  };
 
   return (
     <div className={styles.tabContainer}>
       <ul className={styles.tabLayout}>
         {tabs.map((tab) => (
-          <li key={tab.id} className={styles.tabItem} onClick={() => setCurrentTabIndex(tab.id)}>
+          <li key={tab.id} className={styles.tabItem} onClick={() => handleClick(tab.id, tab.path)}>
             <SVGIcon name={tab.icon as IconName} className={styles.size16} />
             <p>{tab.name}</p>
 

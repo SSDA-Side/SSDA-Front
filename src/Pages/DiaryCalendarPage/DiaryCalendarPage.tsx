@@ -1,26 +1,65 @@
-import { IconButton } from '@Components/Common/Button';
-import cn from 'classnames';
-import { useMemo, useState } from 'react';
-import styles from './DiaryCalendarPage.module.scss';
-import { EmotionImage } from '@Assets/EmotionImages';
 import sleepImage from '@Assets/EmotionImages/sleepEmotion.png';
-import { SVGIcon } from '@Icons/SVGIcon';
+import { Calendar } from '@Components/Calendar';
+import { AsyncBoundary } from '@Components/Common/AsyncBoundary';
+import { DiaryCard } from '@Components/DiaryCard';
+import { useGetMonth, useGetTodayDiary } from '@Hooks/NetworkHooks';
+import { useState } from 'react';
+import { useParams } from 'react-router-dom';
+import styles from './DiaryCalendarPage.module.scss';
 
 export const DiaryCalendarPage = () => {
   const [currentDate, setCurrentDate] = useState(new Date());
+  const [viewDate, setViewDate] = useState(currentDate);
 
   const handleSelectDate = (date: Date) => {
     setCurrentDate(date);
   };
 
+  const handleSelectViewDate = (date: Date) => {
+    setViewDate(date);
+  };
+
   return (
-    <div className={styles.container}>
-      <div className={styles.dashedContainer}>
-        <Calendar selectDate={currentDate} onSelectDate={handleSelectDate} />
-        {/* <NoDiarysView /> */}
-        <DiaryList />
-      </div>
-    </div>
+    <>
+      <AwaitedCalendar
+        viewDate={viewDate}
+        selectDate={currentDate}
+        onSelectViewDate={handleSelectViewDate}
+        onSelectDate={handleSelectDate}
+      />
+      <AsyncBoundary ErrorFallback={() => <></>} SuspenseFallback={<></>}>
+        {/* <Calendar selectDate={currentDate} onSelectDate={handleSelectDate} /> */}
+        <DiaryList selectedDate={currentDate} />
+      </AsyncBoundary>
+    </>
+  );
+};
+
+const AwaitedCalendar = ({
+  viewDate,
+  selectDate,
+  onSelectViewDate,
+  onSelectDate,
+}: {
+  viewDate: Date;
+  selectDate: Date;
+  onSelectViewDate: (date: Date) => void;
+  onSelectDate: (date: Date) => void;
+}) => {
+  const params = useParams();
+  const { boardId } = params;
+
+  const { data } = useGetMonth(Number(boardId), viewDate);
+  const { dateList: writtenDates } = data || { dateList: [] };
+
+  return (
+    <Calendar
+      viewDate={viewDate}
+      selectDate={selectDate}
+      writtenDates={writtenDates}
+      onSelectViewDate={onSelectViewDate}
+      onSelectDate={onSelectDate}
+    />
   );
 };
 
@@ -34,177 +73,71 @@ const NoDiarysView = () => {
   );
 };
 
-const DiaryList = () => {
+const DiaryList = ({ selectedDate }: { selectedDate: Date }) => {
+  const params = useParams();
+  const { boardId } = params;
+
+  return (
+    <AsyncBoundary ErrorFallback={() => <></>} SuspenseFallback={<LoadingUI selectedDate={selectedDate} />}>
+      <AwaitedDiaryList selectedDate={selectedDate} boardId={Number(Number(boardId!))} />
+    </AsyncBoundary>
+  );
+};
+
+const LoadingUI = ({ selectedDate }: { selectedDate: Date }) => {
+  const dateLabel = `${new Intl.DateTimeFormat('ko-KR', { month: '2-digit' }).format(
+    selectedDate,
+  )} ${new Intl.DateTimeFormat('ko-KR', { day: '2-digit' }).format(selectedDate)}`;
+
   return (
     <div className={styles.diaryListSection}>
       <div className={styles.colGroup}>
-        <h2>03월 13일 일기</h2>
-        <p className={styles.gray700}>총 12개의 일기가 있습니다.</p>
+        <h2>{dateLabel} 일기</h2>
+        <p>일기를 불러오는 중입니다...</p>
       </div>
-
-      <ul id="diaryList" className={styles.diaryList}>
-        <li className={styles.diaryItem}>
-          <div className={styles.diaryImageWrapper}>
-            {/* <EmotionImage type="sad" /> */}
-            <img src="/profile/1.jpg" />
-          </div>
-
-          <div className={styles.colGroup} style={{ padding: '1rem' }}>
-            <h4>일기 제목입니다</h4>
-            <div className={styles.rowGroup} style={{ justifyContent: 'space-between' }}>
-              <div className={styles.rowGroup} style={{ alignItems: 'center' }}>
-                <span>김주현</span>
-                <span className={styles.relativeLabel}>5일 전</span>
-              </div>
-
-              <div className={styles.rowGroup}>
-                <span className={styles.withIcon}>
-                  <SVGIcon name="empty-heart" className={styles.size18} /> 10
-                </span>
-
-                <span className={styles.withIcon}>
-                  <SVGIcon name="comment" className={styles.size18} /> 7
-                </span>
-              </div>
-            </div>
-          </div>
-        </li>
-
-        <li className={styles.diaryItem}>
-          <div className={styles.diaryImageWrapper}>
-            <EmotionImage type="sad" />
-            {/* <img src="/profile/1.jpg" /> */}
-          </div>
-
-          <div className={styles.colGroup} style={{ padding: '1rem' }}>
-            <h4>일기 제목입니다</h4>
-            <div className={styles.rowGroup} style={{ justifyContent: 'space-between' }}>
-              <div className={styles.rowGroup} style={{ alignItems: 'center' }}>
-                <span>김주현</span>
-                <span className={styles.relativeLabel}>5일 전</span>
-              </div>
-
-              <div className={styles.rowGroup}>
-                <span className={styles.withIcon}>
-                  <SVGIcon name="empty-heart" className={styles.size18} /> 10
-                </span>
-
-                <span className={styles.withIcon}>
-                  <SVGIcon name="comment" className={styles.size18} /> 7
-                </span>
-              </div>
-            </div>
-          </div>
-        </li>
-      </ul>
-
-      <p className={styles.gray700}>모든 일기를 불러왔습니다.</p>
     </div>
   );
 };
 
-const dayOfWeekNames = ['일', '월', '화', '수', '목', '금', '토'];
+const AwaitedDiaryList = ({ selectedDate, boardId }: { selectedDate: Date; boardId: number }) => {
+  const mutatedDate = selectedDate.toISOString().split('T')[0];
+  // console.log(new Intl.DateTimeFormat('ko-KR', { dateStyle: 'full' }).format(selectedDate));
+  console.log(selectedDate.toLocaleString());
+  const { data: dirays } = useGetTodayDiary(boardId, mutatedDate);
 
-const Calendar = ({ selectDate, onSelectDate }: { selectDate: Date; onSelectDate: (date: Date) => void }) => {
-  // month는 0부터, day는 1부터
-  const [viewDate, setViewDate] = useState(selectDate);
-  const [currentYear, currentMonth] = [viewDate.getFullYear(), viewDate.getMonth()];
+  const dateLabel = `${new Intl.DateTimeFormat('ko-KR', { month: '2-digit' }).format(
+    selectedDate,
+  )} ${new Intl.DateTimeFormat('ko-KR', { day: '2-digit' }).format(selectedDate)}`;
 
-  const dateLabel = `${currentYear}년 ${(currentMonth + 1).toString().padStart(2, '0')}월`;
-  const startIndex = new Date(currentYear, currentMonth, 1).getDay();
-  const lastMonth = new Date(currentYear, currentMonth, 0);
-  const lastDay = new Date(currentYear, currentMonth + 1, 0).getDate();
-  const lastDayOfWeek = new Date(currentYear, currentMonth + 1, 0).getDay();
+  const hasNoDiary = dirays.length === 0;
 
-  const lastMonthDays = useMemo(
-    () =>
-      Array(startIndex)
-        .fill(0)
-        .map((_, index) => lastMonth.getDate() - startIndex + index + 1),
-    [currentMonth],
-  );
+  if (hasNoDiary) {
+    return (
+      <div className={styles.diaryListSection}>
+        <div className={styles.colGroup}>
+          <h2>{dateLabel} 일기</h2>
+          <NoDiarysView />
+        </div>
+      </div>
+    );
+  }
 
-  const currentMonthDays = useMemo(
-    () =>
-      Array(lastDay)
-        .fill(0)
-        .map((_, index) => index + 1),
-    [currentMonth],
-  );
-
-  const visibleDayCount = lastMonthDays.length + currentMonthDays.length;
-  const shouldRenderMoreWeek = visibleDayCount <= 35;
-
-  const nextMonthDays = useMemo(
-    () =>
-      Array(6 - lastDayOfWeek + (shouldRenderMoreWeek ? 7 : 0))
-        .fill(0)
-        .map((_, index) => index + 1),
-    [currentMonth],
-  );
+  const diaryCount = dirays.length;
 
   return (
-    <div className={styles.calendarSection}>
-      <div className={styles.dateContainer}>
-        <IconButton icon="left" onClick={() => setViewDate(new Date(currentYear, currentMonth, 0))} />
-        <p>{dateLabel}</p>
-        <IconButton icon="right" onClick={() => setViewDate(new Date(currentYear, currentMonth + 1, 1))} />
+    <div className={styles.diaryListSection}>
+      <div className={styles.colGroup}>
+        <h2>{dateLabel} 일기</h2>
+        <p className={styles.gray700}>총 {diaryCount}개의 일기가 있습니다.</p>
       </div>
 
-      <ul className={styles.calendarContainer}>
-        {dayOfWeekNames.map((name) => (
-          <li key={name} className={cn(styles.dayItem, styles.headerItem)}>
-            {name}
-          </li>
-        ))}
-
-        {lastMonthDays.map((day) => (
-          <li
-            key={`last-${day}`}
-            className={cn(styles.dayItem, styles.grayed)}
-            onClick={() => {
-              setViewDate(new Date(currentYear, currentMonth - 1, day));
-              onSelectDate(new Date(currentYear, currentMonth - 1, day));
-            }}
-          >
-            {day}
-          </li>
-        ))}
-
-        {currentMonthDays.map((day) => (
-          <li
-            key={`current-${day}`}
-            className={cn(styles.dayItem, {
-              [styles.grayed]:
-                viewDate.getFullYear() !== selectDate.getFullYear() || viewDate.getMonth() !== selectDate.getMonth(),
-              [styles.activeItem]:
-                viewDate.getFullYear() === selectDate.getFullYear() &&
-                viewDate.getMonth() === selectDate.getMonth() &&
-                day === selectDate.getDate(),
-              // [styles.hasItem]: day === 30,
-            })}
-            onClick={() => {
-              setViewDate(new Date(currentYear, currentMonth, day));
-              onSelectDate(new Date(currentYear, currentMonth, day));
-            }}
-          >
-            {day}
-          </li>
-        ))}
-
-        {nextMonthDays.map((day) => (
-          <li
-            key={`next-${day}`}
-            className={cn(styles.dayItem, styles.grayed)}
-            onClick={() => {
-              setViewDate(new Date(currentYear, currentMonth + 1, day));
-              onSelectDate(new Date(currentYear, currentMonth + 1, day));
-            }}
-          >
-            {day}
-          </li>
+      <ul id="diaryList" className={styles.diaryList}>
+        {dirays.map((diary) => (
+          <DiaryCard key={diary.id} {...diary} onClick={() => {}} />
         ))}
       </ul>
+
+      <p className={styles.gray700}>모든 일기를 불러왔습니다.</p>
     </div>
   );
 };
