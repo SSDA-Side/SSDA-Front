@@ -74,7 +74,7 @@ const AwaitedPage = ({ initialEditData }: { initialEditData: EditFormData }) => 
     const haveUnsavedChanges = hasTitle || hasContent || haveSomeImages;
 
     if (!haveUnsavedChanges) {
-      return navigate(`/myboard/${boardId}/calendar`, { replace: true });
+      return navigate(-1);
     }
 
     handleUnsavedChanges();

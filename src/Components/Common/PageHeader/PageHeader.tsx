@@ -21,7 +21,7 @@ const RightSection = ({ children }: RightSectionProp) => {
 
 type PageHeaderProp = PropsWithChildren;
 const PageHeader = ({ children }: PageHeaderProp) => {
-  return <div className={styles.container}>{children}</div>;
+  return <header className={styles.container}>{children}</header>;
 };
 
 PageHeader.Left = LeftSection;

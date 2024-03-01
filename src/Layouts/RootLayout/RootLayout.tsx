@@ -1,19 +1,18 @@
 import { useModal } from '@Hooks/useModal';
+import { useSheet } from '@Hooks/useSheet';
 import { AlertPayload, ComponentPayload, ConfirmPayload, Modal } from '@Store/ModalStore';
 import { Outlet } from 'react-router-dom';
 import { Alert, BottomSheet, ComponentModal, Confirm } from './OverlayComponent';
-import styles from './RootLayout.module.scss';
-import { useSheet } from '@Hooks/useSheet';
 
 export const RootLayout = () => {
   return (
-    <div className={styles.fullContainer}>
-      <div className={styles.appContaienr}>
-        <Outlet />
-        <ModalController />
-        <SheetController />
-      </div>
-    </div>
+    // <div className={styles.fullContainer}>
+    <>
+      <Outlet />
+      <ModalController />
+      <SheetController />
+    </>
+    // </div>
   );
 };
 

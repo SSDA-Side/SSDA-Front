@@ -1,42 +1,62 @@
-import { useGetNewDiary, useUpdateRead } from '@Hooks/NetworkHooks';
-import { useLocation } from 'react-router-dom';
+import sleepImage from '@Assets/EmotionImages/sleepEmotion.png';
+import { AsyncBoundary } from '@Components/Common/AsyncBoundary';
+import { DiaryCard } from '@Components/DiaryCard';
+import { useGetNewDiary } from '@Hooks/NetworkHooks';
+import { useParams } from 'react-router-dom';
 import styles from './DiaryNewPage.module.scss';
-import { DiaryItem } from '@Components/DiaryItem';
-import { IsNotDiary } from '@Pages/DiaryCalendarPage/DiaryCalendarPage';
 
 export const DiaryNewPage = () => {
-  const location = useLocation();
-  const boardId = location.pathname.split('/')[2];
+  return (
+    <AsyncBoundary ErrorFallback={() => <></>} SuspenseFallback={<></>}>
+      <AwaitedDiaryNewPage />
+    </AsyncBoundary>
+  );
+};
 
-  const { data: NewDiaryData, isError, isSuccess } = useGetNewDiary(Number(boardId));
-  const { mutate: isUpdateReadMutation } = useUpdateRead(Number(boardId));
+const AwaitedDiaryNewPage = () => {
+  const params = useParams();
+  const { boardId } = params;
 
-  const handleUpdateRead = () => {
-    isUpdateReadMutation();
-  };
+  const { data: diarys } = useGetNewDiary(Number(boardId!));
+
+  const hasNoDiary = diarys.length === 0;
+
+  if (hasNoDiary) {
+    return (
+      <>
+        <div>
+          <h2>새로운 일기 보기</h2>
+          <p>새로운 일기를 놓치지 말고 확인해보세요!</p>
+        </div>
+
+        <div className={styles.noDiaryView}>
+          <img src={sleepImage} className={styles.size120} />
+          <h3>모든 일기를 확인했어요</h3>
+          <p>새로운 일기를 작성해보세요!</p>
+        </div>
+      </>
+    );
+  }
 
   return (
-    <div className={styles.container}>
-      {isError && <div>일기 목록을 불러오는데 실패했습니다</div>}
-      {isSuccess ? (
-        NewDiaryData?.length === 0 ? (
-          <div className={styles.notDiaryContainer}>
-            <IsNotDiary />
-          </div>
-        ) : (
-          <>
-            <div className={styles.header}>
-              <h1>새로운 일기가 {NewDiaryData?.length}개 있어요</h1>
-            </div>
-            <div className={styles.readContainer}>
-              <button onClick={handleUpdateRead}>전체 읽음처리</button>
-            </div>
-            <div className={styles.content}>
-              {NewDiaryData?.map((diary) => <DiaryItem key={diary.id} diary={diary} />)}
-            </div>
-          </>
-        )
-      ) : null}
-    </div>
+    <>
+      <div>
+        <h2>새로운 일기 보기</h2>
+        <p>새로운 일기를 놓치지 말고 확인해보세요!</p>
+      </div>
+
+      <div className={styles.allList}>
+        <div className={styles.dayListSection}>
+          <ul id="diaryList" className={styles.diaryList}>
+            {diarys.map((diary) => (
+              <>
+                <h3>02월 03일의 일기</h3>
+                <DiaryCard key={diary.id} {...diary} onClick={() => {}} />
+              </>
+            ))}
+          </ul>
+        </div>
+      </div>
+    </>
   );
 };

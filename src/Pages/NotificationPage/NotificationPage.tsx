@@ -6,7 +6,6 @@ import { Typography } from '@Components/Common/Typography';
 import { NotificationItem } from '@Components/NotificationItem';
 import { useGetNotifications, useHeroMetadata, useReadAllNotification } from '@Hooks/NetworkHooks';
 import { useInfiniteObserver } from '@Hooks/useInfiniteObserver';
-import { PageLayout } from '@Layouts/PageLayout';
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { PageErrorUI } from './NotificationPage.error';
@@ -14,22 +13,21 @@ import styles from './NotificationPage.module.scss';
 import { PageLoadingUI } from './NotificationPage.skeleton';
 
 export const NotificationPage = () => {
-  return <PageLayout header={<Head />} body={<Body />} />;
-};
-
-const Head = () => {
   const navigate = useNavigate();
-
   return (
-    <PageHeader>
-      <PageHeader.Left>
-        <IconButton icon="left" onClick={() => navigate('/myboard')} />
-      </PageHeader.Left>
+    <>
+      <PageHeader>
+        <PageHeader.Left>
+          <IconButton icon="left" onClick={() => navigate('/myboard')} />
+        </PageHeader.Left>
 
-      <PageHeader.Center>
-        <Typography as="h4">알림</Typography>
-      </PageHeader.Center>
-    </PageHeader>
+        <PageHeader.Center>
+          <Typography as="h4">알림</Typography>
+        </PageHeader.Center>
+      </PageHeader>
+
+      <Body />
+    </>
   );
 };
 

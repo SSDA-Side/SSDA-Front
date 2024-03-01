@@ -76,7 +76,8 @@ export type CommentData = {
   owned: boolean;
   deletedMark: boolean;
   timeStamp: string;
-}[];
+  hasReply: boolean;
+};
 
 export type replyData = CommentData;
 
@@ -93,6 +94,7 @@ export type todayDiaryData = {
   regDate?: string;
   selectedDate: string;
   timeStamp: string;
+  isLiked: boolean;
 };
 
 export type likeData = {
