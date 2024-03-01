@@ -4,7 +4,7 @@ import { AsyncBoundary } from '@Components/Common/AsyncBoundary';
 import { DiaryCard } from '@Components/DiaryCard';
 import { useGetMonth, useGetTodayDiary } from '@Hooks/NetworkHooks';
 import { useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import styles from './DiaryCalendarPage.module.scss';
 
 export const DiaryCalendarPage = () => {
@@ -27,8 +27,8 @@ export const DiaryCalendarPage = () => {
         onSelectViewDate={handleSelectViewDate}
         onSelectDate={handleSelectDate}
       />
+
       <AsyncBoundary ErrorFallback={() => <></>} SuspenseFallback={<></>}>
-        {/* <Calendar selectDate={currentDate} onSelectDate={handleSelectDate} /> */}
         <DiaryList selectedDate={currentDate} />
       </AsyncBoundary>
     </>
@@ -100,16 +100,16 @@ const LoadingUI = ({ selectedDate }: { selectedDate: Date }) => {
 };
 
 const AwaitedDiaryList = ({ selectedDate, boardId }: { selectedDate: Date; boardId: number }) => {
+  const navigate = useNavigate();
+
   const mutatedDate = selectedDate.toISOString().split('T')[0];
-  // console.log(new Intl.DateTimeFormat('ko-KR', { dateStyle: 'full' }).format(selectedDate));
-  console.log(selectedDate.toLocaleString());
-  const { data: dirays } = useGetTodayDiary(boardId, mutatedDate);
+  const { data: diarys } = useGetTodayDiary(boardId, mutatedDate);
 
   const dateLabel = `${new Intl.DateTimeFormat('ko-KR', { month: '2-digit' }).format(
     selectedDate,
   )} ${new Intl.DateTimeFormat('ko-KR', { day: '2-digit' }).format(selectedDate)}`;
 
-  const hasNoDiary = dirays.length === 0;
+  const hasNoDiary = diarys.length === 0;
 
   if (hasNoDiary) {
     return (
@@ -122,7 +122,7 @@ const AwaitedDiaryList = ({ selectedDate, boardId }: { selectedDate: Date; board
     );
   }
 
-  const diaryCount = dirays.length;
+  const diaryCount = diarys.length;
 
   return (
     <div className={styles.diaryListSection}>
@@ -132,8 +132,16 @@ const AwaitedDiaryList = ({ selectedDate, boardId }: { selectedDate: Date; board
       </div>
 
       <ul id="diaryList" className={styles.diaryList}>
-        {dirays.map((diary) => (
-          <DiaryCard key={diary.id} {...diary} onClick={() => {}} />
+        {diarys.map((diary) => (
+          <DiaryCard
+            key={diary.id}
+            {...diary}
+            onClick={() =>
+              navigate(`/myboard/${boardId}/diary/${diary.id}`, {
+                state: JSON.stringify({ selectedDate, diarys, diary }),
+              })
+            }
+          />
         ))}
       </ul>
 

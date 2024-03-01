@@ -187,7 +187,7 @@ export const updateLikes = async ({ diaryId }: GetLikesRequest) => {
 
 // comment
 export const getComment = async ({ diaryId, pageSize = 10, lastViewId }: GetCommentRequest) => {
-  const res = await axios.get<CommentData>(
+  const res = await axios.get<CommentData[]>(
     `/api/diary/${diaryId}/comment?pageSize=${pageSize}&lastViewId=${lastViewId}`,
   );
   return res.data;
@@ -207,8 +207,10 @@ export const createComment = async ({ diaryId, contents }: CreateCommentRequest)
   const res = await axios.post(`/api/diary/${diaryId}/comment`, { contents });
   return res.status;
 };
-export const getReply = async ({ commentId, lastViewId }: GetReplyRequest) => {
-  const res = await axios.get<replyData>(`/api/comment/${commentId}/reply?lastViewId=${lastViewId}`);
+export const getReply = async ({ commentId, lastViewId, pageSize }: GetReplyRequest) => {
+  const res = await axios.get<replyData[]>(
+    `/api/comment/${commentId}/reply?lastViewId=${lastViewId}&pageSize=${pageSize}`,
+  );
   return res.data;
 };
 
@@ -399,4 +401,9 @@ export const getEmotionQuestion = async () => {
 export const readNotification = async ({ id, writerId }: Pick<NotificationBase, 'id' | 'writerId'>) => {
   const res = await axios.put<number>(`/api/notification/${id}`, { writerId });
   return res.status;
+};
+
+export const getDiarysById = async ({ boardId, diaryId }: { boardId: number; diaryId: number }) => {
+  const res = await axios.get(`/api/diary/${diaryId}/related-list?boardId=${boardId}`);
+  return res.data;
 };

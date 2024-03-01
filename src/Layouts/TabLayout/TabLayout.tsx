@@ -4,8 +4,11 @@ import { Typography } from '@Components/Common/Typography';
 import { SVGIcon } from '@Icons/SVGIcon';
 import { IconName } from '@Type/index';
 import { useState } from 'react';
-import { Outlet, useNavigate } from 'react-router-dom';
+import { Outlet, useLocation, useNavigate, useParams } from 'react-router-dom';
 import styles from './TabLayout.module.scss';
+import { useGetBoardTitle } from '@Hooks/NetworkHooks';
+import { useModal } from '@Hooks/useModal';
+import { ViewMemberModal } from '@Components/Modals/ViewMemberModal';
 
 const tabs = [
   {
@@ -47,7 +50,15 @@ export const TabLayout = () => {
 };
 
 const Header = () => {
+  const params = useParams();
+  const { boardId } = params;
+
+  const { data } = useGetBoardTitle(Number(boardId!));
   const navigate = useNavigate();
+
+  const { boardTitle } = data || { boardTitle: '-' };
+
+  const { openComponentModal } = useModal();
 
   return (
     <div className={styles.header}>
@@ -57,11 +68,22 @@ const Header = () => {
         </PageHeader.Left>
 
         <PageHeader.Center>
-          <Typography as="h4">안뇽안뇽</Typography>
+          <Typography as="h4">{boardTitle}</Typography>
         </PageHeader.Center>
 
         <PageHeader.Right>
-          <IconButton icon="users" onClick={() => {}} />
+          <IconButton
+            icon="users"
+            onClick={() => {
+              openComponentModal({
+                title: '멤버 보기',
+                children: ViewMemberModal,
+                props: {
+                  board: { id: Number(boardId), title: boardTitle },
+                },
+              });
+            }}
+          />
         </PageHeader.Right>
       </PageHeader>
     </div>
@@ -69,8 +91,11 @@ const Header = () => {
 };
 
 const TabList = () => {
+  const location = useLocation();
+  const currentTab = tabs.find((tab) => tab.path === location.pathname.split('/')[3])?.id || 0;
+
   const navigate = useNavigate();
-  const [currentTabIndex, setCurrentTabIndex] = useState(0);
+  const [currentTabIndex, setCurrentTabIndex] = useState(currentTab);
 
   const handleClick = (id: number, path: string) => {
     setCurrentTabIndex(id);

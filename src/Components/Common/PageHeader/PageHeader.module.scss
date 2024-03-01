@@ -1,8 +1,9 @@
 .container {
   display: flex;
   flex-direction: row;
-  position: relative;
-
+  position: sticky;
+  top: 0;
+  background-color: var(--white);
   padding: var(--header-padding-y) var(--header-padding-x);
   width: 100%;
 }
