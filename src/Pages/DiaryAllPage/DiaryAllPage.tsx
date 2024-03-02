@@ -1,5 +1,7 @@
 import { AsyncBoundary } from '@Components/Common/AsyncBoundary';
 import { DiaryCard } from '@Components/DiaryCard';
+import { AsyncBoundary } from '@Components/Common/AsyncBoundary';
+import { DiaryCard } from '@Components/DiaryCard';
 import { useGetAllDiary } from '@Hooks/NetworkHooks';
 import { useInfiniteObserver } from '@Hooks/useInfiniteObserver';
 import { useEffect } from 'react';
@@ -50,6 +52,8 @@ const AwaitedDiayAll = () => {
   });
 
   useEffect(() => {
+    !hasNextPage && disconnect();
+  }, [hasNextPage]);
     !hasNextPage && disconnect();
   }, [hasNextPage]);
 

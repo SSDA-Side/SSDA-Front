@@ -1,4 +1,5 @@
 import sleepImage from '@Assets/EmotionImages/sleepEmotion.png';
+import sleepImage from '@Assets/EmotionImages/sleepEmotion.png';
 import { Calendar } from '@Components/Calendar';
 import { AsyncBoundary } from '@Components/Common/AsyncBoundary';
 import { DiaryCard } from '@Components/DiaryCard';
@@ -123,6 +124,33 @@ const AwaitedDiaryList = ({ selectedDate, boardId }: { selectedDate: Date; board
           <NoDiarysView />
         </div>
       </div>
+    );
+  }
+
+  const diaryCount = diarys.length;
+
+  return (
+    <div className={styles.diaryListSection}>
+      <div className={styles.colGroup}>
+        <h2>{dateLabel} 일기</h2>
+        <p className={styles.gray700}>총 {diaryCount}개의 일기가 있습니다.</p>
+      </div>
+
+      <ul id="diaryList" className={styles.diaryList}>
+        {diarys.map((diary) => (
+          <DiaryCard
+            key={diary.id}
+            {...diary}
+            onClick={() =>
+              navigate(`/myboard/${boardId}/diary/${diary.id}`, {
+                state: JSON.stringify({ selectedDate, diarys, diary }),
+              })
+            }
+          />
+        ))}
+      </ul>
+
+      <p className={styles.gray700}>모든 일기를 불러왔습니다.</p>
     );
   }
 

@@ -14,14 +14,25 @@ import { PageLoadingUI } from './NotificationPage.skeleton';
 
 export const NotificationPage = () => {
   const navigate = useNavigate();
-
   return (
     <>
       <PageHeader>
         <PageHeader.Left>
           <IconButton icon="left" onClick={() => navigate('/myboard')} />
         </PageHeader.Left>
+        <>
+          <PageHeader>
+            <PageHeader.Left>
+              <IconButton icon="left" onClick={() => navigate('/myboard')} />
+            </PageHeader.Left>
 
+            <PageHeader.Center>
+              <Typography as="h4">알림</Typography>
+            </PageHeader.Center>
+          </PageHeader>
+
+          <Body />
+        </>
         <PageHeader.Center>
           <Typography as="h4">알림</Typography>
         </PageHeader.Center>
