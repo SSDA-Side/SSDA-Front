@@ -12,16 +12,17 @@ import {
   useDeleteReply,
   useGetComment,
   useGetDiaryDetail,
+  useGetDiarysById,
   useGetReply,
   useUpdateLike,
 } from '@Hooks/NetworkHooks';
 import { useInfiniteObserver } from '@Hooks/useInfiniteObserver';
 import { useModal } from '@Hooks/useModal';
 import { ContentImage } from '@Type/Model';
-import { CommentData, DiaryDetailData, todayDiaryData } from '@Type/Response';
+import { CommentData, todayDiaryData } from '@Type/Response';
 import cn from 'classnames';
-import { useState } from 'react';
-import { useLocation, useNavigate, useParams } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
 import { atom, useRecoilState, useSetRecoilState } from 'recoil';
 import styles from './DiaryListPage.module.scss';
 
@@ -33,47 +34,48 @@ const ReplyStore = atom<ReplyData>({
 });
 
 export const DiaryListPage = () => {
-  const navigate = useNavigate();
-  const { boardId } = useParams();
-  const { state } = useLocation();
+  return (
+    <AsyncBoundary ErrorFallback={ErrorUI} SuspenseFallback={<InitialLoadingUI />}>
+      <AwaitedDiaryListPage />
+    </AsyncBoundary>
+  );
+};
 
-  const {
-    selectedDate,
-    diarys,
-    diary: initialDiary,
-  } = JSON.parse(state) as {
-    selectedDate: Date;
-    diarys: todayDiaryData[];
-    diary: todayDiaryData;
-  };
+const AwaitedDiaryListPage = () => {
+  const { boardId, diaryId } = useParams();
 
-  const handleTabSelect = (diary: todayDiaryData) => {
-    navigate(`/myboard/${boardId}/diary/${diary.id}`, {
-      state: JSON.stringify({ selectedDate, diarys, diary }),
-      replace: true,
-    });
+  const { data: diarys } = useGetDiarysById({ diaryId: Number(diaryId) });
+  const targetDiaryIndex = diarys.findIndex((diary) => diary.id === Number(diaryId));
+  const [currentTabIndex, setCurrentTabIndex] = useState(targetDiaryIndex);
+  const targetDiary = diarys[currentTabIndex];
+
+  useEffect(() => {
+    window.history.replaceState('', '', `/myboard/${boardId}/diary/${targetDiary.id}`);
+  }, [targetDiary]);
+
+  const handleTabSelect = (tabIndex: number) => {
+    // navigate(`/myboard/${boardId}/diary/${diary.id}`, { state: { tabSelect: true }, replace: true });
+    setCurrentTabIndex(tabIndex);
   };
 
   return (
     <div className={styles.container}>
-      <Header selectedDate={selectedDate} />
+      <Header {...targetDiary} />
 
       <div className={styles.diaryBody}>
-        <TabList tabs={diarys} initialDiary={initialDiary} onSelect={handleTabSelect} />
+        <TabList tabs={diarys} currentDiary={targetDiary} onSelect={handleTabSelect} />
 
-        {/* <LoadingUI /> */}
-        <AsyncBoundary ErrorFallback={ErrorUI} SuspenseFallback={<LoadingUI />}>
-          <AwaitedDiaryView diary={initialDiary} />
+        <AsyncBoundary ErrorFallback={ErrorUI} SuspenseFallback={<DiaryLoadingUI />}>
+          <AwaitedDiaryView targetDiary={targetDiary} />
         </AsyncBoundary>
       </div>
 
       <CommentWriting />
-      {/* <CommentWriting isLiked={initialDiary?.isLiked || false} /> */}
     </div>
   );
 };
 
-const LoadingUI = () => {
+const DiaryLoadingUI = () => {
   return (
     <>
       <div className={styles.diarySection}>
@@ -93,6 +95,60 @@ const LoadingUI = () => {
           <div className={styles.skeletonItem} style={{ width: '100%', height: '1rem' }} />
           <div className={styles.skeletonItem} style={{ width: '100%', height: '1rem' }} />
         </div>
+      </div>
+    </>
+  );
+};
+
+const InitialLoadingUI = () => {
+  return (
+    <>
+      <div className={styles.container}>
+        <PageHeader>
+          <PageHeader.Left>
+            <IconButton icon="left" />
+          </PageHeader.Left>
+
+          <PageHeader.Center>
+            <Typography as="h4">
+              <div className={styles.skeletonItem} style={{ width: '11.25rem', height: '1rem' }} />
+            </Typography>
+          </PageHeader.Center>
+        </PageHeader>
+
+        <div className={styles.diaryBody}>
+          <div>
+            <ul className={styles.tabList}>
+              <li className={cn(styles.tabItem)}>{'　　　'}</li>
+              <li className={cn(styles.tabItem)}>{'　　　'}</li>
+              <li className={cn(styles.tabItem)}>{'　　　'}</li>
+            </ul>
+          </div>
+
+          <div className={styles.diarySection}>
+            <div className={styles.rowGroup}>
+              <div style={{ flex: 1 }}>
+                <div
+                  className={styles.skeletonItem}
+                  style={{ width: '70%', height: '1.3125rem', marginBottom: '.5rem' }}
+                />
+                <div className={styles.skeletonItem} style={{ width: '50%', height: '.875rem' }} />
+              </div>
+
+              <div className={styles.skeletonItem} style={{ width: '3rem', height: '3rem', borderRadius: '9999px' }} />
+            </div>
+
+            <div className={styles.skeletonItem} style={{ width: '100%', aspectRatio: '1 / 1' }} />
+
+            <div className={styles.diaryContent}>
+              <div className={styles.skeletonItem} style={{ width: '100%', height: '1rem' }} />
+              <div className={styles.skeletonItem} style={{ width: '100%', height: '1rem' }} />
+              <div className={styles.skeletonItem} style={{ width: '100%', height: '1rem' }} />
+            </div>
+          </div>
+        </div>
+
+        <CommentWriting />
       </div>
     </>
   );
@@ -166,24 +222,24 @@ const CommentWriting = () => {
 
 const TabList = ({
   tabs,
-  initialDiary,
+  currentDiary,
   onSelect,
 }: {
   tabs: todayDiaryData[];
-  initialDiary: todayDiaryData;
-  onSelect: (diary: todayDiaryData) => void;
+  currentDiary: todayDiaryData;
+  onSelect: (index: number) => void;
 }) => {
   return (
     <div>
       <ul className={styles.tabList}>
-        {tabs.map((diary) => (
+        {tabs.map((diary, index) => (
           <li
             key={diary.id}
             id={`tab-${diary.id}`}
-            className={cn(styles.tabItem, { [styles.activeTabItem]: diary.id === initialDiary.id })}
+            className={cn(styles.tabItem, { [styles.activeTabItem]: diary.id === currentDiary.id })}
             onClick={() => {
               document.querySelector(`li#tab-${diary.id}`)!.scrollIntoView({ behavior: 'smooth' });
-              onSelect(diary);
+              onSelect(index);
             }}
           >
             {diary.nickname}
@@ -194,11 +250,16 @@ const TabList = ({
   );
 };
 
-const AwaitedDiaryView = ({ diary }: { diary: todayDiaryData }) => {
+const AwaitedDiaryView = ({ targetDiary }: { targetDiary?: todayDiaryData }) => {
   const navigate = useNavigate();
+  const { boardId } = useParams();
 
-  const { data } = useGetDiaryDetail(diary.memberId, diary.boardId, diary.selectedDate);
-  const { title, contents, timeStamp, likeCount, commentCount, images, owned } = data as DiaryDetailData;
+  const { data: currentDiary } = useGetDiaryDetail(
+    targetDiary ? targetDiary.memberId : 0,
+    Number(boardId),
+    targetDiary ? targetDiary?.selectedDate : new Date().toISOString().split('Z')[0],
+  );
+  const { title, contents, timeStamp, likeCount, commentCount, images, owned } = currentDiary;
 
   const { openConfirm } = useModal();
   const { mutate: deleteDiary } = useDeleteDiary();
@@ -209,7 +270,7 @@ const AwaitedDiaryView = ({ diary }: { diary: todayDiaryData }) => {
     openConfirm({
       contents: '일기를 삭제하시겠습니까?',
       onYes() {
-        deleteDiary({ diaryId: diary.id });
+        deleteDiary({ diaryId: currentDiary.id });
       },
     });
   };
@@ -225,7 +286,7 @@ const AwaitedDiaryView = ({ diary }: { diary: todayDiaryData }) => {
             </p>
           </div>
 
-          <EmotionImage index={diary.emotionId} size="sm" />
+          <EmotionImage index={currentDiary.emotionId} size="sm" />
         </div>
 
         {hasImage && <ImageList images={images!} />}
@@ -235,7 +296,7 @@ const AwaitedDiaryView = ({ diary }: { diary: todayDiaryData }) => {
 
           {owned && (
             <div className={styles.diaryTool}>
-              <button onClick={() => navigate(`/myboard/${diary.boardId}/edit`, { state: { diary: data } })}>
+              <button onClick={() => navigate(`/myboard/${boardId}/edit`, { state: { diary: currentDiary } })}>
                 수정하기
               </button>
               <button onClick={() => handleDelete()}>삭제하기</button>
@@ -396,7 +457,7 @@ const AwaitedReplyList = ({ ...comment }: CommentData) => {
   );
 };
 
-const Header = ({ selectedDate }: { selectedDate: Date }) => {
+const Header = ({ selectedDate }: { selectedDate?: string }) => {
   const navigate = useNavigate();
 
   return (
@@ -407,7 +468,7 @@ const Header = ({ selectedDate }: { selectedDate: Date }) => {
 
       <PageHeader.Center>
         <Typography as="h4">
-          {new Intl.DateTimeFormat('ko-KR', { dateStyle: 'long' }).format(new Date(selectedDate))}
+          {selectedDate ? new Intl.DateTimeFormat('ko-KR', { dateStyle: 'long' }).format(new Date(selectedDate)) : '-'}
         </Typography>
       </PageHeader.Center>
     </PageHeader>

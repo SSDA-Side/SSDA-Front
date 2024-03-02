@@ -403,7 +403,7 @@ export const readNotification = async ({ id, writerId }: Pick<NotificationBase, 
   return res.status;
 };
 
-export const getDiarysById = async ({ boardId, diaryId }: { boardId: number; diaryId: number }) => {
-  const res = await axios.get(`/api/diary/${diaryId}/related-list?boardId=${boardId}`);
+export const getDiarysById = async ({ diaryId }: { diaryId: number }) => {
+  const res = await axios.get<todayDiaryData[]>(`/api/diary/${diaryId}/related-list`);
   return res.data;
 };

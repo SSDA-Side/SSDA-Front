@@ -137,15 +137,7 @@ const AwaitedDiaryList = ({ selectedDate, boardId }: { selectedDate: Date; board
 
       <ul id="diaryList" className={styles.diaryList}>
         {diarys.map((diary) => (
-          <DiaryCard
-            key={diary.id}
-            {...diary}
-            onClick={() =>
-              navigate(`/myboard/${boardId}/diary/${diary.id}`, {
-                state: JSON.stringify({ selectedDate, diarys, diary }),
-              })
-            }
-          />
+          <DiaryCard key={diary.id} {...diary} onClick={() => navigate(`/myboard/${boardId}/diary/${diary.id}`)} />
         ))}
       </ul>
 

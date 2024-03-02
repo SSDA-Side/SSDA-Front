@@ -438,9 +438,9 @@ export const useGetEmotionQuestion = () => {
   });
 };
 
-export const useGetDiarysById = ({ boardId, diaryId }: { boardId: number; diaryId: number }) => {
-  return useQuery({
-    queryKey: ['tabs'],
-    queryFn: () => getDiarysById({ boardId, diaryId }),
+export const useGetDiarysById = ({ diaryId }: { diaryId: number }) => {
+  return useSuspenseQuery({
+    queryKey: ['tabs', diaryId],
+    queryFn: () => getDiarysById({ diaryId }),
   });
 };

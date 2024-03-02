@@ -68,7 +68,7 @@ const AwaitedDiayAll = () => {
                     key={diary.id}
                     {...diary}
                     onClick={() => {
-                      navigate(`/myboard/${boardId}/diary/${diary.id}`, { state: JSON.stringify(page) });
+                      navigate(`/myboard/${boardId}/diary/${diary.id}`);
                     }}
                   />
                 </>
