@@ -1,14 +1,20 @@
 import sleepImage from '@Assets/EmotionImages/sleepEmotion.png';
 import { Calendar } from '@Components/Calendar';
 import { AsyncBoundary } from '@Components/Common/AsyncBoundary';
+import { CTAButton } from '@Components/Common/Button';
+import { Typography } from '@Components/Common/Typography';
 import { DiaryCard } from '@Components/DiaryCard';
 import { useGetMonth, useGetTodayDiary } from '@Hooks/NetworkHooks';
+import { SVGIcon } from '@Icons/SVGIcon';
+import { SelectedDateByUserStore } from '@Layouts/TabLayout/TabLayout';
 import { useState } from 'react';
+import { FallbackProps } from 'react-error-boundary';
 import { useNavigate, useParams } from 'react-router-dom';
+import { useRecoilState } from 'recoil';
 import styles from './DiaryCalendarPage.module.scss';
 
 export const DiaryCalendarPage = () => {
-  const [currentDate, setCurrentDate] = useState(new Date());
+  const [currentDate, setCurrentDate] = useRecoilState(SelectedDateByUserStore);
   const [viewDate, setViewDate] = useState(currentDate);
 
   const handleSelectDate = (date: Date) => {
@@ -78,11 +84,37 @@ const DiaryList = ({ selectedDate }: { selectedDate: Date }) => {
   const { boardId } = params;
 
   return (
-    <AsyncBoundary ErrorFallback={() => <></>} SuspenseFallback={<LoadingUI selectedDate={selectedDate} />}>
+    // <LoadingUI selectedDate={selectedDate} />
+    <AsyncBoundary ErrorFallback={PageErrorUI} SuspenseFallback={<LoadingUI selectedDate={selectedDate} />}>
       <AwaitedDiaryList selectedDate={selectedDate} boardId={Number(Number(boardId!))} />
     </AsyncBoundary>
   );
 };
+
+const PageErrorUI = ({ resetErrorBoundary }: FallbackProps) => (
+  <>
+    <section className={styles.errorContainer}>
+      <div className={styles.group}>
+        <div className={styles.red}>
+          <SVGIcon name="error" />
+        </div>
+
+        <div className={styles.red}>
+          <Typography as="body2">통신 실패</Typography>
+        </div>
+      </div>
+
+      <div className={styles.delimitor} />
+
+      <div className={styles.group}>
+        <Typography as="body2">오류가 발생했어요.</Typography>
+        <Typography as="body2">아래의 버튼을 통해 다시 시도해보세요.</Typography>
+      </div>
+
+      <CTAButton onClick={() => resetErrorBoundary()}>다시 가져오기</CTAButton>
+    </section>
+  </>
+);
 
 const LoadingUI = ({ selectedDate }: { selectedDate: Date }) => {
   const dateLabel = `${new Intl.DateTimeFormat('ko-KR', { month: '2-digit' }).format(
@@ -93,7 +125,8 @@ const LoadingUI = ({ selectedDate }: { selectedDate: Date }) => {
     <div className={styles.diaryListSection}>
       <div className={styles.colGroup}>
         <h2>{dateLabel} 일기</h2>
-        <p>일기를 불러오는 중입니다...</p>
+        <div className={styles.skeletonItem} style={{ width: '50%', height: '1rem' }} />
+        <div className={styles.skeletonItem} style={{ width: '100%', aspectRatio: '1 / 1' }} />
       </div>
     </div>
   );

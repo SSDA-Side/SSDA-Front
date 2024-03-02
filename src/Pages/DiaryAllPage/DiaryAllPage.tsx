@@ -3,7 +3,7 @@ import { DiaryCard } from '@Components/DiaryCard';
 import { useGetAllDiary } from '@Hooks/NetworkHooks';
 import { useInfiniteObserver } from '@Hooks/useInfiniteObserver';
 import { useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import styles from './DiaryAllPage.module.scss';
 
 export const DiaryAllPage = () => {
@@ -17,6 +17,7 @@ export const DiaryAllPage = () => {
 };
 
 const AwaitedDiayAll = () => {
+  const navigate = useNavigate();
   const params = useParams();
   const { boardId } = params;
 
@@ -43,8 +44,16 @@ const AwaitedDiayAll = () => {
             {data.pages.map((page) =>
               page.map((diary) => (
                 <>
-                  <h3>02월 03일의 일기</h3>
-                  <DiaryCard key={diary.id} {...diary} onClick={() => {}} />
+                  <h3>
+                    {new Intl.DateTimeFormat('ko-KR', { dateStyle: 'long' }).format(new Date(diary.selectedDate))}
+                  </h3>
+                  <DiaryCard
+                    key={diary.id}
+                    {...diary}
+                    onClick={() => {
+                      navigate(`/myboard/${boardId}/diary/${diary.id}`, { state: JSON.stringify(page) });
+                    }}
+                  />
                 </>
               )),
             )}

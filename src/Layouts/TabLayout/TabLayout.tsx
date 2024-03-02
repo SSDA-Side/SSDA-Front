@@ -9,6 +9,12 @@ import styles from './TabLayout.module.scss';
 import { useGetBoardTitle } from '@Hooks/NetworkHooks';
 import { useModal } from '@Hooks/useModal';
 import { ViewMemberModal } from '@Components/Modals/ViewMemberModal';
+import { atom, useRecoilState, useRecoilValue } from 'recoil';
+
+export const SelectedDateByUserStore = atom({
+  key: 'selectedDateByUser',
+  default: new Date(),
+});
 
 const tabs = [
   {
@@ -32,6 +38,11 @@ const tabs = [
 ];
 
 export const TabLayout = () => {
+  const navigate = useNavigate();
+  const { boardId } = useParams();
+  const selectedDateByUser = useRecoilValue(SelectedDateByUserStore);
+  const mutatedDate = selectedDateByUser.toISOString().split('T')[0];
+
   return (
     <div className={styles.layoutContainer}>
       <Header />
@@ -44,6 +55,12 @@ export const TabLayout = () => {
             <Outlet />
           </div>
         </div>
+      </div>
+
+      <div className={styles.addButtonWrapper}>
+        <button onClick={() => navigate(`/myboard/${boardId}/write?date=${mutatedDate}`)}>
+          <SVGIcon name="add" className={styles.size32} />
+        </button>
       </div>
     </div>
   );

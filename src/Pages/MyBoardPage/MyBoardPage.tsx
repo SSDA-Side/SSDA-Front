@@ -2,7 +2,6 @@
 import { useNavigate } from 'react-router-dom';
 
 /** Style 및 Layout */
-import { PageLayout } from '@Layouts/PageLayout';
 import styles from './MyBoardPage.module.scss';
 
 /** Icon */
@@ -22,11 +21,11 @@ import { useBoardList, useHeroMetadata } from '@Hooks/NetworkHooks';
 import type { FallbackProps } from 'react-error-boundary';
 
 /** Util */
-import { getDescription } from '@Utils/index';
-import { useSetRecoilState } from 'recoil';
 import { UserStore } from '@Store/UserStore';
-import { useEffect } from 'react';
 import { HeroMetadata } from '@Type/Response';
+import { getDescription } from '@Utils/index';
+import { useEffect } from 'react';
+import { useSetRecoilState } from 'recoil';
 
 export const MyBoardPage = () => {
   return (
@@ -37,6 +36,8 @@ export const MyBoardPage = () => {
 };
 
 const AwaitedView = () => {
+  const navigate = useNavigate();
+
   const { data: heroMetadata } = useHeroMetadata();
   const setUserNickname = useSetRecoilState(UserStore);
 
@@ -44,35 +45,30 @@ const AwaitedView = () => {
     setUserNickname({ nickname: heroMetadata.nickname });
   }, [heroMetadata.nickname]);
 
-  return <PageLayout header={<Head {...heroMetadata} />} body={<Body heroMetadata={heroMetadata} />} />;
-};
-
-const Head = ({ hasNewNotification }: HeroMetadata) => {
-  const navigate = useNavigate();
-
   return (
-    <PageHeader>
-      <PageHeader.Left>
-        <IconButton icon="setting" onClick={() => navigate('/setting')} />
-      </PageHeader.Left>
+    <>
+      <PageHeader>
+        <PageHeader.Left>
+          <IconButton icon="setting" onClick={() => navigate('/setting')} />
+        </PageHeader.Left>
 
-      <PageHeader.Center>
-        <Typography as="h4">MY 일기장</Typography>
-      </PageHeader.Center>
+        <PageHeader.Center>
+          <Typography as="h4">MY 일기장</Typography>
+        </PageHeader.Center>
 
-      <PageHeader.Right>
-        <IconButton icon={hasNewNotification ? 'bell_new' : 'bell'} onClick={() => navigate('/notification')} />
-      </PageHeader.Right>
-    </PageHeader>
-  );
-};
+        <PageHeader.Right>
+          <IconButton
+            icon={heroMetadata.hasNewNotification ? 'bell_new' : 'bell'}
+            onClick={() => navigate('/notification')}
+          />
+        </PageHeader.Right>
+      </PageHeader>
 
-const Body = ({ heroMetadata }: { heroMetadata: HeroMetadata }) => {
-  return (
-    <main className={styles.contaienr}>
-      <HeroSection heroMetadata={heroMetadata} />
-      <BoardListSection />
-    </main>
+      <main className={styles.contaienr}>
+        <HeroSection heroMetadata={heroMetadata} />
+        <BoardListSection />
+      </main>
+    </>
   );
 };
 

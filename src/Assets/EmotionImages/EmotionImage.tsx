@@ -31,14 +31,18 @@ export const EmotionImage = ({ type, index, size = 'lg' }: EmotionImage) => {
 
   const itemSize = size === 'lg' ? 98 : 48;
   const imageIndex = type ? convertTypeToIndex(type) : index || 0;
-  const imagePositionX = SPRITE_IMAGE_WIDTH * imageIndex;
+  const imagePositionX = itemSize * imageIndex;
+  // const imagePositionX = SPRITE_IMAGE_WIDTH * imageIndex;
 
   return (
     <div
       style={{
         width: itemSize,
         height: itemSize,
-        background: `url('${sprite}') -${imagePositionX}px -0`,
+        backgroundImage: `url('${sprite}')`,
+        backgroundPositionX: `-${imagePositionX}px`,
+        backgroundPositionY: 0,
+        // background: `url('${sprite}') -${imagePositionX}px -0`,
         backgroundSize: 'cover',
       }}
     />

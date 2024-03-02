@@ -25,8 +25,8 @@
 <symbol fill="none" viewBox="0 0 36 35" id="star" xmlns="http://www.w3.org/2000/svg">
 <path d="m18.462 1.412 4.132 9.935a1.5 1.5 0 0 0 1.265.92l10.726.859a.5.5 0 0 1 .285.878l-8.172 7a1.5 1.5 0 0 0-.483 1.487l2.497 10.467a.5.5 0 0 1-.747.542l-9.183-5.608a1.5 1.5 0 0 0-1.564 0L8.035 33.5a.5.5 0 0 1-.746-.542L9.785 22.49a1.5 1.5 0 0 0-.483-1.487l-8.172-7a.5.5 0 0 1 .285-.878l10.726-.86a1.5 1.5 0 0 0 1.265-.92l4.132-9.934a.5.5 0 0 1 .924 0Z" fill="#FF8066" stroke="#FF8066"/>
 </symbol>
-<symbol  viewBox="0 0 16 16" id="empty-heart" xmlns="http://www.w3.org/2000/svg">
-<path d="M13.894 3.074a3.666 3.666 0 0 0-5.187 0L8 3.78l-.706-.706A3.668 3.668 0 0 0 2.107 8.26l.707.707L8 14.154l5.187-5.187.707-.707a3.668 3.668 0 0 0 0-5.186Z" stroke="#747575" stroke-linecap="round" stroke-linejoin="round"/>
+<symbol fill="currnetColor" viewBox="0 0 16 16" id="empty-heart" xmlns="http://www.w3.org/2000/svg">
+    <path d="M13.894 3.074a3.666 3.666 0 0 0-5.187 0L8 3.78l-.706-.706A3.668 3.668 0 0 0 2.107 8.26l.707.707L8 14.154l5.187-5.187.707-.707a3.668 3.668 0 0 0 0-5.186Z" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
 </symbol>
     <symbol fill="none" viewBox="0 0 36 30" id="empty-love" xmlns="http://www.w3.org/2000/svg">
 <path d="M32.546 2.652a9.05 9.05 0 0 0-12.802 0L18 4.396l-1.745-1.744A9.052 9.052 0 0 0 3.454 15.454l1.744 1.744L18 30 30.8 17.198l1.745-1.744a9.05 9.05 0 0 0 0-12.802Z" fill="#EEE"/>
