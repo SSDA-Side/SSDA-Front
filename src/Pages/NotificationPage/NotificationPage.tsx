@@ -20,19 +20,7 @@ export const NotificationPage = () => {
         <PageHeader.Left>
           <IconButton icon="left" onClick={() => navigate('/myboard')} />
         </PageHeader.Left>
-        <>
-          <PageHeader>
-            <PageHeader.Left>
-              <IconButton icon="left" onClick={() => navigate('/myboard')} />
-            </PageHeader.Left>
 
-            <PageHeader.Center>
-              <Typography as="h4">알림</Typography>
-            </PageHeader.Center>
-          </PageHeader>
-
-          <Body />
-        </>
         <PageHeader.Center>
           <Typography as="h4">알림</Typography>
         </PageHeader.Center>
