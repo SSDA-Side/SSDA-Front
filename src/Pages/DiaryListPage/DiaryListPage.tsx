@@ -8,6 +8,7 @@ import {
   useCreateComment,
   useCreateReply,
   useDeleteComment,
+  useDeleteDiary,
   useDeleteReply,
   useGetComment,
   useGetDiaryDetail,
@@ -392,24 +393,6 @@ const AwaitedReplyList = ({ ...comment }: CommentData) => {
         </button>
       )}
     </>
-  );
-};
-
-const Header = ({ selectedDate }: { selectedDate: Date }) => {
-  const navigate = useNavigate();
-
-  return (
-    <PageHeader>
-      <PageHeader.Left>
-        <IconButton icon="left" onClick={() => navigate(-1)} />
-      </PageHeader.Left>
-
-      <PageHeader.Center>
-        <Typography as="h4">
-          {new Intl.DateTimeFormat('ko-KR', { dateStyle: 'long' }).format(new Date(selectedDate))}
-        </Typography>
-      </PageHeader.Center>
-    </PageHeader>
   );
 };
 

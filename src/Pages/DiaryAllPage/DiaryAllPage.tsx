@@ -1,13 +1,10 @@
 import { AsyncBoundary } from '@Components/Common/AsyncBoundary';
 import { DiaryCard } from '@Components/DiaryCard';
-import { AsyncBoundary } from '@Components/Common/AsyncBoundary';
-import { DiaryCard } from '@Components/DiaryCard';
+import { ErrorUI } from '@Components/ErrorUI';
 import { useGetAllDiary } from '@Hooks/NetworkHooks';
 import { useInfiniteObserver } from '@Hooks/useInfiniteObserver';
-import { useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import styles from './DiaryAllPage.module.scss';
-import { ErrorUI } from '@Components/ErrorUI';
 
 export const DiaryAllPage = () => {
   return (
@@ -45,17 +42,11 @@ const AwaitedDiayAll = () => {
   const params = useParams();
   const { boardId } = params;
 
-  const { data, hasNextPage, fetchNextPage } = useGetAllDiary(Number(boardId!), 10, 0);
-  const { disconnect } = useInfiniteObserver({
+  const { data, fetchNextPage } = useGetAllDiary(Number(boardId!), 10, 0);
+  useInfiniteObserver({
     parentNodeId: 'diaryList',
     onIntersection: fetchNextPage,
   });
-
-  useEffect(() => {
-    !hasNextPage && disconnect();
-  }, [hasNextPage]);
-    !hasNextPage && disconnect();
-  }, [hasNextPage]);
 
   return (
     <>

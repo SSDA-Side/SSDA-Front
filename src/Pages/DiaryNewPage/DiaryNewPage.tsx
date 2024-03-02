@@ -3,11 +3,6 @@ import { AsyncBoundary } from '@Components/Common/AsyncBoundary';
 import { DiaryCard } from '@Components/DiaryCard';
 import { useGetNewDiary } from '@Hooks/NetworkHooks';
 import { useParams } from 'react-router-dom';
-import sleepImage from '@Assets/EmotionImages/sleepEmotion.png';
-import { AsyncBoundary } from '@Components/Common/AsyncBoundary';
-import { DiaryCard } from '@Components/DiaryCard';
-import { useGetNewDiary } from '@Hooks/NetworkHooks';
-import { useParams } from 'react-router-dom';
 import styles from './DiaryNewPage.module.scss';
 import { ErrorUI } from '@Components/ErrorUI';
 
@@ -23,26 +18,6 @@ const AwaitedDiaryNewPage = () => {
   const params = useParams();
   const { boardId } = params;
 
-  const { data: diarys } = useGetNewDiary(Number(boardId!));
-
-  const hasNoDiary = diarys.length === 0;
-
-  if (hasNoDiary) {
-    return (
-      <>
-        <div>
-          <h2>새로운 일기 보기</h2>
-          <p>새로운 일기를 놓치지 말고 확인해보세요!</p>
-        </div>
-
-        <div className={styles.noDiaryView}>
-          <img src={sleepImage} className={styles.size120} />
-          <h3>모든 일기를 확인했어요</h3>
-          <p>새로운 일기를 작성해보세요!</p>
-        </div>
-      </>
-    );
-  }
   const { data: diarys } = useGetNewDiary(Number(boardId!));
 
   const hasNoDiary = diarys.length === 0;
