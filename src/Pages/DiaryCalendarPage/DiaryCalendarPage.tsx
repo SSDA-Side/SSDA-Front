@@ -1,5 +1,4 @@
 import sleepImage from '@Assets/EmotionImages/sleepEmotion.png';
-import sleepImage from '@Assets/EmotionImages/sleepEmotion.png';
 import { Calendar } from '@Components/Calendar';
 import { AsyncBoundary } from '@Components/Common/AsyncBoundary';
 import { DiaryCard } from '@Components/DiaryCard';
