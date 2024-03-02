@@ -1,15 +1,15 @@
 import { IconButton } from '@Components/Common/Button';
 import { PageHeader } from '@Components/Common/PageHeader';
 import { Typography } from '@Components/Common/Typography';
+import { ViewMemberModal } from '@Components/Modals/ViewMemberModal';
+import { useGetBoardTitle } from '@Hooks/NetworkHooks';
+import { useModal } from '@Hooks/useModal';
 import { SVGIcon } from '@Icons/SVGIcon';
 import { IconName } from '@Type/index';
 import { useState } from 'react';
 import { Outlet, useLocation, useNavigate, useParams } from 'react-router-dom';
+import { atom, useRecoilValue } from 'recoil';
 import styles from './TabLayout.module.scss';
-import { useGetBoardTitle } from '@Hooks/NetworkHooks';
-import { useModal } from '@Hooks/useModal';
-import { ViewMemberModal } from '@Components/Modals/ViewMemberModal';
-import { atom, useRecoilState, useRecoilValue } from 'recoil';
 
 export const SelectedDateByUserStore = atom({
   key: 'selectedDateByUser',

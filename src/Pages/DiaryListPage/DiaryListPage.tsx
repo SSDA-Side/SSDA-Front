@@ -67,7 +67,8 @@ export const DiaryListPage = () => {
         </AsyncBoundary>
       </div>
 
-      <CommentWriting isLiked={initialDiary?.isLiked || false} />
+      <CommentWriting />
+      {/* <CommentWriting isLiked={initialDiary?.isLiked || false} /> */}
     </div>
   );
 };
@@ -97,7 +98,8 @@ const LoadingUI = () => {
   );
 };
 
-const CommentWriting = ({ isLiked }: { isLiked: boolean }) => {
+// const CommentWriting = ({ isLiked }: { isLiked: boolean }) => {
+const CommentWriting = () => {
   const { diaryId } = useParams();
   const [contents, setContents] = useState('');
 

@@ -15,7 +15,7 @@ export const emotionTypes: EmotionType[] = [
   'bored',
 ];
 
-const SPRITE_IMAGE_WIDTH = 98;
+// const SPRITE_IMAGE_WIDTH = 98;
 const SPRITE_BACKGROUND_IMAGE_WIDTH = 52;
 
 // const convertIndexToName = (index: number): EmotionType => emotionTypes[index];

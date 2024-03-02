@@ -1,18 +1,14 @@
 import sleepImage from '@Assets/EmotionImages/sleepEmotion.png';
 import { Calendar } from '@Components/Calendar';
 import { AsyncBoundary } from '@Components/Common/AsyncBoundary';
-import { CTAButton } from '@Components/Common/Button';
-import { Typography } from '@Components/Common/Typography';
 import { DiaryCard } from '@Components/DiaryCard';
+import { ErrorUI } from '@Components/ErrorUI';
 import { useGetMonth, useGetTodayDiary } from '@Hooks/NetworkHooks';
-import { SVGIcon } from '@Icons/SVGIcon';
 import { SelectedDateByUserStore } from '@Layouts/TabLayout/TabLayout';
 import { useState } from 'react';
-import { FallbackProps } from 'react-error-boundary';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
 import styles from './DiaryCalendarPage.module.scss';
-import { ErrorUI } from '@Components/ErrorUI';
 
 export const DiaryCalendarPage = () => {
   const [currentDate, setCurrentDate] = useRecoilState(SelectedDateByUserStore);
