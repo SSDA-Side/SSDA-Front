@@ -23,7 +23,7 @@
 | ------------- | ------------- | ------------- | ------------- |
 | 📝 PM | 이세은 | wntkfkd95@naver.com | 팀장 |
 | 🎨 DE | 유수 | - | - |
-| ⚙ BE | 권동휘 | - | BE 리드 |
+| ⚙ BE | 권동휘 | hocci0222@kakao.com | BE 리드 |
 | ⚙ BE | 김범준 | - | - |
 | 📺 FE | 김주현 | sang.pok.e@gmail.com | FE 리드 |
 | 📺 FE | 이어진 | - | - |
@@ -124,25 +124,71 @@
 - `Suspense`와 `Error Boundary`를 활용하여 오류 화면과 로딩 화면을 비즈니스 로직에서 분리하였습니다.
 - `React Query`의 `QueryErrorResetBoundary`를 활용하여 재시도를 제공하였습니다.
 - `QueryErrorResetBoundary`, `Error Boundary`, `Suspense`를 한 번에 처리하도록 `AsyncBoundary` Provider를 사용하였습니다.
-
->**AsyncBoundary 일부**
-> 출처: https://varletc0nst.tistory.com/39
->```typescript
-> <QueryErrorResetBoundary>
->  {({ reset }) => (
->    <ErrorBoundary fallbackRender={ErrorFallback} onReset={reset} {...restErrorBoundaryAttributes}>
->      <Suspense fallback={SuspenseFallback}>{children}</Suspense>
->    </ErrorBoundary>
->  )}
-></QueryErrorResetBoundary>
->```
+  - 출처: https://varletc0nst.tistory.com/39
 
 | 일기 스켈레톤 | 오류 화면 대응 |
 | -------- | --------- |
 | ![GIF 2024-03-03 오전 12-44-20](https://github.com/SSDA-Side/SSDA-Front/assets/48979587/a456daa0-3e9c-46e1-aef7-f5338e406756) | ![GIF 2024-03-03 오전 12-48-01](https://github.com/SSDA-Side/SSDA-Front/assets/48979587/4127f118-de0e-4e40-ad09-7fa25f3c8ea3) |
 
-
 ## ID 기반 모달 관리
-- 서비스 특성상 모달을 이용한 흐름이 많기 때문에 모달을 관리하는 역할을 Recoil을 통해 전역으로 만들어주었습니다.
+- Recoil을 통해 모달 정보를 담은 전역 배열을 만들었고, ModalController를 통해 렌더링합니다.
 - 필요한 모달을 Component Modal, Confirm, Alert, Sheet로 구분하여 관리하였습니다.
-- 
+- prop으로 필요한 정보를 넘겨줄 수 있도록 만들었습니다.
+- 모달의 기본 기능을 제공함으로써 모달 콘텐츠는 본인의 역할에만 집중할 수 있도록 했습니다.
+
+**| ModalController**
+```typescript
+const ModalController = () => {
+  const { modals } = useModal();
+
+  const getTypedComponent = ({ id, type, isOpened, payload }: Modal) => {
+    if (type === 'Component') {
+      return <ComponentModal key={id} id={id} isOpened={isOpened} {...(payload as ComponentPayload)} />;
+    }
+
+    if (type === 'Alert') {
+      return <Alert key={id} id={id} isOpened={isOpened} {...(payload as AlertPayload)} />;
+    }
+
+    if (type === 'Confirm') {
+      return <Confirm key={id} id={id} isOpened={isOpened} {...(payload as ConfirmPayload)} />;
+    }
+  };
+
+  return modals.map(getTypedComponent);
+};
+```
+
+**| openModal 코드**
+```typescript
+const openModal = useRecoilCallback(
+  ({ set }) =>
+    ({ type, payload }: { type: ModalType; payload: ModalPayloadType }) => {
+      const newId = uuid();
+
+      set(ModalStore, (prevState) => {
+        return [
+          ...prevState,
+          {
+            id: newId,
+            type,
+            payload,
+            isOpened: true,
+          } as Modal,
+        ];
+      });
+
+      return newId;
+    },
+  [],
+);
+```
+
+**| openComponentModal Usage**
+```typescript
+openComponentModal<CreateShareLinkModalProps>({
+  title: '초대하기',
+  children: InviteMemberModal,
+  props: { board },
+});
+```
