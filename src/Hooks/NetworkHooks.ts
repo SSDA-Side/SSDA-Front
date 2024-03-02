@@ -245,9 +245,20 @@ export const useGetMemberList = ({ id }: GetMemberListRequest) => {
 };
 
 export const useCreateDiary = () => {
+  const queryClient = useQueryClient();
+
   return useMutation({
     mutationKey: ['createDiary'],
     mutationFn: createDiary,
+    onSuccess(_data, { boardId }) {
+      queryClient.invalidateQueries({ queryKey: ['diary', boardId] });
+      queryClient.invalidateQueries({
+        queryKey: ['calendar', 'month'],
+      });
+      queryClient.invalidateQueries({
+        queryKey: ['diary', 'all', boardId],
+      });
+    },
   });
 };
 

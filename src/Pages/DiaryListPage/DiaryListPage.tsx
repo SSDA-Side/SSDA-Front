@@ -1,11 +1,14 @@
+import { EmotionImage } from '@Assets/EmotionImages';
 import { AsyncBoundary } from '@Components/Common/AsyncBoundary';
 import { IconButton } from '@Components/Common/Button';
 import { PageHeader } from '@Components/Common/PageHeader';
 import { Typography } from '@Components/Common/Typography';
+import { ErrorUI } from '@Components/ErrorUI';
 import {
   useCreateComment,
   useCreateReply,
   useDeleteComment,
+  useDeleteDiary,
   useDeleteReply,
   useGetComment,
   useGetDiaryDetail,
@@ -13,10 +16,11 @@ import {
   useUpdateLike,
 } from '@Hooks/NetworkHooks';
 import { useInfiniteObserver } from '@Hooks/useInfiniteObserver';
+import { useModal } from '@Hooks/useModal';
 import { ContentImage } from '@Type/Model';
 import { CommentData, DiaryDetailData, todayDiaryData } from '@Type/Response';
 import cn from 'classnames';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { atom, useRecoilState, useSetRecoilState } from 'recoil';
 import styles from './DiaryListPage.module.scss';
@@ -30,11 +34,9 @@ const ReplyStore = atom<ReplyData>({
 
 export const DiaryListPage = () => {
   const navigate = useNavigate();
-  const params = useParams();
-  const { boardId } = params;
+  const { boardId } = useParams();
+  const { state } = useLocation();
 
-  const location = useLocation();
-  const { state } = location;
   const {
     selectedDate,
     diarys,
@@ -44,12 +46,6 @@ export const DiaryListPage = () => {
     diarys: todayDiaryData[];
     diary: todayDiaryData;
   };
-
-  // const a = useGetDiarysById({ boardId: Number(boardId), diaryId: initialDiary.id });
-
-  useEffect(() => {
-    // document.querySelector(`li#tab-${initialDiary.id}`)!.scrollIntoView({ behavior: 'smooth' });
-  }, []);
 
   const handleTabSelect = (diary: todayDiaryData) => {
     navigate(`/myboard/${boardId}/diary/${diary.id}`, {
@@ -65,17 +61,45 @@ export const DiaryListPage = () => {
       <div className={styles.diaryBody}>
         <TabList tabs={diarys} initialDiary={initialDiary} onSelect={handleTabSelect} />
 
-        <AsyncBoundary ErrorFallback={() => <></>} SuspenseFallback={<></>}>
+        {/* <LoadingUI /> */}
+        <AsyncBoundary ErrorFallback={ErrorUI} SuspenseFallback={<LoadingUI />}>
           <AwaitedDiaryView diary={initialDiary} />
         </AsyncBoundary>
       </div>
 
-      <CommentWriting isLiked={initialDiary.isLiked} />
+      <CommentWriting />
+      {/* <CommentWriting isLiked={initialDiary?.isLiked || false} /> */}
     </div>
   );
 };
 
-const CommentWriting = ({ isLiked }: { isLiked: boolean }) => {
+const LoadingUI = () => {
+  return (
+    <>
+      <div className={styles.diarySection}>
+        <div className={styles.rowGroup}>
+          <div style={{ flex: 1 }}>
+            <div className={styles.skeletonItem} style={{ width: '70%', height: '1.3125rem', marginBottom: '.5rem' }} />
+            <div className={styles.skeletonItem} style={{ width: '50%', height: '.875rem' }} />
+          </div>
+
+          <div className={styles.skeletonItem} style={{ width: '3rem', height: '3rem', borderRadius: '9999px' }} />
+        </div>
+
+        <div className={styles.skeletonItem} style={{ width: '100%', aspectRatio: '1 / 1' }} />
+
+        <div className={styles.diaryContent}>
+          <div className={styles.skeletonItem} style={{ width: '100%', height: '1rem' }} />
+          <div className={styles.skeletonItem} style={{ width: '100%', height: '1rem' }} />
+          <div className={styles.skeletonItem} style={{ width: '100%', height: '1rem' }} />
+        </div>
+      </div>
+    </>
+  );
+};
+
+// const CommentWriting = ({ isLiked }: { isLiked: boolean }) => {
+const CommentWriting = () => {
   const { diaryId } = useParams();
   const [contents, setContents] = useState('');
 
@@ -129,7 +153,7 @@ const CommentWriting = ({ isLiked }: { isLiked: boolean }) => {
 
       <IconButton
         icon="empty-heart"
-        className={cn({ [styles.fillPrimary]: isLiked })}
+        className={cn({ [styles.fillPrimary]: true })}
         onClick={() => {
           updateLike();
         }}
@@ -172,20 +196,36 @@ const TabList = ({
 
 const AwaitedDiaryView = ({ diary }: { diary: todayDiaryData }) => {
   const navigate = useNavigate();
-  const { data } = useGetDiaryDetail(diary.memberId, diary.boardId, diary.selectedDate);
 
+  const { data } = useGetDiaryDetail(diary.memberId, diary.boardId, diary.selectedDate);
   const { title, contents, timeStamp, likeCount, commentCount, images, owned } = data as DiaryDetailData;
 
+  const { openConfirm } = useModal();
+  const { mutate: deleteDiary } = useDeleteDiary();
+
   const hasImage = images?.length !== 0;
+
+  const handleDelete = () => {
+    openConfirm({
+      contents: '일기를 삭제하시겠습니까?',
+      onYes() {
+        deleteDiary({ diaryId: diary.id });
+      },
+    });
+  };
 
   return (
     <>
       <div className={styles.diarySection}>
-        <div>
-          <p className={styles.title}>{title}</p>
-          <p className={cn(styles.greyed, styles.fz14)}>
-            {timeStamp} ∙ 좋아요 {likeCount}개 ∙ 댓글 {commentCount}개
-          </p>
+        <div className={styles.rowGroup}>
+          <div style={{ flex: 1 }}>
+            <p className={styles.title}>{title}</p>
+            <p className={cn(styles.greyed, styles.fz14)}>
+              {timeStamp} ∙ 좋아요 {likeCount}개 ∙ 댓글 {commentCount}개
+            </p>
+          </div>
+
+          <EmotionImage index={diary.emotionId} size="sm" />
         </div>
 
         {hasImage && <ImageList images={images!} />}
@@ -198,7 +238,7 @@ const AwaitedDiaryView = ({ diary }: { diary: todayDiaryData }) => {
               <button onClick={() => navigate(`/myboard/${diary.boardId}/edit`, { state: { diary: data } })}>
                 수정하기
               </button>
-              <button>삭제하기</button>
+              <button onClick={() => handleDelete()}>삭제하기</button>
             </div>
           )}
         </div>
@@ -213,7 +253,7 @@ const ImageList = ({ images }: { images: ContentImage[] }) => {
   return (
     <div className={styles.imageList}>
       {images.map((image) => (
-        <div className={styles.imageWrapper}>
+        <div key={image.id} className={styles.imageWrapper}>
           <img src={image.imgUrl} />
         </div>
       ))}
@@ -234,18 +274,20 @@ const CommentList = ({ commentCount }: { commentCount: number }) => {
 
 const AwaitedCommentList = ({ commentCount, diaryId }: { commentCount: number; diaryId: number }) => {
   const { data, hasNextPage, fetchNextPage } = useGetComment(diaryId);
-  const { disconnect } = useInfiniteObserver({
+
+  useInfiniteObserver({
     parentNodeId: 'commentList',
     onIntersection: fetchNextPage,
   });
 
-  useEffect(() => {
-    !hasNextPage && disconnect();
-  }, [hasNextPage]);
+  const hasComment = commentCount !== 0;
+  const hasNoComment = commentCount === 0;
+  const allCommentLoaded = !hasNextPage && hasComment;
 
   return (
     <div className={styles.commentSection}>
-      <h3>총 {commentCount}개의 댓글</h3>
+      {hasComment && <h3>총 {commentCount}개의 댓글</h3>}
+      {hasNoComment && <h3>댓글이 없습니다</h3>}
 
       <ul id="commentList">
         {data.pages.map((page) =>
@@ -258,7 +300,8 @@ const AwaitedCommentList = ({ commentCount, diaryId }: { commentCount: number; d
         )}
       </ul>
 
-      {!hasNextPage && <p className={styles.greyed}>모든 댓글을 불러왔습니다.</p>}
+      {allCommentLoaded && <p className={styles.greyed}>모든 댓글을 불러왔습니다.</p>}
+      {hasNoComment && <p className={styles.greyed}>처음으로 댓글을 달아볼까요?</p>}
     </div>
   );
 };
@@ -338,7 +381,7 @@ const AwaitedReplyList = ({ ...comment }: CommentData) => {
         page.map(
           (reply) =>
             !reply.deletedMark && (
-              <div className={styles.replyItem}>
+              <div key={reply.id} className={styles.replyItem}>
                 <CommentBase isReply={true} {...reply} onDelete={handleDelete} />
               </div>
             ),

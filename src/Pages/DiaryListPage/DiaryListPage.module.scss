@@ -54,6 +54,7 @@
   flex: 1;
   min-height: 0;
   overflow-y: scroll;
+  padding-inline: 1rem;
 
   scrollbar-width: none;
 }
@@ -66,7 +67,7 @@
   flex-direction: row;
   gap: 0.75rem;
 
-  padding-block: 1rem;
+  padding: 1rem;
   border-top: 1px solid var(--gray300);
 
   input {
@@ -141,7 +142,44 @@
   &::-webkit-scrollbar {
     width: 16px;
   }
+}
 
+.title {
+  font-size: 1.3125rem;
+  font-weight: 600;
+}
+
+.diary-content {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.diary-tool {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  gap: 0.75rem;
+
+  color: var(--gray700);
+}
+
+.image-list {
+  display: flex;
+  flex-direction: row;
+  white-space: nowrap;
+  width: 100%;
+
+  overflow-x: scroll;
+  scroll-snap-type: x mandatory;
+
+  &::-webkit-scrollbar {
+    width: 16px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background-color: transparent;
+  }
   &::-webkit-scrollbar-track {
     background-color: transparent;
   }
@@ -273,4 +311,21 @@ li {
 
 .fill-primary {
   fill: var(--primary);
+  color: var(--primary);
+}
+
+.skeleton-item {
+  background-color: var(--gray100);
+  border-radius: 0.25rem;
+  animation: 1s shining alternate-reverse infinite ease-in-out;
+}
+
+@keyframes shining {
+  from {
+    background-color: var(--gray100);
+  }
+
+  to {
+    background-color: var(--gray200);
+  }
 }

@@ -2,13 +2,16 @@ import sleepImage from '@Assets/EmotionImages/sleepEmotion.png';
 import { Calendar } from '@Components/Calendar';
 import { AsyncBoundary } from '@Components/Common/AsyncBoundary';
 import { DiaryCard } from '@Components/DiaryCard';
+import { ErrorUI } from '@Components/ErrorUI';
 import { useGetMonth, useGetTodayDiary } from '@Hooks/NetworkHooks';
+import { SelectedDateByUserStore } from '@Layouts/TabLayout/TabLayout';
 import { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
+import { useRecoilState } from 'recoil';
 import styles from './DiaryCalendarPage.module.scss';
 
 export const DiaryCalendarPage = () => {
-  const [currentDate, setCurrentDate] = useState(new Date());
+  const [currentDate, setCurrentDate] = useRecoilState(SelectedDateByUserStore);
   const [viewDate, setViewDate] = useState(currentDate);
 
   const handleSelectDate = (date: Date) => {
@@ -78,7 +81,7 @@ const DiaryList = ({ selectedDate }: { selectedDate: Date }) => {
   const { boardId } = params;
 
   return (
-    <AsyncBoundary ErrorFallback={() => <></>} SuspenseFallback={<LoadingUI selectedDate={selectedDate} />}>
+    <AsyncBoundary ErrorFallback={ErrorUI} SuspenseFallback={<LoadingUI selectedDate={selectedDate} />}>
       <AwaitedDiaryList selectedDate={selectedDate} boardId={Number(Number(boardId!))} />
     </AsyncBoundary>
   );
@@ -93,7 +96,8 @@ const LoadingUI = ({ selectedDate }: { selectedDate: Date }) => {
     <div className={styles.diaryListSection}>
       <div className={styles.colGroup}>
         <h2>{dateLabel} 일기</h2>
-        <p>일기를 불러오는 중입니다...</p>
+        <div className={styles.skeletonItem} style={{ width: '50%', height: '1rem' }} />
+        <div className={styles.skeletonItem} style={{ width: '100%', aspectRatio: '1 / 1' }} />
       </div>
     </div>
   );

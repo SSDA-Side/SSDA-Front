@@ -1,34 +1,52 @@
 import { AsyncBoundary } from '@Components/Common/AsyncBoundary';
 import { DiaryCard } from '@Components/DiaryCard';
+import { ErrorUI } from '@Components/ErrorUI';
 import { useGetAllDiary } from '@Hooks/NetworkHooks';
 import { useInfiniteObserver } from '@Hooks/useInfiniteObserver';
-import { useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import styles from './DiaryAllPage.module.scss';
 
 export const DiaryAllPage = () => {
   return (
     <>
-      <AsyncBoundary ErrorFallback={() => <></>} SuspenseFallback={<></>}>
+      <AsyncBoundary ErrorFallback={ErrorUI} SuspenseFallback={<LoadingUI />}>
         <AwaitedDiayAll />
       </AsyncBoundary>
     </>
   );
 };
 
+const LoadingUI = () => {
+  return (
+    <>
+      <div>
+        <div className={styles.skeletonItem} style={{ width: '30%', height: '1.5rem', marginBottom: '1rem' }} />
+        <div className={styles.skeletonItem} style={{ width: '100%' }} />
+      </div>
+
+      <div>
+        <div className={styles.skeletonItem} style={{ width: '50%', height: '1.5rem', marginBottom: '1rem' }} />
+        <div className={styles.skeletonItem} style={{ width: '100%', aspectRatio: '1 / 1', height: 'auto' }} />
+      </div>
+
+      <div>
+        <div className={styles.skeletonItem} style={{ width: '50%', height: '1.5rem', marginBottom: '1rem' }} />
+        <div className={styles.skeletonItem} style={{ width: '100%', aspectRatio: '1 / 1', height: 'auto' }} />
+      </div>
+    </>
+  );
+};
+
 const AwaitedDiayAll = () => {
+  const navigate = useNavigate();
   const params = useParams();
   const { boardId } = params;
 
-  const { data, hasNextPage, fetchNextPage } = useGetAllDiary(Number(boardId!), 10, 0);
-  const { disconnect } = useInfiniteObserver({
+  const { data, fetchNextPage } = useGetAllDiary(Number(boardId!), 10, 0);
+  useInfiniteObserver({
     parentNodeId: 'diaryList',
     onIntersection: fetchNextPage,
   });
-
-  useEffect(() => {
-    !hasNextPage && disconnect();
-  }, [hasNextPage]);
 
   return (
     <>
@@ -43,8 +61,16 @@ const AwaitedDiayAll = () => {
             {data.pages.map((page) =>
               page.map((diary) => (
                 <>
-                  <h3>02월 03일의 일기</h3>
-                  <DiaryCard key={diary.id} {...diary} onClick={() => {}} />
+                  <h3>
+                    {new Intl.DateTimeFormat('ko-KR', { dateStyle: 'long' }).format(new Date(diary.selectedDate))}
+                  </h3>
+                  <DiaryCard
+                    key={diary.id}
+                    {...diary}
+                    onClick={() => {
+                      navigate(`/myboard/${boardId}/diary/${diary.id}`, { state: JSON.stringify(page) });
+                    }}
+                  />
                 </>
               )),
             )}

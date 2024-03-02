@@ -4,10 +4,11 @@ import { DiaryCard } from '@Components/DiaryCard';
 import { useGetNewDiary } from '@Hooks/NetworkHooks';
 import { useParams } from 'react-router-dom';
 import styles from './DiaryNewPage.module.scss';
+import { ErrorUI } from '@Components/ErrorUI';
 
 export const DiaryNewPage = () => {
   return (
-    <AsyncBoundary ErrorFallback={() => <></>} SuspenseFallback={<></>}>
+    <AsyncBoundary ErrorFallback={ErrorUI} SuspenseFallback={<LoadingUI />}>
       <AwaitedDiaryNewPage />
     </AsyncBoundary>
   );
@@ -56,6 +57,27 @@ const AwaitedDiaryNewPage = () => {
             ))}
           </ul>
         </div>
+      </div>
+    </>
+  );
+};
+
+const LoadingUI = () => {
+  return (
+    <>
+      <div>
+        <div className={styles.skeletonItem} style={{ width: '30%', height: '1.5rem', marginBottom: '1rem' }} />
+        <div className={styles.skeletonItem} style={{ width: '100%' }} />
+      </div>
+
+      <div>
+        <div className={styles.skeletonItem} style={{ width: '50%', height: '1.5rem', marginBottom: '1rem' }} />
+        <div className={styles.skeletonItem} style={{ width: '100%', aspectRatio: '1 / 1', height: 'auto' }} />
+      </div>
+
+      <div>
+        <div className={styles.skeletonItem} style={{ width: '50%', height: '1.5rem', marginBottom: '1rem' }} />
+        <div className={styles.skeletonItem} style={{ width: '100%', aspectRatio: '1 / 1', height: 'auto' }} />
       </div>
     </>
   );
