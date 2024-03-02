@@ -12,6 +12,7 @@ import { FallbackProps } from 'react-error-boundary';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
 import styles from './DiaryCalendarPage.module.scss';
+import { ErrorUI } from '@Components/ErrorUI';
 
 export const DiaryCalendarPage = () => {
   const [currentDate, setCurrentDate] = useRecoilState(SelectedDateByUserStore);
@@ -84,37 +85,11 @@ const DiaryList = ({ selectedDate }: { selectedDate: Date }) => {
   const { boardId } = params;
 
   return (
-    // <LoadingUI selectedDate={selectedDate} />
-    <AsyncBoundary ErrorFallback={PageErrorUI} SuspenseFallback={<LoadingUI selectedDate={selectedDate} />}>
+    <AsyncBoundary ErrorFallback={ErrorUI} SuspenseFallback={<LoadingUI selectedDate={selectedDate} />}>
       <AwaitedDiaryList selectedDate={selectedDate} boardId={Number(Number(boardId!))} />
     </AsyncBoundary>
   );
 };
-
-const PageErrorUI = ({ resetErrorBoundary }: FallbackProps) => (
-  <>
-    <section className={styles.errorContainer}>
-      <div className={styles.group}>
-        <div className={styles.red}>
-          <SVGIcon name="error" />
-        </div>
-
-        <div className={styles.red}>
-          <Typography as="body2">통신 실패</Typography>
-        </div>
-      </div>
-
-      <div className={styles.delimitor} />
-
-      <div className={styles.group}>
-        <Typography as="body2">오류가 발생했어요.</Typography>
-        <Typography as="body2">아래의 버튼을 통해 다시 시도해보세요.</Typography>
-      </div>
-
-      <CTAButton onClick={() => resetErrorBoundary()}>다시 가져오기</CTAButton>
-    </section>
-  </>
-);
 
 const LoadingUI = ({ selectedDate }: { selectedDate: Date }) => {
   const dateLabel = `${new Intl.DateTimeFormat('ko-KR', { month: '2-digit' }).format(

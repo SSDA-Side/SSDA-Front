@@ -3,17 +3,18 @@ import { AsyncBoundary } from '@Components/Common/AsyncBoundary';
 import { IconButton } from '@Components/Common/Button';
 import { PageHeader } from '@Components/Common/PageHeader';
 import { Typography } from '@Components/Common/Typography';
+import { ErrorUI } from '@Components/ErrorUI';
 import { NotificationItem } from '@Components/NotificationItem';
 import { useGetNotifications, useHeroMetadata, useReadAllNotification } from '@Hooks/NetworkHooks';
 import { useInfiniteObserver } from '@Hooks/useInfiniteObserver';
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { PageErrorUI } from './NotificationPage.error';
 import styles from './NotificationPage.module.scss';
 import { PageLoadingUI } from './NotificationPage.skeleton';
 
 export const NotificationPage = () => {
   const navigate = useNavigate();
+
   return (
     <>
       <PageHeader>
@@ -34,7 +35,7 @@ export const NotificationPage = () => {
 const Body = () => {
   return (
     <main className={styles.container}>
-      <AsyncBoundary ErrorFallback={PageErrorUI} SuspenseFallback={<PageLoadingUI />}>
+      <AsyncBoundary ErrorFallback={ErrorUI} SuspenseFallback={<PageLoadingUI />}>
         <NotificationView />
       </AsyncBoundary>
     </main>

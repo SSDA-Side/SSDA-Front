@@ -86,3 +86,20 @@
 .gray700 {
   color: var(--gray700);
 }
+
+.skeleton-item {
+  height: 1rem;
+  background-color: var(--gray100);
+  border-radius: 0.25rem;
+  animation: 1s shining alternate-reverse infinite ease-in-out;
+}
+
+@keyframes shining {
+  from {
+    background-color: var(--gray100);
+  }
+
+  to {
+    background-color: var(--gray200);
+  }
+}

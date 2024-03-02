@@ -5,13 +5,35 @@ import { useInfiniteObserver } from '@Hooks/useInfiniteObserver';
 import { useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import styles from './DiaryAllPage.module.scss';
+import { ErrorUI } from '@Components/ErrorUI';
 
 export const DiaryAllPage = () => {
   return (
     <>
-      <AsyncBoundary ErrorFallback={() => <></>} SuspenseFallback={<></>}>
+      <AsyncBoundary ErrorFallback={ErrorUI} SuspenseFallback={<LoadingUI />}>
         <AwaitedDiayAll />
       </AsyncBoundary>
+    </>
+  );
+};
+
+const LoadingUI = () => {
+  return (
+    <>
+      <div>
+        <div className={styles.skeletonItem} style={{ width: '30%', height: '1.5rem', marginBottom: '1rem' }} />
+        <div className={styles.skeletonItem} style={{ width: '100%' }} />
+      </div>
+
+      <div>
+        <div className={styles.skeletonItem} style={{ width: '50%', height: '1.5rem', marginBottom: '1rem' }} />
+        <div className={styles.skeletonItem} style={{ width: '100%', aspectRatio: '1 / 1', height: 'auto' }} />
+      </div>
+
+      <div>
+        <div className={styles.skeletonItem} style={{ width: '50%', height: '1.5rem', marginBottom: '1rem' }} />
+        <div className={styles.skeletonItem} style={{ width: '100%', aspectRatio: '1 / 1', height: 'auto' }} />
+      </div>
     </>
   );
 };

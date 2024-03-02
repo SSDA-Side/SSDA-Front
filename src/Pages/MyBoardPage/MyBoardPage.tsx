@@ -4,12 +4,9 @@ import { useNavigate } from 'react-router-dom';
 /** Style 및 Layout */
 import styles from './MyBoardPage.module.scss';
 
-/** Icon */
-import { SVGIcon } from '@Icons/SVGIcon';
-
 /** Component */
 import { AddBoardItemButton, BoardItem } from '@Components/BoardItem';
-import { CTAButton, IconButton } from '@Components/Common/Button';
+import { IconButton } from '@Components/Common/Button';
 import { PageHeader } from '@Components/Common/PageHeader';
 import { Typography } from '@Components/Common/Typography';
 
@@ -21,6 +18,7 @@ import { useBoardList, useHeroMetadata } from '@Hooks/NetworkHooks';
 import type { FallbackProps } from 'react-error-boundary';
 
 /** Util */
+import { ErrorUI } from '@Components/ErrorUI';
 import { UserStore } from '@Store/UserStore';
 import { HeroMetadata } from '@Type/Response';
 import { getDescription } from '@Utils/index';
@@ -85,7 +83,7 @@ const HeroSection = ({ heroMetadata }: { heroMetadata: HeroMetadata }) => {
   );
 };
 
-const PageErrorUI = ({ resetErrorBoundary }: FallbackProps) => (
+const PageErrorUI = (fallbackProps: FallbackProps) => (
   <>
     <PageHeader>
       <PageHeader.Left>
@@ -101,26 +99,7 @@ const PageErrorUI = ({ resetErrorBoundary }: FallbackProps) => (
       </PageHeader.Right>
     </PageHeader>
 
-    <section className={styles.errorContainer}>
-      <div className={styles.group}>
-        <div className={styles.red}>
-          <SVGIcon name="error" />
-        </div>
-
-        <div className={styles.red}>
-          <Typography as="body2">통신 실패</Typography>
-        </div>
-      </div>
-
-      <div className={styles.delimitor} />
-
-      <div className={styles.group}>
-        <Typography as="body2">오류가 발생했어요.</Typography>
-        <Typography as="body2">아래의 버튼을 통해 다시 시도해보세요.</Typography>
-      </div>
-
-      <CTAButton onClick={() => resetErrorBoundary()}>다시 가져오기</CTAButton>
-    </section>
+    <ErrorUI {...fallbackProps} />
   </>
 );
 

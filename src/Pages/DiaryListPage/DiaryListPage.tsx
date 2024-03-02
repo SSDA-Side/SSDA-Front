@@ -1,8 +1,9 @@
 import { EmotionImage } from '@Assets/EmotionImages';
 import { AsyncBoundary } from '@Components/Common/AsyncBoundary';
-import { CTAButton, IconButton } from '@Components/Common/Button';
+import { IconButton } from '@Components/Common/Button';
 import { PageHeader } from '@Components/Common/PageHeader';
 import { Typography } from '@Components/Common/Typography';
+import { ErrorUI } from '@Components/ErrorUI';
 import {
   useCreateComment,
   useCreateReply,
@@ -16,12 +17,10 @@ import {
 } from '@Hooks/NetworkHooks';
 import { useInfiniteObserver } from '@Hooks/useInfiniteObserver';
 import { useModal } from '@Hooks/useModal';
-import { SVGIcon } from '@Icons/SVGIcon';
 import { ContentImage } from '@Type/Model';
 import { CommentData, DiaryDetailData, todayDiaryData } from '@Type/Response';
 import cn from 'classnames';
-import { useEffect, useState } from 'react';
-import { FallbackProps } from 'react-error-boundary';
+import { useState } from 'react';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { atom, useRecoilState, useSetRecoilState } from 'recoil';
 import styles from './DiaryListPage.module.scss';
@@ -48,8 +47,6 @@ export const DiaryListPage = () => {
     diary: todayDiaryData;
   };
 
-  // const a = useGetDiarysById({ boardId: Number(boardId), diaryId: initialDiary.id });
-
   const handleTabSelect = (diary: todayDiaryData) => {
     navigate(`/myboard/${boardId}/diary/${diary.id}`, {
       state: JSON.stringify({ selectedDate, diarys, diary }),
@@ -65,7 +62,7 @@ export const DiaryListPage = () => {
         <TabList tabs={diarys} initialDiary={initialDiary} onSelect={handleTabSelect} />
 
         {/* <LoadingUI /> */}
-        <AsyncBoundary ErrorFallback={PageErrorUI} SuspenseFallback={<LoadingUI />}>
+        <AsyncBoundary ErrorFallback={ErrorUI} SuspenseFallback={<LoadingUI />}>
           <AwaitedDiaryView diary={initialDiary} />
         </AsyncBoundary>
       </div>
@@ -74,31 +71,6 @@ export const DiaryListPage = () => {
     </div>
   );
 };
-
-const PageErrorUI = ({ resetErrorBoundary }: FallbackProps) => (
-  <>
-    <section className={styles.errorContainer}>
-      <div className={styles.group}>
-        <div className={styles.red}>
-          <SVGIcon name="error" />
-        </div>
-
-        <div className={styles.red}>
-          <Typography as="body2">통신 실패</Typography>
-        </div>
-      </div>
-
-      <div className={styles.delimitor} />
-
-      <div className={styles.group}>
-        <Typography as="body2">오류가 발생했어요.</Typography>
-        <Typography as="body2">아래의 버튼을 통해 다시 시도해보세요.</Typography>
-      </div>
-
-      <CTAButton onClick={() => resetErrorBoundary()}>다시 가져오기</CTAButton>
-    </section>
-  </>
-);
 
 const LoadingUI = () => {
   return (
@@ -300,21 +272,19 @@ const CommentList = ({ commentCount }: { commentCount: number }) => {
 
 const AwaitedCommentList = ({ commentCount, diaryId }: { commentCount: number; diaryId: number }) => {
   const { data, hasNextPage, fetchNextPage } = useGetComment(diaryId);
-  const { disconnect } = useInfiniteObserver({
+
+  useInfiniteObserver({
     parentNodeId: 'commentList',
     onIntersection: fetchNextPage,
   });
 
-  const allCommentLoaded = !hasNextPage && commentCount !== 0;
-  const hasNoComment = !hasNextPage && commentCount === 0;
-
-  useEffect(() => {
-    !hasNextPage && disconnect();
-  }, [hasNextPage]);
+  const hasComment = commentCount !== 0;
+  const hasNoComment = commentCount === 0;
+  const allCommentLoaded = !hasNextPage && hasComment;
 
   return (
     <div className={styles.commentSection}>
-      {allCommentLoaded && <h3>총 {commentCount}개의 댓글</h3>}
+      {hasComment && <h3>총 {commentCount}개의 댓글</h3>}
       {hasNoComment && <h3>댓글이 없습니다</h3>}
 
       <ul id="commentList">
