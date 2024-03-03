@@ -7,7 +7,6 @@ import { ErrorUI } from '@Components/ErrorUI';
 import { NotificationItem } from '@Components/NotificationItem';
 import { useGetNotifications, useHeroMetadata, useReadAllNotification } from '@Hooks/NetworkHooks';
 import { useInfiniteObserver } from '@Hooks/useInfiniteObserver';
-import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styles from './NotificationPage.module.scss';
 import { PageLoadingUI } from './NotificationPage.skeleton';

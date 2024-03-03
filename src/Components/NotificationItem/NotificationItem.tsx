@@ -111,7 +111,16 @@ const NotiItemComment = ({
   return <NotiItemPresenter {...presenterProps} />;
 };
 
-const NotiItemReply = ({ id, writerId, replyWriterNickname, isRead, regDate, boardId, diaryId }: NotificationReply) => {
+const NotiItemReply = ({
+  id,
+  writerId,
+  replyWriterNickname,
+  isRead,
+  regDate,
+  boardId,
+  diaryId,
+  replyId,
+}: NotificationReply) => {
   const navigate = useNavigate();
 
   const presenterProps: NotiItemPresenterProp = {
@@ -121,7 +130,7 @@ const NotiItemReply = ({ id, writerId, replyWriterNickname, isRead, regDate, boa
     content: `${replyWriterNickname}님이 회원님의 댓글에 답글을 달았습니다.`,
     onClick: () => {
       // navigate(`/myboard/${boardId}/detail?date=${regDate.split('T')[0]}&mId=${userData!.id}`);
-      navigate(`/myboard/${boardId}/diary/${diaryId}`, { state: { notiCommentId: commentId } });
+      navigate(`/myboard/${boardId}/diary/${diaryId}`, { state: { notiCommentId: replyId } });
     },
     regDate: new Date(regDate),
     isRead,
