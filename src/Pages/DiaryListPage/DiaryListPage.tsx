@@ -21,7 +21,7 @@ import { useModal } from '@Hooks/useModal';
 import { ContentImage } from '@Type/Model';
 import { CommentData, todayDiaryData } from '@Type/Response';
 import cn from 'classnames';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { atom, useRecoilState, useSetRecoilState } from 'recoil';
 import styles from './DiaryListPage.module.scss';
@@ -75,7 +75,7 @@ const AwaitedDiaryListPage = () => {
         </AsyncBoundary>
       </div>
 
-      <CommentWriting />
+      <CommentWriting isLiked={targetDiary.liked} />
     </div>
   );
 };
@@ -158,9 +158,9 @@ const InitialLoadingUI = () => {
     </>
   );
 };
-
-// const CommentWriting = ({ isLiked }: { isLiked: boolean }) => {
-const CommentWriting = () => {
+  
+const CommentWriting = ({ isLiked }: { isLiked: boolean }) => {
+// const CommentWriting = () => {
   const { diaryId } = useParams();
   const [contents, setContents] = useState('');
 
@@ -214,7 +214,7 @@ const CommentWriting = () => {
 
       <IconButton
         icon="empty-heart"
-        className={cn({ [styles.fillPrimary]: true })}
+        className={cn({ [styles.fillPrimary]: isLiked })}
         onClick={() => {
           updateLike();
         }}

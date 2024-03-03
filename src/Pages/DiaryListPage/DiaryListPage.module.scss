@@ -142,44 +142,7 @@
   &::-webkit-scrollbar {
     width: 16px;
   }
-}
 
-.title {
-  font-size: 1.3125rem;
-  font-weight: 600;
-}
-
-.diary-content {
-  display: flex;
-  flex-direction: column;
-  gap: 0.75rem;
-}
-
-.diary-tool {
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-end;
-  gap: 0.75rem;
-
-  color: var(--gray700);
-}
-
-.image-list {
-  display: flex;
-  flex-direction: row;
-  white-space: nowrap;
-  width: 100%;
-
-  overflow-x: scroll;
-  scroll-snap-type: x mandatory;
-
-  &::-webkit-scrollbar {
-    width: 16px;
-  }
-
-  &::-webkit-scrollbar-track {
-    background-color: transparent;
-  }
   &::-webkit-scrollbar-track {
     background-color: transparent;
   }
