@@ -53,6 +53,7 @@ export type DiaryDetailData = {
   selectedDate: string;
   title: string;
   timeStamp: string;
+  liked: boolean;
 };
 
 export type DiaryDetailImage = {
@@ -94,7 +95,7 @@ export type todayDiaryData = {
   regDate?: string;
   selectedDate: string;
   timeStamp: string;
-  isLiked: boolean;
+  liked: boolean;
 };
 
 export type likeData = {

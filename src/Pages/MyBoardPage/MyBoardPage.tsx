@@ -120,18 +120,20 @@ const PageLoadingUI = () => {
         </PageHeader.Right>
       </PageHeader>
 
-      <section className={styles.heroSection}>
-        <div className={styles.heroSkeleton} style={{ width: '30%', height: '2.5rem' }} />
-        <div className={styles.heroSkeleton} style={{ width: '100%', height: '2.5rem' }} />
-        <div className={styles.heroSkeleton} style={{ width: '70%', height: '1rem' }} />
-      </section>
+      <main className={styles.contaienr}>
+        <section className={styles.heroSection}>
+          <div className={styles.heroSkeleton} style={{ width: '30%', height: '2.5rem' }} />
+          <div className={styles.heroSkeleton} style={{ width: '100%', height: '2.5rem' }} />
+          <div className={styles.heroSkeleton} style={{ width: '70%', height: '1rem' }} />
+        </section>
 
-      <section className={styles.boardListSection}>
-        <div className={styles.boardItemSkeleton} />
-        <div className={styles.boardItemSkeleton} />
-        <div className={styles.boardItemSkeleton} />
-        <div className={styles.boardItemSkeleton} />
-      </section>
+        <section className={styles.boardListSection}>
+          <div className={styles.boardItemSkeleton} />
+          <div className={styles.boardItemSkeleton} />
+          <div className={styles.boardItemSkeleton} />
+          <div className={styles.boardItemSkeleton} />
+        </section>
+      </main>
     </>
   );
 };

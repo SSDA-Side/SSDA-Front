@@ -60,8 +60,9 @@
 }
 
 .writing-section {
-  position: relative;
-  width: 100%;
+  position: fixed;
+  bottom: 0;
+  background-color: var(--white);
 
   display: flex;
   flex-direction: row;
@@ -104,6 +105,7 @@
 }
 
 .diary-section {
+  position: relative;
   display: flex;
   flex-direction: column;
   gap: 2rem;
@@ -265,6 +267,11 @@ li {
 
 .disabled {
   color: var(--gray400);
+}
+
+.empty-fill {
+  fill: transparent;
+  color: var(--primary);
 }
 
 .fill-primary {

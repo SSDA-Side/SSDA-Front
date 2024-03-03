@@ -75,7 +75,7 @@ const AwaitedDiaryListPage = () => {
         </AsyncBoundary>
       </div>
 
-      <CommentWriting />
+      {/* <CommentWriting isLiked={targetDiary.liked} /> */}
     </div>
   );
 };
@@ -153,14 +153,13 @@ const InitialLoadingUI = () => {
           </div>
         </div>
 
-        <CommentWriting />
+        <CommentWriting isLiked={false} />
       </div>
     </>
   );
 };
 
-// const CommentWriting = ({ isLiked }: { isLiked: boolean }) => {
-const CommentWriting = () => {
+const CommentWriting = ({ isLiked }: { isLiked: boolean }) => {
   const { diaryId } = useParams();
   const [contents, setContents] = useState('');
 
@@ -214,7 +213,7 @@ const CommentWriting = () => {
 
       <IconButton
         icon="empty-heart"
-        className={cn({ [styles.fillPrimary]: true })}
+        className={cn(styles.emptyFill, { [styles.fillPrimary]: isLiked })}
         onClick={() => {
           updateLike();
         }}
@@ -304,6 +303,8 @@ const AwaitedDiaryView = ({ targetDiary }: { targetDiary: todayDiaryData }) => {
             </div>
           )}
         </div>
+
+        <CommentWriting isLiked={currentDiary.liked} />
       </div>
 
       <CommentList commentCount={commentCount} />
