@@ -50,7 +50,7 @@ export type DiaryDetailData = {
   owned: boolean;
   profileUrl: string;
   regDate: string;
-  selectDate: string;
+  selectedDate: string;
   title: string;
   timeStamp: string;
 };

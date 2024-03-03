@@ -8,7 +8,7 @@ import { SVGIcon } from '@Icons/SVGIcon';
 import { IconName } from '@Type/index';
 import { useState } from 'react';
 import { Outlet, useLocation, useNavigate, useParams } from 'react-router-dom';
-import { atom, useRecoilValue } from 'recoil';
+import { atom, useRecoilValue, useSetRecoilState } from 'recoil';
 import styles from './TabLayout.module.scss';
 
 export const SelectedDateByUserStore = atom({
@@ -70,6 +70,7 @@ const Header = () => {
   const params = useParams();
   const { boardId } = params;
 
+  const setSelectedDate = useSetRecoilState(SelectedDateByUserStore);
   const { data } = useGetBoardTitle(Number(boardId!));
   const navigate = useNavigate();
 
@@ -81,7 +82,13 @@ const Header = () => {
     <div className={styles.header}>
       <PageHeader>
         <PageHeader.Left>
-          <IconButton icon="left" onClick={() => navigate('/myboard')} />
+          <IconButton
+            icon="left"
+            onClick={() => {
+              setSelectedDate(new Date());
+              navigate('/myboard');
+            }}
+          />
         </PageHeader.Left>
 
         <PageHeader.Center>

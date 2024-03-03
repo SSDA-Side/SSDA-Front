@@ -1,6 +1,7 @@
 import { Typography } from '@Components/Common/Typography';
+import { useReadNotification } from '@Hooks/NetworkHooks';
+import { useModal } from '@Hooks/useModal';
 import { SVGIcon } from '@Icons/SVGIcon';
-
 import {
   Notification,
   NotificationComment,
@@ -9,14 +10,10 @@ import {
   NotificationNewMember,
   NotificationReply,
 } from '@Type/Model';
-
 import { getFormattedDate } from '@Utils/index';
-
 import cn from 'classnames';
-import styles from './NotificationItem.module.scss';
 import { useNavigate } from 'react-router-dom';
-import { useGetUser, useReadNotification } from '@Hooks/NetworkHooks';
-import { useModal } from '@Hooks/useModal';
+import styles from './NotificationItem.module.scss';
 
 export const NotificationItem = (notification: Notification) => {
   const { notificationTypeId: notiType } = notification;
@@ -85,9 +82,17 @@ const NotiItemPresenter = ({ id, writerId, category, content, onClick, isRead, r
   );
 };
 
-const NotiItemComment = ({ id, writerId, commentWriterNickname, isRead, regDate, boardId }: NotificationComment) => {
+const NotiItemComment = ({
+  id,
+  writerId,
+  commentWriterNickname,
+  isRead,
+  regDate,
+  boardId,
+  diaryId,
+  commentId,
+}: NotificationComment) => {
   const navigate = useNavigate();
-  const { data: userData } = useGetUser();
 
   const presenterProps: NotiItemPresenterProp = {
     id,
@@ -96,7 +101,8 @@ const NotiItemComment = ({ id, writerId, commentWriterNickname, isRead, regDate,
     content: `${commentWriterNickname}님이 회원님의 일기에 댓글을 달았습니다.`,
     onClick: () => {
       //https://www.dassda.today/myboard/9/detail?date=2024-02-25&mId=6
-      navigate(`/myboard/${boardId}/detail?date=${regDate.split('T')[0]}&mId=${userData!.id}`);
+      // navigate(`/myboard/${boardId}/detail?date=${regDate.split('T')[0]}&mId=${userData!.id}`);
+      navigate(`/myboard/${boardId}/diary/${diaryId}`, { state: { notiCommentId: commentId } });
     },
     regDate: new Date(regDate),
     isRead,
@@ -105,17 +111,26 @@ const NotiItemComment = ({ id, writerId, commentWriterNickname, isRead, regDate,
   return <NotiItemPresenter {...presenterProps} />;
 };
 
-const NotiItemReply = ({ id, writerId, replyWriterNickname, isRead, regDate, boardId }: NotificationReply) => {
+const NotiItemReply = ({
+  id,
+  writerId,
+  replyWriterNickname,
+  isRead,
+  regDate,
+  boardId,
+  diaryId,
+  replyId,
+}: NotificationReply) => {
   const navigate = useNavigate();
-  const { data: userData } = useGetUser();
 
   const presenterProps: NotiItemPresenterProp = {
     id,
     writerId,
     category: '답글 알림',
-    content: `${replyWriterNickname}님이 회원님의 일기에 답글을 달았습니다.`,
+    content: `${replyWriterNickname}님이 회원님의 댓글에 답글을 달았습니다.`,
     onClick: () => {
-      navigate(`/myboard/${boardId}/detail?date=${regDate.split('T')[0]}&mId=${userData!.id}`);
+      // navigate(`/myboard/${boardId}/detail?date=${regDate.split('T')[0]}&mId=${userData!.id}`);
+      navigate(`/myboard/${boardId}/diary/${diaryId}`, { state: { notiCommentId: replyId } });
     },
     regDate: new Date(regDate),
     isRead,
@@ -124,9 +139,8 @@ const NotiItemReply = ({ id, writerId, replyWriterNickname, isRead, regDate, boa
   return <NotiItemPresenter {...presenterProps} />;
 };
 
-const NotiItemLike = ({ id, writerId, likeMemberNickname, isRead, regDate, boardId }: NotificationLike) => {
+const NotiItemLike = ({ id, writerId, likeMemberNickname, isRead, regDate, boardId, diaryId }: NotificationLike) => {
   const navigate = useNavigate();
-  const { data: userData } = useGetUser();
 
   const presenterProps: NotiItemPresenterProp = {
     id,
@@ -134,7 +148,8 @@ const NotiItemLike = ({ id, writerId, likeMemberNickname, isRead, regDate, board
     category: '좋아요 알림',
     content: `${likeMemberNickname}님이 회원님의 일기에 좋아요을 눌렀습니다.`,
     onClick: () => {
-      navigate(`/myboard/${boardId}/detail?date=${regDate.split('T')[0]}&mId=${userData!.id}`);
+      // navigate(`/myboard/${boardId}/detail?date=${regDate.split('T')[0]}&mId=${userData!.id}`);
+      navigate(`/myboard/${boardId}/diary/${diaryId}`);
     },
     regDate: new Date(regDate),
     isRead,
@@ -143,9 +158,8 @@ const NotiItemLike = ({ id, writerId, likeMemberNickname, isRead, regDate, board
   return <NotiItemPresenter {...presenterProps} />;
 };
 
-const NotiItemNewDiary = ({ id, writerId, boardTitle, isRead, regDate, boardId }: NotificationNewDiary) => {
+const NotiItemNewDiary = ({ id, writerId, boardTitle, isRead, regDate, boardId, diaryId }: NotificationNewDiary) => {
   const navigate = useNavigate();
-  const { data: userData } = useGetUser();
 
   const presenterProps: NotiItemPresenterProp = {
     id,
@@ -153,7 +167,8 @@ const NotiItemNewDiary = ({ id, writerId, boardTitle, isRead, regDate, boardId }
     category: '새글 알림',
     content: `'${boardTitle}' 일기장에 새글이 등록되었습니다. 댓글과 좋아요를 남겨주세요!`,
     onClick: () => {
-      navigate(`/myboard/${boardId}/detail?date=${regDate.split('T')[0]}&mId=${userData!.id}`);
+      // navigate(`/myboard/${boardId}/detail?date=${regDate.split('T')[0]}&mId=${userData!.id}`);
+      navigate(`/myboard/${boardId}/diary/${diaryId}`);
     },
     regDate: new Date(regDate),
     isRead,

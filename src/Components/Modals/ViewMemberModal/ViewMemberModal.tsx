@@ -95,9 +95,7 @@ const AddNewMemberButton = ({ board, modalId }: { board: Board | { id: number; t
     openComponentModal<CreateShareLinkModalProps>({
       title: '초대하기',
       children: InviteMemberModal,
-      props: {
-        board,
-      },
+      props: { board },
     });
   };
 

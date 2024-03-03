@@ -2,7 +2,7 @@ import sleepImage from '@Assets/EmotionImages/sleepEmotion.png';
 import { AsyncBoundary } from '@Components/Common/AsyncBoundary';
 import { DiaryCard } from '@Components/DiaryCard';
 import { useGetNewDiary } from '@Hooks/NetworkHooks';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import styles from './DiaryNewPage.module.scss';
 import { ErrorUI } from '@Components/ErrorUI';
 
@@ -15,8 +15,8 @@ export const DiaryNewPage = () => {
 };
 
 const AwaitedDiaryNewPage = () => {
-  const params = useParams();
-  const { boardId } = params;
+  const navigate = useNavigate();
+  const { boardId } = useParams();
 
   const { data: diarys } = useGetNewDiary(Number(boardId!));
 
@@ -51,8 +51,14 @@ const AwaitedDiaryNewPage = () => {
           <ul id="diaryList" className={styles.diaryList}>
             {diarys.map((diary) => (
               <>
-                <h3>02월 03일의 일기</h3>
-                <DiaryCard key={diary.id} {...diary} onClick={() => {}} />
+                <h3>{new Intl.DateTimeFormat('ko-KR', { dateStyle: 'long' }).format(new Date(diary.selectedDate))}</h3>
+                <DiaryCard
+                  key={diary.id}
+                  {...diary}
+                  onClick={() => {
+                    navigate(`/myboard/${boardId}/diary/${diary.id}`);
+                  }}
+                />
               </>
             ))}
           </ul>

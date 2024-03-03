@@ -169,8 +169,8 @@ export const getNewDiary = async ({ boardId }: IsNewDiaryRequest) => {
 // const DELAY_TIME = 1200;
 
 // 일기 상세
-export const getDiaryDetail = async ({ memberId, boardId, date }: GetDiaryDetailRequest) => {
-  const res = await axios.get<DiaryDetailData>(`/api/diary?memberId=${memberId}&boardId=${boardId}&date=${date}`);
+export const getDiaryDetail = async ({ id }: GetDiaryDetailRequest) => {
+  const res = await axios.get<DiaryDetailData>(`/api/diary/${id}`);
   return res.data;
 };
 
@@ -403,7 +403,7 @@ export const readNotification = async ({ id, writerId }: Pick<NotificationBase, 
   return res.status;
 };
 
-export const getDiarysById = async ({ boardId, diaryId }: { boardId: number; diaryId: number }) => {
-  const res = await axios.get(`/api/diary/${diaryId}/related-list?boardId=${boardId}`);
+export const getDiarysById = async ({ diaryId }: { diaryId: number }) => {
+  const res = await axios.get<todayDiaryData[]>(`/api/diary/${diaryId}/related-list`);
   return res.data;
 };
