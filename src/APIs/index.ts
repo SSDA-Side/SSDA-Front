@@ -169,8 +169,8 @@ export const getNewDiary = async ({ boardId }: IsNewDiaryRequest) => {
 // const DELAY_TIME = 1200;
 
 // 일기 상세
-export const getDiaryDetail = async ({ memberId, boardId, date }: GetDiaryDetailRequest) => {
-  const res = await axios.get<DiaryDetailData>(`/api/diary?memberId=${memberId}&boardId=${boardId}&date=${date}`);
+export const getDiaryDetail = async ({ id }: GetDiaryDetailRequest) => {
+  const res = await axios.get<DiaryDetailData>(`/api/diary/${id}`);
   return res.data;
 };
 

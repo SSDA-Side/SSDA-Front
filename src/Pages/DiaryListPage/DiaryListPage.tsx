@@ -22,7 +22,7 @@ import { ContentImage } from '@Type/Model';
 import { CommentData, todayDiaryData } from '@Type/Response';
 import cn from 'classnames';
 import { useEffect, useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { atom, useRecoilState, useSetRecoilState } from 'recoil';
 import styles from './DiaryListPage.module.scss';
 
@@ -34,6 +34,12 @@ const ReplyStore = atom<ReplyData>({
 });
 
 export const DiaryListPage = () => {
+  const setReplyMode = useSetRecoilState(ReplyStore);
+
+  useEffect(() => {
+    return () => setReplyMode(null);
+  }, []);
+
   return (
     <AsyncBoundary ErrorFallback={ErrorUI} SuspenseFallback={<InitialLoadingUI />}>
       <AwaitedDiaryListPage />
@@ -54,7 +60,6 @@ const AwaitedDiaryListPage = () => {
   }, [targetDiary]);
 
   const handleTabSelect = (tabIndex: number) => {
-    // navigate(`/myboard/${boardId}/diary/${diary.id}`, { state: { tabSelect: true }, replace: true });
     setCurrentTabIndex(tabIndex);
   };
 
@@ -250,15 +255,11 @@ const TabList = ({
   );
 };
 
-const AwaitedDiaryView = ({ targetDiary }: { targetDiary?: todayDiaryData }) => {
+const AwaitedDiaryView = ({ targetDiary }: { targetDiary: todayDiaryData }) => {
   const navigate = useNavigate();
   const { boardId } = useParams();
 
-  const { data: currentDiary } = useGetDiaryDetail(
-    targetDiary ? targetDiary.memberId : 0,
-    Number(boardId),
-    targetDiary ? targetDiary?.selectedDate : new Date().toISOString().split('Z')[0],
-  );
+  const { data: currentDiary } = useGetDiaryDetail(targetDiary.id);
   const { title, contents, timeStamp, likeCount, commentCount, images, owned } = currentDiary;
 
   const { openConfirm } = useModal();
@@ -334,12 +335,28 @@ const CommentList = ({ commentCount }: { commentCount: number }) => {
 };
 
 const AwaitedCommentList = ({ commentCount, diaryId }: { commentCount: number; diaryId: number }) => {
+  const { state } = useLocation();
   const { data, hasNextPage, fetchNextPage } = useGetComment(diaryId);
 
   useInfiniteObserver({
     parentNodeId: 'commentList',
     onIntersection: fetchNextPage,
   });
+
+  useEffect(() => {
+    if (state === null) {
+      return;
+    }
+
+    const { notiCommentId } = state as { notiCommentId: -1 };
+
+    if (notiCommentId === -1) {
+      return;
+    }
+
+    document.querySelector(`#comment-${notiCommentId}`)?.scrollIntoView({ behavior: 'smooth' });
+    document.querySelector(`#comment-${notiCommentId}`)?.classList.add(styles.flash);
+  }, []);
 
   const hasComment = commentCount !== 0;
   const hasNoComment = commentCount === 0;
@@ -411,7 +428,7 @@ const CommentItem = ({ diaryId, ...comment }: { diaryId: number } & CommentData)
   };
 
   return (
-    <div className={styles.commentItem}>
+    <div id={`comment-${comment.id}`} className={styles.commentItem}>
       <CommentBase onDelete={handleDelete} {...comment} />
     </div>
   );
@@ -426,8 +443,24 @@ const ReplyList = ({ ...comment }: CommentData) => {
 };
 
 const AwaitedReplyList = ({ ...comment }: CommentData) => {
+  const { state } = useLocation();
   const { data: replys, hasNextPage, fetchNextPage } = useGetReply(comment.id);
   const { mutate: deleteReply } = useDeleteReply();
+
+  useEffect(() => {
+    if (state === null) {
+      return;
+    }
+
+    const { notiReplyId } = state as { notiReplyId: -1 };
+
+    if (notiReplyId === -1) {
+      return;
+    }
+
+    document.querySelector(`#reply-${notiReplyId}`)?.scrollIntoView({ behavior: 'smooth' });
+    document.querySelector(`#reply-${notiReplyId}`)?.classList.add(styles.flash);
+  }, []);
 
   const handleDelete = (targetComment: CommentData) => {
     deleteReply({
@@ -442,7 +475,7 @@ const AwaitedReplyList = ({ ...comment }: CommentData) => {
         page.map(
           (reply) =>
             !reply.deletedMark && (
-              <div key={reply.id} className={styles.replyItem}>
+              <div id={`reply-${reply.id}`} key={reply.id} className={styles.replyItem}>
                 <CommentBase isReply={true} {...reply} onDelete={handleDelete} />
               </div>
             ),
@@ -457,7 +490,7 @@ const AwaitedReplyList = ({ ...comment }: CommentData) => {
   );
 };
 
-const Header = ({ selectedDate }: { selectedDate?: string }) => {
+const Header = ({ selectedDate }: { selectedDate: string }) => {
   const navigate = useNavigate();
 
   return (
@@ -468,7 +501,7 @@ const Header = ({ selectedDate }: { selectedDate?: string }) => {
 
       <PageHeader.Center>
         <Typography as="h4">
-          {selectedDate ? new Intl.DateTimeFormat('ko-KR', { dateStyle: 'long' }).format(new Date(selectedDate)) : '-'}
+          {new Intl.DateTimeFormat('ko-KR', { dateStyle: 'long' }).format(new Date(selectedDate))}
         </Typography>
       </PageHeader.Center>
     </PageHeader>

@@ -317,15 +317,34 @@ li {
 .skeleton-item {
   background-color: var(--gray100);
   border-radius: 0.25rem;
-  animation: 1s shining alternate-reverse infinite ease-in-out;
+  animation: 1s skeleton-shining alternate-reverse infinite ease-in-out;
 }
 
-@keyframes shining {
+@keyframes skeleton-shining {
   from {
     background-color: var(--gray100);
   }
 
   to {
     background-color: var(--gray200);
+  }
+}
+
+.flash {
+  animation: 1s flash;
+  animation-delay: 1s;
+}
+
+@keyframes flash {
+  0% {
+    background-color: transparent;
+  }
+
+  50% {
+    background-color: rgba(255, 128, 102, 0.2);
+  }
+
+  0% {
+    background-color: transparent;
   }
 }

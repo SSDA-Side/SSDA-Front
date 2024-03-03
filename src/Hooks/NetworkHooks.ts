@@ -231,9 +231,23 @@ export const useUpdateLike = (diaryId: number) => {
 };
 
 export const useDeleteDiary = () => {
+  const queryClient = useQueryClient();
+
   return useMutation({
     mutationKey: ['deleteDiary'],
     mutationFn: deleteDiary,
+    onSuccess() {
+      queryClient.invalidateQueries({ queryKey: ['diary'] });
+      queryClient.invalidateQueries({
+        queryKey: ['calendar', 'month'],
+      });
+      queryClient.invalidateQueries({
+        queryKey: ['diary', 'all'],
+      });
+      queryClient.invalidateQueries({
+        queryKey: ['diary', 'new'],
+      });
+    },
   });
 };
 
@@ -364,10 +378,10 @@ export const useGetTodayDiary = (boardId: number, date: string) => {
   });
 };
 
-export const useGetDiaryDetail = (memberId: number, boardId: number, date: string) => {
+export const useGetDiaryDetail = (diaryId: number) => {
   return useSuspenseQuery({
-    queryKey: ['myboard', 'diaryDetail', memberId, boardId, date],
-    queryFn: () => getDiaryDetail({ memberId, boardId, date }),
+    queryKey: ['myboard', 'diaryDetail', diaryId],
+    queryFn: () => getDiaryDetail({ id: diaryId }),
   });
 };
 
@@ -375,7 +389,7 @@ export const useGetMonth = (boardId: number, selectedDate: Date) => {
   const date = selectedDate.toISOString().split('T')[0];
 
   return useQuery({
-    queryKey: ['calendar', 'month', selectedDate.getFullYear() + selectedDate.getMonth()],
+    queryKey: ['calendar', 'month', boardId, selectedDate.getFullYear() + selectedDate.getMonth()],
     queryFn: () => getMonth({ boardId, date }),
   });
 };

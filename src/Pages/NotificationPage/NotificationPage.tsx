@@ -46,16 +46,13 @@ const NotificationView = () => {
 
   const { mutate: readAllNotifications } = useReadAllNotification();
   const { data, fetchNextPage, hasNextPage } = useGetNotifications();
-  const { disconnect: disconnectObserver } = useInfiniteObserver({
+
+  useInfiniteObserver({
     parentNodeId: 'notiList',
     onIntersection: fetchNextPage,
   });
 
   const hasNoNotification = data.pages[0].length === 0;
-
-  useEffect(() => {
-    !hasNextPage && disconnectObserver();
-  }, [hasNextPage]);
 
   return (
     <>
@@ -73,6 +70,8 @@ const NotificationView = () => {
         {hasNoNotification && <NoNotification />}
         {data.pages.map((notis) => notis?.map((noti) => <NotificationItem {...noti} />))}
       </ul>
+
+      {!hasNextPage && <p className={styles.description}>모든 알림을 불러왔습니다. </p>}
     </>
   );
 };
