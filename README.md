@@ -1,5 +1,5 @@
 # SSDA팀의 Dassda.
-*소중한 일상을 공유해보세요* /released 240225
+*소중한 일상을 공유해보세요 /released 240225*
 
 ![dassda-og-image](https://github.com/SSDA-Side/SSDA-Front/assets/48979587/ab6673f3-8f7c-4f9a-8d2d-a7aaceb03ad1)
 
@@ -33,6 +33,15 @@
 - 기존 팀원: 이세은, 유수, 권동휘, 김범준
 - 24년 01월 01일 이후 합류 팀원: 김주현, 이어진
 
+#### 리팩토링
+- 총 3일,  2024년 03월 01일 ~ 3일
+- 총 2명
+
+| 역할 | 이름 | 연락처 | 비고 |
+| --- | --- | --- | --- |
+| ⚙ BE | 권동휘 | hocci0222@kakao.com | - |
+| 📺 FE | 김주현 | sang.pok.e@gmail.com | - |
+
 #### 배포 주소
 - https://dassda.today, by Vercel
 
@@ -64,13 +73,8 @@
 ## 협업 /FE팀
 
 **`Github Action`을 통한 티켓 넘버 관리**
-- 상황
-  - Github Repository와 Jira의 연동은 Jira에서 생성한 티켓 넘버를 기준으로 연동이 됩니다.
-  - Branch 이름에 해당 티켓 넘버가 포함되어 있어야 연동이 됩니다.
-  - 매번 수기로 기입하다보니 휴먼 에러 및 개발 경험이 떨어지는 상황이 존재했습니다.
-- 해결
-  - Github Action을 작성하여 Github Issue를 작성 시, 자동으로 Jira에 이슈를 생성합니다.
-  - 생성한 Jira 이슈의 티켓 넘버를 받아와 develop에서 branch를 따와 생성합니다.
+- Github Action을 작성하여 Github Issue를 작성 시, 자동으로 Jira에 이슈를 생성합니다.
+- 생성한 Jira 이슈의 티켓 넘버를 받아와 develop에서 branch를 따와 생성합니다.
 
 **`Husky`를 통한 커밋 컨벤션 관리**
 - 위의 상황과 마찬가지로, Commit 내용에도 해당 티켓 넘버가 포함되어 있어야 연동이 됩니다.
