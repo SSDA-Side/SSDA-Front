@@ -307,7 +307,7 @@ const AwaitedDiaryView = ({ targetDiary }: { targetDiary: todayDiaryData }) => {
         <CommentWriting isLiked={currentDiary.liked} />
       </div>
 
-      <CommentList commentCount={commentCount} />
+      <CommentList commentCount={commentCount} diaryId={currentDiary.id} />
     </>
   );
 };
@@ -324,13 +324,10 @@ const ImageList = ({ images }: { images: ContentImage[] }) => {
   );
 };
 
-const CommentList = ({ commentCount }: { commentCount: number }) => {
-  const params = useParams();
-  const { diaryId } = params;
-
+const CommentList = ({ commentCount, diaryId }: { commentCount: number; diaryId: number }) => {
   return (
     <AsyncBoundary ErrorFallback={() => <></>} SuspenseFallback={<></>}>
-      <AwaitedCommentList commentCount={commentCount} diaryId={Number(diaryId)} />
+      <AwaitedCommentList commentCount={commentCount} diaryId={diaryId} />
     </AsyncBoundary>
   );
 };
