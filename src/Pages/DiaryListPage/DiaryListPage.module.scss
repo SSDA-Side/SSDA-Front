@@ -78,6 +78,10 @@
     flex: 1;
     font-size: 1rem;
   }
+
+  button {
+    min-width: fit-content;
+  }
 }
 
 .reply-mode {
