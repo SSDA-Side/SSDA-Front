@@ -304,10 +304,9 @@ const AwaitedDiaryView = ({ targetDiary }: { targetDiary: todayDiaryData }) => {
           )}
         </div>
 
+        <CommentList commentCount={commentCount} diaryId={currentDiary.id} />
         <CommentWriting isLiked={currentDiary.liked} />
       </div>
-
-      <CommentList commentCount={commentCount} diaryId={currentDiary.id} />
     </>
   );
 };
